@@ -11,7 +11,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void CsvPropertyTest1()
         {
-            var prop = new CsvColumnNameProperty("Prop", new string[] { "Col1" }, new StringConverter());
+            var prop = new  CsvColumnNameProperty("Prop", new string[] { "Col1" }, new StringConverter());
             Assert.IsInstanceOfType(prop, typeof(CsvColumnNameProperty));
         }
 
