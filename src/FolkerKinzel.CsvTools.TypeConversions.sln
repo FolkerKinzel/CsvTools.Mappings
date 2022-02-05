@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FolkerKinzel.CsvTools.TypeConversions", "FolkerKinzel.CsvTools.TypeConversions\FolkerKinzel.CsvTools.TypeConversions.csproj", "{8A7B1B9C-3A69-4007-8AEC-4AB4E2331984}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FolkerKinzel.CsvTools.TypeConversions.Tests", "FolkerKinzel.CsvTools.TypeConversions.Tests\FolkerKinzel.CsvTools.TypeConversions.Tests.csproj", "{8FA83483-6422-4A6D-8066-CDE346FB578C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{34E9D771-8E8F-4FB9-BA1B-3949C1FCF45F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Examples", "Examples\Examples.csproj", "{EB1C2887-C787-4710-9D0C-D90C8545D716}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FolkerKinzel.CsvTools", "..\..\FolkerKinzel.CsvTools\src\FolkerKinzel.CsvTools\FolkerKinzel.CsvTools.csproj", "{1AA91227-8870-4642-A9B2-029C48F0C291}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8A7B1B9C-3A69-4007-8AEC-4AB4E2331984}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A7B1B9C-3A69-4007-8AEC-4AB4E2331984}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A7B1B9C-3A69-4007-8AEC-4AB4E2331984}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A7B1B9C-3A69-4007-8AEC-4AB4E2331984}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FA83483-6422-4A6D-8066-CDE346FB578C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FA83483-6422-4A6D-8066-CDE346FB578C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FA83483-6422-4A6D-8066-CDE346FB578C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FA83483-6422-4A6D-8066-CDE346FB578C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34E9D771-8E8F-4FB9-BA1B-3949C1FCF45F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34E9D771-8E8F-4FB9-BA1B-3949C1FCF45F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34E9D771-8E8F-4FB9-BA1B-3949C1FCF45F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34E9D771-8E8F-4FB9-BA1B-3949C1FCF45F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB1C2887-C787-4710-9D0C-D90C8545D716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1C2887-C787-4710-9D0C-D90C8545D716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1C2887-C787-4710-9D0C-D90C8545D716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1C2887-C787-4710-9D0C-D90C8545D716}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA91227-8870-4642-A9B2-029C48F0C291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA91227-8870-4642-A9B2-029C48F0C291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA91227-8870-4642-A9B2-029C48F0C291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA91227-8870-4642-A9B2-029C48F0C291}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E385A681-B4F7-4A39-8BA0-BD690459A99B}
+	EndGlobalSection
+EndGlobal
