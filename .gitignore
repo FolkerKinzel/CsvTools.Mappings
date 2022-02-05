@@ -364,4 +364,4 @@ FodyWeavers.xsd
 
 
 # Reports directory
-reports/**
+reports/**/
