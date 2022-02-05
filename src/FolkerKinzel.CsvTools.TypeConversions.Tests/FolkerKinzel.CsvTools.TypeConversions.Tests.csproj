@@ -12,6 +12,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="reports\**" />
+	  <EmbeddedResource Remove="reports\**" />
+	  <None Remove="reports\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Using Remove="System.Net.Http" />
 		<Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
 	</ItemGroup>
