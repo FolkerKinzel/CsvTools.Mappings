@@ -20,7 +20,7 @@ public sealed class DecimalConverter : CsvTypeConverter<decimal>
 
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out decimal result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => decimal.TryParse(value.ToString(), STYLE, _formatProvider, out result);
 #else
         => decimal.TryParse(value, STYLE, _formatProvider, out result);

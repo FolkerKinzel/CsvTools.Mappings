@@ -54,7 +54,7 @@ public sealed class EnumConverter<TEnum> : CsvTypeConverter<TEnum> where TEnum :
     protected override string? DoConvertToString(TEnum value) => value.ToString(Format);
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out TEnum result)
-#if NET461 || NETSTANDARD2_0 || NETSTANDARD2_1 || NET5_0
+#if NET462 || NETSTANDARD2_0 || NETSTANDARD2_1 || NET5_0
         => Enum.TryParse<TEnum>(value.ToString(), IgnoreCase, out result);
 #else
         => Enum.TryParse<TEnum>(value, IgnoreCase, out result);

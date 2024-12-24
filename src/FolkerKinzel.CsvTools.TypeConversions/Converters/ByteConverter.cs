@@ -31,7 +31,7 @@ public sealed class ByteConverter : CsvTypeConverter<byte>
 
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out byte result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => byte.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
         => byte.TryParse(value, _styles, _formatProvider, out result);

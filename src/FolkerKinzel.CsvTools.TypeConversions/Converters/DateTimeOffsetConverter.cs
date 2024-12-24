@@ -52,7 +52,7 @@ public sealed class DateTimeOffsetConverter : CsvTypeConverter<DateTimeOffset>
 
 
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out DateTimeOffset result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => _parseExact
             ? DateTimeOffset.TryParseExact(value.ToString(), _format, _formatProvider, STYLE, out result)
             : DateTimeOffset.TryParse(value.ToString(), _formatProvider, STYLE, out result);

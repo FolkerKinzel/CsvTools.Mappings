@@ -34,7 +34,7 @@ public sealed class SByteConverter : CsvTypeConverter<sbyte>
 
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out sbyte result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => sbyte.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
         => sbyte.TryParse(value, _styles, _formatProvider, out result);

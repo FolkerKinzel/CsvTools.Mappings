@@ -26,12 +26,10 @@ public sealed class UInt64Converter : CsvTypeConverter<ulong>
         return this;
     }
 
-
     protected override string? DoConvertToString(ulong value) => value.ToString(_format, _formatProvider);
 
-
     public override bool TryParseValue(ReadOnlySpan<char> value, out ulong result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => ulong.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
         => ulong.TryParse(value, _styles, _formatProvider, out result);

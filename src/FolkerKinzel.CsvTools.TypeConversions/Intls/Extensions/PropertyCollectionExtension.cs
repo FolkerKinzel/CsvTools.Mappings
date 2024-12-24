@@ -2,7 +2,7 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Intls.Extensions;
 
-#if NETSTANDARD2_0 || NET461
+#if NETSTANDARD2_0 || NET462
 internal static class PropertyCollectionExtension
 {
     internal static bool TryGetValue(

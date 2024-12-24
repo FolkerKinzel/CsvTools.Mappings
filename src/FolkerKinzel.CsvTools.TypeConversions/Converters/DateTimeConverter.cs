@@ -59,7 +59,7 @@ public sealed class DateTimeConverter : CsvTypeConverter<DateTime>
 
 
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out DateTime result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => _parseExact
             ? DateTime.TryParseExact(value.ToString(), _format, _formatProvider, STYLE, out result)
             : DateTime.TryParse(value.ToString(), _formatProvider, STYLE, out result);

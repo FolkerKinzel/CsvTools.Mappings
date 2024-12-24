@@ -33,7 +33,7 @@ public sealed class UInt16Converter : CsvTypeConverter<ushort>
 
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out ushort result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => ushort.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
         => ushort.TryParse(value, _styles, _formatProvider, out result);

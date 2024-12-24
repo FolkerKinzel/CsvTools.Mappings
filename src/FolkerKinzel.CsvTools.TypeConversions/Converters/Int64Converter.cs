@@ -32,7 +32,7 @@ public sealed class Int64Converter : CsvTypeConverter<long>
     protected override string? DoConvertToString(long value) => value.ToString(_format, _formatProvider);
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out long result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => long.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
         => long.TryParse(value, _styles, _formatProvider, out result);

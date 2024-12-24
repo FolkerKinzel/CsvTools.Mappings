@@ -24,7 +24,7 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
 
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out Guid result)
-#if NET461 || NETSTANDARD2_0
+#if NET462 || NETSTANDARD2_0
         => Guid.TryParse(value.ToString(), out result);
 #else
         => Guid.TryParse(value, out result);

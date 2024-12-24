@@ -1,8 +1,8 @@
 ﻿using FolkerKinzel.CsvTools.TypeConversions.Resources;
 using System.Text.RegularExpressions;
 
-# if NETSTANDARD2_0 || NET461
-using FolkerKinzel.Strings.Polyfills;
+# if NETSTANDARD2_0 || NET462
+using FolkerKinzel.Strings;
 #endif
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
