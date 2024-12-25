@@ -121,7 +121,7 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
         Debug.Assert(Record is not null);
 
         IEqualityComparer<string>? comparer = Record.Comparer;
-        ReadOnlyCollection<string>? columnNames = Record.ColumnNames;
+        IReadOnlyList<string>? columnNames = Record.ColumnNames;
 
         for (int i = 0; i < ColumnNameAliases.Count; i++)
         {
