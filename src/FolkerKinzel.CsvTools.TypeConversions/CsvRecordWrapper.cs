@@ -55,10 +55,10 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// <see cref="CsvRecord"/>-Objekt verwendet wird.
 /// </para>
 /// <para>
-/// Beim Lesen einer CSV-Datei mit <see cref="CsvReader"/> verhält es sich anders: Dem
+/// Beim Lesen einer CSV-Datei mit <see cref="CsvEnumerator"/> verhält es sich anders: Dem
 /// <see cref="CsvRecordWrapper"/>-Objekt muss bei jeder Iteration des Readers zuerst das aktuelle <see cref="CsvRecord"/>-Objekt zugewiesen
-/// werden, bevor auf die Eigenschaften des <see cref="CsvRecordWrapper"/>-Objekts zugegriffen wird, denn <see cref="CsvReader"/> gibt
-/// bei jeder Iteration ein neues <see cref="CsvRecord"/>-Objekt zurück. (Das gilt nicht, wenn der <see cref="CsvReader"/> mit <see cref="CsvOptions.DisableCaching"/>
+/// werden, bevor auf die Eigenschaften des <see cref="CsvRecordWrapper"/>-Objekts zugegriffen wird, denn <see cref="CsvEnumerator"/> gibt
+/// bei jeder Iteration ein neues <see cref="CsvRecord"/>-Objekt zurück. (Das gilt nicht, wenn der <see cref="CsvEnumerator"/> mit <see cref="CsvOptions.DisableCaching"/>
 /// initialisiert wurde.)
 /// </para>
 /// <para>
@@ -76,10 +76,15 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// </example>
 public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<string, object?>>
 {
+    private class PropertyCollection : KeyedCollection<string, CsvPropertyBase>
+    {
+        protected override string GetKeyForItem(CsvPropertyBase item) => item.PropertyName;
+
+        public PropertyCollection() : base(StringComparer.Ordinal) { }
+    }
+
     private readonly PropertyCollection _dynProps = new();
     private CsvRecord? _record;
-
-    #region ctors
 
     /// <summary>
     /// Initialisiert ein neues <see cref="CsvRecordWrapper"/>-Objekt. 
@@ -87,10 +92,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     /// <remarks>Vor dem Zugriff auf die Eigenschaften muss <see cref="Record"/>
     /// ein <see cref="CsvRecord"/>-Objekt zugewiesen werden.</remarks>
     public CsvRecordWrapper() { }
-
-    #endregion
-
-    #region Properties
 
     /// <summary>
     /// Das <see cref="CsvRecord"/>-Objekt, 
@@ -114,19 +115,16 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
         }
     }
 
-
     /// <summary>
     /// Gibt die Anzahl der im <see cref="CsvRecordWrapper"/> registrierten <see cref="CsvColumnNameProperty"/>-Objekte
     /// zurück.
     /// </summary>
     public int Count => _dynProps.Count;
 
-
     /// <summary>
     /// Gibt eine Kopie der in <see cref="CsvRecordWrapper"/> registrierten Eigenschaftsnamen zurück.
     /// </summary>
     public IList<string> PropertyNames => _dynProps.Select(x => x.PropertyName).ToArray();
-
 
     /// <summary>
     /// Gibt eine Kopie der in <see cref="CsvRecord"/> gespeicherten Daten zurück.
@@ -137,8 +135,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     /// <exception cref="InvalidOperationException">Es wurde versucht, auf die Daten von <see cref="CsvRecordWrapper"/> zuzugreifen, ohne dass diesem
     /// ein <see cref="CsvRecord"/>-Objekt zugewiesen war.</exception>
     public IList<object?> Values => this.Select(x => x.Value).ToArray();
-
-
 
     /// <summary>
     /// Ermöglicht den Zugriff auf die im <see cref="CsvRecordWrapper"/> registrierten Eigenschaften
@@ -184,7 +180,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
             _dynProps[index].SetValue(value);
         }
     }
-
 
     /// <summary>
     /// Ermöglicht den Zugriff auf die im <see cref="CsvRecordWrapper"/> registrierten Eigenschaften
@@ -247,9 +242,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
         }
     }
 
-    #endregion
-
-
     /// <summary>
     /// Registriert eine <see cref="CsvColumnNameProperty"/> am Ende der Auflistung der registrierten Eigenschaften.
     /// </summary>
@@ -268,7 +260,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
         property.Record = Record;
     }
 
-
     /// <summary>
     /// Entfernt die <see cref="CsvColumnNameProperty"/> mit dem angegebenen <see cref="CsvColumnNameProperty.PropertyName"/>
     /// aus der Auflistung der registrierten Eigenschaften.
@@ -280,8 +271,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     public bool RemoveProperty(string? propertyName)
         => propertyName is not null && _dynProps.Remove(propertyName);
 
-
-
     /// <summary>
     /// Entfernt die <see cref="CsvColumnNameProperty"/> am angegebenen <paramref name="index"/> aus der
     /// Auflistung der registrierten Eigenschaften.
@@ -291,7 +280,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     /// größer oder gleich <see cref="Count"/>.</exception>
     public void RemovePropertyAt(int index)
     => _dynProps.RemoveAt(index);
-
 
     /// <summary>
     /// Fügt <paramref name="property"/> am <paramref name="index"/> der registrierten Eigenschaften ein.
@@ -314,7 +302,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
         property.Record = Record;
     }
 
-
     /// <summary>
     /// Ersetzt die <see cref="CsvColumnNameProperty"/> am angegebenen Index der Auflistung der registrierten Eigenschaften
     /// durch <paramref name="property"/>.
@@ -336,9 +323,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
 
         _dynProps[index] = property;
     }
-
-
-
 
     /// <summary>
     /// Ersetzt die registrierte Eigenschaft, deren <see cref="CsvColumnNameProperty.PropertyName"/> gleich <paramref name="propertyName"/>
@@ -384,7 +368,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     /// angegebenen Namen registriert ist.</returns>
     public bool Contains(string? propertyName) => propertyName is not null && _dynProps.Contains(propertyName);
 
-
     /// <summary>
     /// Gibt den Index der Eigenschaft zurück, die den Eigenschaftsnamen (<see cref="CsvColumnNameProperty.PropertyName"/>) der 
     /// <paramref name="propertyName"/> entspricht oder -1, wenn eine solche Eigenschaft nicht in <see cref="CsvRecordWrapper"/> registriert ist.
@@ -393,7 +376,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     /// <returns>Der Index der Eigenschaft, die <paramref name="propertyName"/> als Eigenschaftsnamen (<see cref="CsvColumnNameProperty.PropertyName"/>) hat
     /// oder -1, wenn eine solche Eigenschaft nicht in <see cref="CsvRecordWrapper"/> registriert ist.</returns>
     public int IndexOf(string? propertyName) => propertyName is null ? -1 : _dynProps.Contains(propertyName) ? _dynProps.IndexOf(_dynProps[propertyName]) : -1;
-
 
     /// <summary>
     /// Wird automatisch aufgerufen, wenn einer dynamisch implementierten Eigenschaft ein Wert
@@ -529,24 +511,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryUnaryOperation(UnaryOperationBinder binder, out object? result) => base.TryUnaryOperation(binder, out result);
 
-
-    ///// <summary>
-    ///// Setzt den Wert sämtlicher Spalten des zugrundeliegenden <see cref="CsvRecord"/>-Objekts auf <c>null</c>.
-    ///// </summary>
-    ///// <exception cref="InvalidOperationException"><see cref="Record"/> ist beim Aufruf der Methode <c>null</c>.</exception>
-    //public void Clear()
-    //{
-    //    if (Record is null)
-    //    {
-    //        throw new InvalidOperationException("Record is null.");
-    //    }
-    //    else
-    //    {
-    //        Record.Clear();
-    //    };
-    //}
-
-
     /// <summary>
     /// Gibt einen <see cref="IEnumerator{T}">IEnumerator&lt;KeyValuePair&lt;string, object?&gt;&gt;</see> zurück, mit dem die Rückgabewerte der 
     /// dynamisch implementierten Eigenschaften durchlaufen werden. Die Reihenfolge
@@ -573,7 +537,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
         }
     }
 
-
     /// <summary>
     /// Gibt einen <see cref="IEnumerator"/> zurück, mit dem die Rückgabewerte der 
     /// dynamisch implementierten Eigenschaften durchlaufen werden können. Die Reihenfolge
@@ -587,8 +550,6 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
     /// <exception cref="InvalidOperationException">Es wurde versucht, auf die Daten von <see cref="CsvRecordWrapper"/> zuzugreifen, ohne dass diesem
     /// ein <see cref="CsvRecord"/>-Objekt zugewiesen war.</exception>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-
 
     /// <inheritdoc/>
     public override string ToString()
@@ -625,14 +586,5 @@ public sealed class CsvRecordWrapper : DynamicObject, IEnumerable<KeyValuePair<s
         }
 
         return sb.ToString();
-    }
-
-    /// ////////////////////////////////////////////////////////////////////////
-
-    private class PropertyCollection : KeyedCollection<string, CsvPropertyBase>
-    {
-        protected override string GetKeyForItem(CsvPropertyBase item) => item.PropertyName;
-
-        public PropertyCollection() : base(StringComparer.Ordinal) { }
     }
 }

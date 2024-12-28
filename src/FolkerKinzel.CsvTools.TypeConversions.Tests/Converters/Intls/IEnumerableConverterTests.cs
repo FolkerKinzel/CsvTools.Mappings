@@ -55,7 +55,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Converters.Tests
             string csv = writer.ToString();
 
             using var reader = new StringReader(csv);
-            using var csvReader = new CsvReader(reader, false);
+            using var csvReader = new CsvEnumerator(reader, false);
 
             wrapper.Record = csvReader.First();
 

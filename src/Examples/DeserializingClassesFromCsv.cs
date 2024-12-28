@@ -94,7 +94,7 @@ namespace Examples
 
             // Read the CSV file:
             using var reader =
-                new CsvReader(csvFileName,
+                new CsvEnumerator(csvFileName,
                               analyzer.HasHeaderRow,
                               analyzer.Options,
                               analyzer.FieldSeparator);

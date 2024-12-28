@@ -20,7 +20,7 @@ namespace Examples
                 .AppendLine("John,New York")
                 .ToString());
 
-            using var csvReader = new CsvReader(csvFileName);
+            using var csvReader = new CsvEnumerator(csvFileName);
             Console.Write("How many people live in New York?: ");
             Console.WriteLine(
                 csvReader.Where(x => x["City"].Span == "New York").Count());

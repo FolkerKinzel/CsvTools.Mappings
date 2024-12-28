@@ -23,7 +23,7 @@ namespace Examples
             Console.WriteLine("Which people live in New York?: ");
 
             Console.Write("  Determine with cache enabled:  ");
-            using (var csvReader = new CsvReader(csvFileName))
+            using (var csvReader = new CsvEnumerator(csvFileName))
             {
 
                 foreach (CsvRecord record in
@@ -38,7 +38,7 @@ namespace Examples
 
             Console.Write("  Determine with cache disabled: ");
             using (var csvReader =
-                new CsvReader(csvFileName,
+                new CsvEnumerator(csvFileName,
                               options: CsvOptions.Default.Set(CsvOptions.DisableCaching)))
             {
                 // NOTICE: Removing ".ToArray()" would cause the correct results:

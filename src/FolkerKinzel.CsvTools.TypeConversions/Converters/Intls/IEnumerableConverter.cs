@@ -37,7 +37,7 @@ internal sealed class IEnumerableConverter<TItem> : CsvTypeConverter<IEnumerable
         var list = new List<TItem?>();
 
         using var reader = new StringReader(value.ToString());
-        using var csvReader = new CsvReader(reader, false, fieldSeparator: _separatorChar);
+        using var csvReader = new CsvEnumerator(reader, false, fieldSeparator: _separatorChar);
 
         CsvRecord? record = csvReader.FirstOrDefault();
 

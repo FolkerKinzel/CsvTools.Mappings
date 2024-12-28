@@ -53,7 +53,7 @@ namespace Examples
             dataTable.Clear();
 
             // Refill the DataTable from the CSV-file:
-            using (var reader = new CsvReader(FILE_NAME))
+            using (var reader = new CsvEnumerator(FILE_NAME))
             {
                 foreach (CsvRecord record in reader)
                 {
