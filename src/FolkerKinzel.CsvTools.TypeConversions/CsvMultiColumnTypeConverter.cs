@@ -1,4 +1,6 @@
-﻿namespace FolkerKinzel.CsvTools.TypeConversions;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+
+namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
 /// Abstrakte Basisklasse zur Serialisierung und Deserialisierung von Objekten, deren Daten auf mehrere Spalten einer CSV-Datei verteilt sind.
@@ -8,23 +10,17 @@ public abstract class CsvMultiColumnTypeConverter
 {
     protected CsvMultiColumnTypeConverter(CsvRecordMapping wrapper)
     {
-        if (wrapper is null)
-        {
-            throw new ArgumentNullException(nameof(wrapper));
-        }
-
+        _ArgumentNullException.ThrowIfNull(wrapper, nameof(wrapper));
         this.Wrapper = wrapper;
     }
 
     public CsvRecordMapping Wrapper { get; }
-
 
     /// <summary>
     /// Liest die Daten aus <see cref="Wrapper"/> und versucht, daraus eine Instanz des gewünschten Typs zu erzeugen.
     /// </summary>
     /// <returns>Eine Instanz des gewünschten Typs oder ein beliebiges FallbackValue (z.B. <c>null</c> oder <see cref="DBNull.Value"/>).</returns>
     public abstract object? Create();
-
 
     /// <summary>
     /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Wrapper"/> in die CSV-Datei.

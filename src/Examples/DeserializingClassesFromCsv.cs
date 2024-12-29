@@ -1,130 +1,125 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using FolkerKinzel.CsvTools;
+﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.TypeConversions;
 using FolkerKinzel.CsvTools.TypeConversions.Converters;
+using System.Text;
 
-namespace Examples
+namespace Examples;
+
+internal class Pupil
 {
-    public class Pupil
+    public string? Name { get; set; }
+
+    public string? Subject { get; set; }
+
+    public DayOfWeek? LessonDay { get; set; }
+
+    public TimeSpan? LessonBegin { get; set; }
+
+    public override string ToString()
     {
-        public string? Name { get; set; }
-
-        public string? Subject { get; set; }
-
-        public DayOfWeek? LessonDay { get; set; }
-
-        public TimeSpan? LessonBegin { get; set; }
-
-        public override string ToString()
-        {
-            const string NULL = "<null>";
-            return new StringBuilder()
-                .Append("Name:        ").AppendLine(Name ?? NULL)
-                .Append("Subject:     ").AppendLine(Subject ?? NULL)
-                .Append("LessonDay:   ").AppendLine(LessonDay.HasValue
-                                                    ? $"{nameof(DayOfWeek)}.{LessonDay.Value}"
-                                                    : NULL)
-                .Append("LessonBegin: ").AppendLine(LessonBegin.HasValue
-                                                    ? LessonBegin.Value.ToString()
-                                                    : NULL)
-                .ToString();
-        }
+        const string NULL = "<null>";
+        return new StringBuilder()
+            .Append("Name:        ").AppendLine(Name ?? NULL)
+            .Append("Subject:     ").AppendLine(Subject ?? NULL)
+            .Append("LessonDay:   ").AppendLine(LessonDay.HasValue
+                                                ? $"{nameof(DayOfWeek)}.{LessonDay.Value}"
+                                                : NULL)
+            .Append("LessonBegin: ").AppendLine(LessonBegin.HasValue
+                                                ? LessonBegin.Value.ToString()
+                                                : NULL)
+            .ToString();
     }
+}
 
 
-    public static class DeserializingClassesFromCsv
+internal static class DeserializingClassesFromCsv
+{
+    public static void TestDeserializingClassesFromCsv()
     {
-        public static void TestDeserializingClassesFromCsv()
+        const string csvFileName = "Objects.csv";
+
+        // Create a nonstandard CSV-File
+        File.WriteAllText(csvFileName, new StringBuilder()
+            .AppendLine(
+                "Unterrichtstag;Unterrichtsbeginn;Vollständiger Name;Unterrichtsfach;")
+            .AppendLine(
+                "Wednesday;14:30;Susi Meyer;Piano")
+            .AppendLine(
+                "Thursday;15:15;Carl Czerny;Piano;")
+            .AppendLine(
+                ";;Frederic Chopin")
+            .ToString());
+
+        // Initialize a CsvRecordWrapper which retrieves the data from
+        // the CSV-Columns and converts it to the right data type.
+        // Aliases with wildcards can be used to match the column-headers
+        // of the CSV file.
+        var wrapper = new CsvRecordMapping();
+
+        // Reuse a converter for more than one property:
+        ICsvTypeConverter stringConverter = new StringConverter();
+
+        wrapper.AddProperty
+            (
+                new CsvColumnNameProperty("Name",
+                                ["*name"],
+                                stringConverter)
+            );
+        wrapper.AddProperty
+            (
+                new CsvColumnNameProperty("Subject",
+                                ["*subject", "*fach"],
+                                stringConverter)
+            );
+        wrapper.AddProperty
+            (
+                new CsvColumnNameProperty("LessonDay",
+                                ["*day", "*tag"],
+                                new EnumConverter<DayOfWeek>().AsNullableConverter())
+            );
+        wrapper.AddProperty
+            (
+                new CsvColumnNameProperty("LessonBegin",
+                                ["*begin?"],
+                                new TimeSpanConverter().AsNullableConverter())
+            );
+
+        // Analyze the CSV file to determine the right parameters
+        // for proper reading:
+        var result = CsvAnalyzer.Analyze(csvFileName);
+
+        // Read the CSV file:
+        using var reader =
+            new CsvEnumerator(csvFileName,
+                          result.HasHeaderRow,
+                          result.Options,
+                          result.Delimiter);
+
+        var pupilsList = new List<Pupil>();
+
+        foreach (CsvRecord record in reader)
         {
-            const string csvFileName = "Objects.csv";
+            wrapper.Record = record;
 
-            // Create a nonstandard CSV-File
-            File.WriteAllText(csvFileName, new StringBuilder()
-                .AppendLine(
-                    "Unterrichtstag;Unterrichtsbeginn;Vollständiger Name;Unterrichtsfach;")
-                .AppendLine(
-                    "Wednesday;14:30;Susi Meyer;Piano")
-                .AppendLine(
-                    "Thursday;15:15;Carl Czerny;Piano;")
-                .AppendLine(
-                    ";;Frederic Chopin")
-                .ToString());
+            // Using a dynamic variable enables you to assign
+            // the properties without having to explicitely cast them
+            // to the target data type:
+            dynamic dynWrapper = wrapper;
 
-            // Initialize a CsvRecordWrapper which retrieves the data from
-            // the CSV-Columns and converts it to the right data type.
-            // Aliases with wildcards can be used to match the column-headers
-            // of the CSV file.
-            var wrapper = new CsvRecordMapping();
-
-            // Reuse a converter for more than one property:
-            ICsvTypeConverter stringConverter = new StringConverter();
-
-            wrapper.AddProperty
-                (
-                    new CsvColumnNameProperty("Name",
-                                    new string[] { "*name" },
-                                    stringConverter)
-                );
-            wrapper.AddProperty
-                (
-                    new CsvColumnNameProperty("Subject",
-                                    new string[] { "*subject", "*fach" },
-                                    stringConverter)
-                );
-            wrapper.AddProperty
-                (
-                    new CsvColumnNameProperty("LessonDay",
-                                    new string[] { "*day", "*tag" },
-                                    new EnumConverter<DayOfWeek>().AsNullableConverter())
-                );
-            wrapper.AddProperty
-                (
-                    new CsvColumnNameProperty("LessonBegin",
-                                    new string[] { "*begin?" },
-                                    new TimeSpanConverter().AsNullableConverter())
-                );
-
-            // Analyze the CSV file to determine the right parameters
-            // for proper reading:
-            var analyzer = new CsvAnalyzer();
-            analyzer.Analyze(csvFileName);
-
-            // Read the CSV file:
-            using var reader =
-                new CsvEnumerator(csvFileName,
-                              analyzer.HasHeaderRow,
-                              analyzer.Options,
-                              analyzer.FieldSeparator);
-
-            var pupilsList = new List<Pupil>();
-
-            foreach (CsvRecord record in reader)
+            pupilsList.Add(new Pupil
             {
-                wrapper.Record = record;
+                Name = dynWrapper.Name,
+                LessonBegin = dynWrapper.LessonBegin,
+                LessonDay = dynWrapper.LessonDay,
+                Subject = dynWrapper.Subject
+            });
+        }
 
-                // Using a dynamic variable enables you to assign
-                // the properties without having to explicitely cast them
-                // to the target data type:
-                dynamic dynWrapper = wrapper;
-
-                pupilsList.Add(new Pupil
-                {
-                    Name = dynWrapper.Name,
-                    LessonBegin = dynWrapper.LessonBegin,
-                    LessonDay = dynWrapper.LessonDay,
-                    Subject = dynWrapper.Subject
-                });
-            }
-
-            // Write the results to Console:
-            foreach (Pupil pupil in pupilsList)
-            {
-                Console.WriteLine(pupil);
-                Console.WriteLine();
-            }
+        // Write the results to Console:
+        foreach (Pupil pupil in pupilsList)
+        {
+            Console.WriteLine(pupil);
+            Console.WriteLine();
         }
     }
 }

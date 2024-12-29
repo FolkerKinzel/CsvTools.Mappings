@@ -1,14 +1,13 @@
-﻿namespace Examples
+﻿namespace Examples;
+
+internal sealed class Program
 {
-    internal class Program
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0022:Ausdruckskörper für Methoden verwenden", Justification = "<Ausstehend>")]
+    private static void Main()
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0022:Ausdruckskörper für Methoden verwenden", Justification = "<Ausstehend>")]
-        private static void Main()
-        {
-             LinqOnCsvFile.TestLinqOnCsvFile();
-            // DisableCachingAndLinq.TestDisableCachingAndLinq();
-            // CsvToDataTable.TestCsvToDataTable();
-            // DeserializingClassesFromCsv.TestDeserializingClassesFromCsv();
-        }
+         LinqOnCsvFile.TestLinqOnCsvFile();
+        // DisableCachingAndLinq.TestDisableCachingAndLinq();
+        // CsvToDataTable.TestCsvToDataTable();
+        // DeserializingClassesFromCsv.TestDeserializingClassesFromCsv();
     }
 }

@@ -7,42 +7,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.TypeConversions.Converters.Tests
+namespace FolkerKinzel.CsvTools.TypeConversions.Converters.Tests;
+
+[TestClass()]
+public class Int32ConverterTests
 {
-    [TestClass()]
-    public class Int32ConverterTests
+    [TestMethod()]
+    public void Int32ConverterTest()
     {
-        [TestMethod()]
-        public void Int32ConverterTest()
-        {
-            const int val = -4711;
-            var conv = new Int32Converter();
+        const int val = -4711;
+        var conv = new Int32Converter();
 
-            string? s = conv.ConvertToString(val);
+        string? s = conv.ConvertToString(val);
 
-            Assert.IsNotNull(s);
+        Assert.IsNotNull(s);
 
-            int res = conv.Parse(s.AsSpan());
+        int res = conv.Parse(s.AsSpan());
 
-            Assert.AreEqual(val, res);
-        }
-
-
-        [TestMethod()]
-        public void Int32ConverterTest_Hex()
-        {
-            const int val = -4711;
-            var conv = new Int32Converter(formatProvider: CultureInfo.CreateSpecificCulture("de-DE"));
-
-            string? s = conv.ConvertToString(val);
-
-            Assert.IsNotNull(s);
-
-            int res = conv.Parse(s.AsSpan());
-
-            Assert.AreEqual(val, res);
-        }
-
-        
+        Assert.AreEqual(val, res);
     }
+
+
+    [TestMethod()]
+    public void Int32ConverterTest_Hex()
+    {
+        const int val = -4711;
+        var conv = new Int32Converter(formatProvider: CultureInfo.CreateSpecificCulture("de-DE"));
+
+        string? s = conv.ConvertToString(val);
+
+        Assert.IsNotNull(s);
+
+        int res = conv.Parse(s.AsSpan());
+
+        Assert.AreEqual(val, res);
+    }
+
+    
 }

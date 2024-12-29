@@ -61,7 +61,7 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
 
         try
         {
-            return ReferredCsvColumnIndex.HasValue ? Converter.Parse(Record[ReferredCsvColumnIndex.Value].Span) : Converter.FallbackValue;
+            return ReferredCsvColumnIndex.HasValue ? Converter.Parse(Record.Values[ReferredCsvColumnIndex.Value].Span) : Converter.FallbackValue;
         }
         catch (Exception e)
         {
@@ -77,8 +77,8 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
 
         if (ReferredCsvColumnIndex.HasValue)
         {
-            string? s = Converter.ConvertToString(value);
-            Record[ReferredCsvColumnIndex.Value] = s.AsMemory();
+            Record.Values[ReferredCsvColumnIndex.Value]
+                = Converter.ConvertToString(value).AsMemory();
         }
     }
 }
