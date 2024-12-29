@@ -44,6 +44,7 @@
     <Using Include="System.Runtime.CompilerServices" />
     <Using Include="System.Diagnostics.CodeAnalysis" />
     <Using Include="System.Diagnostics" />
+    <Using Include="FolkerKinzel.Strings"/>
   </ItemGroup>
   <!-- 👇 disable the nullable warnings when compiling for .NET Framework 4.0 -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net462'">

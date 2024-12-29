@@ -40,7 +40,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Converters.Tests
             IEnumerable<int> arr1 = new int[] { 1, 2, 3 };
             CsvTypeConverter<IEnumerable<int>?> conv = new Int32Converter().AsIEnumerableConverter();
 
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
             var prop = new CsvColumnIndexProperty("TestProp", 0, conv);
             wrapper.AddProperty(prop);
 

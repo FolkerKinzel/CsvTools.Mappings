@@ -15,19 +15,19 @@ namespace Benchmarks
     public class AccessBenchmark
     {
         private readonly string _csv;
-        private readonly CsvRecordWrapper _indexWrapper;
-        private readonly CsvRecordWrapper _nameWrapper;
+        private readonly CsvRecordMapping _indexWrapper;
+        private readonly CsvRecordMapping _nameWrapper;
 
         public AccessBenchmark()
         {
             _csv = Properties.Resources.Test1;
             ICsvTypeConverter conv = new StringConverter();
-            _indexWrapper = new CsvRecordWrapper();
+            _indexWrapper = new CsvRecordMapping();
             _indexWrapper.AddProperty(new CsvColumnIndexProperty("Column0", 0, conv));
             _indexWrapper.AddProperty(new CsvColumnIndexProperty("Column1", 1, conv));
             _indexWrapper.AddProperty(new CsvColumnIndexProperty("Column2", 2, conv));
 
-            _nameWrapper = new CsvRecordWrapper();
+            _nameWrapper = new CsvRecordMapping();
             _nameWrapper.AddProperty(new CsvColumnNameProperty("Column0", new string[] { "Column0" }, conv));
             _nameWrapper.AddProperty(new CsvColumnNameProperty("Column1", new string[] { "Column1" }, conv));
             _nameWrapper.AddProperty(new CsvColumnNameProperty("Column2", new string[] { "Column2" }, conv));

@@ -1,38 +1,32 @@
-﻿# if NETSTANDARD2_0 || NET462
-using FolkerKinzel.Strings;
-#endif
-
-using System.Diagnostics;
-using FolkerKinzel.CsvTools.TypeConversions.Converters;
-
-namespace FolkerKinzel.CsvTools.TypeConversions;
+﻿namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Repräsentiert eine Eigenschaft, die von <see cref="CsvRecordWrapper"/> dynamisch zur Laufzeit implementiert wird ("späte Bindung").
-/// <see cref="CsvColumnIndexProperty"/> kapselt Informationen über Zugriff und die Typkonvertierung, die <see cref="CsvRecordWrapper"/> benötigt,
-/// um auf die Daten des ihm zugrundeliegenden <see cref="CsvRecord"/>-Objekts über den nullbasierten Spaltenindex zuzugreifen.
+/// Specialization of <see cref="CsvPropertyBase"/> for processing CSV files without a header.
 /// </summary>
-/// <threadsafety static="true" instance="false"/>
+/// <remarks>
+/// Represents a property that <see cref="CsvRecordMapping"/> implements dynamically at runtime ("late binding"). <see cref="CsvColumnIndexProperty"/> 
+/// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
+/// <see cref="CsvRecord"/> object with its zero-based column index.
+/// </remarks>
 public sealed class CsvColumnIndexProperty : CsvSingleColumnProperty
 {
     /// <summary>
-    /// Initialisiert ein neues <see cref="CsvColumnIndexProperty"/>-Objekt.
+    /// Initializes a new <see cref="CsvColumnIndexProperty"/> instance.
     /// </summary>
-    /// <param name="propertyName">Der Bezeichner unter dem die Eigenschaft angesprochen wird. Er muss den Regeln für C#-Bezeichner
-    /// entsprechen. Es werden nur ASCII-Zeichen akzeptiert.</param>
-    /// <param name="desiredCsvColumnIndex">Nullbasierter Index der Spalte der CSV-Datei in die <see cref="CsvColumnIndexProperty"/> schreiben soll bzw.
-    /// aus der <see cref="CsvColumnIndexProperty"/> lesen soll. Wenn es den Index in der CSV-Datei nicht
-    /// gibt, wird die <see cref="CsvColumnIndexProperty"/> beim Schreiben ignoriert. Beim Lesen wird in diesem Fall
-    /// <see cref="ICsvTypeConverter.FallbackValue"/> zurückgegeben.</param>
-    /// <param name="converter">Der <see cref="ICsvTypeConverter"/>, der die Typkonvertierung übernimmt.</param>
+    /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
+    /// Only ASCII characters are accepted.
+    /// </param>
+    /// <param name="desiredCsvColumnIndex">Zero-based index of the column in the CSV file.
+    /// If this index doesn't exist, the <see cref="CsvColumnIndexProperty"/> is ignored 
+    /// when writing. When reading, in this case, <see cref="ICsvTypeConverter.FallbackValue"/> is returned.</param>
+    /// <param name="converter">The <see cref="ICsvTypeConverter"/> that does the type conversion.</param>
     /// 
-    /// <exception cref="ArgumentException"><paramref name="propertyName"/> entspricht nicht den Regeln für C#-Bezeichner (nur
-    /// ASCII-Zeichen).</exception>
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# identifiers (only ASCII characters).</exception>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> oder 
-    /// <paramref name="converter"/> ist <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or 
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
     /// 
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="desiredCsvColumnIndex"/> ist kleiner als 0.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="desiredCsvColumnIndex"/>  is less than Zero.</exception>
     public CsvColumnIndexProperty(
         string propertyName, int desiredCsvColumnIndex, ICsvTypeConverter converter) : base(propertyName, converter)
     {
@@ -45,7 +39,7 @@ public sealed class CsvColumnIndexProperty : CsvSingleColumnProperty
     }
 
     /// <summary>
-    /// Der Index der Spalte der CSV-Datei, auf die <see cref="CsvColumnIndexProperty"/> zugreifen soll.
+    /// The zero-based index of the column in the CSV file that <see cref="CsvColumnIndexProperty"/> can access.
     /// </summary>
     public int DesiredCsvColumnIndex { get; }
 

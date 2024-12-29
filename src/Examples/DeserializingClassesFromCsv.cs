@@ -57,7 +57,7 @@ namespace Examples
             // the CSV-Columns and converts it to the right data type.
             // Aliases with wildcards can be used to match the column-headers
             // of the CSV file.
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             // Reuse a converter for more than one property:
             ICsvTypeConverter stringConverter = new StringConverter();

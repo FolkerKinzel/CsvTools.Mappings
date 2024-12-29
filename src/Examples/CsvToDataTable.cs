@@ -20,7 +20,7 @@ namespace Examples
         {
             using DataTable dataTable = InitDataTable();
 
-            CsvRecordWrapper wrapper = InitCsvRecordWrapper();
+            CsvRecordMapping wrapper = InitCsvRecordWrapper();
 
             // Write the CSV file:
             // (We can sort the columns of the CSV file differently than those 
@@ -90,9 +90,9 @@ namespace Examples
         }
 
 
-        private static CsvRecordWrapper InitCsvRecordWrapper()
+        private static CsvRecordMapping InitCsvRecordWrapper()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             // Store the stringConverter because you can reuse the same 
             // converter for more than one property in CsvRecordWrapper.

@@ -13,15 +13,15 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void CsvRecordWrapperTest()
         {
-            var wrapper = new CsvRecordWrapper();
-            Assert.IsInstanceOfType(wrapper, typeof(CsvRecordWrapper));
+            var wrapper = new CsvRecordMapping();
+            Assert.IsInstanceOfType(wrapper, typeof(CsvRecordMapping));
         }
 
 
         [TestMethod()]
         public void InsertPropertyTest1()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -49,7 +49,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void InsertPropertyTest2()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -68,7 +68,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void InsertPropertyTest3()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             wrapper.InsertProperty(0, null!);
         }
@@ -78,7 +78,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void InsertPropertyTest4()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -95,7 +95,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void InsertPropertyTest5()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -117,7 +117,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void ReplacePropertyAtTest1()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -157,7 +157,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void ReplacePropertyAtTest2()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -188,7 +188,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ReplacePropertyAtTest3()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -219,7 +219,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReplacePropertyAtTest4()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -236,7 +236,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void ReplacePropertyTest1()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -276,7 +276,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void ReplacePropertyTest2a()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -307,7 +307,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void ReplacePropertyTest2b()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -323,7 +323,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReplacePropertyTest3()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -343,7 +343,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void ReplacePropertyTest4()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -364,7 +364,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void TrySetMemberTest()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -384,7 +384,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void TryGetMemberTest()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
 
@@ -408,7 +408,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         {
             var rec = new CsvRecord(new string[] { "Hallo1", "Blabla" }, false, false, true, false);
 
-            var wrapper = new CsvRecordWrapper
+            var wrapper = new CsvRecordMapping
             {
                 Record = rec
             };
@@ -454,7 +454,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         {
             var rec = new CsvRecord(3);
 
-            var wrapper = new CsvRecordWrapper
+            var wrapper = new CsvRecordMapping
             {
                 Record = rec
             };
@@ -510,7 +510,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetEnumeratorTest2()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             foreach (KeyValuePair<string, object?> _ in wrapper)
             {
@@ -522,7 +522,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void IndexOfTest()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             wrapper.AddProperty(new CsvColumnNameProperty("Hallo", new string[] { "Hallo" }, new StringConverter()));
 
@@ -535,7 +535,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void ContainsTest()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             wrapper.AddProperty(new CsvColumnNameProperty("Hallo", new string[] { "Hallo" }, new StringConverter()));
 
@@ -549,7 +549,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void AddPropertyTest1()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             Assert.AreEqual(0, wrapper.Count);
 
@@ -567,7 +567,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentNullException))]
         public void AddPropertyTest2()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             wrapper.AddProperty(null!);
         }
@@ -577,7 +577,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void AddPropertyTest3()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             var conv = new StringConverter();
 
@@ -597,7 +597,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void RemovePropertyTest1()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -630,7 +630,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void RemovePropertyTest2()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
             Assert.IsFalse(wrapper.RemoveProperty("bla"));
         }
 
@@ -638,7 +638,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [TestMethod()]
         public void RemovePropertyAtTest1()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             const string prop1Name = "Prop1";
             const string prop2Name = "Prop2";
@@ -671,7 +671,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void RemovePropertyAtTest2()
         {
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
             wrapper.RemovePropertyAt(42);
         }
 
@@ -683,7 +683,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
             record[0] = "42".AsMemory();
             record[1] = "43".AsMemory();
 
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             ICsvTypeConverter intConverter = new Int32Converter();
 
@@ -719,7 +719,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Tests
         {
             var rec = new CsvRecord(3);
 
-            var wrapper = new CsvRecordWrapper();
+            var wrapper = new CsvRecordMapping();
 
             string s = wrapper.ToString();
             Assert.IsNotNull(s);

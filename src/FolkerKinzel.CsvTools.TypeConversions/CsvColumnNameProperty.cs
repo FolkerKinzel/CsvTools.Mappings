@@ -1,58 +1,47 @@
-﻿using FolkerKinzel.CsvTools.Resources;
-using FolkerKinzel.CsvTools.TypeConversions.Converters;
-using System;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-
-# if NETSTANDARD2_0 || NET462
-using FolkerKinzel.Strings;
-#endif
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
-
 /// <summary>
-/// Repräsentiert eine Eigenschaft, die von <see cref="CsvRecordWrapper"/> dynamisch zur Laufzeit implementiert wird ("späte Bindung").
-/// <see cref="CsvColumnNameProperty"/> kapselt Informationen über Zugriff und die Typkonvertierung, die <see cref="CsvRecordWrapper"/> benötigt,
-/// um auf die Daten des ihm zugrundeliegenden <see cref="CsvRecord"/>-Objekts über den Spaltennamen zuzugreifen.
+/// Specialization of <see cref="CsvPropertyBase"/> for processing CSV files with header row.
 /// </summary>
-/// <threadsafety static="true" instance="false"/>
+/// <remarks>
+/// Represents a property that <see cref="CsvRecordMapping"/> implements dynamically at runtime ("late binding"). <see cref="CsvColumnIndexProperty"/> 
+/// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
+/// <see cref="CsvRecord"/> object with its column name.
+/// </remarks>
 public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
 {
     /// <summary>
-    /// Maximale Zeit (in Millisekunden) die für das Auflösen eines Spaltennamen-Aliases aufgewendet werden kann.
+    /// Maximum time (in milliseconds) that can be used to resolve a column name alias.
     /// </summary>
     public const int MaxWildcardTimeout = 500;
 
     private readonly int _wildcardTimeout;
 
-
     /// <summary>
-    /// Initialisiert ein neues <see cref="CsvColumnNameProperty"/>-Objekt.
+    /// Initializes a new <see cref="CsvColumnNameProperty"/> instance.
     /// </summary>
-    /// <param name="propertyName">Der Bezeichner unter dem die Eigenschaft angesprochen wird. Er muss den Regeln für C#-Bezeichner
-    /// entsprechen. Es werden nur ASCII-Zeichen akzeptiert.</param>
-    /// <param name="columnNameAliases">Spaltennamen der CSV-Datei, auf die <see cref="CsvColumnNameProperty"/> zugreifen kann. Für den
-    /// Zugriff wird der erste Alias verwendet, der eine Übereinstimmung 
-    /// mit einem Spaltennamen der CSV-Datei hat. Die Alias-Strings dürfen die Wildcard-Zeichen * und ? enthalten. Wenn ein 
-    /// Wildcard-Alias mit mehreren Spalten der CSV-Datei eine Übereinstimmung hat, wird die Spalte mit dem niedrigsten Index referenziert.</param>
-    /// <param name="converter">Der <see cref="ICsvTypeConverter"/>, der die Typkonvertierung übernimmt.</param>
-    /// <param name="wildcardTimeout">Timeout-Wert in Millisekunden oder 0, für <see cref="Regex.InfiniteMatchTimeout"/>. 
-    /// Ist der Wert größer als <see cref="MaxWildcardTimeout"/>, wird er auf diesen Wert normalisiert.
-    /// Wenn ein Alias in <paramref name="columnNameAliases"/> ein
-    /// Wildcard-Zeichen enthält, wird innerhalb
-    /// dieses Timeouts versucht, den Alias aufzulösen. Gelingt dies nicht, reagiert <see cref="CsvColumnNameProperty"/> so, als hätte sie
-    /// kein Ziel in den Spalten der CSV-Datei. (In .Net-Framework 4.0 wird kein Timeout angewendet.)</param>
+    /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
+    /// Only ASCII characters are accepted.</param>
+    /// <param name="columnNameAliases">
+    /// Column names of the CSV file that <see cref="CsvColumnNameProperty"/> can access. For the access <see cref="CsvColumnNameProperty"/> 
+    /// uses the first alias that is a match with a column name of the CSV file. The alias strings may contain the wildcard characters * and ?. 
+    /// If a wildcard alias matches several columns in the CSV file, the column with the lowest index is referenced.</param>
+    /// <param name="converter">The <see cref="ICsvTypeConverter"/> that does the type conversion.</param>
+    /// <param name="wildcardTimeout">
+    /// Timeout value in milliseconds or 0, for <see cref="Regex.InfiniteMatchTimeout"/>. If the value is greater than <see cref="MaxWildcardTimeout"/>
+    /// it is normalized to this value. If an alias in <paramref name="columnNameAliases"/> contains wildcard characters, inside this timeout the program 
+    /// tries to resolve the alias. If this does not succeed, <see cref="CsvColumnNameProperty"/> reacts as if it had no target in the columns of the CSV file. 
+    /// </param>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> oder <paramref name="columnNameAliases"/> oder 
-    /// <paramref name="converter"/> ist <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> does not conform to the rules for C# identifiers (only ASCII characters).</exception>
     /// 
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> entspricht nicht den Regeln für C#-Bezeichner (nur
     /// ASCII-Zeichen).</exception>
     /// 
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="wildcardTimeout"/> ist kleiner als 0.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="wildcardTimeout"/> is less than Zero.</exception>
     public CsvColumnNameProperty(string propertyName,
                                  IEnumerable<string> columnNameAliases,
                                  ICsvTypeConverter converter,
@@ -79,20 +68,19 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
         this._wildcardTimeout = wildcardTimeout;
     }
 
-
     /// <summary>
-    /// Sammlung von alternativen Spaltennamen der CSV-Datei, die <see cref="CsvRecordWrapper"/> für den Zugriff auf
-    /// auf eine Spalte von <see cref="CsvRecord"/> verwendet.
+    /// Collection of alternative column names of the CSV file, which is used by <see cref="CsvRecordMapping"/> to access
+    /// a column of <see cref="CsvRecord"/>.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Um mit verschiedenen CSV-Dateien kompatibel zu sein, können z.B. unterschiedliche Schreibweisen desselben Spaltennamens
-    /// oder Übersetzungen des Spaltennamens in andere Sprachen angegeben werden. Ein Alias kann auch die Wildcard-Zeichen * und ?
-    /// verwenden.
+    /// In order to be compatible with different CSV files, e.g., different spellings of the same column name, or translations
+    /// of the column name into other languages can be specified. An alias can also contain the wildcard characters * and ?. 
     /// </para>
     /// <para>
-    /// Da beim Setzen des Wertes von <see cref="CsvColumnNameProperty"/> alle Aliase berücksichtigt werden, empfiehlt es sich nicht, mehreren
-    /// <see cref="CsvRecord"/>-Objekten denselben Alias zuzuweisen.</para>
+    /// Since all aliases are taken into account when setting the value of <see cref="CsvColumnNameProperty"/>, it is not 
+    /// recommended to assign the same alias to several <see cref="CsvRecord"/> objects. 
+    /// </para>
     /// </remarks>
     public ReadOnlyCollection<string> ColumnNameAliases { get; }
 
@@ -102,7 +90,6 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
     /// ob der Zugriffsindex aktuell ist.)
     /// </summary>
     private int CsvRecordIdentifier { get; set; }
-
 
     /// <inheritdoc/>
     protected override void UpdateReferredCsvColumnIndex()
@@ -185,7 +172,6 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
         }//HasWildcard
     }
 
-
     private static Regex InitRegex(IEqualityComparer<string> comparer, string alias, int wildcardTimeout)
     {
         string pattern = "^" +
@@ -205,7 +191,6 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
                          wildcardTimeout == 0 ? Regex.InfiniteMatchTimeout
                                               : TimeSpan.FromMilliseconds(wildcardTimeout));
     }
-
 
     #endregion
 }

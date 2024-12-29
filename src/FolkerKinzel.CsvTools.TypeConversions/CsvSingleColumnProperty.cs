@@ -1,14 +1,10 @@
 ﻿using System.Diagnostics;
 using FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-#if NETSTANDARD2_0 || NET462
-using FolkerKinzel.Strings;
-#endif
-
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordWrapper"/> repräsentieren, die dynamisch zur Laufzeit
+/// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordMapping"/> repräsentieren, die dynamisch zur Laufzeit
 /// implementiert wird, und die ihre Daten aus einer einzelnen Spalte der CSV-Datei bezieht.
 /// </summary>
 public abstract class CsvSingleColumnProperty : CsvPropertyBase
@@ -45,7 +41,6 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
     /// </summary>
     protected internal override CsvRecord? Record { get; internal set; }
 
-
     /// <summary>
     /// Der Index der Spalte der CSV-Datei, auf die <see cref="CsvColumnNameProperty"/> zugreift oder <c>null</c>,
     /// wenn <see cref="CsvColumnNameProperty"/> kein Ziel in der CSV-Datei findet. Die Eigenschaft wird beim
@@ -74,7 +69,6 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
         }
     }
 
-
     /// <inheritdoc/>
     protected internal override void SetValue(object? value)
     {
@@ -87,5 +81,4 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
             Record[ReferredCsvColumnIndex.Value] = s.AsMemory();
         }
     }
-
 }

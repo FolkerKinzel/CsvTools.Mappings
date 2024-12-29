@@ -1,11 +1,7 @@
-﻿# if NETSTANDARD2_0 || NET462
-using FolkerKinzel.Strings;
-#endif
-
-namespace FolkerKinzel.CsvTools.TypeConversions;
+﻿namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordWrapper"/> repräsentieren, die dynamisch zur Laufzeit
+/// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordMapping"/> repräsentieren, die dynamisch zur Laufzeit
 /// implementiert wird, und deren Daten aus verschiedenen Spalten der CSV-Datei stammen.
 /// </summary>
 public class CsvMultiColumnProperty : CsvPropertyBase

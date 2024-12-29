@@ -2,11 +2,11 @@
 
 /// <summary>
 /// Abstrakte Basisklasse zur Serialisierung und Deserialisierung von Objekten, deren Daten auf mehrere Spalten einer CSV-Datei verteilt sind.
-/// Instanzen, die von dieser Klasse abgeleitet sind, werden von <see cref="CsvMultiColumnProperty" benötigt.
+/// Instanzen, die von dieser Klasse abgeleitet sind, werden von <see cref="CsvMultiColumnProperty"/> benötigt.
 /// </summary>
 public abstract class CsvMultiColumnTypeConverter
 {
-    protected CsvMultiColumnTypeConverter(CsvRecordWrapper wrapper)
+    protected CsvMultiColumnTypeConverter(CsvRecordMapping wrapper)
     {
         if (wrapper is null)
         {
@@ -16,7 +16,7 @@ public abstract class CsvMultiColumnTypeConverter
         this.Wrapper = wrapper;
     }
 
-    public CsvRecordWrapper Wrapper { get; }
+    public CsvRecordMapping Wrapper { get; }
 
 
     /// <summary>
