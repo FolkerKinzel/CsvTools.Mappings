@@ -39,7 +39,7 @@ public sealed class CsvColumnIndexProperty : CsvSingleColumnProperty
     }
 
     /// <summary>
-    /// The zero-based index of the column in the CSV file that <see cref="CsvColumnIndexProperty"/> can access.
+    /// The zero-based index of the column in the CSV file that <see cref="CsvColumnIndexProperty"/> would like to access.
     /// </summary>
     public int DesiredCsvColumnIndex { get; }
 

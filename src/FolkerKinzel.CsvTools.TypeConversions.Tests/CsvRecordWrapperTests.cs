@@ -37,13 +37,13 @@ public class CsvRecordWrapperTests
 
         wrapper.AddProperty(prop2);
         Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[0]);
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
 
         wrapper.InsertProperty(0, prop1);
 
         Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames[0]);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[1]);
+        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
     }
 
     [TestMethod()]
@@ -61,7 +61,7 @@ public class CsvRecordWrapperTests
 
         wrapper.InsertProperty(0, prop1);
         Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames[0]);
+        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
     }
 
     [TestMethod()]
@@ -142,14 +142,14 @@ public class CsvRecordWrapperTests
         wrapper.AddProperty(prop2);
 
         Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames[0]);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[1]);
+        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
 
         wrapper.ReplacePropertyAt(0, prop3);
 
         Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop3Name, wrapper.PropertyNames[0]);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[1]);
+        Assert.AreEqual(prop3Name, wrapper.PropertyNames.First());
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
     }
 
 
@@ -261,16 +261,15 @@ public class CsvRecordWrapperTests
         wrapper.AddProperty(prop2);
 
         Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames[0]);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[1]);
+        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
 
         wrapper.ReplaceProperty(prop1Name, prop3);
 
         Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop3Name, wrapper.PropertyNames[0]);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[1]);
+        Assert.AreEqual(prop3Name, wrapper.PropertyNames.First());
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
     }
-
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
@@ -615,13 +614,13 @@ public class CsvRecordWrapperTests
         wrapper.AddProperty(prop2);
 
         Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames[0]);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[1]);
+        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
 
         Assert.IsTrue(wrapper.RemoveProperty(prop1Name));
 
         Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[0]);
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
     }
 
 
@@ -655,15 +654,14 @@ public class CsvRecordWrapperTests
         wrapper.AddProperty(prop2);
 
         Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames[0]);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[1]);
+        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
 
         wrapper.RemovePropertyAt(0);
 
         Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames[0]);
+        Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
     }
-
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -672,7 +670,6 @@ public class CsvRecordWrapperTests
         var wrapper = new CsvRecordMapping();
         wrapper.RemovePropertyAt(42);
     }
-
 
     [TestMethod()]
     public void IndexerTest()

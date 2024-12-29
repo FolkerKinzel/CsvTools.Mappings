@@ -39,7 +39,7 @@ internal static class DisableCachingAndLinq
         Console.Write("  Determine with cache disabled: ");
         using (var csvReader =
             new CsvEnumerator(csvFileName,
-                          options: CsvOpts.Default.Set(CsvOpts.DisableCaching)))
+                          options: CsvOpts.Default.Set(CsvOpts.EnableCaching)))
         {
             // NOTICE: Removing ".ToArray()" would cause the correct results:
             foreach (CsvRecord record in
