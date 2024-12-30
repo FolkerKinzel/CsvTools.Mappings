@@ -27,7 +27,6 @@ public class Int32ConverterTests
         Assert.AreEqual(val, res);
     }
 
-
     [TestMethod()]
     public void Int32ConverterTest_Hex()
     {
@@ -42,6 +41,4 @@ public class Int32ConverterTests
 
         Assert.AreEqual(val, res);
     }
-
-    
 }
