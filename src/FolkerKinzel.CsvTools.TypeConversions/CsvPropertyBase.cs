@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 using FolkerKinzel.CsvTools.TypeConversions.Resources;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
@@ -11,7 +12,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// <see cref="CsvPropertyBase"/> kapselt Informationen, die <see cref="CsvRecordMapping"/> benötigt,
 /// um auf die Daten des ihm zugrundeliegenden <see cref="CsvRecord"/>-Objekts zuzugreifen.
 /// </remarks>
-public abstract class CsvPropertyBase
+public abstract partial class CsvPropertyBase
 {
     /// <summary>
     /// Initialisiert ein neues <see cref="CsvPropertyBase"/>-Objekt.
@@ -23,14 +24,16 @@ public abstract class CsvPropertyBase
     /// ASCII-Zeichen).</exception>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> ist <c>null</c>.
+    /// </exception>
     protected CsvPropertyBase(string propertyName)
     {
-        if (propertyName is null)
-        {
-            throw new ArgumentNullException(nameof(propertyName));
-        }
+        _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 
-        if (!Regex.IsMatch(propertyName, "^[A-Za-z_][A-Za-z0-9_]*$"))
+#if NET8_0_OR_GREATER
+        if (!PropertyNameRegex().IsMatch(propertyName))
+#else
+        if (!PropertyNameRegex.IsMatch(propertyName))
+#endif
         {
             throw new ArgumentException(Res.BadIdentifier, nameof(propertyName));
         }
@@ -60,4 +63,11 @@ public abstract class CsvPropertyBase
     /// <param name="value">Das zu speichernde Objekt.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> entspricht nicht dem erwarteten Datentyp.</exception>
     protected internal abstract void SetValue(object? value);
+
+#if NET8_0_OR_GREATER
+    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, 500)]
+    private static partial Regex PropertyNameRegex();
+#else
+    private static Regex PropertyNameRegex { get; } = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(500));
+#endif
 }

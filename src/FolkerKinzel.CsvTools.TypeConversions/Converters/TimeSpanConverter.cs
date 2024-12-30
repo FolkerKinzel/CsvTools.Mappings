@@ -22,8 +22,8 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     /// <param name="format">Eine Formatzeichenfolge, die für die <see cref="string"/>-Ausgabe von <see cref="TimeSpan"/>-Werten verwendet 
     /// wird.
     /// Wenn die Option <paramref name="parseExact"/> gewählt ist, wird diese Formatzeichenfolge auch für das Parsen verwendet.</param>
-    /// <param name="throwing">Wenn <c>true</c>, wirft die Methode <see cref="Parse"/> eine Ausnahme, wenn das Parsen misslingt,
-    /// anderenfalls gibt sie in diesem Fall <see cref="FallbackValue"/> zurück.</param>
+    /// <param name="throwing">Wenn <c>true</c>, wirft die Methode <see cref="CsvTypeConverter{T}.Parse"/> eine Ausnahme, wenn das Parsen misslingt,
+    /// anderenfalls gibt sie in diesem Fall <see cref="CsvTypeConverter{T}.FallbackValue"/> zurück.</param>
     /// <param name="formatProvider">Ein <see cref="IFormatProvider"/>-Objekt, das kulturspezifische Formatierungsinformationen
     /// bereitstellt oder <c>null</c> für <see cref="CultureInfo.InvariantCulture"/>.</param>
     /// <param name="parseExact">Wenn <c>true</c> als Argument übergeben wird, muss der Text in der CSV-Datei exakt mit der mit 

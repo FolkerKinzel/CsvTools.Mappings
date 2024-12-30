@@ -1,4 +1,6 @@
-﻿namespace FolkerKinzel.CsvTools.TypeConversions;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+
+namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
 /// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordMapping"/> repräsentieren, die dynamisch zur Laufzeit
@@ -17,13 +19,10 @@ public class CsvMultiColumnProperty : CsvPropertyBase
     /// ASCII-Zeichen).</exception>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> oder <paramref name="converter"/> ist <c>null</c>.
+    /// </exception>
     public CsvMultiColumnProperty(string propertyName, CsvMultiColumnTypeConverter converter) : base(propertyName)
     {
-        if (converter is null)
-        {
-            throw new ArgumentNullException(nameof(converter));
-        }
-
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         this.Converter = converter;
     }
 
