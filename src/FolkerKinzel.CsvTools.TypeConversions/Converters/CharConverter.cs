@@ -5,12 +5,13 @@ public sealed class CharConverter : CsvTypeConverter<char>
     public CharConverter(bool throwing = true, char fallbackValue = default)
         : base(throwing, fallbackValue) { }
 
-
-    protected override string? DoConvertToString(char value) => value.ToString();
-
+    /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
+    /// <inheritdoc/>
+    protected override string? DoConvertToString(char value) => value.ToString();
 
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out char result)
     {
         if (value.Trim().Length == 1)

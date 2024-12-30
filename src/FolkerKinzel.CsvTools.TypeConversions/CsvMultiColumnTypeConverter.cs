@@ -6,13 +6,15 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// Abstract base class for serializing and deserializing objects whose data is distributed 
 /// across multiple columns of a CSV file.
 /// </summary>
+/// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
 /// <remarks>
 /// Instances derived from this class are required by <see cref="CsvMultiColumnProperty"/>.
 /// </remarks>
-public abstract class CsvMultiColumnTypeConverter
+/// <seealso cref="CsvMultiColumnProperty"/>
+public abstract class CsvMultiColumnTypeConverter<T>
 {
     /// <summary>
-    /// Initializes a new <see cref="CsvMultiColumnTypeConverter"/> instance.
+    /// Initializes a new <see cref="CsvMultiColumnTypeConverter{T}"/> instance.
     /// </summary>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.</param>
@@ -30,23 +32,101 @@ public abstract class CsvMultiColumnTypeConverter
     public CsvRecordMapping Mapping { get; }
 
     /// <summary>
-    /// Liest die Daten aus <see cref="Mapping"/> und versucht, daraus eine Instanz des gewünschten Typs zu erzeugen.
+    /// Gets a value indicating whether the converter accepts 
+    /// <c>null</c> values.
     /// </summary>
-    /// <returns>Eine Instanz des gewünschten Typs oder ein beliebiges FallbackValue (z.B. <c>null</c> oder <see cref="DBNull.Value"/>).</returns>
-    public abstract object? Create();
+    /// <value><c>true</c> if the converter accepts <c>null</c> values,
+    /// otherwise <c>false</c>.</value>
+    public bool AcceptsNull { get; }
 
     /// <summary>
-    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die CSV-Datei.
+    /// Gets a value indicating whether the converter throws a
+    /// <see cref="FormatException"/> 
+    /// when a parsing error occurs, or if it returns 
+    /// <see cref="FallbackValue"/> value instead.
     /// </summary>
-    /// <param name="value">Das in die CSV-Datei zu schreibende Objekt.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen unerwarteten Datentyp.</exception>
-    /// <remarks>
-    /// <note type="inherit">
-    /// Die Methode sollte eine 
-    /// <see cref="InvalidCastException"/> werfen, wenn <paramref name="value"/> nicht <typeparamref name="T"/> oder einem
-    /// anderen erwarteten Datentyp (z.B. <see cref="DBNull.Value"/>) entspricht.
-    /// </note>
-    /// </remarks>
-    public abstract void ToCsv(object? value);
+    /// <value><c>true</c> if the converter throws a 
+    /// <see cref="FormatException"/> on parsing errors,
+    /// <c>false</c> otherwise.</value>
+    protected bool Throwing { get; }
 
+    /// <summary>
+    /// Gets the value to return when a parsing error occurs and
+    /// the <see cref="Throwing"/> property is <c>false</c>.
+    /// </summary>
+    protected T? FallbackValue { get; }
+
+    /// <summary>
+    /// Returns a <see cref="bool"/> value indicating whether the 
+    /// content of <see cref="Mapping"/> that has to be parsed represents a value or not.
+    /// </summary>
+    /// <returns><c>true</c> if <see cref="Mapping"/> contains a parseable value, 
+    /// otherwise <c>false</c>.</returns>
+    protected abstract bool CsvHasValue();
+
+    /// <summary>
+    /// Tries to convert several <see cref="CsvPropertyBase"/> instances in
+    /// <see cref="Mapping"/> to a <typeparamref name="T"/> value.
+    /// </summary>
+    /// 
+    /// <param name="result">
+    /// After the method was successful, contains the <typeparamref name="T"/> value that is equivalent
+    /// to the content of the converted <see cref="CsvPropertyBase"/> instances in
+    /// <see cref="Mapping"/>,
+    /// or the default value of <typeparamref name="T"/> if the parsing failed.
+    /// </param>
+    /// <returns><c>true</c> if the parsing was successfull, otherwise <c>false</c>.</returns>
+    public abstract bool TryConvertMapping(out T result);
+
+    /// <summary>
+    /// Converts several <see cref="CsvPropertyBase"/> instances in <see cref="Mapping"/> to a 
+    /// <typeparamref name="T"/> value.
+    /// </summary>
+    /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
+    public T? Convert()
+        => !CsvHasValue()
+                ? FallbackValue
+                : TryConvertMapping(out T? result)
+                    ? result
+                    : Throwing
+                        ? throw new FormatException(string.Format("Cannot convert the CSV data to {0}.", typeof(T)))
+                        : FallbackValue;
+
+    /// <summary>
+    /// Writes a <typeparamref name="T"/> value to several properties of <see cref="Mapping"/>.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <remarks>
+    /// Implement this method in derived classes to determine the behavior of <see cref="ConvertToCsv(T?)"/>.
+    /// </remarks>
+    protected abstract void DoConvertToCsv(T? value);
+
+    /// <summary>
+    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die ausgewählten Felder von
+    /// <see cref="CsvRecord"/>.
+    /// </summary>
+    /// <param name="value">Das in die ausgewählten Felder von <see cref="CsvRecord"/> zu schreibende Objekt.</param>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen inkompatiblen Datentyp.</exception>
+    public void ConvertToCsv(T? value)
+    {
+        if (value is T t)
+        {
+            DoConvertToCsv(t);
+        }
+        else if (value is null)
+        {
+            if (AcceptsNull)
+            {
+                DoConvertToCsv(value);
+            }
+            else
+            {
+                throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)));
+            }
+        }
+        else
+        {
+            throw new InvalidCastException("Assignment of an incompliant Type.");
+        }
+    }
 }

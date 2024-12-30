@@ -48,11 +48,13 @@ public sealed class EnumConverter<TEnum> : CsvTypeConverter<TEnum> where TEnum :
     public bool IgnoreCase { get; }
     public string? Format { get; } = DEFAULT_FORMAT;
 
+    /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
-
+    /// <inheritdoc/>
     protected override string? DoConvertToString(TEnum value) => value.ToString(Format);
 
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out TEnum result)
 #if NET462 || NETSTANDARD2_0 || NETSTANDARD2_1 || NET5_0
         => Enum.TryParse<TEnum>(value.ToString(), IgnoreCase, out result);

@@ -2,7 +2,7 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class ByteConverter : CsvTypeConverter<byte>
+public sealed class ByteConverter : CsvTypeConverter<byte>, IHexConverter
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -16,20 +16,24 @@ public sealed class ByteConverter : CsvTypeConverter<byte>
     public ByteConverter(bool throwing = true, IFormatProvider? formatProvider = null)
         : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
-
-    public ByteConverter AsHexConverter()
+    /// <inheritdoc/>
+    public ICsvTypeConverter AsHexConverter()
     {
         _styles = HEX_STYLE;
         _format = HEX_FORMAT;
         return this;
     }
 
+    /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
 
-    protected override string? DoConvertToString(byte value) => value.ToString(_format, _formatProvider);
+    /// <inheritdoc/>
+    protected override string? DoConvertToString(byte value) 
+        => value.ToString(_format, _formatProvider);
 
 
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out byte result)
 #if NET462 || NETSTANDARD2_0
         => byte.TryParse(value.ToString(), _styles, _formatProvider, out result);

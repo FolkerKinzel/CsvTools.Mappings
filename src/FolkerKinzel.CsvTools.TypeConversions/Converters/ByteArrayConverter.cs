@@ -7,10 +7,16 @@ public sealed class ByteArrayConverter : CsvTypeConverter<byte[]?>
     public ByteArrayConverter(bool throwing = true, bool nullable = true)
         : base(throwing, nullable ? null : Array.Empty<byte>()) { }
 
+    /// <inheritdoc/>
     public override bool AcceptsNull => true;
 
-    protected override string? DoConvertToString(byte[]? value) => value is null ? null : Convert.ToBase64String(value, Base64FormattingOptions.None);
+    /// <inheritdoc/>
+    protected override string? DoConvertToString(byte[]? value)
+        => value is null 
+              ? null 
+              : Convert.ToBase64String(value, Base64FormattingOptions.None);
 
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out byte[]? result)
     {
         try

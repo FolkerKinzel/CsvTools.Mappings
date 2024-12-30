@@ -9,16 +9,17 @@ public sealed class SingleConverter : CsvTypeConverter<float>
     private const string FORMAT = "G9";
     private const NumberStyles STYLE = NumberStyles.Any;
 
-
     public SingleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
         : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
+    /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
+    /// <inheritdoc/>
+    protected override string? DoConvertToString(float value) 
+        => value.ToString(FORMAT, _formatProvider);
 
-    protected override string? DoConvertToString(float value) => value.ToString(FORMAT, _formatProvider);
-
-
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out float result)
 #if NET462 || NETSTANDARD2_0
         => float.TryParse(value.ToString(), STYLE, _formatProvider, out result);

@@ -35,11 +35,15 @@ public class CsvMultiColumnProperty : CsvPropertyBase
     public CsvMultiColumnTypeConverter Converter { get; }
 
     /// <inheritdoc/>
-    protected internal override CsvRecord? Record { get => Converter.Mapping.Record; internal set => Converter.Mapping.Record = value; }
+    protected internal override CsvRecord? Record
+    { 
+        get => Converter.Mapping.Record; 
+        internal set => Converter.Mapping.Record = value;
+    }
 
     /// <inheritdoc/>
-    protected internal override object? GetValue() => Converter.Create();
+    protected internal override object? GetValue() => Converter.Parse();
 
     /// <inheritdoc/>
-    protected internal override void SetValue(object? value) => Converter.ToCsv(value);
+    protected internal override void SetValue(object? value) => Converter.ConvertToStrings(value);
 }

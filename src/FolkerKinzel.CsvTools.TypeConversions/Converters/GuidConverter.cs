@@ -17,19 +17,19 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
         ExamineFormat(nameof(format));
     }
 
+    /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
-
+    /// <inheritdoc/>
     protected override string? DoConvertToString(Guid value) => value.ToString(_format, CultureInfo.InvariantCulture);
 
-
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out Guid result)
 #if NET462 || NETSTANDARD2_0
         => Guid.TryParse(value.ToString(), out result);
 #else
         => Guid.TryParse(value, out result);
 #endif
-
 
     private void ExamineFormat(string parameterName)
     {

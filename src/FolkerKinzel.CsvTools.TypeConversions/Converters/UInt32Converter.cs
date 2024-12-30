@@ -3,7 +3,7 @@
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
 [CLSCompliant(false)]
-public sealed class UInt32Converter : CsvTypeConverter<uint>
+public sealed class UInt32Converter : CsvTypeConverter<uint>, IHexConverter
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -14,25 +14,24 @@ public sealed class UInt32Converter : CsvTypeConverter<uint>
     private  NumberStyles _styles = DEFAULT_STYLE;
     private  string? _format = DEFAULT_FORMAT;
 
-
     public UInt32Converter(bool throwing = true, IFormatProvider? formatProvider = null)
         : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
-
+    /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
-
-    public UInt32Converter AsHexConverter()
+    /// <inheritdoc/>
+    public ICsvTypeConverter AsHexConverter()
     {
         _styles = HEX_STYLE;
         _format = HEX_FORMAT;
         return this;
     }
 
-
+    /// <inheritdoc/>
     protected override string? DoConvertToString(uint value) => value.ToString(_format, _formatProvider);
 
-
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out uint result)
 #if NET462 || NETSTANDARD2_0
         => uint.TryParse(value.ToString(), _styles, _formatProvider, out result);

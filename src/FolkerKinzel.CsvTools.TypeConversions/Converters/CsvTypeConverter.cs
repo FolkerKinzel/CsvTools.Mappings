@@ -23,23 +23,37 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
     /// <inheritdoc/>
     object? ICsvTypeConverter.FallbackValue => FallbackValue;
 
-    /// <summary>
-    /// Gets a value indicating whether the converter throws an 
-    /// <see cref="FormatException"/> 
-    /// when a parsing error occurs, or if it returns 
-    /// <see cref="FallbackValue"/> value instead.
-    /// </summary>
-    /// <value><c>true</c> if the converter throws a <see cref="FormatException"/>
-    /// on parsing errors,
-    /// <c>false</c> otherwise.</value>
+    ///<inheritdoc/>
     public bool Throwing { get; } = throwsOnParseErrors;
 
+    /// <summary>
+    /// Tries to parse a read-only span of characters as a <typeparamref name="T"/> value.
+    /// </summary>
+    /// <param name="value">The read-only span of characters to parse.</param>
+    /// <param name="result">
+    /// After the method returns, contains the <typeparamref name="T"/> value that is equivalent to the
+    /// parsed <paramref name="value"/>, if the parsing succeeds, or the default value of 
+    /// <typeparamref name="T"/> if the parsing failed.
+    /// </param>
+    /// <returns><c>true</c> if the parsing was successfull, otherwise <c>false</c>.</returns>
     public abstract bool TryParseValue(ReadOnlySpan<char> value, out T result);
 
+    /// <inheritdoc/>
     public abstract bool AcceptsNull { get; }
 
+    /// <summary>
+    /// Converts a <typeparamref name="T"/> value to a <see cref="string"/>
+    /// or <c>null</c>.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>A <see cref="string"/> or <c>null</c>.</returns>
+    /// <remarks>
+    /// Implement this method in derived classes to determine the behavior of
+    /// <see cref="ConvertToString(object?)"/> and <see cref="ConvertToString(T?)"/>.
+    /// </remarks>
     protected abstract string? DoConvertToString(T value);
 
+    /// <inheritdoc/>
     public string? ConvertToString(object? value)
         => value is T t
             ? DoConvertToString(t)
@@ -47,9 +61,24 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
                 ? AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)))
                 : throw new InvalidCastException("Assignment of an incompliant Type.");
 
-
+    /// <summary>
+    /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>A <see cref="string"/> that represents <paramref name="value"/>.</returns>
     public string? ConvertToString(T? value) => value is null ? null : DoConvertToString(value);
 
+    /// <summary>
+    /// Returns a <see cref="bool"/> value indicating whether the 
+    /// <paramref name="csvInput"/> represents a value or not.
+    /// </summary>
+    /// <param name="csvInput">The input to examine.</param>
+    /// <returns><c>true</c> if <paramref name="csvInput"/> represents a value, 
+    /// otherwise <c>false</c>.</returns>
+    /// <remarks>The method returns <c>false</c> if <paramref name="csvInput"/> is empty or 
+    /// contains only whitespace.
+    /// Override this method in derived classes to change this behavior.
+    /// </remarks>
     protected virtual bool CsvHasValue(ReadOnlySpan<char> csvInput) => !csvInput.IsWhiteSpace();
 
     /// <summary>

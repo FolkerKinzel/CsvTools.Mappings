@@ -16,6 +16,14 @@ public interface ICsvTypeConverter
     /// </exception>
     object? Parse(ReadOnlySpan<char> value);
 
+    /// <summary>
+    /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>A <see cref="string"/> that represents <paramref name="value"/>.</returns>
+    /// <exception cref="InvalidCastException">
+    /// The <see cref="Type"/> of value is not compatible with the converter.
+    /// </exception>
     string? ConvertToString(object? value);
 
     /// <summary>
@@ -35,5 +43,11 @@ public interface ICsvTypeConverter
     /// </summary>
     object? FallbackValue { get; }
 
+    /// <summary>
+    /// Gets a value indicating whether the converter accepts 
+    /// <c>null</c> values.
+    /// </summary>
+    /// <value><c>true</c> if the converter accepts <c>null</c> values,
+    /// otherwise <c>false</c>.</value>
     bool AcceptsNull { get; }
 }

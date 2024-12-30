@@ -12,15 +12,14 @@ public sealed class SByteConverter : CsvTypeConverter<sbyte>
     private readonly IFormatProvider? _formatProvider;
     private NumberStyles _styles = DEFAULT_STYLE;
     private string? _format = DEFAULT_FORMAT;
-
     
     private const string? DEFAULT_FORMAT = null;
 
     public SByteConverter(bool throwing = true, IFormatProvider? formatProvider = null)
         : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
+    /// <inheritdoc/>
     public override bool AcceptsNull => false;
-
 
     public SByteConverter AsHexConverter()
     {
@@ -29,10 +28,10 @@ public sealed class SByteConverter : CsvTypeConverter<sbyte>
         return this;
     }
 
-
+    /// <inheritdoc/>
     protected override string? DoConvertToString(sbyte value) => value.ToString(_format, _formatProvider);
 
-
+    /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out sbyte result)
 #if NET462 || NETSTANDARD2_0
         => sbyte.TryParse(value.ToString(), _styles, _formatProvider, out result);

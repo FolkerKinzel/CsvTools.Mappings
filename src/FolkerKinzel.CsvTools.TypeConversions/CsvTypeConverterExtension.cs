@@ -15,12 +15,9 @@ public static class CsvTypeConverterExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static CsvTypeConverter<object> AsDBNullEnabled<T>(this CsvTypeConverter<T> converter)
     {
-        if (converter is CsvTypeConverter<object> result && Convert.IsDBNull(result.FallbackValue))
-        {
-            return result;
-        }
-
-        return new DBNullConverter<T>(converter);
+        return converter is CsvTypeConverter<object> result && Convert.IsDBNull(result.FallbackValue)
+            ? result
+            : new DBNullConverter<T>(converter);
     }
 
 
