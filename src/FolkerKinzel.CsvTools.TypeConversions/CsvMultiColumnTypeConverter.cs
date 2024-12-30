@@ -111,9 +111,8 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract void DoConvertToCsv(T? value);
 
     /// <summary>
-    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die ausgewählten Felder von
-    /// <see cref="CsvRecord"/>.
-    /// Writes <paramref name="value"/> to several properties of <see cref="Mapping"/>.
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvPropertyBase.Record"/> 
+    /// using <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AcceptsNull"/>
@@ -129,31 +128,10 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     }
 
     /// <summary>
-    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die ausgewählten Felder von
-    /// <see cref="CsvRecord"/>.
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvPropertyBase.Record"/> 
+    /// using <see cref="Mapping"/>.
     /// </summary>
-    /// <param name="value">Das in die ausgewählten Felder von <see cref="CsvRecord"/> zu schreibende Objekt.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen inkompatiblen Datentyp.</exception>
+    /// <param name="value">The object to write to the selected fields of <see cref="CsvPropertyBase.Record"/>.</param>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
     public void ConvertToCsv(object? value) => ConvertToCsv((T?)value);
-    //{
-    //    if (value is T t)
-    //    {
-    //        DoConvertToCsv(t);
-    //    }
-    //    else if (value is null)
-    //    {
-    //        if (AcceptsNull)
-    //        {
-    //            DoConvertToCsv((T?)value);
-    //        }
-    //        else
-    //        {
-    //            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)));
-    //        }
-    //    }
-    //    else
-    //    {
-    //        throw new InvalidCastException("Assignment of an incompliant Type.");
-    //    }
-    //}
 }

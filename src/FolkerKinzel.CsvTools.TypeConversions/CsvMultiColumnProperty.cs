@@ -41,6 +41,14 @@ public class CsvMultiColumnProperty<T> : CsvPropertyBase
         internal set => Converter.Mapping.Record = value;
     }
 
+    /// <summary>
+    /// Allows to get and set the value of the referenced field in <see cref="Record"/>
+    /// without having to use a dynamic property.
+    /// </summary>
+    /// <remarks>
+    /// This property supports high performance scenarios: boxing and unboxing of 
+    /// value types can be omitted in this way.
+    /// </remarks>
     public T? Value
     {
         get => Converter.Convert();

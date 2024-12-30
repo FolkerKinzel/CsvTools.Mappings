@@ -51,7 +51,7 @@ public abstract partial class CsvPropertyBase
     protected internal abstract CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// Extracts data of a specific type from <see cref="CsvRecord"/>.
+    /// Extracts data of a specific type from <see cref="Record"/>.
     /// </summary>
     /// <returns>The extracted data.</returns>
     /// <exception cref="FormatException"> 
@@ -61,7 +61,7 @@ public abstract partial class CsvPropertyBase
     protected internal abstract object? GetValue();
 
     /// <summary>
-    /// Stores data of a specific type in the CSV file./>.
+    /// Stores data of a specific type in <see cref="Record"/>.
     /// </summary>
     /// <param name="value">The data object to be stored.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> does not match the expected data type.</exception>
