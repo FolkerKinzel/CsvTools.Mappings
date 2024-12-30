@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+using FolkerKinzel.CsvTools.TypeConversions.Intls.Extensions;
+using FolkerKinzel.CsvTools.TypeConversions.Resources;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
@@ -6,9 +9,6 @@ using System.Dynamic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
-using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
-using FolkerKinzel.CsvTools.TypeConversions.Intls.Extensions;
-using FolkerKinzel.CsvTools.TypeConversions.Resources;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
@@ -237,11 +237,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
             }
 
-            if (propertyName is null)
-            {
-                throw new ArgumentNullException(nameof(propertyName));
-            }
-
+            _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 
             if (this._dynProps.TryGetValue(propertyName, out CsvPropertyBase? prop))
             {
@@ -265,11 +261,8 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </exception>
     public void AddProperty(CsvPropertyBase property)
     {
-        if (property is null)
-        {
-            throw new ArgumentNullException(nameof(property));
-        }
-
+        _ArgumentNullException.ThrowIfNull(property, nameof(property));
+        
         this._dynProps.Add(property);
         property.Record = Record;
     }
@@ -317,11 +310,8 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </exception>
     public void InsertProperty(int index, CsvPropertyBase property)
     {
-        if (property is null)
-        {
-            throw new ArgumentNullException(nameof(property));
-        }
-
+        _ArgumentNullException.ThrowIfNull(property, nameof(property));
+        
         _dynProps.Insert(index, property);
         property.Record = Record;
     }
@@ -374,16 +364,9 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </exception>
     public void ReplaceProperty(string propertyName, CsvPropertyBase property)
     {
-        if (propertyName is null)
-        {
-            throw new ArgumentNullException(nameof(propertyName));
-        }
-
-        if (property is null)
-        {
-            throw new ArgumentNullException(nameof(property));
-        }
-
+        _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
+        _ArgumentNullException.ThrowIfNull(property, nameof(property));
+        
         try
         {
             int index = _dynProps.IndexOf(_dynProps[propertyName]);
@@ -437,11 +420,8 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TrySetMember(SetMemberBinder binder, object? value)
     {
-        if (binder is null)
-        {
-            throw new ArgumentNullException(nameof(binder));
-        }
-
+        _ArgumentNullException.ThrowIfNull(binder, nameof(binder));
+        
         if (Record is null)
         {
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
@@ -477,10 +457,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryGetMember(GetMemberBinder binder, out object? result)
     {
-        if (binder is null)
-        {
-            throw new ArgumentNullException(nameof(binder));
-        }
+        _ArgumentNullException.ThrowIfNull(binder, nameof(binder));
 
         if (Record is null)
         {
@@ -577,7 +554,6 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
         {
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
         }
-
 
         foreach (CsvPropertyBase? prop in this._dynProps)
         {
