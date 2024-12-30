@@ -1,10 +1,4 @@
-﻿using System;
-using System.Data.SqlTypes;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Text;
-
-namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
+﻿namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
 /// <summary>
 /// Abstract base class for implementing type converters that convert 
