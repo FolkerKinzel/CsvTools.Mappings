@@ -50,17 +50,20 @@ public abstract partial class CsvPropertyBase
     /// </summary>
     protected internal abstract CsvRecord? Record { get; internal set; }
 
-
-    public virtual object? Value
-    {
-        get => GetValue();
-        set => SetValue(value);
-    }
+    //public virtual object? Value
+    //{
+    //    get => GetValue();
+    //    set => SetValue(value);
+    //}
 
     /// <summary>
     /// Extracts data of a specific type from <see cref="CsvRecord"/>.
     /// </summary>
     /// <returns>The extracted data.</returns>
+    /// <exception cref="FormatException"> 
+    /// Parsing fails and the converter is prepared to throw a <see cref="FormatException"/>
+    /// in this case.
+    /// </exception>
     protected internal abstract object? GetValue();
 
     /// <summary>

@@ -20,9 +20,6 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
     /// </summary>
     public T? FallbackValue { get; } = fallbackValue;
 
-    ///// <inheritdoc/>
-    //object? ICsvTypeConverter.FallbackValue => FallbackValue;
-
     ///<inheritdoc/>
     public bool Throwing { get; } = throwsOnParseErrors;
 
@@ -52,14 +49,6 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
     /// <see cref="ConvertToString(T?)"/> and <see cref="ConvertToString(T?)"/>.
     /// </remarks>
     protected abstract string? DoConvertToString(T value);
-
-    ///// <inheritdoc/>
-    //public string? ConvertToString(object? value)
-    //    => value is T t
-    //        ? DoConvertToString(t)
-    //        : value is null
-    //            ? AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)))
-    //            : throw new InvalidCastException("Assignment of an incompliant Type.");
 
     /// <summary>
     /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.

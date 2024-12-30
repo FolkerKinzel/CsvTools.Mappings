@@ -37,7 +37,7 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// </summary>
     /// <value><c>true</c> if the converter accepts <c>null</c> values,
     /// otherwise <c>false</c>.</value>
-    public bool AcceptsNull { get; }
+    public abstract bool AcceptsNull {  get; }
 
     /// <summary>
     /// Gets a value indicating whether the converter throws a
@@ -48,13 +48,13 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// <value><c>true</c> if the converter throws a 
     /// <see cref="FormatException"/> on parsing errors,
     /// <c>false</c> otherwise.</value>
-    protected bool Throwing { get; }
+    public bool Throwing { get; }
 
     /// <summary>
     /// Gets the value to return when a parsing error occurs and
     /// the <see cref="Throwing"/> property is <c>false</c>.
     /// </summary>
-    protected T? FallbackValue { get; }
+    public T? FallbackValue { get; }
 
     /// <summary>
     /// Returns a <see cref="bool"/> value indicating whether the 
@@ -76,6 +76,12 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// or the default value of <typeparamref name="T"/> if the parsing failed.
     /// </param>
     /// <returns><c>true</c> if the parsing was successfull, otherwise <c>false</c>.</returns>
+    /// <remarks>
+    /// <note type="implement">
+    /// If <see cref="Throwing"/> is <c>false</c> the method has to catch any <see cref="FormatException"/>
+    /// that a converter in <see cref="Mapping"/> might throw.
+    /// </note>
+    /// </remarks>
     public abstract bool TryConvertMapping(out T result);
 
     /// <summary>
@@ -83,6 +89,8 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// <typeparamref name="T"/> value.
     /// </summary>
     /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
+    /// <exception cref="FormatException">The conversion fails and <see cref="Throwing"/> is <c>true</c>.
+    /// </exception>
     public T? Convert()
         => !CsvHasValue()
                 ? FallbackValue

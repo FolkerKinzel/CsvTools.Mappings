@@ -41,7 +41,7 @@ public class CsvMultiColumnProperty<T> : CsvPropertyBase
         internal set => Converter.Mapping.Record = value;
     }
 
-    public new T? Value
+    public T? Value
     {
         get => Converter.Convert();
         set => Converter.ConvertToCsv(value);

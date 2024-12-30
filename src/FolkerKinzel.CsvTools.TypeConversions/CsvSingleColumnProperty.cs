@@ -55,27 +55,19 @@ public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
     /// </remarks>
     protected abstract void UpdateReferredCsvIndex();
 
-    public new T? Value
+    /// <summary>
+    /// Allows to get and set the value of the referenced field in <see cref="Record"/>
+    /// without having to use a dynamic property.
+    /// </summary>
+    /// <remarks>
+    /// This property supports high performance scenarios: boxing and unboxing of 
+    /// value types can be omitted in this way.
+    /// </remarks>
+    public T? Value
     {
         get => GetTypedValue();
         set => SetTypedValue(value);
     }
-
-    /// <inheritdoc/>
-    protected internal override object? GetValue() => GetTypedValue();
-    //{
-    //    Debug.Assert(Record != null);
-    //    UpdateReferredCsvIndex();
-
-    //    try
-    //    {
-    //        return ReferredCsvIndex.HasValue ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span) : Converter.FallbackValue;
-    //    }
-    //    catch (Exception e)
-    //    {
-    //        throw new InvalidCastException(e.Message, e);
-    //    }
-    //}
 
     private T? GetTypedValue()
     {
@@ -110,18 +102,11 @@ public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
                 = val.AsMemory();
         }
     }
-    
+
+    /// <inheritdoc/>
+    protected internal override object? GetValue() => GetTypedValue();
 
     /// <inheritdoc/>
     protected internal override void SetValue(object? value) => SetTypedValue((T?)value);
-    //{
-    //    Debug.Assert(Record != null);
-    //    UpdateReferredCsvIndex();
-
-    //    if (ReferredCsvIndex.HasValue)
-    //    {
-    //        Record.Values[ReferredCsvIndex.Value]
-    //            = Converter.ConvertToString(value).AsMemory();
-    //    }
-    //}
+    
 }
