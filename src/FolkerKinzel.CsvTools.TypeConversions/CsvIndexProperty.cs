@@ -1,10 +1,12 @@
-﻿namespace FolkerKinzel.CsvTools.TypeConversions;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+
+namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Specialization of <see cref="CsvPropertyBase"/> for processing CSV files without a header.
+/// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files without a header.
 /// </summary>
 /// <remarks>
-/// Represents a property that <see cref="CsvRecordMapping"/> implements dynamically at runtime ("late binding"). <see cref="CsvIndexProperty"/> 
+/// <see cref="CsvIndexProperty"/> 
 /// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its zero-based column index.
 /// </remarks>
@@ -30,11 +32,7 @@ public sealed class CsvIndexProperty : CsvSingleColumnProperty
     public CsvIndexProperty(
         string propertyName, int csvIndex, ICsvTypeConverter converter) : base(propertyName, converter)
     {
-        if (csvIndex < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(csvIndex));
-        }
-
+        _ArgumentOutOfRangeException.ThrowIfNegative(csvIndex, nameof(csvIndex));
         this.CsvIndex = csvIndex;
     }
 
@@ -42,7 +40,6 @@ public sealed class CsvIndexProperty : CsvSingleColumnProperty
     /// The zero-based index of the column in the CSV file that <see cref="CsvIndexProperty"/> would like to access.
     /// </summary>
     public int CsvIndex { get; }
-
 
     /// <inheritdoc/>
     protected override void UpdateReferredCsvIndex()

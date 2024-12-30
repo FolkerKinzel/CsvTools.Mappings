@@ -1,23 +1,30 @@
-﻿using System.Collections.ObjectModel;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Specialization of <see cref="CsvPropertyBase"/> for processing CSV files with header row.
+/// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files with header row.
 /// </summary>
 /// <remarks>
-/// Represents a property that <see cref="CsvRecordMapping"/> implements dynamically at runtime ("late binding"). <see cref="CsvIndexProperty"/> 
+/// <see cref="CsvColumnNameProperty"/> 
 /// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
-/// <see cref="CsvRecord"/> object with its column name.
+/// <see cref="CsvRecord"/> object with its CSV column name.
 /// </remarks>
 public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
 {
     /// <summary>
     /// Maximum time (in milliseconds) that can be used to resolve a column name alias.
     /// </summary>
-    public const int MaxWildcardTimeout = 500;
+    public const int MaxWildcardTimeout = 100;
 
+    /// <summary>
+    /// Ein Hashcode, der für alle <see cref="CsvRecord"/>-Objekte, die zum selben Lese- oder Schreibvorgang
+    /// gehören, identisch ist. (Wird von <see cref="CsvColumnNameProperty"/> verwendet, um festzustellen,
+    /// ob der Zugriffsindex aktuell ist.)
+    /// </summary>
+    private int _csvRecordIdentifier;
     private readonly int _wildcardTimeout;
 
     /// <summary>
@@ -48,20 +55,15 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
                                  int wildcardTimeout = 10)
         : base(propertyName, converter)
     {
-
-        if (columnNameAliases is null)
-        {
-            throw new ArgumentNullException(nameof(columnNameAliases));
-        }
-
-
+        _ArgumentNullException.ThrowIfNull(columnNameAliases, nameof(columnNameAliases));
+        
         if (wildcardTimeout > MaxWildcardTimeout)
         {
             wildcardTimeout = MaxWildcardTimeout;
         }
-        else if (wildcardTimeout < 0)
+        else
         {
-            throw new ArgumentOutOfRangeException(nameof(wildcardTimeout));
+            _ArgumentOutOfRangeException.ThrowIfNegative(wildcardTimeout, nameof(wildcardTimeout));
         }
 
         this.ColumnNameAliases = new ReadOnlyCollection<string>(columnNameAliases.Where(x => x != null).ToArray());
@@ -84,25 +86,19 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
     /// </remarks>
     public ReadOnlyCollection<string> ColumnNameAliases { get; }
 
-    /// <summary>
-    /// Ein Hashcode, der für alle <see cref="CsvRecord"/>-Objekte, die zum selben Lese- oder Schreibvorgang
-    /// gehören, identisch ist. (Wird von <see cref="CsvColumnNameProperty"/> verwendet, um festzustellen,
-    /// ob der Zugriffsindex aktuell ist.)
-    /// </summary>
-    private int CsvRecordIdentifier { get; set; }
-
     /// <inheritdoc/>
     protected override void UpdateReferredCsvIndex()
     {
         Debug.Assert(Record is not null);
-        if (CsvRecordIdentifier != Record.Identifier)
+        if (_csvRecordIdentifier != Record.Identifier)
         {
-            CsvRecordIdentifier = Record.Identifier;
+            _csvRecordIdentifier = Record.Identifier;
             ReferredCsvIndex = GetReferredIndex(); ;
         }
     }
 
     #region private
+
     private int? GetReferredIndex()
     {
         Debug.Assert(Record is not null);

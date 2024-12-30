@@ -3,17 +3,30 @@
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Abstrakte Basisklasse zur Serialisierung und Deserialisierung von Objekten, deren Daten auf mehrere Spalten einer CSV-Datei verteilt sind.
-/// Instanzen, die von dieser Klasse abgeleitet sind, werden von <see cref="CsvMultiColumnProperty"/> benötigt.
+/// Abstract base class for serializing and deserializing objects whose data is distributed 
+/// across multiple columns of a CSV file.
 /// </summary>
+/// <remarks>
+/// Instances derived from this class are required by <see cref="CsvMultiColumnProperty"/>.
+/// </remarks>
 public abstract class CsvMultiColumnTypeConverter
 {
-    protected CsvMultiColumnTypeConverter(CsvRecordMapping wrapper)
+    /// <summary>
+    /// Initializes a new <see cref="CsvMultiColumnTypeConverter"/> instance.
+    /// </summary>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to use to access those columns 
+    /// of the CSV file that are required for the <see cref="Type"/> conversion.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
+    protected CsvMultiColumnTypeConverter(CsvRecordMapping mapping)
     {
-        _ArgumentNullException.ThrowIfNull(wrapper, nameof(wrapper));
-        this.Mapping = wrapper;
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        this.Mapping = mapping;
     }
 
+    /// <summary>
+    /// The <see cref="CsvRecordMapping"/> to use to access those columns 
+    /// of the CSV file that are required for the <see cref="Type"/> conversion.
+    /// </summary>
     public CsvRecordMapping Mapping { get; }
 
     /// <summary>

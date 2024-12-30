@@ -1,56 +1,57 @@
-﻿using System.Diagnostics;
-using FolkerKinzel.CsvTools.TypeConversions.Converters;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordMapping"/> repräsentieren, die dynamisch zur Laufzeit
-/// implementiert wird, und die ihre Daten aus einer einzelnen Spalte der CSV-Datei bezieht.
+/// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>
+/// whose data comes from a single column of the CSV file.
 /// </summary>
 public abstract class CsvSingleColumnProperty : CsvPropertyBase
 {
     /// <summary>
-    /// Initialisiert ein neues <see cref="CsvSingleColumnProperty"/>-Objekt.
+    /// Initializes a new <see cref="CsvSingleColumnProperty"/> instance.
     /// </summary>
-    /// <param name="propertyName">Der Bezeichner unter dem die Eigenschaft angesprochen wird. Er muss den Regeln für C#-Bezeichner
-    /// entsprechen. Es werden nur ASCII-Zeichen akzeptiert.</param>
-    /// <param name="converter">Der <see cref="ICsvTypeConverter"/>, der die Typkonvertierung übernimmt.</param>
+    ///  <param name="propertyName">
+    /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
+    /// Only ASCII characters are accepted.</param>
     /// 
-    /// <exception cref="ArgumentException"><paramref name="propertyName"/> entspricht nicht den Regeln für C#-Bezeichner (nur
-    /// ASCII-Zeichen).</exception>
+    /// <param name="converter">An object that performs the type conversion.</param>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> oder 
-    /// <paramref name="converter"/> ist <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
+    /// for C# identifiers (only ASCII characters).</exception>
+    /// <exception cref="RegexMatchTimeoutException">
+    /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
+    /// </exception>
     protected CsvSingleColumnProperty(string propertyName, ICsvTypeConverter converter) : base(propertyName)
     {
-        if (converter is null)
-        {
-            throw new ArgumentNullException(nameof(converter));
-        }
-
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         this.Converter = converter;
     }
 
     /// <summary>
-    /// Ein <see cref="ICsvTypeConverter"/>-Objekt, das die Typkonvertierung durchführt.
+    /// An object that does the <see cref="Type"/> conversion.
     /// </summary>
     public ICsvTypeConverter Converter { get; }
 
-    /// <summary>
-    /// Das <see cref="CsvRecord"/>-Objekt, über das der Zugriff auf die CSV-Datei erfolgt.
-    /// </summary>
+    /// <inheritdoc/>
     protected internal override CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// Der Index der Spalte der CSV-Datei, auf die <see cref="CsvColumnNameProperty"/> tatsächlich zugreift oder <c>null</c>,
-    /// wenn <see cref="CsvColumnNameProperty"/> kein Ziel in der CSV-Datei findet. Die Eigenschaft wird beim
-    /// ersten Lese- oder Schreibzugriff aktualisiert.
+    /// The index of the column in the CSV file that <see cref="CsvColumnNameProperty"/> actually accesses, 
+    /// or <c>null</c> if <see cref="CsvColumnNameProperty"/> does not find a target in the CSV file.
     /// </summary>
+    /// <remarks>The property is updated on each read or write access.</remarks>
     public int? ReferredCsvIndex { get; protected set; }
 
     /// <summary>
-    /// Wird bei jedem Schreib- oder Lesevorgang aufgerufen, um zu überprüfen, ob <see cref="ReferredCsvIndex"/> noch aktuell ist.
+    /// Updates <see cref="ReferredCsvIndex"/>.
     /// </summary>
+    /// <remarks>
+    /// The method is called on each read or write access to check if <see cref="ReferredCsvIndex"/> is still up to date.
+    /// </remarks>
     protected abstract void UpdateReferredCsvIndex();
 
     /// <inheritdoc/>
