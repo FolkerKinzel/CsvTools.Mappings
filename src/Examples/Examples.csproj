@@ -12,6 +12,10 @@
     <Exec Command="if $(ConfigurationName) == Release if '$(TargetFramework)' == 'net9.0' dotnet $(SolutionDir)IncVersion\IncVersion.dll $(ProjectDir)$(ProjectFileName) --revision" />
   </Target>
   <ItemGroup>
+    <Compile Remove="DisableCachingAndLinq.cs" />
+    <Compile Remove="LinqOnCsvFile.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\FolkerKinzel.CsvTools.TypeConversions\FolkerKinzel.CsvTools.TypeConversions.csproj" />
   </ItemGroup>
 </Project>

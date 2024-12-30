@@ -462,13 +462,13 @@ public class CsvRecordWrapperTests
         ICsvTypeConverter conv = new Int32Converter().AsNullableConverter();
 
         var prop1 =
-            new CsvColumnIndexProperty(prop1Name, 0, conv);
+            new CsvIndexProperty(prop1Name, 0, conv);
 
         var prop2 =
-            new CsvColumnIndexProperty(prop2Name, 1, conv);
+            new CsvIndexProperty(prop2Name, 1, conv);
 
         var prop3 =
-            new CsvColumnIndexProperty(prop3Name, 2, conv);
+            new CsvIndexProperty(prop3Name, 2, conv);
 
         wrapper.AddProperty(prop1);
         wrapper.AddProperty(prop2);
@@ -733,13 +733,13 @@ public class CsvRecordWrapperTests
                                                                                
 
         var prop1 =
-            new CsvColumnIndexProperty(prop1Name, 0, conv);
+            new CsvIndexProperty(prop1Name, 0, conv);
 
         var prop2 =
-            new CsvColumnIndexProperty(prop2Name, 1, conv);
+            new CsvIndexProperty(prop2Name, 1, conv);
 
         var prop3 =
-            new CsvColumnIndexProperty(prop3Name, 2, conv);
+            new CsvIndexProperty(prop3Name, 2, conv);
 
         wrapper.AddProperty(prop1);
         wrapper.AddProperty(prop2);

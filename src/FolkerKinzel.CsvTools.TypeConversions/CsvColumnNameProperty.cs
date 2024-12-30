@@ -7,7 +7,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// Specialization of <see cref="CsvPropertyBase"/> for processing CSV files with header row.
 /// </summary>
 /// <remarks>
-/// Represents a property that <see cref="CsvRecordMapping"/> implements dynamically at runtime ("late binding"). <see cref="CsvColumnIndexProperty"/> 
+/// Represents a property that <see cref="CsvRecordMapping"/> implements dynamically at runtime ("late binding"). <see cref="CsvIndexProperty"/> 
 /// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its column name.
 /// </remarks>
@@ -92,13 +92,13 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
     private int CsvRecordIdentifier { get; set; }
 
     /// <inheritdoc/>
-    protected override void UpdateReferredCsvColumnIndex()
+    protected override void UpdateReferredCsvIndex()
     {
         Debug.Assert(Record is not null);
         if (CsvRecordIdentifier != Record.Identifier)
         {
             CsvRecordIdentifier = Record.Identifier;
-            ReferredCsvColumnIndex = GetReferredIndex(); ;
+            ReferredCsvIndex = GetReferredIndex(); ;
         }
     }
 

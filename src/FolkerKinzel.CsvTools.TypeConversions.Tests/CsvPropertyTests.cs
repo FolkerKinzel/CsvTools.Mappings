@@ -53,7 +53,7 @@ public class CsvPropertyTests
     public void CsvIndexPropertyTest9()
     {
         const string propertyName = "myProp";
-        var prop = new CsvColumnIndexProperty(propertyName, 0, new StringConverter());
+        var prop = new CsvIndexProperty(propertyName, 0, new StringConverter());
 
         Assert.IsNotNull(prop);
         Assert.AreEqual(prop.PropertyName, propertyName);
@@ -62,20 +62,20 @@ public class CsvPropertyTests
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void CsvPropertyTest10() => _ = new CsvColumnIndexProperty("propertyName", -1, new StringConverter());
+    public void CsvPropertyTest10() => _ = new CsvIndexProperty("propertyName", -1, new StringConverter());
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest11() => _ = new CsvColumnIndexProperty(null!, 17, new StringConverter());
+    public void CsvPropertyTest11() => _ = new CsvIndexProperty(null!, 17, new StringConverter());
 
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest12() => _ = new CsvColumnIndexProperty("Prop", 17, null!);
+    public void CsvPropertyTest12() => _ = new CsvIndexProperty("Prop", 17, null!);
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
-    public void CsvPropertyTest13() => _ = new CsvColumnIndexProperty("Ähh", 17, new StringConverter());
+    public void CsvPropertyTest13() => _ = new CsvIndexProperty("Ähh", 17, new StringConverter());
    
 
 

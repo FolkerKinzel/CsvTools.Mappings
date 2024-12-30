@@ -5,25 +5,24 @@ using FolkerKinzel.CsvTools.TypeConversions.Resources;
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordMapping"/> repräsentieren, die dynamisch zur Laufzeit
-/// implementiert wird.
+/// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>.
 /// </summary>
-/// <remarks>
-/// <see cref="CsvPropertyBase"/> kapselt Informationen, die <see cref="CsvRecordMapping"/> benötigt,
-/// um auf die Daten des ihm zugrundeliegenden <see cref="CsvRecord"/>-Objekts zuzugreifen.
-/// </remarks>
 public abstract partial class CsvPropertyBase
 {
     /// <summary>
-    /// Initialisiert ein neues <see cref="CsvPropertyBase"/>-Objekt.
+    /// Initializes a new <see cref="CsvPropertyBase"/> instance.
     /// </summary>
-    /// <param name="propertyName">Der Bezeichner unter dem die Eigenschaft angesprochen wird. Er muss den Regeln für C#-Bezeichner
-    /// entsprechen. Es werden nur ASCII-Zeichen akzeptiert.</param>
+    /// <param name="propertyName">
+    /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
+    /// Only ASCII characters are accepted.</param>
     /// 
-    /// <exception cref="ArgumentException"><paramref name="propertyName"/> entspricht nicht den Regeln für C#-Bezeichner (nur
-    /// ASCII-Zeichen).</exception>
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
+    /// for C# identifiers (only ASCII characters).</exception>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> ist <c>null</c>.
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="RegexMatchTimeoutException">
+    /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
     /// </exception>
     protected CsvPropertyBase(string propertyName)
     {
@@ -42,32 +41,32 @@ public abstract partial class CsvPropertyBase
     }
 
     /// <summary>
-    /// Bezeichner der Eigenschaft
+    /// Identifier of the dynamic property.
     /// </summary>
     public string PropertyName { get; }
 
     /// <summary>
-    /// Das <see cref="CsvRecord"/>-Objekt, über das der Zugriff auf die CSV-Datei erfolgt.
+    /// The <see cref="CsvRecord"/> object used to access the CSV file.
     /// </summary>
     protected internal abstract CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// Extrahiert Daten eines bestimmten Typs aus <see cref="CsvRecord"/>.
+    /// Extracts data of a specific type from <see cref="CsvRecord"/>.
     /// </summary>
-    /// <returns>Die extrahierten Daten.</returns>
+    /// <returns>The extracted data.</returns>
     protected internal abstract object? GetValue();
 
     /// <summary>
-    /// Speichert Daten eines bestimmten Typs in der CSV-Datei./>.
+    /// Stores data of a specific type in the CSV file./>.
     /// </summary>
-    /// <param name="value">Das zu speichernde Objekt.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> entspricht nicht dem erwarteten Datentyp.</exception>
+    /// <param name="value">The data object to be stored.</param>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> does not match the expected data type.</exception>
     protected internal abstract void SetValue(object? value);
 
 #if NET8_0_OR_GREATER
-    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, 500)]
+    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, 100)]
     private static partial Regex PropertyNameRegex();
 #else
-    private static Regex PropertyNameRegex { get; } = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(500));
+    private static Regex PropertyNameRegex { get; } = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
 #endif
 }

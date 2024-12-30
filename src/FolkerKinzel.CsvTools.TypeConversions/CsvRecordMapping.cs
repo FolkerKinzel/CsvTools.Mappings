@@ -34,9 +34,9 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// Because of the <see cref="CsvColumnNameProperty"/> objects access the underlying <see cref="CsvRecord"/> object via the CSV column name, the number and 
 /// order of the <see cref="CsvColumnNameProperty"/> objects registered 
 /// in the <see cref="CsvRecordMapping"/> object don't have to match the column-order of the underlying <see cref="CsvRecord"/> object. 
-/// The same is for <see cref="CsvColumnIndexProperty"/> objects: The number and order of the registered <see cref="CsvColumnIndexProperty"/> objects
-/// is independent of the columns of the underlying <see cref="CsvRecord"/> object because the <see cref="CsvColumnIndexProperty.DesiredCsvColumnIndex"/> 
-/// is stored inside of the <see cref="CsvColumnIndexProperty"/> instances."/>
+/// The same is for <see cref="CsvIndexProperty"/> objects: The number and order of the registered <see cref="CsvIndexProperty"/> objects
+/// is independent of the columns of the underlying <see cref="CsvRecord"/> object because the <see cref="CsvIndexProperty.CsvIndex"/> 
+/// is stored inside of the <see cref="CsvIndexProperty"/> instances."/>
 /// </para>
 /// <para>The order of the registered properties can be influenced at any time with the following methods:</para>
 /// <list type="bullet">

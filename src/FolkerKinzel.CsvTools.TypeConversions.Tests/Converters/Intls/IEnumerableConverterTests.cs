@@ -41,7 +41,7 @@ public class IEnumerableConverterTests
         CsvTypeConverter<IEnumerable<int>?> conv = new Int32Converter().AsIEnumerableConverter();
 
         var wrapper = new CsvRecordMapping();
-        var prop = new CsvColumnIndexProperty("TestProp", 0, conv);
+        var prop = new CsvIndexProperty("TestProp", 0, conv);
         wrapper.AddProperty(prop);
 
         using var writer = new StringWriter();

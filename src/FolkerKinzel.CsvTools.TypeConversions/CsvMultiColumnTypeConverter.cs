@@ -11,19 +11,19 @@ public abstract class CsvMultiColumnTypeConverter
     protected CsvMultiColumnTypeConverter(CsvRecordMapping wrapper)
     {
         _ArgumentNullException.ThrowIfNull(wrapper, nameof(wrapper));
-        this.Wrapper = wrapper;
+        this.Mapping = wrapper;
     }
 
-    public CsvRecordMapping Wrapper { get; }
+    public CsvRecordMapping Mapping { get; }
 
     /// <summary>
-    /// Liest die Daten aus <see cref="Wrapper"/> und versucht, daraus eine Instanz des gewünschten Typs zu erzeugen.
+    /// Liest die Daten aus <see cref="Mapping"/> und versucht, daraus eine Instanz des gewünschten Typs zu erzeugen.
     /// </summary>
     /// <returns>Eine Instanz des gewünschten Typs oder ein beliebiges FallbackValue (z.B. <c>null</c> oder <see cref="DBNull.Value"/>).</returns>
     public abstract object? Create();
 
     /// <summary>
-    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Wrapper"/> in die CSV-Datei.
+    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die CSV-Datei.
     /// </summary>
     /// <param name="value">Das in die CSV-Datei zu schreibende Objekt.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen unerwarteten Datentyp.</exception>

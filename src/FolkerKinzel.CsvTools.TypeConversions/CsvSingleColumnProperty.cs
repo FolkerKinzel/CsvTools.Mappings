@@ -42,26 +42,26 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
     protected internal override CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// Der Index der Spalte der CSV-Datei, auf die <see cref="CsvColumnNameProperty"/> zugreift oder <c>null</c>,
+    /// Der Index der Spalte der CSV-Datei, auf die <see cref="CsvColumnNameProperty"/> tatsächlich zugreift oder <c>null</c>,
     /// wenn <see cref="CsvColumnNameProperty"/> kein Ziel in der CSV-Datei findet. Die Eigenschaft wird beim
     /// ersten Lese- oder Schreibzugriff aktualisiert.
     /// </summary>
-    public int? ReferredCsvColumnIndex { get; protected set; }
+    public int? ReferredCsvIndex { get; protected set; }
 
     /// <summary>
-    /// Wird bei jedem Schreib- oder Lesevorgang aufgerufen, um zu überprüfen, ob <see cref="ReferredCsvColumnIndex"/> noch aktuell ist.
+    /// Wird bei jedem Schreib- oder Lesevorgang aufgerufen, um zu überprüfen, ob <see cref="ReferredCsvIndex"/> noch aktuell ist.
     /// </summary>
-    protected abstract void UpdateReferredCsvColumnIndex();
+    protected abstract void UpdateReferredCsvIndex();
 
     /// <inheritdoc/>
     protected internal override object? GetValue()
     {
         Debug.Assert(Record != null);
-        UpdateReferredCsvColumnIndex();
+        UpdateReferredCsvIndex();
 
         try
         {
-            return ReferredCsvColumnIndex.HasValue ? Converter.Parse(Record.Values[ReferredCsvColumnIndex.Value].Span) : Converter.FallbackValue;
+            return ReferredCsvIndex.HasValue ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span) : Converter.FallbackValue;
         }
         catch (Exception e)
         {
@@ -73,11 +73,11 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
     protected internal override void SetValue(object? value)
     {
         Debug.Assert(Record != null);
-        UpdateReferredCsvColumnIndex();
+        UpdateReferredCsvIndex();
 
-        if (ReferredCsvColumnIndex.HasValue)
+        if (ReferredCsvIndex.HasValue)
         {
-            Record.Values[ReferredCsvColumnIndex.Value]
+            Record.Values[ReferredCsvIndex.Value]
                 = Converter.ConvertToString(value).AsMemory();
         }
     }

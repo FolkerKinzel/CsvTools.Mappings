@@ -23,9 +23,9 @@ public class AccessBenchmark
         _csv = Properties.Resources.Test1;
         ICsvTypeConverter conv = new StringConverter();
         _indexWrapper = new CsvRecordMapping();
-        _indexWrapper.AddProperty(new CsvColumnIndexProperty("Column0", 0, conv));
-        _indexWrapper.AddProperty(new CsvColumnIndexProperty("Column1", 1, conv));
-        _indexWrapper.AddProperty(new CsvColumnIndexProperty("Column2", 2, conv));
+        _indexWrapper.AddProperty(new CsvIndexProperty("Column0", 0, conv));
+        _indexWrapper.AddProperty(new CsvIndexProperty("Column1", 1, conv));
+        _indexWrapper.AddProperty(new CsvIndexProperty("Column2", 2, conv));
 
         _nameWrapper = new CsvRecordMapping();
         _nameWrapper.AddProperty(new CsvColumnNameProperty("Column0", new string[] { "Column0" }, conv));

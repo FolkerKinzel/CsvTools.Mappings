@@ -1,24 +1,27 @@
 ﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
 /// <summary>
-/// Abstrakte Basisklasse für Klassen, die eine Eigenschaft von <see cref="CsvRecordMapping"/> repräsentieren, die dynamisch zur Laufzeit
-/// implementiert wird, und deren Daten aus verschiedenen Spalten der CSV-Datei stammen.
+/// Abstract base class for classes representing a dynamic property of <see cref="CsvRecordMapping"/> 
+/// whose data comes from multiple columns of the CSV file.
 /// </summary>
 public class CsvMultiColumnProperty : CsvPropertyBase
 {
     /// <summary>
-    /// Initialisiert ein neues <see cref="CsvMultiColumnProperty"/>-Objekt.
+    /// Initializes a new <see cref="CsvMultiColumnProperty"/> instance.
     /// </summary>
-    /// <param name="propertyName">Der Bezeichner unter dem die Eigenschaft angesprochen wird. Er muss den Regeln für C#-Bezeichner
-    /// entsprechen. Es werden nur ASCII-Zeichen akzeptiert.</param>
-    /// <param name="converter">Ein von <see cref="CsvMultiColumnTypeConverter"/> abgeleitetes Objekt, das die Typkonvertierung durchführt.</param>
+    /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
+    /// Only ASCII characters are accepted.</param>
+    /// <param name="converter">An object derived from <see cref="CsvMultiColumnTypeConverter"/> that performs the type conversion.</param>
     /// 
-    /// <exception cref="ArgumentException"><paramref name="propertyName"/> entspricht nicht den Regeln für C#-Bezeichner (nur
-    /// ASCII-Zeichen).</exception>
-    /// 
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> oder <paramref name="converter"/> ist <c>null</c>.
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
+    /// for C# identifiers (only ASCII characters).</exception>
+    /// <exception cref="RegexMatchTimeoutException">
+    /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
     /// </exception>
     public CsvMultiColumnProperty(string propertyName, CsvMultiColumnTypeConverter converter) : base(propertyName)
     {
@@ -27,14 +30,12 @@ public class CsvMultiColumnProperty : CsvPropertyBase
     }
 
     /// <summary>
-    /// Ein von <see cref="CsvMultiColumnTypeConverter"/> abgeleitetes Objekt, das die Typkonvertierung durchführt.
+    /// An object derived from <see cref="CsvMultiColumnTypeConverter"/> that performs the type conversion.
     /// </summary>
     public CsvMultiColumnTypeConverter Converter { get; }
 
-    /// <summary>
-    /// Das <see cref="CsvRecord"/>-Objekt, über das der Zugriff auf die CSV-Datei erfolgt.
-    /// </summary>
-    protected internal override CsvRecord? Record { get => Converter.Wrapper.Record; internal set => Converter.Wrapper.Record = value; }
+    /// <inheritdoc/>
+    protected internal override CsvRecord? Record { get => Converter.Mapping.Record; internal set => Converter.Mapping.Record = value; }
 
     /// <inheritdoc/>
     protected internal override object? GetValue() => Converter.Create();
