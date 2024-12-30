@@ -17,7 +17,7 @@ public sealed class SingleConverter(bool throwing = true, IFormatProvider? forma
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(float value) 
+    public override string? ConvertToString(float value) 
         => value.ToString(FORMAT, _formatProvider);
 
     /// <inheritdoc/>

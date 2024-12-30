@@ -12,7 +12,7 @@ public sealed class ByteArrayConverter(bool throwing = true, bool nullable = tru
     public override bool AcceptsNull => true;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(byte[]? value)
+    public override string? ConvertToString(byte[]? value)
         => value is null 
               ? null 
               : Convert.ToBase64String(value, Base64FormattingOptions.None);

@@ -30,7 +30,7 @@ public sealed class UInt32Converter(bool throwing = true, IFormatProvider? forma
     }
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(uint value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(uint value) => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out uint result)

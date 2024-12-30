@@ -57,7 +57,7 @@ public sealed class DateTimeOffsetConverter : CsvTypeConverter<DateTimeOffset>
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(DateTimeOffset value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(DateTimeOffset value) => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out DateTimeOffset result)

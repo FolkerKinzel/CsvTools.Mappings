@@ -38,24 +38,24 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
     /// <inheritdoc/>
     public abstract bool AcceptsNull { get; }
 
-    /// <summary>
-    /// Converts a <typeparamref name="T"/> value to a <see cref="string"/>
-    /// or <c>null</c>.
-    /// </summary>
-    /// <param name="value">The value to convert.</param>
-    /// <returns>A <see cref="string"/> or <c>null</c>.</returns>
-    /// <remarks>
-    /// Implement this method in derived classes to determine the behavior of
-    /// <see cref="ConvertToString(T?)"/> and <see cref="ConvertToString(T?)"/>.
-    /// </remarks>
-    protected abstract string? DoConvertToString(T value);
+    ///// <summary>
+    ///// Converts a <typeparamref name="T"/> value to a <see cref="string"/>
+    ///// or <c>null</c>.
+    ///// </summary>
+    ///// <param name="value">The value to convert.</param>
+    ///// <returns>A <see cref="string"/> or <c>null</c>.</returns>
+    ///// <remarks>
+    ///// Implement this method in derived classes to determine the behavior of
+    ///// <see cref="ConvertToString(T?)"/> and <see cref="ConvertToString(T?)"/>.
+    ///// </remarks>
+    //protected abstract string? DoConvertToString(T value);
 
     /// <summary>
     /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
-    /// <returns>A <see cref="string"/> that represents <paramref name="value"/>.</returns>
-    public string? ConvertToString(T? value) => value is null ? null : DoConvertToString(value);
+    /// <returns>A <see cref="string"/> that represents <paramref name="value"/> or <c>null</c>.</returns>
+    public abstract string? ConvertToString(T value);
 
     /// <summary>
     /// Returns a <see cref="bool"/> value indicating whether the 

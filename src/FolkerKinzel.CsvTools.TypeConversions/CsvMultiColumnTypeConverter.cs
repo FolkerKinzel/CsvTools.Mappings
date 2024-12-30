@@ -7,29 +7,30 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// across multiple columns of a CSV file.
 /// </summary>
 /// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
+/// 
+/// <param name="mapping">The <see cref="CsvRecordMapping"/> to use to access those columns 
+/// of the CSV file that are required for the <see cref="Type"/> conversion.</param>
+/// <param name="throwsOnParseErrors">Sets the value of the 
+/// <see cref="Throwing"/> property.</param>
+/// <param name="fallbackValue">
+/// The <see cref="FallbackValue"/> to return when a parsing error occurs and
+/// the <see cref="Throwing"/> property is <c>false</c>.
+/// </param>
 /// <remarks>
 /// Instances derived from this class are required by <see cref="CsvMultiColumnProperty{T}"/>.
 /// </remarks>
 /// <seealso cref="CsvMultiColumnProperty{T}"/>
-public abstract class CsvMultiColumnTypeConverter<T>
+/// 
+/// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
+public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
+                                                     bool throwsOnParseErrors,
+                                                     T? fallbackValue = default)
 {
-    /// <summary>
-    /// Initializes a new <see cref="CsvMultiColumnTypeConverter{T}"/> instance.
-    /// </summary>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to use to access those columns 
-    /// of the CSV file that are required for the <see cref="Type"/> conversion.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
-    protected CsvMultiColumnTypeConverter(CsvRecordMapping mapping)
-    {
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        this.Mapping = mapping;
-    }
-
     /// <summary>
     /// The <see cref="CsvRecordMapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.
     /// </summary>
-    public CsvRecordMapping Mapping { get; }
+    public CsvRecordMapping Mapping { get; } = mapping ?? throw new ArgumentNullException(nameof(mapping));
 
     /// <summary>
     /// Gets a value indicating whether the converter accepts 
@@ -48,13 +49,13 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// <value><c>true</c> if the converter throws a 
     /// <see cref="FormatException"/> on parsing errors,
     /// <c>false</c> otherwise.</value>
-    public bool Throwing { get; }
+    public bool Throwing { get; } = throwsOnParseErrors;
 
     /// <summary>
     /// Gets the value to return when a parsing error occurs and
     /// the <see cref="Throwing"/> property is <c>false</c>.
     /// </summary>
-    public T? FallbackValue { get; }
+    public T? FallbackValue { get; } = fallbackValue;
 
     /// <summary>
     /// Returns a <see cref="bool"/> value indicating whether the 
@@ -82,7 +83,7 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// that a converter in <see cref="Mapping"/> might throw.
     /// </note>
     /// </remarks>
-    public abstract bool TryConvertMapping(out T result);
+    protected abstract bool TryConvertMapping(out T result);
 
     /// <summary>
     /// Converts several <see cref="CsvPropertyBase"/> instances in <see cref="Mapping"/> to a 
@@ -112,38 +113,11 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// <summary>
     /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die ausgewählten Felder von
     /// <see cref="CsvRecord"/>.
+    /// Writes <paramref name="value"/> to several properties of <see cref="Mapping"/>.
     /// </summary>
-    /// <param name="value">Das in die ausgewählten Felder von <see cref="CsvRecord"/> zu schreibende Objekt.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen inkompatiblen Datentyp.</exception>
-    public void ConvertToCsv(object? value)
-    {
-        if (value is T t)
-        {
-            DoConvertToCsv(t);
-        }
-        else if (value is null)
-        {
-            if (AcceptsNull)
-            {
-                DoConvertToCsv((T?)value);
-            }
-            else
-            {
-                throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)));
-            }
-        }
-        else
-        {
-            throw new InvalidCastException("Assignment of an incompliant Type.");
-        }
-    }
-
-    /// <summary>
-    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die ausgewählten Felder von
-    /// <see cref="CsvRecord"/>.
-    /// </summary>
-    /// <param name="value">Das in die ausgewählten Felder von <see cref="CsvRecord"/> zu schreibende Objekt.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen inkompatiblen Datentyp.</exception>
+    /// <param name="value">The value to convert.</param>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AcceptsNull"/>
+    /// is <c>false</c>.</exception>
     public void ConvertToCsv(T? value)
     {
         if (value is null && !AcceptsNull)
@@ -153,4 +127,33 @@ public abstract class CsvMultiColumnTypeConverter<T>
 
         DoConvertToCsv((T?)value);
     }
+
+    /// <summary>
+    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die ausgewählten Felder von
+    /// <see cref="CsvRecord"/>.
+    /// </summary>
+    /// <param name="value">Das in die ausgewählten Felder von <see cref="CsvRecord"/> zu schreibende Objekt.</param>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen inkompatiblen Datentyp.</exception>
+    public void ConvertToCsv(object? value) => ConvertToCsv((T?)value);
+    //{
+    //    if (value is T t)
+    //    {
+    //        DoConvertToCsv(t);
+    //    }
+    //    else if (value is null)
+    //    {
+    //        if (AcceptsNull)
+    //        {
+    //            DoConvertToCsv((T?)value);
+    //        }
+    //        else
+    //        {
+    //            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)));
+    //        }
+    //    }
+    //    else
+    //    {
+    //        throw new InvalidCastException("Assignment of an incompliant Type.");
+    //    }
+    //}
 }

@@ -13,7 +13,7 @@ public sealed class StringConverter(bool nullable = true)
     public override bool AcceptsNull => true;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(string? value) => value;
+    public override string? ConvertToString(string? value) => value;
 
     /// <inheritdoc/>
     protected override bool CsvHasValue(ReadOnlySpan<char> csvInput) => !csvInput.IsEmpty;

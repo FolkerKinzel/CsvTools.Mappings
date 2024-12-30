@@ -29,7 +29,7 @@ public sealed class Int16Converter(bool throwing = true, IFormatProvider? format
     }
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(short value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(short value) => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out short result)

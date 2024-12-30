@@ -10,7 +10,7 @@ public sealed class CharConverter(bool throwing = true, char fallbackValue = def
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(char value) => value.ToString();
+    public override string? ConvertToString(char value) => value.ToString();
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out char result)

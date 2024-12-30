@@ -29,7 +29,7 @@ public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatP
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(byte value) 
+    public override string? ConvertToString(byte value) 
         => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>

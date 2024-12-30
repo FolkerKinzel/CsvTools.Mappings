@@ -17,7 +17,7 @@ public sealed class DoubleConverter(bool throwing = true, IFormatProvider? forma
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(double value) => value.ToString(FORMAT, _formatProvider);
+    public override string? ConvertToString(double value) => value.ToString(FORMAT, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out double result)

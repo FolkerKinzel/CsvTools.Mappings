@@ -30,7 +30,7 @@ public sealed class UInt16Converter(bool throwing = true, IFormatProvider? forma
     }
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(ushort value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(ushort value) => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out ushort result)

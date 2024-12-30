@@ -17,7 +17,7 @@ public sealed class DecimalConverter(bool throwing = true, IFormatProvider? form
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(decimal value) => value.ToString(FORMAT, _formatProvider);
+    public override string? ConvertToString(decimal value) => value.ToString(FORMAT, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out decimal result)

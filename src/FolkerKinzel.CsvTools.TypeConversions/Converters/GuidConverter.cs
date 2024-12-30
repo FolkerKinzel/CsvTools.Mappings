@@ -24,7 +24,7 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(Guid value) => value.ToString(_format, CultureInfo.InvariantCulture);
+    public override string? ConvertToString(Guid value) => value.ToString(_format, CultureInfo.InvariantCulture);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out Guid result)

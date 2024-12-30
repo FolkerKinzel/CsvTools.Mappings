@@ -50,12 +50,6 @@ public abstract partial class CsvPropertyBase
     /// </summary>
     protected internal abstract CsvRecord? Record { get; internal set; }
 
-    //public virtual object? Value
-    //{
-    //    get => GetValue();
-    //    set => SetValue(value);
-    //}
-
     /// <summary>
     /// Extracts data of a specific type from <see cref="CsvRecord"/>.
     /// </summary>

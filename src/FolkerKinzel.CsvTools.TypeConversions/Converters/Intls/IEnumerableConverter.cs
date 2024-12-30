@@ -16,7 +16,7 @@ internal sealed class IEnumerableConverter<TItem> : CsvTypeConverter<IEnumerable
         _separatorChar = fieldSeparator;
     }
 
-    protected override string? DoConvertToString(IEnumerable<TItem?>? value)
+    public override string? ConvertToString(IEnumerable<TItem?>? value)
     {
         if (value is null || !value.Any())
         {

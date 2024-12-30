@@ -60,7 +60,7 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(TimeSpan value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(TimeSpan value) => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out TimeSpan result)

@@ -76,11 +76,13 @@ public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
 
         try
         {
-            return ReferredCsvIndex.HasValue ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span) : Converter.FallbackValue;
+            return ReferredCsvIndex.HasValue 
+                ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span) 
+                : Converter.FallbackValue;
         }
         catch (Exception e)
         {
-            throw new InvalidCastException(e.Message, e);
+            throw new FormatException(e.Message, e);
         }
     }
 
@@ -88,11 +90,9 @@ public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
     {
         Debug.Assert(Record != null);
 
-        string? val = value is T t
-            ? Converter.ConvertToString(t)
-            : value is null
+        string? val = value is null
                 ? Converter.AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)))
-                : throw new InvalidCastException("Assignment of an incompliant Type.");
+                : Converter.ConvertToString(value);
 
         UpdateReferredCsvIndex();
 

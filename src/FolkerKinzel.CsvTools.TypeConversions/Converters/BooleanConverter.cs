@@ -11,7 +11,7 @@ public sealed class BooleanConverter(bool throwing = true, bool fallbackValue = 
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(bool value) => value.ToString();
+    public override string? ConvertToString(bool value) => value.ToString();
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out bool result)

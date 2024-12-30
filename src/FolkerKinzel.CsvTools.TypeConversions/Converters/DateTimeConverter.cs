@@ -64,7 +64,7 @@ public sealed class DateTimeConverter : CsvTypeConverter<DateTime>
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(DateTime value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(DateTime value) => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out DateTime result)

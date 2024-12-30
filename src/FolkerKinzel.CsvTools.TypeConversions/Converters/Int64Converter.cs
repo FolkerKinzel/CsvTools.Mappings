@@ -29,7 +29,7 @@ public sealed class Int64Converter(bool throwing = true, IFormatProvider? format
     }
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(long value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(long value) => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out long result)

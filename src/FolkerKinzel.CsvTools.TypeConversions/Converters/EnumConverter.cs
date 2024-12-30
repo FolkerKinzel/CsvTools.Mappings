@@ -55,7 +55,7 @@ public sealed class EnumConverter<TEnum> : CsvTypeConverter<TEnum> where TEnum :
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    protected override string? DoConvertToString(TEnum value) => value.ToString(Format);
+    public override string? ConvertToString(TEnum value) => value.ToString(Format);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out TEnum result)
