@@ -61,8 +61,8 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// </para>
 /// For writing it is sufficient to assign the <see cref="CsvRecord"/> instance to the <see cref="CsvRecordMapping"/> object only once, because 
 /// the same <see cref="CsvRecord"/> instance is always used. For reading the current <see cref="CsvRecord"/> instance has to be assigned with
-/// every iteration. An exception is when a CSV file is read with the 
-/// <see cref="CsvOpts.EnableCaching"/> option unset: then the <see cref="CsvRecord"/> object is the same for each iteration.
+/// every iteration. An exception is when a CSV file is read with the <see cref="CsvOpts.DisableCaching"/> flag: then the <see cref="CsvRecord"/>
+/// object is the same for each iteration.
 /// <para>
 /// If <see cref="CsvMultiColumnProperty"/> objects are inserted into <see cref="CsvRecordMapping"/>, the <see cref="CsvRecordMapping"/> instances 
 /// of their <see cref="CsvMultiColumnTypeConverter"/> will automatically get the current <see cref="CsvRecord"/> instance via the parent 

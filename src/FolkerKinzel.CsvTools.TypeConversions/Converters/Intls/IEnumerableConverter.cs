@@ -52,7 +52,7 @@ internal sealed class IEnumerableConverter<TItem> : CsvTypeConverter<IEnumerable
 
         if (record is null || record.Count == 0)
         {
-            result = list!;
+            result = list;
             return true;
         }
 
