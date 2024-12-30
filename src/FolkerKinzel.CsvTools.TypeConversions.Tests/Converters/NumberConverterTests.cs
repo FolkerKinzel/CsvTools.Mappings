@@ -8,7 +8,7 @@ public class NumberConverterTests
     [TestMethod]
     public void NumberConverterTest1()
     {
-        ICsvTypeConverter conv = new DoubleConverter();
+        var conv = new DoubleConverter();
         Assert.IsNotNull(conv);
     }
 

@@ -10,7 +10,7 @@ public class ByteArrayConverterTests
     [TestMethod()]
     public void Base64ConverterTest1()
     {
-        ICsvTypeConverter conv = new ByteArrayConverter();
+        var conv = new ByteArrayConverter();
         Assert.IsNotNull(conv);
     }
 

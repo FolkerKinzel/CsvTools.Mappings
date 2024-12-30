@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="TimeSpan"/>.
+/// </summary>
 public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
 {
     private const string DEFAULT_FORMAT = "g";

@@ -20,12 +20,11 @@ public class EnumConverterTests
     //    Assert.IsInstanceOfType(conv, typeof(EnumConverter2<CsvTypeCode>));
     //}
 
-
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
     public void EnumConverterTest3()
     {
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "bla");
+        var conv = new EnumConverter<TypeCode>(format: "bla");
         Assert.IsInstanceOfType<EnumConverter<TypeCode>>(conv);
     }
 
@@ -105,7 +104,6 @@ public class EnumConverterTests
         Assert.AreEqual(val, val2);
     }
 
-
     [TestMethod]
     [ExpectedException(typeof(FormatException))]
     public void RoundtripTest5()
@@ -116,7 +114,6 @@ public class EnumConverterTests
 
         _ = (TypeCode?)conv.Parse(s.AsSpan());
     }
-
 
     [TestMethod]
     [ExpectedException(typeof(FormatException))]
@@ -133,7 +130,6 @@ public class EnumConverterTests
         _ = (TypeCode?)conv.Parse(s.AsSpan());
     }
 
-
     [DataTestMethod]
     [DataRow(false, false)]
     [DataRow(false, true)]
@@ -143,14 +139,15 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        var conv = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter();
+        CsvTypeConverter<TypeCode?> conv 
+            = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase)
+             .AsNullableConverter();
 
         string? s = conv.ConvertToString(val);
         Assert.IsNull(s);
 
         Assert.IsNull(conv.Parse(s.AsSpan()));
     }
-
 
     [DataTestMethod]
     [DataRow(false, false)]
@@ -161,7 +158,9 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        var conv = new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter();
+        CsvTypeConverter<TypeCode?> conv 
+            = new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase)
+              .AsNullableConverter();
 
         string? s = conv.ConvertToString(val);
         Assert.IsNull(s);
@@ -190,7 +189,6 @@ public class EnumConverterTests
         Assert.IsTrue(Convert.IsDBNull(conv.Parse(s.AsSpan())));
     }
 
-
     [DataTestMethod]
     [DataRow(false, false, false)]
     [DataRow(false, true, false)]
@@ -210,5 +208,4 @@ public class EnumConverterTests
 
         Assert.IsTrue(Convert.IsDBNull(conv.Parse(s.AsSpan())));
     }
-
 }

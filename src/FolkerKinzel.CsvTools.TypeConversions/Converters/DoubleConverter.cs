@@ -2,15 +2,16 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class DoubleConverter : CsvTypeConverter<double>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="double"/>.
+/// </summary>
+public sealed class DoubleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
+    : CsvTypeConverter<double>(throwing)
 {
-    private readonly IFormatProvider? _formatProvider;
+    private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     private const string FORMAT = "G17";
     private const NumberStyles STYLE = NumberStyles.Any;
-
-    public DoubleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-        : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

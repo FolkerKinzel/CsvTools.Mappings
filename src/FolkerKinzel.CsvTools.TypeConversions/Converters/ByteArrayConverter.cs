@@ -2,11 +2,12 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class ByteArrayConverter : CsvTypeConverter<byte[]?>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="byte"/> arrays.
+/// </summary>
+public sealed class ByteArrayConverter(bool throwing = true, bool nullable = true) 
+    : CsvTypeConverter<byte[]?>(throwing, nullable ? null : [])
 {
-    public ByteArrayConverter(bool throwing = true, bool nullable = true)
-        : base(throwing, nullable ? null : Array.Empty<byte>()) { }
-
     /// <inheritdoc/>
     public override bool AcceptsNull => true;
 

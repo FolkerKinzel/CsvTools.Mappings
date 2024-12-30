@@ -34,16 +34,16 @@ public static class CsvTypeConverterExtension
 
 
 
-    internal static ICsvTypeConverter HandleNullableAndDBNullAcceptance<T>(this CsvTypeConverter<T> converter, bool nullable, bool dbNullEnabled) where T : struct
-    {
-        if (nullable)
-        {
-            CsvTypeConverter<T?> nullableConv = converter.AsNullableConverter();
+    //internal static ICsvTypeConverter HandleNullableAndDBNullAcceptance<T>(this CsvTypeConverter<T> converter, bool nullable, bool dbNullEnabled) where T : struct
+    //{
+    //    if (nullable)
+    //    {
+    //        CsvTypeConverter<T?> nullableConv = converter.AsNullableConverter();
 
-            return dbNullEnabled ? nullableConv.AsDBNullEnabled() : nullableConv;
-        }
+    //        return dbNullEnabled ? nullableConv.AsDBNullEnabled() : nullableConv;
+    //    }
 
-        return dbNullEnabled ? converter.AsDBNullEnabled() : converter;
-    }
+    //    return dbNullEnabled ? converter.AsDBNullEnabled() : converter;
+    //}
     
 }

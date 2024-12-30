@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters;
+using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 using FolkerKinzel.CsvTools.TypeConversions.Intls.Extensions;
 using FolkerKinzel.CsvTools.TypeConversions.Resources;
 using System.Collections;
@@ -155,12 +156,13 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// 
     /// <exception cref="InvalidCastException">
     /// <para>
-    /// An object was assigned to an <paramref name="index"/> whose data type does not match the data type of the property that is registered to this <paramref name="index"/>, 
+    /// An object was assigned to an <paramref name="index"/> whose data type does not match the data type of the property that is 
+    /// registered to this <paramref name="index"/>, 
     /// </para>
     /// <para>- or -</para>
     /// <para>
     /// the return value of the indexed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// <see cref="ICsvTypeConverter"/> of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
     /// in this case.
     /// </para>
     /// </exception>
@@ -211,7 +213,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// <para>- or -</para>
     /// <para>
     /// the return value of the accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// <see cref="ICsvTypeConverter"/> of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
     /// in this case.
     /// </para>
     /// </exception>
@@ -447,9 +449,9 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> ist <c>null</c>. (Das kann nur passieren,
     /// wenn die Methode direkt aus eigenem Code aufgerufen wird.)</exception>
     /// 
-    /// <exception cref="InvalidCastException">
+    /// <exception cref="FormatException">
     /// The return value of the accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// <see cref="ICsvTypeConverter"/> of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="FormatException"/>
     /// in this case.
     /// </exception>
     /// 
@@ -541,9 +543,9 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// 
     /// <returns>An <see cref="IEnumerator{T}">IEnumerator&lt;KeyValuePair&lt;string, object?&gt;&gt;</see>.</returns>
     /// 
-    /// <exception cref="InvalidCastException">
+    /// <exception cref="FormatException">
     /// The return value of an accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// <see cref="ICsvTypeConverter"/> of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="FormatException"/>
     /// in this case.
     /// </exception>
     /// 
@@ -568,9 +570,9 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </summary>
     /// <returns>An <see cref="IEnumerator"/>.</returns>
     /// 
-    /// <exception cref="InvalidCastException">
+    /// <exception cref="FormatException">
     /// The return value of an accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// <see cref="ICsvTypeConverter"/> of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="FormatException"/>
     /// in this case.
     /// </exception>
     /// 

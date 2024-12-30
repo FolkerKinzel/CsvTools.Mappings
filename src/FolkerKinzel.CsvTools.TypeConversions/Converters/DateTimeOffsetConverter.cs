@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="DateTimeOffset"/>.
+/// </summary>
 public sealed class DateTimeOffsetConverter : CsvTypeConverter<DateTimeOffset>
 {
     private readonly IFormatProvider _formatProvider;

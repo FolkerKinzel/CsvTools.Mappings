@@ -9,7 +9,7 @@ public class HexConverterTests
     [TestMethod()]
     public void HexConverterTest1()
     {
-        ICsvTypeConverter conv = new Int32Converter().AsHexConverter();
+        CsvTypeConverter<int> conv = new Int32Converter().AsHexConverter();
         Assert.IsNotNull(conv);
     }
 
@@ -35,7 +35,6 @@ public class HexConverterTests
 
 
     [TestMethod]
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "<Pending>")]
     public void RoundtripTest2()
     {
         int i = 123456789;

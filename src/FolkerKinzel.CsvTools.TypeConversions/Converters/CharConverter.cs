@@ -1,10 +1,11 @@
 ﻿namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class CharConverter : CsvTypeConverter<char>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="char"/>.
+/// </summary>
+public sealed class CharConverter(bool throwing = true, char fallbackValue = default) 
+    : CsvTypeConverter<char>(throwing, fallbackValue)
 {
-    public CharConverter(bool throwing = true, char fallbackValue = default)
-        : base(throwing, fallbackValue) { }
-
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
@@ -23,5 +24,4 @@ public sealed class CharConverter : CsvTypeConverter<char>
         result = default;
         return false;
     }
-
 }

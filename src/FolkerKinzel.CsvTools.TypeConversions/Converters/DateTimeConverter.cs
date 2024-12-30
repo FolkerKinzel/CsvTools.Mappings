@@ -4,6 +4,9 @@ using System.Runtime.CompilerServices;
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="DateTime"/>.
+/// </summary>
 public sealed class DateTimeConverter : CsvTypeConverter<DateTime>
 {
     private const string DEFAULT_FORMAT = "s";

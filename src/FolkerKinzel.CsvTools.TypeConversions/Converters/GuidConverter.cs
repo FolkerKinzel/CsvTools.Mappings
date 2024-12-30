@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="Guid"/>.
+/// </summary>
 public sealed class GuidConverter : CsvTypeConverter<Guid>
 {
     private readonly string _format;

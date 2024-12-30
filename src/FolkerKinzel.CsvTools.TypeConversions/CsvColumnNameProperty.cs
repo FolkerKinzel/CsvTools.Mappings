@@ -37,7 +37,7 @@ public sealed class CsvColumnNameProperty<T> : CsvSingleColumnProperty<T>
     /// Column names of the CSV file that <see cref="CsvColumnNameProperty{T}"/> can access. For the access <see cref="CsvColumnNameProperty{T}"/> 
     /// uses the first alias that is a match with a column name of the CSV file. The alias strings may contain the wildcard characters * and ?. 
     /// If a wildcard alias matches several columns in the CSV file, the column with the lowest index is referenced.</param>
-    /// <param name="converter">The <see cref="ICsvTypeConverter"/> that does the type conversion.</param>
+    /// <param name="converter">The <see cref="CsvTypeConverter{T}"/> that does the type conversion.</param>
     /// <param name="wildcardTimeout">
     /// Timeout value in milliseconds or 0, for <see cref="Regex.InfiniteMatchTimeout"/>. If the value is greater than <see cref="MaxWildcardTimeout"/>
     /// it is normalized to this value. If an alias in <paramref name="columnNameAliases"/> contains wildcard characters, inside this timeout the program 

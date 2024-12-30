@@ -2,19 +2,20 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class ByteConverter : CsvTypeConverter<byte>, IHexConverter<byte>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="byte"/>.
+/// </summary>
+public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatProvider = null)
+    : CsvTypeConverter<byte>(throwing), IHexConverter<byte>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
     private const string HEX_FORMAT = "X";
     private const string? DEFAULT_FORMAT = null;
 
-    private readonly IFormatProvider? _formatProvider;
+    private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
     private  NumberStyles _styles = DEFAULT_STYLE;
     private  string? _format = DEFAULT_FORMAT;
-
-    public ByteConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-        : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <inheritdoc/>
     public CsvTypeConverter<byte> AsHexConverter()

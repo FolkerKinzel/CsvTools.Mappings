@@ -2,15 +2,16 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class DecimalConverter : CsvTypeConverter<decimal>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="decimal"/>.
+/// </summary>
+public sealed class DecimalConverter(bool throwing = true, IFormatProvider? formatProvider = null)
+    : CsvTypeConverter<decimal>(throwing)
 {
-    private readonly IFormatProvider? _formatProvider;
+    private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     private const string FORMAT = "G";
     private const NumberStyles STYLE = NumberStyles.Any;
-
-    public DecimalConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-        : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

@@ -2,26 +2,28 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="sbyte"/>.
+/// </summary>
 [CLSCompliant(false)]
-public sealed class SByteConverter : CsvTypeConverter<sbyte>
+public sealed class SByteConverter(bool throwing = true, IFormatProvider? formatProvider = null) 
+    : CsvTypeConverter<sbyte>(throwing), IHexConverter<sbyte>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
     private const string HEX_FORMAT = "X";
 
-    private readonly IFormatProvider? _formatProvider;
+    private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
     private NumberStyles _styles = DEFAULT_STYLE;
     private string? _format = DEFAULT_FORMAT;
     
     private const string? DEFAULT_FORMAT = null;
 
-    public SByteConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-        : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
-    public SByteConverter AsHexConverter()
+    /// <inheritdoc/>
+    public CsvTypeConverter<sbyte> AsHexConverter()
     {
         _styles = HEX_STYLE;
         _format = HEX_FORMAT;

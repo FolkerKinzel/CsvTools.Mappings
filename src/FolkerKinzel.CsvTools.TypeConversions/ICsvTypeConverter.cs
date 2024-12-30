@@ -37,11 +37,11 @@ public interface ICsvTypeConverter
     /// <c>false</c> otherwise.</value>
     bool Throwing { get; }
 
-    /// <summary>
-    /// Gets the value to return when a parsing error occurs and
-    /// the <see cref="Throwing"/> property is <c>false</c>.
-    /// </summary>
-    object? FallbackValue { get; }
+    ///// <summary>
+    ///// Gets the value to return when a parsing error occurs and
+    ///// the <see cref="Throwing"/> property is <c>false</c>.
+    ///// </summary>
+    //object? FallbackValue { get; }
 
     /// <summary>
     /// Gets a value indicating whether the converter accepts 

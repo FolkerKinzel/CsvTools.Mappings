@@ -2,15 +2,16 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class SingleConverter : CsvTypeConverter<float>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="float"/>.
+/// </summary>
+public sealed class SingleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
+    : CsvTypeConverter<float>(throwing)
 {
-    private readonly IFormatProvider? _formatProvider;
+    private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     private const string FORMAT = "G9";
     private const NumberStyles STYLE = NumberStyles.Any;
-
-    public SingleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-        : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

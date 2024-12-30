@@ -2,20 +2,21 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="ushort"/>.
+/// </summary>
 [CLSCompliant(false)]
-public sealed class UInt16Converter : CsvTypeConverter<ushort>, IHexConverter<ushort>
+public sealed class UInt16Converter(bool throwing = true, IFormatProvider? formatProvider = null) 
+    : CsvTypeConverter<ushort>(throwing), IHexConverter<ushort>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
     private const string HEX_FORMAT = "X";
     private const string? DEFAULT_FORMAT = null;
 
-    private readonly IFormatProvider? _formatProvider;
+    private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
     private NumberStyles _styles = DEFAULT_STYLE;
     private string? _format = DEFAULT_FORMAT;
-
-    public UInt16Converter(bool throwing = true, IFormatProvider? formatProvider = null)
-        : base(throwing) => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

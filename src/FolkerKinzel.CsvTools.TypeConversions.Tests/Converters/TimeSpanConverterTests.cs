@@ -10,7 +10,7 @@ public class TimeSpanConverterTests
     [TestMethod()]
     public void TimeSpanConverterTest1()
     {
-        ICsvTypeConverter conv = new TimeSpanConverter();
+        var conv = new TimeSpanConverter();
         Assert.IsNotNull(conv);
     }
 

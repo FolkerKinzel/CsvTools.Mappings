@@ -21,8 +21,8 @@ public sealed class CsvIndexProperty<T> : CsvSingleColumnProperty<T>
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
     /// If this index doesn't exist, the <see cref="CsvIndexProperty{T}"/> is ignored 
-    /// when writing. When reading, in this case, <see cref="ICsvTypeConverter.FallbackValue"/> is returned.</param>
-    /// <param name="converter">The <see cref="ICsvTypeConverter"/> that does the type conversion.</param>
+    /// when writing. When reading, in this case, <see cref="CsvTypeConverter{T}.FallbackValue"/> is returned.</param>
+    /// <param name="converter">The <see cref="CsvTypeConverter{T}"/> that does the type conversion.</param>
     /// 
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# identifiers (only ASCII characters).</exception>
     /// 

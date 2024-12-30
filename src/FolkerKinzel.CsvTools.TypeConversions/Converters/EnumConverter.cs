@@ -1,5 +1,8 @@
 ﻿namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
+/// <summary>
+/// Generic <see cref="CsvTypeConverter{T}"/> implementation for <c>enum</c> types.
+/// </summary>
 public sealed class EnumConverter<TEnum> : CsvTypeConverter<TEnum> where TEnum : struct, Enum
 {
     private const string DEFAULT_FORMAT = "D";

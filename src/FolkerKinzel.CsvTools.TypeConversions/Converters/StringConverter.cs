@@ -2,9 +2,12 @@
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class StringConverter : CsvTypeConverter<string?>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="string"/>.
+/// </summary>
+public sealed class StringConverter(bool nullable = true) 
+    : CsvTypeConverter<string?>(false, nullable ? null : string.Empty)
 {
-    public StringConverter(bool nullable = true) : base(false, nullable ? null : string.Empty) { }
 
     /// <inheritdoc/>
     public override bool AcceptsNull => true;

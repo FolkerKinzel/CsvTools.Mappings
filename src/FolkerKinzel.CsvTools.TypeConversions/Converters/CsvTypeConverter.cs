@@ -12,7 +12,7 @@
 /// the <see cref="Throwing"/> property is <c>false</c>.
 /// </param>
 public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
-                                          T? fallbackValue = default) : ICsvTypeConverter
+                                          T? fallbackValue = default)
 {
     /// <summary>
     /// Gets the value to return when a parsing error occurs and
@@ -20,8 +20,8 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
     /// </summary>
     public T? FallbackValue { get; } = fallbackValue;
 
-    /// <inheritdoc/>
-    object? ICsvTypeConverter.FallbackValue => FallbackValue;
+    ///// <inheritdoc/>
+    //object? ICsvTypeConverter.FallbackValue => FallbackValue;
 
     ///<inheritdoc/>
     public bool Throwing { get; } = throwsOnParseErrors;

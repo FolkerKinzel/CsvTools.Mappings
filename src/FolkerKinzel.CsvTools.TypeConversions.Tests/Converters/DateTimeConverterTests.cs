@@ -12,14 +12,14 @@ public class DateTimeConverterTests
     [TestMethod()]
     public void DateTimeConverterTest1()
     {
-        ICsvTypeConverter conv = new DateTimeConverter();
+        var conv = new DateTimeConverter();
         Assert.IsNotNull(conv);
     }
 
     [TestMethod()]
     public void DateTimeConverterTest2()
     {
-        ICsvTypeConverter conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
+        var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
         Assert.IsNotNull(conv);
     }
 

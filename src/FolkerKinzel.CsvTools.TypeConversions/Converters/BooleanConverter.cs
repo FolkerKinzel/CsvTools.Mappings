@@ -1,9 +1,11 @@
 ﻿namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
-public sealed class BooleanConverter : CsvTypeConverter<bool>
+/// <summary>
+/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="bool"/>.
+/// </summary>
+public sealed class BooleanConverter(bool throwing = true, bool fallbackValue = default)
+    : CsvTypeConverter<bool>(throwing, fallbackValue)
 {
-    public BooleanConverter(bool throwing = true, bool fallbackValue = default)
-        : base(throwing, fallbackValue) { }
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
