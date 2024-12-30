@@ -3,7 +3,7 @@
 namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
 [CLSCompliant(false)]
-public sealed class UInt16Converter : CsvTypeConverter<ushort>, IHexConverter
+public sealed class UInt16Converter : CsvTypeConverter<ushort>, IHexConverter<ushort>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -21,7 +21,7 @@ public sealed class UInt16Converter : CsvTypeConverter<ushort>, IHexConverter
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    public ICsvTypeConverter AsHexConverter()
+    public CsvTypeConverter<ushort> AsHexConverter()
     {
         _styles = HEX_STYLE;
         _format = HEX_FORMAT;

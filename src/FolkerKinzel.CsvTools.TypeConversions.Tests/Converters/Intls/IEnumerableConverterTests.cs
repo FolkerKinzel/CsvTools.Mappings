@@ -15,7 +15,6 @@ public class IEnumerableConverterTests
     [TestMethod]
     public void MyTestMethod()
     {
-
         var list = new List<int?>
         {
             7,
@@ -23,10 +22,7 @@ public class IEnumerableConverterTests
             11
         };
 
-
-        ICsvTypeConverter conv = new Int32Converter().AsNullableConverter().AsIEnumerableConverter();
-        
-
+        CsvTypeConverter<IEnumerable<int?>?> conv = new Int32Converter().AsNullableConverter().AsIEnumerableConverter();
         string? s = conv.ConvertToString(list);
 
         var result = (IEnumerable<int?>?)conv.Parse(s.AsSpan());
@@ -41,7 +37,7 @@ public class IEnumerableConverterTests
         CsvTypeConverter<IEnumerable<int>?> conv = new Int32Converter().AsIEnumerableConverter();
 
         var wrapper = new CsvRecordMapping();
-        var prop = new CsvIndexProperty("TestProp", 0, conv);
+        var prop = new CsvIndexProperty<IEnumerable<int>?>("TestProp", 0, conv);
         wrapper.AddProperty(prop);
 
         using var writer = new StringWriter();

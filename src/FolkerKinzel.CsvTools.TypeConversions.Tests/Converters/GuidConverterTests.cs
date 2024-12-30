@@ -9,7 +9,7 @@ public class GuidConverterTests
     [TestMethod()]
     public void GuidConverterTest1()
     {
-        ICsvTypeConverter conv = new GuidConverter();
+        var conv = new GuidConverter();
         Assert.IsNotNull(conv);
     }
 
@@ -39,7 +39,7 @@ public class GuidConverterTests
     {
         var guid = Guid.NewGuid();
 
-        ICsvTypeConverter conv = new GuidConverter();
+        var conv = new GuidConverter();
 
         string? tmp = conv.ConvertToString(guid);
 

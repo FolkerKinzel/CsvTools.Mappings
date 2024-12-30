@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters;
+using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
@@ -7,10 +8,10 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>
 /// whose data comes from a single column of the CSV file.
 /// </summary>
-public abstract class CsvSingleColumnProperty : CsvPropertyBase
+public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
 {
     /// <summary>
-    /// Initializes a new <see cref="CsvSingleColumnProperty"/> instance.
+    /// Initializes a new <see cref="CsvSingleColumnProperty{T}"/> instance.
     /// </summary>
     ///  <param name="propertyName">
     /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
@@ -25,7 +26,7 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
     /// </exception>
-    protected CsvSingleColumnProperty(string propertyName, ICsvTypeConverter converter) : base(propertyName)
+    protected CsvSingleColumnProperty(string propertyName, CsvTypeConverter<T> converter) : base(propertyName)
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         this.Converter = converter;
@@ -34,14 +35,14 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
     /// <summary>
     /// An object that does the <see cref="Type"/> conversion.
     /// </summary>
-    public ICsvTypeConverter Converter { get; }
+    public CsvTypeConverter<T> Converter { get; }
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// The index of the column in the CSV file that <see cref="CsvColumnNameProperty"/> actually accesses, 
-    /// or <c>null</c> if <see cref="CsvColumnNameProperty"/> does not find a target in the CSV file.
+    /// The index of the column in the CSV file that <see cref="CsvPropertyBase"/> actually accesses, 
+    /// or <c>null</c> if <see cref="CsvPropertyBase"/> does not find a target in the CSV file.
     /// </summary>
     /// <remarks>The property is updated on each read or write access.</remarks>
     public int? ReferredCsvIndex { get; protected set; }
@@ -54,8 +55,29 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
     /// </remarks>
     protected abstract void UpdateReferredCsvIndex();
 
+    public new T? Value
+    {
+        get => GetTypedValue();
+        set => SetTypedValue(value);
+    }
+
     /// <inheritdoc/>
-    protected internal override object? GetValue()
+    protected internal override object? GetValue() => GetTypedValue();
+    //{
+    //    Debug.Assert(Record != null);
+    //    UpdateReferredCsvIndex();
+
+    //    try
+    //    {
+    //        return ReferredCsvIndex.HasValue ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span) : Converter.FallbackValue;
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        throw new InvalidCastException(e.Message, e);
+    //    }
+    //}
+
+    private T? GetTypedValue()
     {
         Debug.Assert(Record != null);
         UpdateReferredCsvIndex();
@@ -70,16 +92,36 @@ public abstract class CsvSingleColumnProperty : CsvPropertyBase
         }
     }
 
-    /// <inheritdoc/>
-    protected internal override void SetValue(object? value)
+    private void SetTypedValue(T? value)
     {
         Debug.Assert(Record != null);
+
+        string? val = value is T t
+            ? Converter.ConvertToString(t)
+            : value is null
+                ? Converter.AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)))
+                : throw new InvalidCastException("Assignment of an incompliant Type.");
+
         UpdateReferredCsvIndex();
 
         if (ReferredCsvIndex.HasValue)
         {
             Record.Values[ReferredCsvIndex.Value]
-                = Converter.ConvertToString(value).AsMemory();
+                = val.AsMemory();
         }
     }
+    
+
+    /// <inheritdoc/>
+    protected internal override void SetValue(object? value) => SetTypedValue((T?)value);
+    //{
+    //    Debug.Assert(Record != null);
+    //    UpdateReferredCsvIndex();
+
+    //    if (ReferredCsvIndex.HasValue)
+    //    {
+    //        Record.Values[ReferredCsvIndex.Value]
+    //            = Converter.ConvertToString(value).AsMemory();
+    //    }
+    //}
 }

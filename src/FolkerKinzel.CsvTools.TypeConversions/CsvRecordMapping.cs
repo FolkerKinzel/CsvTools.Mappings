@@ -31,12 +31,12 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// are returned if the <see cref="CsvRecordMapping"/> object is iterated in a <c>foreach</c> loop, or if it is accessed with the indexer <see cref="this[int]"/>. 
 /// </para>
 /// <para>
-/// Because of the <see cref="CsvColumnNameProperty"/> objects access the underlying <see cref="CsvRecord"/> object via the CSV column name, the number and 
-/// order of the <see cref="CsvColumnNameProperty"/> objects registered 
+/// Because of the <see cref="CsvColumnNameProperty{T}"/> objects access the underlying <see cref="CsvRecord"/> object via the CSV column name, the number and 
+/// order of the <see cref="CsvColumnNameProperty{T}"/> objects registered 
 /// in the <see cref="CsvRecordMapping"/> object don't have to match the column-order of the underlying <see cref="CsvRecord"/> object. 
-/// The same is for <see cref="CsvIndexProperty"/> objects: The number and order of the registered <see cref="CsvIndexProperty"/> objects
-/// is independent of the columns of the underlying <see cref="CsvRecord"/> object because the <see cref="CsvIndexProperty.CsvIndex"/> 
-/// is stored inside of the <see cref="CsvIndexProperty"/> instances."/>
+/// The same is for <see cref="CsvIndexProperty{T}"/> objects: The number and order of the registered <see cref="CsvIndexProperty{T}"/> objects
+/// is independent of the columns of the underlying <see cref="CsvRecord"/> object because the <see cref="CsvIndexProperty{T}.CsvIndex"/> 
+/// is stored inside of the <see cref="CsvIndexProperty{T}"/> instances."/>
 /// </para>
 /// <para>The order of the registered properties can be influenced at any time with the following methods:</para>
 /// <list type="bullet">
@@ -64,8 +64,8 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// every iteration. An exception is when a CSV file is read with the <see cref="CsvOpts.DisableCaching"/> flag: then the <see cref="CsvRecord"/>
 /// object is the same for each iteration.
 /// <para>
-/// If <see cref="CsvMultiColumnProperty"/> objects are inserted into <see cref="CsvRecordMapping"/>, the <see cref="CsvRecordMapping"/> instances 
-/// of their <see cref="CsvMultiColumnTypeConverter"/> will automatically get the current <see cref="CsvRecord"/> instance via the parent 
+/// If <see cref="CsvMultiColumnProperty{T}"/> objects are inserted into <see cref="CsvRecordMapping"/>, the <see cref="CsvRecordMapping"/> instances 
+/// of their <see cref="CsvMultiColumnTypeConverter{T}"/> will automatically get the current <see cref="CsvRecord"/> instance via the parent 
 /// <see cref="CsvRecordMapping"/> they are inserted into.
 /// </para>
 /// </remarks>
@@ -253,7 +253,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// <summary>
     /// Registers a <see cref="CsvPropertyBase"/> at the end of the list of registered properties.
     /// </summary>
-    /// <param name="property">The <see cref="CsvColumnNameProperty"/> to be added.</param>
+    /// <param name="property">The <see cref="CsvPropertyBase"/> to be added.</param>
     /// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
     /// There is already a <see cref="CsvPropertyBase"/> with the same <see cref="CsvPropertyBase.PropertyName"/> registered. 
@@ -384,7 +384,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </summary>
     /// <param name="propertyName">The <see cref="CsvPropertyBase.PropertyName"/> of the <see cref="CsvPropertyBase"/> instance
     /// to be searched for.</param>
-    /// <returns><c>true</c>, wenn ein <see cref="CsvColumnNameProperty"/>-Objekt unter dem mit <paramref name="propertyName"/>
+    /// <returns><c>true</c>, wenn ein <see cref="CsvPropertyBase"/>-Objekt unter dem mit <paramref name="propertyName"/>
     /// angegebenen Namen registriert ist.</returns>
     public bool Contains(string? propertyName) => propertyName is not null && _dynProps.Contains(propertyName);
 
@@ -392,7 +392,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// Gibt den Index der Eigenschaft zurück, die den Eigenschaftsnamen (<see cref="CsvPropertyBase.PropertyName"/>) der 
     /// <paramref name="propertyName"/> entspricht oder -1, wenn eine solche Eigenschaft nicht in <see cref="CsvRecordMapping"/> registriert ist.
     /// </summary>
-    /// <param name="propertyName">Der Eigenschaftsname der zu suchenden <see cref="CsvColumnNameProperty"/>.</param>
+    /// <param name="propertyName">Der Eigenschaftsname der zu suchenden <see cref="CsvPropertyBase"/>.</param>
     /// <returns>Der Index der Eigenschaft, die <paramref name="propertyName"/> als Eigenschaftsnamen (<see cref="CsvPropertyBase.PropertyName"/>) hat
     /// oder -1, wenn eine solche Eigenschaft nicht in <see cref="CsvRecordMapping"/> registriert ist.</returns>
     public int IndexOf(string? propertyName) => propertyName is null ? -1 : _dynProps.Contains(propertyName) ? _dynProps.IndexOf(_dynProps[propertyName]) : -1;
@@ -403,7 +403,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </summary>
     /// <param name="binder">Informationen über die aufrufende dynamische Eigenschaft.</param>
     /// <param name="value">Das Objekt, das der dynamisch implementierten Eigenschaft zugewiesen wird.</param>
-    /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die zuvor als <see cref="CsvColumnNameProperty"/>
+    /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die bereits zuvor als <see cref="CsvPropertyBase"/>
     /// im <see cref="CsvRecordMapping"/>-Objekt registriert wurde.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> ist <c>null</c>. (Das kann nur passieren,
     /// wenn die Methode direkt aus eigenem Code aufgerufen wird.)</exception>

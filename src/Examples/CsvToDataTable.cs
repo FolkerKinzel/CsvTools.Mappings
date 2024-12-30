@@ -26,7 +26,7 @@ internal static class CsvToDataTable
         // (We can sort the columns of the CSV file differently than those 
         // of the DataTable - CsvRecordWrapper will reorder that.)
         string[] columns = 
-            new string[] { SUBJECT, LESSON_BEGIN, PUPILS_NAME, LESSON_DAY };
+            [SUBJECT, LESSON_BEGIN, PUPILS_NAME, LESSON_DAY];
 
         using (var writer = new CsvWriter(FILE_NAME, columns))
         {
@@ -96,30 +96,31 @@ internal static class CsvToDataTable
 
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
-        ICsvTypeConverter stringConverter = new StringConverter(nullable: false).AsDBNullEnabled();
+        CsvTypeConverter<object> stringConverter 
+            = new StringConverter(nullable: false).AsDBNullEnabled();
 
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty(PUPILS_NAME,
-                                new string[] { PUPILS_NAME },
+                new CsvColumnNameProperty<object>(PUPILS_NAME,
+                                [PUPILS_NAME],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty(SUBJECT,
-                                new string[] { SUBJECT },
+                new CsvColumnNameProperty<object>(SUBJECT,
+                                [SUBJECT],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty(LESSON_DAY,
-                                new string[] { LESSON_DAY },
+                new CsvColumnNameProperty<object>(LESSON_DAY,
+                                [LESSON_DAY],
                                 new EnumConverter<DayOfWeek>(format: "G").AsDBNullEnabled())
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty(LESSON_BEGIN,
-                                new string[] { LESSON_BEGIN },
+                new CsvColumnNameProperty<object>(LESSON_BEGIN,
+                                [LESSON_BEGIN],
                                 new TimeSpanConverter().AsDBNullEnabled())
             );
 
@@ -137,11 +138,11 @@ internal static class CsvToDataTable
         dataTable.Columns.Add(new DataColumn(LESSON_BEGIN, typeof(TimeSpan)));
 
         _ = dataTable.Rows.Add(
-            new object[] { "Susi Meyer", "Piano", DayOfWeek.Wednesday, new TimeSpan(14, 30, 0) });
+            ["Susi Meyer", "Piano", DayOfWeek.Wednesday, new TimeSpan(14, 30, 0)]);
         _ = dataTable.Rows.Add(
-            new object[] { "Carl Czerny", "Piano", DayOfWeek.Thursday, new TimeSpan(15, 15, 0) });
+            ["Carl Czerny", "Piano", DayOfWeek.Thursday, new TimeSpan(15, 15, 0)]);
         _ = dataTable.Rows.Add(
-            new object[] { "Frederic Chopin" });
+            ["Frederic Chopin"]);
 
         return dataTable;
     }

@@ -9,7 +9,7 @@ public class StringConverterTests
     [TestMethod()]
     public void StringConverterTest()
     {
-        ICsvTypeConverter conv = new StringConverter(false);
+        var conv = new StringConverter(false);
 
         Assert.IsNotNull(conv.Parse(null));
         Assert.AreEqual(typeof(StringConverter), conv.GetType());
@@ -18,7 +18,7 @@ public class StringConverterTests
     [TestMethod()]
     public void ParseTest()
     {
-        ICsvTypeConverter conv = new StringConverter();
+        var conv = new StringConverter();
 
         Assert.IsNull(conv.Parse(null));
 
@@ -35,7 +35,7 @@ public class StringConverterTests
     [TestMethod()]
     public void ConvertToStringTest()
     {
-        ICsvTypeConverter conv = new StringConverter().AsDBNullEnabled();
+        CsvTypeConverter<object> conv = new StringConverter().AsDBNullEnabled();
 
         Assert.IsNull(conv.ConvertToString(DBNull.Value));
 
@@ -50,14 +50,14 @@ public class StringConverterTests
     [TestMethod()]
     public void ConvertToStringTest_ThrowOnInvalidType()
     {
-        ICsvTypeConverter conv = new StringConverter();
+        var conv = new StringConverter();
 
-        _ = conv.ConvertToString(4711);
-
+        new CsvIndexProperty<string?>("prop", 0,  conv).SetValue(4711);
     }
 
 
     [ExpectedException(typeof(InvalidCastException))]
     [TestMethod()]
-    public void ConvertToStringTest_ThrowOnDBNull() => _ = new StringConverter().ConvertToString(DBNull.Value);
+    public void ConvertToStringTest_ThrowOnDBNull()
+        => new CsvIndexProperty<string?>("prop",0, new StringConverter()).SetValue(DBNull.Value);
 }

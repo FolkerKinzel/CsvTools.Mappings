@@ -10,7 +10,7 @@ internal sealed class DBNullConverter<T> : CsvTypeConverter<object>
         : base((converter ?? throw new ArgumentNullException(nameof(converter))).Throwing, DBNull.Value)
         => _valueConverter = converter;
 
-    protected override string? DoConvertToString(object value) => value == DBNull.Value ? null : _valueConverter.ConvertToString(value);
+    protected override string? DoConvertToString(object value) => value == DBNull.Value ? null : _valueConverter.ConvertToString((T)value);
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out object result)
     {

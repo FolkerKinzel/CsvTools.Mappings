@@ -18,7 +18,7 @@ public class PropertyCollectionExtensionsTests
     {
         KeyedCollection<string, CsvPropertyBase> kColl = new TestCollection();
 
-        var prop1 = new CsvColumnNameProperty("Test", [], new BooleanConverter());
+        var prop1 = new CsvColumnNameProperty<bool>("Test", [], new BooleanConverter());
 
         kColl.Add(prop1); 
 

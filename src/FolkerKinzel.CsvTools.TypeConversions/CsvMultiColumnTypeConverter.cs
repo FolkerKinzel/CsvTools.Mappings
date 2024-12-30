@@ -8,9 +8,9 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// </summary>
 /// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
 /// <remarks>
-/// Instances derived from this class are required by <see cref="CsvMultiColumnProperty"/>.
+/// Instances derived from this class are required by <see cref="CsvMultiColumnProperty{T}"/>.
 /// </remarks>
-/// <seealso cref="CsvMultiColumnProperty"/>
+/// <seealso cref="CsvMultiColumnProperty{T}"/>
 public abstract class CsvMultiColumnTypeConverter<T>
 {
     /// <summary>
@@ -97,7 +97,7 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <remarks>
-    /// Implement this method in derived classes to determine the behavior of <see cref="ConvertToCsv(T?)"/>.
+    /// Implement this method in derived classes to determine the behavior of <see cref="ConvertToCsv(object?)"/>.
     /// </remarks>
     protected abstract void DoConvertToCsv(T? value);
 
@@ -107,7 +107,7 @@ public abstract class CsvMultiColumnTypeConverter<T>
     /// </summary>
     /// <param name="value">Das in die ausgewählten Felder von <see cref="CsvRecord"/> zu schreibende Objekt.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen inkompatiblen Datentyp.</exception>
-    public void ConvertToCsv(T? value)
+    public void ConvertToCsv(object? value)
     {
         if (value is T t)
         {
@@ -117,7 +117,7 @@ public abstract class CsvMultiColumnTypeConverter<T>
         {
             if (AcceptsNull)
             {
-                DoConvertToCsv(value);
+                DoConvertToCsv((T?)value);
             }
             else
             {
@@ -128,5 +128,21 @@ public abstract class CsvMultiColumnTypeConverter<T>
         {
             throw new InvalidCastException("Assignment of an incompliant Type.");
         }
+    }
+
+    /// <summary>
+    /// Schreibt <paramref name="value"/> mit Hilfe von <see cref="Mapping"/> in die ausgewählten Felder von
+    /// <see cref="CsvRecord"/>.
+    /// </summary>
+    /// <param name="value">Das in die ausgewählten Felder von <see cref="CsvRecord"/> zu schreibende Objekt.</param>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> hat einen inkompatiblen Datentyp.</exception>
+    public void ConvertToCsv(T? value)
+    {
+        if (value is null && !AcceptsNull)
+        {
+            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)));
+        }
+
+        DoConvertToCsv((T?)value);
     }
 }

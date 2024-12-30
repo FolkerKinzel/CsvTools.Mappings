@@ -57,29 +57,29 @@ internal static class DeserializingClassesFromCsv
         var wrapper = new CsvRecordMapping();
 
         // Reuse a converter for more than one property:
-        ICsvTypeConverter stringConverter = new StringConverter();
+        var stringConverter = new StringConverter();
 
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty("Name",
+                new CsvColumnNameProperty<string?>("Name",
                                 ["*name"],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty("Subject",
+                new CsvColumnNameProperty<string?>("Subject",
                                 ["*subject", "*fach"],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty("LessonDay",
+                new CsvColumnNameProperty<DayOfWeek?>("LessonDay",
                                 ["*day", "*tag"],
                                 new EnumConverter<DayOfWeek>().AsNullableConverter())
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty("LessonBegin",
+                new CsvColumnNameProperty<TimeSpan?>("LessonBegin",
                                 ["*begin?"],
                                 new TimeSpanConverter().AsNullableConverter())
             );

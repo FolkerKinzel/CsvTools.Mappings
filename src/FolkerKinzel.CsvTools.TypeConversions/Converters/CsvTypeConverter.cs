@@ -49,17 +49,17 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
     /// <returns>A <see cref="string"/> or <c>null</c>.</returns>
     /// <remarks>
     /// Implement this method in derived classes to determine the behavior of
-    /// <see cref="ConvertToString(object?)"/> and <see cref="ConvertToString(T?)"/>.
+    /// <see cref="ConvertToString(T?)"/> and <see cref="ConvertToString(T?)"/>.
     /// </remarks>
     protected abstract string? DoConvertToString(T value);
 
-    /// <inheritdoc/>
-    public string? ConvertToString(object? value)
-        => value is T t
-            ? DoConvertToString(t)
-            : value is null
-                ? AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)))
-                : throw new InvalidCastException("Assignment of an incompliant Type.");
+    ///// <inheritdoc/>
+    //public string? ConvertToString(object? value)
+    //    => value is T t
+    //        ? DoConvertToString(t)
+    //        : value is null
+    //            ? AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)))
+    //            : throw new InvalidCastException("Assignment of an incompliant Type.");
 
     /// <summary>
     /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.
@@ -101,7 +101,4 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
                         value.Length > 40 ? nameof(value) : $"\"{value.ToString()}\"",
                         typeof(T)))
                     : FallbackValue;
-
-    /// <inheritdoc/>
-    object? ICsvTypeConverter.Parse(ReadOnlySpan<char> value) => Parse(value);
 }

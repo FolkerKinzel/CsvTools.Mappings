@@ -55,7 +55,7 @@ public class DateTimeConverterTests
     {
         var now = new DateTime(2021, 3, 1, 17, 25, 38, DateTimeKind.Unspecified);
 
-        ICsvTypeConverter conv = new DateTimeConverter();
+        var conv = new DateTimeConverter();
 
         string? tmp = conv.ConvertToString(now);
 
@@ -90,7 +90,7 @@ public class DateTimeConverterTests
     [DataRow("1974/02/16")]
     public void ParseTest(string s)
     {
-        ICsvTypeConverter conv = new DateTimeConverter();
+        var conv = new DateTimeConverter();
 
         object? dt = conv.Parse(s.AsSpan());
 
@@ -101,7 +101,7 @@ public class DateTimeConverterTests
     public void ConvertToStringTest1()
     {
         var dt = new DateTime(1985, 11, 17);
-        ICsvTypeConverter conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
+        var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
 
         //dt = dt.ToLocalTime();
 
@@ -114,7 +114,7 @@ public class DateTimeConverterTests
     public void ConvertToStringTest2()
     {
         var dt = new DateTime(2001, 03, 31);
-        ICsvTypeConverter conv = new DateTimeConverter();
+        var conv = new DateTimeConverter();
 
         //dt = dt.ToLocalTime();
 

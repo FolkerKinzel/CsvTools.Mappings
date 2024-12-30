@@ -9,7 +9,7 @@ public class EnumConverterTests
     [TestMethod()]
     public void EnumConverterTest1()
     {
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>();
+        var conv = new EnumConverter<TypeCode>();
         Assert.IsNotNull(conv);
     }
 
@@ -32,20 +32,20 @@ public class EnumConverterTests
     [TestMethod()]
     public void EnumConverterTest4()
     {
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "F");
+        var conv = new EnumConverter<TypeCode>(format: "F");
         Assert.IsInstanceOfType<EnumConverter<TypeCode>>(conv);
     }
 
     [TestMethod()]
     [ExpectedException(typeof(InvalidCastException))]
-    public void EnumConverterTest5() => _ = new EnumConverter<DayOfWeek>().ConvertToString(null);
+    public void EnumConverterTest5() => new CsvColumnNameProperty<DayOfWeek>("prop", ["column"], new EnumConverter<DayOfWeek>()).SetValue(null);
 
     [TestMethod]
     public void RoundtripTest1()
     {
         TypeCode val = TypeCode.DateTime;
 
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>();
+        var conv = new EnumConverter<TypeCode>();
 
         string? s = conv.ConvertToString(val);
         Assert.IsNotNull(s);
@@ -60,7 +60,7 @@ public class EnumConverterTests
     {
         TypeCode val = TypeCode.DateTime;
 
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "F");
+        var conv = new EnumConverter<TypeCode>(format: "F");
 
         string? s = conv.ConvertToString(val);
         Assert.IsNotNull(s);
@@ -75,7 +75,7 @@ public class EnumConverterTests
     {
         TypeCode val = TypeCode.DateTime;
 
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(ignoreCase: true);
+        var conv = new EnumConverter<TypeCode>(ignoreCase: true);
 
         string? s = conv.ConvertToString(val);
         Assert.IsNotNull(s);
@@ -92,7 +92,7 @@ public class EnumConverterTests
     {
         TypeCode val = TypeCode.DateTime;
 
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "F", ignoreCase: true);
+        var conv = new EnumConverter<TypeCode>(format: "F", ignoreCase: true);
 
         string? s = conv.ConvertToString(val);
         Assert.IsNotNull(s);
@@ -110,7 +110,7 @@ public class EnumConverterTests
     [ExpectedException(typeof(FormatException))]
     public void RoundtripTest5()
     {
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(ignoreCase: false);
+        var conv = new EnumConverter<TypeCode>(ignoreCase: false);
 
         string s = TypeCode.DateTime.ToString().ToUpperInvariant();
 
@@ -124,7 +124,7 @@ public class EnumConverterTests
     {
         TypeCode val = TypeCode.DateTime;
 
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "F", ignoreCase: false);
+        var conv = new EnumConverter<TypeCode>(format: "F", ignoreCase: false);
 
         string? s = conv.ConvertToString(val);
         Assert.IsNotNull(s);
@@ -143,7 +143,7 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter();
+        var conv = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter();
 
         string? s = conv.ConvertToString(val);
         Assert.IsNull(s);
@@ -161,7 +161,7 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        ICsvTypeConverter conv = new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter();
+        var conv = new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter();
 
         string? s = conv.ConvertToString(val);
         Assert.IsNull(s);

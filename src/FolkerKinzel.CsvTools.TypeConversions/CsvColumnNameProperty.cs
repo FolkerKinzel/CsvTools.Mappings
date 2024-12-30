@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters;
+using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
@@ -8,11 +9,11 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files with header row.
 /// </summary>
 /// <remarks>
-/// <see cref="CsvColumnNameProperty"/> 
+/// <see cref="CsvColumnNameProperty{T}"/> 
 /// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its CSV column name.
 /// </remarks>
-public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
+public sealed class CsvColumnNameProperty<T> : CsvSingleColumnProperty<T>
 {
     /// <summary>
     /// Maximum time (in milliseconds) that can be used to resolve a column name alias.
@@ -21,26 +22,26 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
 
     /// <summary>
     /// Ein Hashcode, der für alle <see cref="CsvRecord"/>-Objekte, die zum selben Lese- oder Schreibvorgang
-    /// gehören, identisch ist. (Wird von <see cref="CsvColumnNameProperty"/> verwendet, um festzustellen,
+    /// gehören, identisch ist. (Wird von <see cref="CsvColumnNameProperty{T}"/> verwendet, um festzustellen,
     /// ob der Zugriffsindex aktuell ist.)
     /// </summary>
     private int _csvRecordIdentifier;
     private readonly int _wildcardTimeout;
 
     /// <summary>
-    /// Initializes a new <see cref="CsvColumnNameProperty"/> instance.
+    /// Initializes a new <see cref="CsvColumnNameProperty{T}"/> instance.
     /// </summary>
     /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
     /// Only ASCII characters are accepted.</param>
     /// <param name="columnNameAliases">
-    /// Column names of the CSV file that <see cref="CsvColumnNameProperty"/> can access. For the access <see cref="CsvColumnNameProperty"/> 
+    /// Column names of the CSV file that <see cref="CsvColumnNameProperty{T}"/> can access. For the access <see cref="CsvColumnNameProperty{T}"/> 
     /// uses the first alias that is a match with a column name of the CSV file. The alias strings may contain the wildcard characters * and ?. 
     /// If a wildcard alias matches several columns in the CSV file, the column with the lowest index is referenced.</param>
     /// <param name="converter">The <see cref="ICsvTypeConverter"/> that does the type conversion.</param>
     /// <param name="wildcardTimeout">
     /// Timeout value in milliseconds or 0, for <see cref="Regex.InfiniteMatchTimeout"/>. If the value is greater than <see cref="MaxWildcardTimeout"/>
     /// it is normalized to this value. If an alias in <paramref name="columnNameAliases"/> contains wildcard characters, inside this timeout the program 
-    /// tries to resolve the alias. If this does not succeed, <see cref="CsvColumnNameProperty"/> reacts as if it had no target in the columns of the CSV file. 
+    /// tries to resolve the alias. If this does not succeed, <see cref="CsvColumnNameProperty{T}"/> reacts as if it had no target in the columns of the CSV file. 
     /// </param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> does not conform to the rules for C# identifiers (only ASCII characters).</exception>
@@ -51,7 +52,7 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="wildcardTimeout"/> is less than Zero.</exception>
     public CsvColumnNameProperty(string propertyName,
                                  IEnumerable<string> columnNameAliases,
-                                 ICsvTypeConverter converter,
+                                 CsvTypeConverter<T> converter,
                                  int wildcardTimeout = 10)
         : base(propertyName, converter)
     {
@@ -80,7 +81,7 @@ public sealed class CsvColumnNameProperty : CsvSingleColumnProperty
     /// of the column name into other languages can be specified. An alias can also contain the wildcard characters * and ?. 
     /// </para>
     /// <para>
-    /// Since all aliases are taken into account when setting the value of <see cref="CsvColumnNameProperty"/>, it is not 
+    /// Since all aliases are taken into account when setting the value of <see cref="CsvColumnNameProperty{T}"/>, it is not 
     /// recommended to assign the same alias to several <see cref="CsvRecord"/> objects. 
     /// </para>
     /// </remarks>

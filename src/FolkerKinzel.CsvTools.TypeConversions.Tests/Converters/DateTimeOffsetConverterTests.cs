@@ -10,7 +10,7 @@ public class DateTimeOffsetConverterTests
     [TestMethod()]
     public void DateTimeOffsetConverterTest0()
     {
-        ICsvTypeConverter conv = new DateTimeOffsetConverter();
+        var conv = new DateTimeOffsetConverter();
 
         Assert.IsNotNull(conv);
 
@@ -59,7 +59,7 @@ public class DateTimeOffsetConverterTests
     {
         DateTimeOffset now = new DateTime(2021, 3, 1, 17, 25, 38, DateTimeKind.Local);
 
-        ICsvTypeConverter conv = new DateTimeOffsetConverter();
+        var conv = new DateTimeOffsetConverter();
 
         string? tmp = conv.ConvertToString(now);
 
@@ -77,7 +77,6 @@ public class DateTimeOffsetConverterTests
     {
         DateTime tmp = DateTime.UtcNow;
         DateTimeOffset now = new DateTime(tmp.Year, tmp.Month, tmp.Day, tmp.Hour, tmp.Minute, tmp.Second, DateTimeKind.Utc);
-
 
         var conv = new DateTimeOffsetConverter("R");
 

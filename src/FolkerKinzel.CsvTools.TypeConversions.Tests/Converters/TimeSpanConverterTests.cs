@@ -45,13 +45,13 @@ public class TimeSpanConverterTests
     {
         TimeSpan now = DateTime.UtcNow.TimeOfDay;
 
-        ICsvTypeConverter conv = new TimeSpanConverter();
+        var conv = new TimeSpanConverter();
 
         string? tmp = conv.ConvertToString(now);
 
         Assert.IsNotNull(tmp);
 
-        var now2 = (TimeSpan?)conv.Parse(tmp.AsSpan());
+        TimeSpan now2 = conv.Parse(tmp.AsSpan());
 
         Assert.AreEqual(now, now2);
     }
@@ -67,7 +67,7 @@ public class TimeSpanConverterTests
 
         Assert.IsNotNull(tmp);
 
-        var now2 = (TimeSpan?)conv.Parse(tmp.AsSpan());
+        TimeSpan now2 = conv.Parse(tmp.AsSpan());
 
         Assert.AreEqual(now, now2);
     }

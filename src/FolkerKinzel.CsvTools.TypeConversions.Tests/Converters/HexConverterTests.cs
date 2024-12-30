@@ -23,15 +23,14 @@ public class HexConverterTests
     {
         int i = 123456789;
 
-        ICsvTypeConverter conv = new Int32Converter().AsHexConverter();
+        CsvTypeConverter<int> conv = new Int32Converter().AsHexConverter();
 
         string? s = conv.ConvertToString(i);
         Assert.IsNotNull(s);
 
-        int? i2 = (int?)conv.Parse(s.AsSpan());
+        int i2 = conv.Parse(s.AsSpan());
 
         Assert.AreEqual(i, i2);
-
     }
 
 
@@ -41,12 +40,12 @@ public class HexConverterTests
     {
         int i = 123456789;
 
-        ICsvTypeConverter conv = new Int32Converter().AsHexConverter();
+        CsvTypeConverter<int> conv = new Int32Converter().AsHexConverter();
 
         string? s = conv.ConvertToString(i)?.ToLowerInvariant();
         Assert.IsNotNull(s);
 
-        int? i2 = (int?)conv.Parse(s.AsSpan());
+        int i2 = conv.Parse(s.AsSpan());
 
         Assert.AreEqual(i, i2);
     }

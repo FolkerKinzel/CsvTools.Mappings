@@ -17,7 +17,7 @@ public class ByteArrayConverterTests
     [TestMethod]
     public void ParseTest1()
     {
-        ICsvTypeConverter conv = new ByteArrayConverter();
+        var conv = new ByteArrayConverter();
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(null));
@@ -27,7 +27,7 @@ public class ByteArrayConverterTests
     [ExpectedException(typeof(FormatException))]
     public void ParseTest2()
     {
-        ICsvTypeConverter conv = new ByteArrayConverter();
+        var conv = new ByteArrayConverter();
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
@@ -37,7 +37,7 @@ public class ByteArrayConverterTests
     [TestMethod]
     public void ParseTest3()
     {
-        ICsvTypeConverter conv = new ByteArrayConverter(false);
+        var conv = new ByteArrayConverter(false);
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
@@ -51,7 +51,7 @@ public class ByteArrayConverterTests
         using var rnd = RandomNumberGenerator.Create();
         rnd.GetBytes(bytes);
 
-        ICsvTypeConverter conv = new ByteArrayConverter();
+        var conv = new ByteArrayConverter();
 
         string? s = conv.ConvertToString(bytes);
         Assert.IsNotNull(s);
@@ -63,6 +63,6 @@ public class ByteArrayConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(InvalidCastException))]
-    public void MyTestMethod() => _ = new ByteArrayConverter().ConvertToString(4711);
+    public void MyTestMethod() => new CsvIndexProperty<byte[]?>("prop", 0, new ByteArrayConverter()).SetValue(4711);
 
 }

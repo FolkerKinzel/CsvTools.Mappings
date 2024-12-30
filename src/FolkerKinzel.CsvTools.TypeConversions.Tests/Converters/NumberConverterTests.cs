@@ -17,7 +17,7 @@ public class NumberConverterTests
     {
         double d = 72.81;
 
-        ICsvTypeConverter conv = new DoubleConverter();
+        var conv = new DoubleConverter();
 
         string? s = conv.ConvertToString(d);
         Assert.IsNotNull(s);
@@ -25,5 +25,4 @@ public class NumberConverterTests
         double? d2 = (double?)conv.Parse(s.AsSpan());
         Assert.AreEqual(d, d2);
     }
-
 }
