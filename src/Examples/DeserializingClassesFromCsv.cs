@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Examples;
 
-internal class Pupil
+internal sealed class Pupil
 {
     public string? Name { get; set; }
 
@@ -86,7 +86,7 @@ internal static class DeserializingClassesFromCsv
 
         // Analyze the CSV file to determine the right parameters
         // for proper reading:
-        var result = CsvAnalyzer.Analyze(csvFileName);
+        CsvAnalyzerResult result = CsvAnalyzer.Analyze(csvFileName);
 
         // Read the CSV file:
         using var reader =

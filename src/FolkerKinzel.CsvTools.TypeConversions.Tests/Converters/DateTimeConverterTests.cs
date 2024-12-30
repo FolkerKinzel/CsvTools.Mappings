@@ -13,21 +13,21 @@ public class DateTimeConverterTests
     public void DateTimeConverterTest1()
     {
         ICsvTypeConverter conv = new DateTimeConverter();
-        Assert.IsInstanceOfType(conv, typeof(DateTimeConverter));
+        Assert.IsNotNull(conv);
     }
 
     [TestMethod()]
     public void DateTimeConverterTest2()
     {
         ICsvTypeConverter conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
-        Assert.IsInstanceOfType(conv, typeof(DateTimeConverter));
+        Assert.IsNotNull(conv);
     }
 
     [TestMethod()]
     public void DateTimeConverterTest3()
     {
         var conv = new DateTimeConverter("");
-        Assert.IsInstanceOfType(conv, typeof(DateTimeConverter));
+        Assert.IsNotNull(conv);
     }
 
     [TestMethod()]
@@ -109,7 +109,6 @@ public class DateTimeConverterTests
 
         Assert.IsNotNull(s);
     }
-
 
     [TestMethod()]
     public void ConvertToStringTest2()

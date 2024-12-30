@@ -14,9 +14,8 @@ public class CsvRecordWrapperTests
     public void CsvRecordWrapperTest()
     {
         var wrapper = new CsvRecordMapping();
-        Assert.IsInstanceOfType(wrapper, typeof(CsvRecordMapping));
+        Assert.IsNotNull(wrapper);
     }
-
 
     [TestMethod()]
     public void InsertPropertyTest1()
@@ -28,11 +27,11 @@ public class CsvRecordWrapperTests
 
         var conv = new StringConverter();
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         wrapper.AddProperty(prop2);
@@ -55,7 +54,7 @@ public class CsvRecordWrapperTests
 
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new StringConverter());
 
 
@@ -84,7 +83,7 @@ public class CsvRecordWrapperTests
 
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new StringConverter());
 
 
@@ -102,11 +101,11 @@ public class CsvRecordWrapperTests
         var conv = new StringConverter();
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo2"],
             conv);
 
         wrapper.AddProperty(prop2);
@@ -127,15 +126,15 @@ public class CsvRecordWrapperTests
 
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         var prop3 =
-            new CsvColumnNameProperty(prop3Name, new string[] { "Hallo3" },
+            new CsvColumnNameProperty(prop3Name, ["Hallo3"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -166,15 +165,15 @@ public class CsvRecordWrapperTests
 
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         var prop3 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo3" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo3"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -197,15 +196,15 @@ public class CsvRecordWrapperTests
         var conv = new StringConverter();
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         var prop3 =
-            new CsvColumnNameProperty(prop3Name, new string[] { "Hallo3" },
+            new CsvColumnNameProperty(prop3Name, ["Hallo3"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -224,7 +223,7 @@ public class CsvRecordWrapperTests
         const string prop1Name = "Prop1";
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new StringConverter());
 
 
@@ -246,15 +245,15 @@ public class CsvRecordWrapperTests
 
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         var prop3 =
-            new CsvColumnNameProperty(prop3Name, new string[] { "Hallo3" },
+            new CsvColumnNameProperty(prop3Name, ["Hallo3"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -284,15 +283,15 @@ public class CsvRecordWrapperTests
 
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         var prop3 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo3" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo3"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -311,7 +310,7 @@ public class CsvRecordWrapperTests
         const string prop1Name = "Prop1";
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new StringConverter());
 
         wrapper.ReplaceProperty("bla", prop1);
@@ -327,7 +326,7 @@ public class CsvRecordWrapperTests
         const string prop1Name = "Prop1";
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new StringConverter());
 
 
@@ -347,7 +346,7 @@ public class CsvRecordWrapperTests
         const string prop1Name = "Prop1";
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new StringConverter());
 
 
@@ -368,7 +367,7 @@ public class CsvRecordWrapperTests
         const string prop1Name = "Prop1";
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new Int32Converter().AsNullableConverter());
 
         wrapper.AddProperty(prop1);
@@ -388,7 +387,7 @@ public class CsvRecordWrapperTests
         const string prop1Name = "Prop1";
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             new Int32Converter().AsNullableConverter());
 
         wrapper.AddProperty(prop1);
@@ -521,7 +520,7 @@ public class CsvRecordWrapperTests
     {
         var wrapper = new CsvRecordMapping();
 
-        wrapper.AddProperty(new CsvColumnNameProperty("Hallo", new string[] { "Hallo" }, new StringConverter()));
+        wrapper.AddProperty(new CsvColumnNameProperty("Hallo", ["Hallo"], new StringConverter()));
 
         Assert.AreEqual(0, wrapper.IndexOf("Hallo"));
         Assert.AreEqual(-1, wrapper.IndexOf("Wolli"));
@@ -534,7 +533,7 @@ public class CsvRecordWrapperTests
     {
         var wrapper = new CsvRecordMapping();
 
-        wrapper.AddProperty(new CsvColumnNameProperty("Hallo", new string[] { "Hallo" }, new StringConverter()));
+        wrapper.AddProperty(new CsvColumnNameProperty("Hallo", ["Hallo"], new StringConverter()));
 
         Assert.IsTrue(wrapper.Contains("Hallo"));
         Assert.IsFalse(wrapper.Contains("Wolli"));
@@ -551,7 +550,7 @@ public class CsvRecordWrapperTests
         Assert.AreEqual(0, wrapper.Count);
 
         var prop =
-            new CsvColumnNameProperty("Hallo", new string[] { "Hallo" },
+            new CsvColumnNameProperty("Hallo", ["Hallo"],
             new StringConverter());
 
         wrapper.AddProperty(prop);
@@ -579,11 +578,11 @@ public class CsvRecordWrapperTests
         var conv = new StringConverter();
 
         var prop1 =
-            new CsvColumnNameProperty("Hallo", new string[] { "Hallo" },
+            new CsvColumnNameProperty("Hallo", ["Hallo"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty("Hallo", new string[] { "Hallo" },
+            new CsvColumnNameProperty("Hallo", ["Hallo"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -603,11 +602,11 @@ public class CsvRecordWrapperTests
 
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -643,11 +642,11 @@ public class CsvRecordWrapperTests
         var conv = new StringConverter();
 
         var prop1 =
-            new CsvColumnNameProperty(prop1Name, new string[] { "Hallo1" },
+            new CsvColumnNameProperty(prop1Name, ["Hallo1"],
             conv);
 
         var prop2 =
-            new CsvColumnNameProperty(prop2Name, new string[] { "Hallo2" },
+            new CsvColumnNameProperty(prop2Name, ["Hallo2"],
             conv);
 
         wrapper.AddProperty(prop1);
@@ -682,8 +681,8 @@ public class CsvRecordWrapperTests
 
         ICsvTypeConverter intConverter = new Int32Converter();
 
-        wrapper.AddProperty(new CsvColumnNameProperty(record.ColumnNames[0], new string[] { record.ColumnNames[0] }, intConverter));
-        wrapper.AddProperty(new CsvColumnNameProperty(record.ColumnNames[1], new string[] { record.ColumnNames[1] }, intConverter));
+        wrapper.AddProperty(new CsvColumnNameProperty(record.ColumnNames[0], [record.ColumnNames[0]], intConverter));
+        wrapper.AddProperty(new CsvColumnNameProperty(record.ColumnNames[1], [record.ColumnNames[1]], intConverter));
 
         wrapper.Record = record;
 

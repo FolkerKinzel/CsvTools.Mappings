@@ -12,7 +12,7 @@ public class DateTimeOffsetConverterTests
     {
         ICsvTypeConverter conv = new DateTimeOffsetConverter();
 
-        Assert.IsInstanceOfType(conv, typeof(DateTimeOffsetConverter));
+        Assert.IsNotNull(conv);
 
         var dt = new DateTime(1975, 07, 14);
 

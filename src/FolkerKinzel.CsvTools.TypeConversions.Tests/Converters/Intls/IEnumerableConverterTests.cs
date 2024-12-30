@@ -37,7 +37,7 @@ public class IEnumerableConverterTests
     [TestMethod()]
     public void IEnumerableTConverterTest()
     {
-        IEnumerable<int> arr1 = new int[] { 1, 2, 3 };
+        IEnumerable<int> arr1 = [1, 2, 3];
         CsvTypeConverter<IEnumerable<int>?> conv = new Int32Converter().AsIEnumerableConverter();
 
         var wrapper = new CsvRecordMapping();

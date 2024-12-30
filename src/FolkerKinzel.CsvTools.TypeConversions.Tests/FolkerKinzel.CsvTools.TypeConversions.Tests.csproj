@@ -68,5 +68,11 @@
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(TargetFramework)' == 'net9.0'">
 		<Exec Command="echo $(ProjectDir) &gt; &quot;$(ProjectDir)\Resources\ProjDir.txt&quot;" />
 	</Target>
+	<ItemGroup>
+	  <EditorConfigFiles Remove="C:\Users\fkinz\source\repos\FolkerKinzel.CsvTools.TypeConversions\src\FolkerKinzel.CsvTools.TypeConversions.Tests\.editorconfig" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Include="C:\Users\fkinz\source\repos\FolkerKinzel.CsvTools.TypeConversions\src\FolkerKinzel.CsvTools.TypeConversions.Tests\.editorconfig" />
+	</ItemGroup>
 
 </Project>

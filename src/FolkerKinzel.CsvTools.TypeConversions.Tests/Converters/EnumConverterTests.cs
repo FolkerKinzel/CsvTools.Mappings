@@ -10,7 +10,7 @@ public class EnumConverterTests
     public void EnumConverterTest1()
     {
         ICsvTypeConverter conv = new EnumConverter<TypeCode>();
-        Assert.IsInstanceOfType(conv, typeof(EnumConverter<TypeCode>));
+        Assert.IsNotNull(conv);
     }
 
     //[TestMethod()]
@@ -26,21 +26,19 @@ public class EnumConverterTests
     public void EnumConverterTest3()
     {
         ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "bla");
-        Assert.IsInstanceOfType(conv, typeof(EnumConverter<TypeCode>));
+        Assert.IsInstanceOfType<EnumConverter<TypeCode>>(conv);
     }
 
     [TestMethod()]
     public void EnumConverterTest4()
     {
         ICsvTypeConverter conv = new EnumConverter<TypeCode>(format: "F");
-        Assert.IsInstanceOfType(conv, typeof(EnumConverter<TypeCode>));
+        Assert.IsInstanceOfType<EnumConverter<TypeCode>>(conv);
     }
-
 
     [TestMethod()]
     [ExpectedException(typeof(InvalidCastException))]
     public void EnumConverterTest5() => _ = new EnumConverter<DayOfWeek>().ConvertToString(null);
-
 
     [TestMethod]
     public void RoundtripTest1()

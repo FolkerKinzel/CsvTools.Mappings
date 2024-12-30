@@ -57,7 +57,7 @@ public class CsvPropertyTests
 
         Assert.IsNotNull(prop);
         Assert.AreEqual(prop.PropertyName, propertyName);
-        Assert.IsInstanceOfType(prop.Converter, typeof(StringConverter));
+        Assert.IsInstanceOfType< StringConverter>(prop.Converter);
     }
 
     [TestMethod()]
