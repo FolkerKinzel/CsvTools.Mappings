@@ -52,12 +52,12 @@ public class StringConverterTests
     {
         var conv = new StringConverter();
 
-        new CsvIndexProperty<string?>("prop", 0,  conv).SetValue(4711);
+        new IndexProperty<string?>("prop", 0,  conv).SetValue(4711);
     }
 
 
     [ExpectedException(typeof(InvalidCastException))]
     [TestMethod()]
     public void ConvertToStringTest_ThrowOnDBNull()
-        => new CsvIndexProperty<string?>("prop",0, new StringConverter()).SetValue(DBNull.Value);
+        => new IndexProperty<string?>("prop",0, new StringConverter()).SetValue(DBNull.Value);
 }

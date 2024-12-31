@@ -15,9 +15,9 @@
 /// the <see cref="Throwing"/> property is <c>false</c>.
 /// </param>
 /// <remarks>
-/// Instances derived from this class are required by <see cref="CsvMultiColumnProperty{T}"/>.
+/// Instances derived from this class are required by <see cref="MultiColumnProperty{T}"/>.
 /// </remarks>
-/// <seealso cref="CsvMultiColumnProperty{T}"/>
+/// <seealso cref="MultiColumnProperty{T}"/>
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
 public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
@@ -48,13 +48,13 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract bool CsvHasValue();
 
     /// <summary>
-    /// Tries to convert several <see cref="CsvProperty"/> instances in
+    /// Tries to convert several <see cref="MappingProperty"/> instances in
     /// <see cref="Mapping"/> to a <typeparamref name="T"/> value.
     /// </summary>
     /// 
     /// <param name="result">
     /// After the method was successful, contains the <typeparamref name="T"/> value that is equivalent
-    /// to the content of the converted <see cref="CsvProperty"/> instances in
+    /// to the content of the converted <see cref="MappingProperty"/> instances in
     /// <see cref="Mapping"/>,
     /// or the default value of <typeparamref name="T"/> if the parsing failed.
     /// </param>
@@ -68,7 +68,7 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract bool TryConvertMapping(out T result);
 
     /// <summary>
-    /// Converts several <see cref="CsvProperty"/> instances in <see cref="Mapping"/> to a 
+    /// Converts several <see cref="MappingProperty"/> instances in <see cref="Mapping"/> to a 
     /// <typeparamref name="T"/> value.
     /// </summary>
     /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
@@ -93,7 +93,7 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract void DoConvertToCsv(T? value);
 
     /// <summary>
-    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvProperty.Record"/> 
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="MappingProperty.Record"/> 
     /// using <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
@@ -110,10 +110,10 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     }
 
     /// <summary>
-    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvProperty.Record"/> 
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="MappingProperty.Record"/> 
     /// using <see cref="Mapping"/>.
     /// </summary>
-    /// <param name="value">The object to write to the selected fields of <see cref="CsvProperty.Record"/>.</param>
+    /// <param name="value">The object to write to the selected fields of <see cref="MappingProperty.Record"/>.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
     public void ConvertToCsv(object? value) => ConvertToCsv((T?)value);
 }

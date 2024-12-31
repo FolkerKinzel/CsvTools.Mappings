@@ -5,54 +5,54 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
 [TestClass()]
-public class CsvPropertyTests
+public class MappingPropertyTests
 {
     [TestMethod()]
     public void CsvPropertyTest1()
     {
-        var prop = new  CsvColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
+        var prop = new  ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
         Assert.IsNotNull(prop);
     }
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest2() => _ = new CsvColumnNameProperty<string?>(null!, ["Col1"], new StringConverter());
+    public void CsvPropertyTest2() => _ = new ColumnNameProperty<string?>(null!, ["Col1"], new StringConverter());
 
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest3() => _ = new CsvColumnNameProperty<string?>("Prop", null!, new StringConverter());
+    public void CsvPropertyTest3() => _ = new ColumnNameProperty<string?>("Prop", null!, new StringConverter());
 
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest4() => _ = new CsvColumnNameProperty<string?>("Prop", ["Col1"], null!);
+    public void CsvPropertyTest4() => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], null!);
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
     public void CsvPropertyTest5()
-        => _ = new CsvColumnNameProperty<string?>("Ähh", ["Col1"], new StringConverter());
+        => _ = new ColumnNameProperty<string?>("Ähh", ["Col1"], new StringConverter());
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
     public void CsvPropertyTest6() 
-        => _ = new CsvColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), -7);
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), -7);
 
 
     [TestMethod()]
     public void CsvPropertyTest7()
-        => _ = new CsvColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), CsvColumnNameProperty<string?>.MaxWildcardTimeout + 1);
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), ColumnNameProperty<string?>.MaxWildcardTimeout + 1);
 
     [TestMethod()]
     public void CsvPropertyTest8() 
-        => _ = new CsvColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), 0);
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), 0);
 
 
     [TestMethod()]
     public void CsvIndexPropertyTest9()
     {
         const string propertyName = "myProp";
-        var prop = new CsvIndexProperty<string?>(propertyName, 0, new StringConverter());
+        var prop = new IndexProperty<string?>(propertyName, 0, new StringConverter());
 
         Assert.IsNotNull(prop);
         Assert.AreEqual(prop.PropertyName, propertyName);
@@ -61,20 +61,20 @@ public class CsvPropertyTests
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void CsvPropertyTest10() => _ = new CsvIndexProperty<string?>("propertyName", -1, new StringConverter());
+    public void CsvPropertyTest10() => _ = new IndexProperty<string?>("propertyName", -1, new StringConverter());
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest11() => _ = new CsvIndexProperty<string?>(null!, 17, new StringConverter());
+    public void CsvPropertyTest11() => _ = new IndexProperty<string?>(null!, 17, new StringConverter());
 
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest12() => _ = new CsvIndexProperty<string?>("Prop", 17, null!);
+    public void CsvPropertyTest12() => _ = new IndexProperty<string?>("Prop", 17, null!);
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
-    public void CsvPropertyTest13() => _ = new CsvIndexProperty<string?>("Ähh", 17, new StringConverter());
+    public void CsvPropertyTest13() => _ = new IndexProperty<string?>("Ähh", 17, new StringConverter());
    
 
 

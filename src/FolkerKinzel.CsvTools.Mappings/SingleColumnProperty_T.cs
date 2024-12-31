@@ -8,10 +8,10 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>
 /// whose data comes from a single column of the CSV file.
 /// </summary>
-public abstract class CsvSingleColumnProperty<T> : CsvProperty
+public abstract class SingleColumnProperty<T> : MappingProperty
 {
     /// <summary>
-    /// Initializes a new <see cref="CsvSingleColumnProperty{T}"/> instance.
+    /// Initializes a new <see cref="SingleColumnProperty{T}"/> instance.
     /// </summary>
     ///  <param name="propertyName">
     /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
@@ -26,7 +26,7 @@ public abstract class CsvSingleColumnProperty<T> : CsvProperty
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
     /// </exception>
-    protected CsvSingleColumnProperty(string propertyName, CsvTypeConverter<T> converter) : base(propertyName)
+    protected SingleColumnProperty(string propertyName, CsvTypeConverter<T> converter) : base(propertyName)
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         this.Converter = converter;
@@ -41,8 +41,8 @@ public abstract class CsvSingleColumnProperty<T> : CsvProperty
     protected internal override CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// The index of the column in the CSV file that <see cref="CsvProperty"/> actually accesses, 
-    /// or <c>null</c> if <see cref="CsvProperty"/> does not find a target in the CSV file.
+    /// The index of the column in the CSV file that <see cref="MappingProperty"/> actually accesses, 
+    /// or <c>null</c> if <see cref="MappingProperty"/> does not find a target in the CSV file.
     /// </summary>
     /// <remarks>The property is updated on each read or write access.</remarks>
     public int? ReferredCsvIndex { get; protected set; }

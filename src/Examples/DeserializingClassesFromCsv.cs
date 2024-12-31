@@ -61,25 +61,25 @@ internal static class DeserializingClassesFromCsv
 
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<string?>("Name",
+                new ColumnNameProperty<string?>("Name",
                                 ["*name"],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<string?>("Subject",
+                new ColumnNameProperty<string?>("Subject",
                                 ["*subject", "*fach"],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<DayOfWeek?>("LessonDay",
+                new ColumnNameProperty<DayOfWeek?>("LessonDay",
                                 ["*day", "*tag"],
                                 new EnumConverter<DayOfWeek>().AsNullableConverter())
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<TimeSpan?>("LessonBegin",
+                new ColumnNameProperty<TimeSpan?>("LessonBegin",
                                 ["*begin?"],
                                 new TimeSpanConverter().AsNullableConverter())
             );

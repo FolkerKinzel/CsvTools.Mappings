@@ -19,8 +19,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <exception cref="RegexMatchTimeoutException">
 /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
 /// </exception>
-public class CsvMultiColumnProperty<T>(string propertyName, CsvMultiColumnTypeConverter<T> converter) 
-    : CsvProperty(propertyName)
+public class MultiColumnProperty<T>(string propertyName, CsvMultiColumnTypeConverter<T> converter) 
+    : MappingProperty(propertyName)
 {
     /// <summary>
     /// An object derived from <see cref="CsvMultiColumnTypeConverter{T}"/> that performs the type conversion.

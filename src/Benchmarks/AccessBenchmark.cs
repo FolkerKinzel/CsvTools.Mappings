@@ -23,14 +23,14 @@ public class AccessBenchmark
         _csv = Properties.Resources.Test1;
         var conv = new StringConverter();
         _indexWrapper = new CsvRecordMapping();
-        _indexWrapper.AddProperty(new CsvIndexProperty<string?>("Column0", 0, conv));
-        _indexWrapper.AddProperty(new CsvIndexProperty<string?>("Column1", 1, conv));
-        _indexWrapper.AddProperty(new CsvIndexProperty<string?>("Column2", 2, conv));
+        _indexWrapper.AddProperty(new IndexProperty<string?>("Column0", 0, conv));
+        _indexWrapper.AddProperty(new IndexProperty<string?>("Column1", 1, conv));
+        _indexWrapper.AddProperty(new IndexProperty<string?>("Column2", 2, conv));
 
         _nameWrapper = new CsvRecordMapping();
-        _nameWrapper.AddProperty(new CsvColumnNameProperty<string?>("Column0", ["Column0"], conv));
-        _nameWrapper.AddProperty(new CsvColumnNameProperty<string?>("Column1", ["Column1"], conv));
-        _nameWrapper.AddProperty(new CsvColumnNameProperty<string?>("Column2", ["Column2"], conv));
+        _nameWrapper.AddProperty(new ColumnNameProperty<string?>("Column0", ["Column0"], conv));
+        _nameWrapper.AddProperty(new ColumnNameProperty<string?>("Column1", ["Column1"], conv));
+        _nameWrapper.AddProperty(new ColumnNameProperty<string?>("Column2", ["Column2"], conv));
     }
 
     [Benchmark]

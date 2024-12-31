@@ -63,6 +63,6 @@ public class ByteArrayConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(InvalidCastException))]
-    public void MyTestMethod() => new CsvIndexProperty<byte[]?>("prop", 0, new ByteArrayConverter()).SetValue(4711);
+    public void MyTestMethod() => new IndexProperty<byte[]?>("prop", 0, new ByteArrayConverter()).SetValue(4711);
 
 }

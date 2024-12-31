@@ -101,25 +101,25 @@ internal static class CsvToDataTable
 
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<object>(PUPILS_NAME,
+                new ColumnNameProperty<object>(PUPILS_NAME,
                                 [PUPILS_NAME],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<object>(SUBJECT,
+                new ColumnNameProperty<object>(SUBJECT,
                                 [SUBJECT],
                                 stringConverter)
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<object>(LESSON_DAY,
+                new ColumnNameProperty<object>(LESSON_DAY,
                                 [LESSON_DAY],
                                 new EnumConverter<DayOfWeek>(format: "G").AsDBNullEnabled())
             );
         wrapper.AddProperty
             (
-                new CsvColumnNameProperty<object>(LESSON_BEGIN,
+                new ColumnNameProperty<object>(LESSON_BEGIN,
                                 [LESSON_BEGIN],
                                 new TimeSpanConverter().AsDBNullEnabled())
             );

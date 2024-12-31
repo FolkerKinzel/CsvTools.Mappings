@@ -8,20 +8,20 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </summary>
 /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
 /// <remarks>
-/// <see cref="CsvIndexProperty{T}"/> 
+/// <see cref="IndexProperty{T}"/> 
 /// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its zero-based column index.
 /// </remarks>
-public sealed class CsvIndexProperty<T> : CsvSingleColumnProperty<T>
+public sealed class IndexProperty<T> : SingleColumnProperty<T>
 {
     /// <summary>
-    /// Initializes a new <see cref="CsvIndexProperty{T}"/> instance.
+    /// Initializes a new <see cref="IndexProperty{T}"/> instance.
     /// </summary>
     /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
     /// Only ASCII characters are accepted.
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
-    /// If this index doesn't exist, the <see cref="CsvIndexProperty{T}"/> is ignored 
+    /// If this index doesn't exist, the <see cref="IndexProperty{T}"/> is ignored 
     /// when writing. When reading, in this case, <see cref="CsvTypeConverter{T}.FallbackValue"/> is returned.</param>
     /// <param name="converter">The <see cref="CsvTypeConverter{T}"/> that does the type conversion.</param>
     /// 
@@ -31,7 +31,7 @@ public sealed class CsvIndexProperty<T> : CsvSingleColumnProperty<T>
     /// <paramref name="converter"/> is <c>null</c>.</exception>
     /// 
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="csvIndex"/>  is less than Zero.</exception>
-    public CsvIndexProperty(
+    public IndexProperty(
         string propertyName, int csvIndex, CsvTypeConverter<T> converter) : base(propertyName, converter)
     {
         _ArgumentOutOfRangeException.ThrowIfNegative(csvIndex, nameof(csvIndex));
@@ -39,7 +39,7 @@ public sealed class CsvIndexProperty<T> : CsvSingleColumnProperty<T>
     }
 
     /// <summary>
-    /// The zero-based index of the column in the CSV file that <see cref="CsvIndexProperty{T}"/> would like to access.
+    /// The zero-based index of the column in the CSV file that <see cref="IndexProperty{T}"/> would like to access.
     /// </summary>
     public int CsvIndex { get; }
 

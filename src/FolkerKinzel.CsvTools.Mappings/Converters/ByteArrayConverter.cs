@@ -27,7 +27,7 @@ public sealed class ByteArrayConverter(bool throwing = true, bool nullable = tru
     {
         try
         {
-            result = (byte[])Convert.FromBase64String(value.ToString());
+            result = Base64.GetBytes(value, Base64ParserOptions.AcceptMissingPadding);
             return true;
         }
         catch (FormatException)
