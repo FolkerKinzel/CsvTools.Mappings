@@ -3,15 +3,15 @@
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="byte"/> arrays.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="byte"/> arrays.
 /// </summary>
 /// <param name="throwing">Sets the value of the 
-/// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
-/// <param name="nullable"><c>true</c> to set <see cref="CsvTypeConverter{T}.FallbackValue"/>
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+/// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.FallbackValue"/>
 /// to <c>null</c>; <c>false</c> to have an empty <see cref="byte"/> array as 
-/// <see cref="CsvTypeConverter{T}.FallbackValue"/>.</param>
+/// <see cref="TypeConverter{T}.FallbackValue"/>.</param>
 public sealed class ByteArrayConverter(bool throwing = true, bool nullable = true) 
-    : CsvTypeConverter<byte[]?>(throwing, nullable ? null : [])
+    : TypeConverter<byte[]?>(throwing, nullable ? null : [])
 {
     /// <inheritdoc/>
     public override bool AcceptsNull => true;

@@ -3,14 +3,14 @@ using System.Text;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
-internal sealed class IEnumerableConverter<TItem> : CsvTypeConverter<IEnumerable<TItem?>?>
+internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TItem?>?>
 {
     private readonly char _separatorChar;
-    private readonly CsvTypeConverter<TItem?> _itemsConverter;
+    private readonly TypeConverter<TItem?> _itemsConverter;
 
     public override bool AcceptsNull => true;
 
-    internal IEnumerableConverter(CsvTypeConverter<TItem?> itemsConverter, bool nullable, char fieldSeparator)
+    internal IEnumerableConverter(TypeConverter<TItem?> itemsConverter, bool nullable, char fieldSeparator)
         : base(false, nullable ? null : Array.Empty<TItem>())
     {
         _itemsConverter = itemsConverter ?? throw new ArgumentNullException(nameof(itemsConverter));

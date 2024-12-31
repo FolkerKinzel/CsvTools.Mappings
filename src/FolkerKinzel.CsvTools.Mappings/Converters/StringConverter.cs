@@ -3,13 +3,13 @@
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="string"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="string"/>.
 /// </summary>
-/// <param name="nullable"><c>true</c> to set <see cref="CsvTypeConverter{T}.FallbackValue"/>
+/// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.FallbackValue"/>
 /// to <c>null</c>; <c>false</c> to have <see cref="string.Empty"/> as 
-/// <see cref="CsvTypeConverter{T}.FallbackValue"/>.</param>
+/// <see cref="TypeConverter{T}.FallbackValue"/>.</param>
 public sealed class StringConverter(bool nullable = true) 
-    : CsvTypeConverter<string?>(false, nullable ? null : string.Empty)
+    : TypeConverter<string?>(false, nullable ? null : string.Empty)
 {
     /// <inheritdoc/>
     public override bool AcceptsNull => true;

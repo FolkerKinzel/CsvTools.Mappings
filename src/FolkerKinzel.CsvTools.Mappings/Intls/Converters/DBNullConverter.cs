@@ -2,13 +2,13 @@
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
-internal sealed class DBNullConverter<T> : CsvTypeConverter<object>
+internal sealed class DBNullConverter<T> : TypeConverter<object>
 {
-    private readonly CsvTypeConverter<T> _valueConverter;
+    private readonly TypeConverter<T> _valueConverter;
 
     public override bool AcceptsNull => _valueConverter.AcceptsNull;
 
-    internal DBNullConverter(CsvTypeConverter<T> converter)
+    internal DBNullConverter(TypeConverter<T> converter)
         : base((converter ?? throw new ArgumentNullException(nameof(converter))).Throwing, DBNull.Value)
         => _valueConverter = converter;
 

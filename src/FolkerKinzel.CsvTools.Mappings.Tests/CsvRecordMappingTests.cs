@@ -458,7 +458,7 @@ public class CsvRecordMappingTests
         const string prop2Name = "Prop2";
         const string prop3Name = "Prop3";
 
-        CsvTypeConverter<int?> conv = new Int32Converter().AsNullableConverter();
+        TypeConverter<int?> conv = new Int32Converter().AsNullableConverter();
 
         var prop1 =
             new IndexProperty<int?>(prop1Name, 0, conv);
@@ -728,7 +728,7 @@ public class CsvRecordMappingTests
         const string prop2Name = "Prop2";
         const string prop3Name = "Prop3";
 
-        CsvTypeConverter<int?> conv = new Int32Converter().AsNullableConverter();
+        TypeConverter<int?> conv = new Int32Converter().AsNullableConverter();
 
         var prop1 =
             new IndexProperty<int?>(prop1Name, 0, conv);

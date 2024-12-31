@@ -4,9 +4,9 @@ using System.Globalization;
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="Guid"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="Guid"/>.
 /// </summary>
-public sealed class GuidConverter : CsvTypeConverter<Guid>
+public sealed class GuidConverter : TypeConverter<Guid>
 {
     private const string DEFAULT_FORMAT = "D";
 
@@ -14,7 +14,7 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
     /// Initializes a new <see cref="GuidConverter"/> instance.
     /// </summary>
     /// <param name="throwing">Sets the value of the 
-    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <remarks>
     /// Instances initialized with this constructor use the format string "D".
     /// This constructor is much faster than its overload.
@@ -27,7 +27,7 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
     /// </summary>
     /// <param name="format">A format string or <c>null</c> for "D".</param>
     /// <param name="throwing">Sets the value of the 
-    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is not valid.
     /// </exception>

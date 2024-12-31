@@ -1,11 +1,11 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// Generic <see cref="CsvTypeConverter{T}"/> implementation for <c>enum</c> types.
+/// Generic <see cref="TypeConverter{T}"/> implementation for <c>enum</c> types.
 /// </summary>
 /// <typeparam name="TEnum">The .NET enum data type the <see cref="EnumConverter{TEnum}"/>
 /// can convert.</typeparam>
-public sealed class EnumConverter<TEnum> : CsvTypeConverter<TEnum> where TEnum : struct, Enum
+public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : struct, Enum
 {
     private const string DEFAULT_FORMAT = "D";
 
@@ -13,10 +13,10 @@ public sealed class EnumConverter<TEnum> : CsvTypeConverter<TEnum> where TEnum :
     /// Initializes a new <see cref="EnumConverter{TEnum}"/> instance.
     /// </summary>
     /// <param name="throwing">Sets the value of the 
-    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="fallbackValue">
-    /// The <see cref="CsvTypeConverter{T}.FallbackValue"/> to return when a parsing error occurs and
-    /// the <see cref="CsvTypeConverter{T}.Throwing"/> property is <c>false</c>.
+    /// The <see cref="TypeConverter{T}.FallbackValue"/> to return when a parsing error occurs and
+    /// the <see cref="TypeConverter{T}.Throwing"/> property is <c>false</c>.
     /// </param>
     /// <param name="ignoreCase">A value that indicates whether the parser takes casing into account.
     /// (<c>false</c> for case-sensitive parsing, otherwise <c>true</c>.)</param>
@@ -34,10 +34,10 @@ public sealed class EnumConverter<TEnum> : CsvTypeConverter<TEnum> where TEnum :
     /// </summary>
     /// <param name="format">The format string.</param>
     /// <param name="throwing">Sets the value of the 
-    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="fallbackValue">
-    /// The <see cref="CsvTypeConverter{T}.FallbackValue"/> to return when a parsing error occurs and
-    /// the <see cref="CsvTypeConverter{T}.Throwing"/> property is <c>false</c>.
+    /// The <see cref="TypeConverter{T}.FallbackValue"/> to return when a parsing error occurs and
+    /// the <see cref="TypeConverter{T}.Throwing"/> property is <c>false</c>.
     /// </param>
     /// <param name="ignoreCase">A value that indicates whether the parser takes casing into account.
     /// (<c>false</c> for case-sensitive parsing, otherwise <c>true</c>.)</param>

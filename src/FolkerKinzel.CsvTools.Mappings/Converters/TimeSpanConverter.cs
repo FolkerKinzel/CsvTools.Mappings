@@ -4,9 +4,9 @@ using System.Globalization;
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="TimeSpan"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="TimeSpan"/>.
 /// </summary>
-public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
+public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
 {
     private const string DEFAULT_FORMAT = "g";
 
@@ -18,7 +18,7 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     /// Initializes a new <see cref="TimeSpanConverter"/> instance.
     /// </summary>
     /// <param name="throwing">Sets the value of the 
-    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
@@ -35,7 +35,7 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     /// A format string that is used for the <see cref="string"/> output of <see cref="TimeSpan"/> values. If the 
     /// option <paramref name="parseExact"/> is selected this format string is also used for parsing.</param>
     /// <param name="throwing">Sets the value of the 
-    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.

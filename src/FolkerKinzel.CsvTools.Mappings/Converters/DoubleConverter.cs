@@ -3,16 +3,16 @@
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="double"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="double"/>.
 /// </summary>
 /// <param name="throwing">Sets the value of the 
-/// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="formatProvider">
 /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
 public sealed class DoubleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : CsvTypeConverter<double>(throwing)
+    : TypeConverter<double>(throwing)
 {
     private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 

@@ -1,16 +1,16 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="bool"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="bool"/>.
 /// </summary>
 /// <param name="throwing">Sets the value of the 
-/// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="fallbackValue">
-/// The <see cref="CsvTypeConverter{T}.FallbackValue"/> to return when a parsing error occurs and
-/// the <see cref="CsvTypeConverter{T}.Throwing"/> property is <c>false</c>.
+/// The <see cref="TypeConverter{T}.FallbackValue"/> to return when a parsing error occurs and
+/// the <see cref="TypeConverter{T}.Throwing"/> property is <c>false</c>.
 /// </param>
 public sealed class BooleanConverter(bool throwing = true, bool fallbackValue = default)
-    : CsvTypeConverter<bool>(throwing, fallbackValue)
+    : TypeConverter<bool>(throwing, fallbackValue)
 {
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

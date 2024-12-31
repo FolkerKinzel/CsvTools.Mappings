@@ -22,8 +22,8 @@ public sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
     /// If this index doesn't exist, the <see cref="IndexProperty{T}"/> is ignored 
-    /// when writing. When reading, in this case, <see cref="CsvTypeConverter{T}.FallbackValue"/> is returned.</param>
-    /// <param name="converter">The <see cref="CsvTypeConverter{T}"/> that does the type conversion.</param>
+    /// when writing. When reading, in this case, <see cref="TypeConverter{T}.FallbackValue"/> is returned.</param>
+    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# identifiers (only ASCII characters).</exception>
     /// 
@@ -32,7 +32,7 @@ public sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// 
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="csvIndex"/>  is less than Zero.</exception>
     public IndexProperty(
-        string propertyName, int csvIndex, CsvTypeConverter<T> converter) : base(propertyName, converter)
+        string propertyName, int csvIndex, TypeConverter<T> converter) : base(propertyName, converter)
     {
         _ArgumentOutOfRangeException.ThrowIfNegative(csvIndex, nameof(csvIndex));
         this.CsvIndex = csvIndex;

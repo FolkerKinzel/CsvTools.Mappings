@@ -26,7 +26,7 @@ public abstract class SingleColumnProperty<T> : MappingProperty
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
     /// </exception>
-    protected SingleColumnProperty(string propertyName, CsvTypeConverter<T> converter) : base(propertyName)
+    protected SingleColumnProperty(string propertyName, TypeConverter<T> converter) : base(propertyName)
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         this.Converter = converter;
@@ -35,7 +35,7 @@ public abstract class SingleColumnProperty<T> : MappingProperty
     /// <summary>
     /// An object that does the <see cref="Type"/> conversion.
     /// </summary>
-    public CsvTypeConverter<T> Converter { get; }
+    public TypeConverter<T> Converter { get; }
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record { get; internal set; }

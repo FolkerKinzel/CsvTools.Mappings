@@ -3,26 +3,26 @@
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// Extension methods for <see cref="CsvTypeConverter{T}"/>.
+/// Extension methods for <see cref="TypeConverter{T}"/>.
 /// </summary>
-public static class CsvTypeConverterExtension
+public static class TypeConverterExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvTypeConverter<object> AsDBNullEnabled<T>(this CsvTypeConverter<T> converter)
+    public static TypeConverter<object> AsDBNullEnabled<T>(this TypeConverter<T> converter)
     {
-        return converter is CsvTypeConverter<object> result && Convert.IsDBNull(result.FallbackValue)
+        return converter is TypeConverter<object> result && Convert.IsDBNull(result.FallbackValue)
             ? result
             : new DBNullConverter<T>(converter);
     }
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvTypeConverter<T?> AsNullableConverter<T>(this CsvTypeConverter<T> converter)
+    public static TypeConverter<T?> AsNullableConverter<T>(this TypeConverter<T> converter)
         where T : struct => new NullableStructConverter<T>(converter);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvTypeConverter<IEnumerable<TItem?>?> AsIEnumerableConverter<TItem>(this CsvTypeConverter<TItem?> itemsConverter,
+    public static TypeConverter<IEnumerable<TItem?>?> AsIEnumerableConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
                                                                                  bool nullable = true,
                                                                                  char fieldSeparator = ',')
         => new IEnumerableConverter<TItem>(itemsConverter, nullable, fieldSeparator);

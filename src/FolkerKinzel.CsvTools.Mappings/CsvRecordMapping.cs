@@ -66,7 +66,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// object is the same for each iteration.
 /// <para>
 /// If <see cref="MultiColumnProperty{T}"/> objects are inserted into <see cref="CsvRecordMapping"/>, the <see cref="CsvRecordMapping"/> instances 
-/// of their <see cref="CsvMultiColumnTypeConverter{T}"/> will automatically get the current <see cref="CsvRecord"/> instance via the parent 
+/// of their <see cref="MultiColumnTypeConverter{T}"/> will automatically get the current <see cref="CsvRecord"/> instance via the parent 
 /// <see cref="CsvRecordMapping"/> they are inserted into.
 /// </para>
 /// </remarks>

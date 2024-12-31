@@ -3,16 +3,16 @@
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="int"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="int"/>.
 /// </summary>
 /// <param name="throwing">Sets the value of the 
-/// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="formatProvider">
 /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
 public sealed class Int32Converter(bool throwing = true, IFormatProvider? formatProvider = null) 
-    : CsvTypeConverter<int>(throwing), IHexConverter<int>
+    : TypeConverter<int>(throwing), IHexConverter<int>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -27,7 +27,7 @@ public sealed class Int32Converter(bool throwing = true, IFormatProvider? format
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    public CsvTypeConverter<int> AsHexConverter()
+    public TypeConverter<int> AsHexConverter()
     {
         _styles = HEX_STYLE;
         _format = HEX_FORMAT;

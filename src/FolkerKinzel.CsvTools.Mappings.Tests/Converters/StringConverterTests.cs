@@ -35,7 +35,7 @@ public class StringConverterTests
     [TestMethod()]
     public void ConvertToStringTest()
     {
-        CsvTypeConverter<object> conv = new StringConverter().AsDBNullEnabled();
+        TypeConverter<object> conv = new StringConverter().AsDBNullEnabled();
 
         Assert.IsNull(conv.ConvertToString(DBNull.Value));
 

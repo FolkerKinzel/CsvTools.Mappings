@@ -38,7 +38,7 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     /// Column names of the CSV file that <see cref="ColumnNameProperty{T}"/> can access. For the access <see cref="ColumnNameProperty{T}"/> 
     /// uses the first alias that is a match with a column name of the CSV file. The alias strings may contain the wildcard characters * and ?. 
     /// If a wildcard alias matches several columns in the CSV file, the column with the lowest index is referenced.</param>
-    /// <param name="converter">The <see cref="CsvTypeConverter{T}"/> that does the type conversion.</param>
+    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// <param name="wildcardTimeout">
     /// Timeout value in milliseconds or 0, for <see cref="Regex.InfiniteMatchTimeout"/>. If the value is greater than <see cref="MaxWildcardTimeout"/>
     /// it is normalized to this value. If an alias in <paramref name="columnNameAliases"/> contains wildcard characters, inside this timeout the program 
@@ -53,7 +53,7 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="wildcardTimeout"/> is less than Zero.</exception>
     public ColumnNameProperty(string propertyName,
                                  IEnumerable<string> columnNameAliases,
-                                 CsvTypeConverter<T> converter,
+                                 TypeConverter<T> converter,
                                  int wildcardTimeout = 10)
         : base(propertyName, converter)
     {

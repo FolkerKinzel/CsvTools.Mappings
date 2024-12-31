@@ -20,9 +20,9 @@
 /// <seealso cref="MultiColumnProperty{T}"/>
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
-public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
+public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
                                                      bool throwing,
-                                                     T? fallbackValue = default) : ICsvTypeConverter<T>
+                                                     T? fallbackValue = default) : ITypeConverter<T>
 {
     /// <summary>
     /// The <see cref="CsvRecordMapping"/> to use to access those columns 

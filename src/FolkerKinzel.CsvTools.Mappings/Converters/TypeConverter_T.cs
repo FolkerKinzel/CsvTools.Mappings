@@ -11,8 +11,8 @@
 /// The <see cref="FallbackValue"/> to return when a parsing error occurs and
 /// the <see cref="Throwing"/> property is <c>false</c>.
 /// </param>
-public abstract class CsvTypeConverter<T>(bool throwing,
-                                          T? fallbackValue = default) : ICsvTypeConverter<T> 
+public abstract class TypeConverter<T>(bool throwing,
+                                          T? fallbackValue = default) : ITypeConverter<T> 
 {
     /// <inheritdoc/>
     public T? FallbackValue { get; } = fallbackValue;

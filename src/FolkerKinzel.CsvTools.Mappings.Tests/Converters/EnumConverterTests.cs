@@ -139,7 +139,7 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        CsvTypeConverter<TypeCode?> conv 
+        TypeConverter<TypeCode?> conv 
             = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase)
              .AsNullableConverter();
 
@@ -158,7 +158,7 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        CsvTypeConverter<TypeCode?> conv 
+        TypeConverter<TypeCode?> conv 
             = new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase)
               .AsNullableConverter();
 
@@ -181,7 +181,7 @@ public class EnumConverterTests
     {
         var enumConv = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase);
 
-        CsvTypeConverter<object> conv = nullable ? enumConv.AsNullableConverter().AsDBNullEnabled() : enumConv.AsDBNullEnabled();
+        TypeConverter<object> conv = nullable ? enumConv.AsNullableConverter().AsDBNullEnabled() : enumConv.AsDBNullEnabled();
 
         string? s = conv.ConvertToString(DBNull.Value);
         Assert.IsNull(s);
@@ -200,7 +200,7 @@ public class EnumConverterTests
     [DataRow(true, true, true)]
     public void RoundtripTest10(bool throwOnParseErrors, bool ignoreCase, bool nullable)
     {
-        CsvTypeConverter<object> conv = nullable ? new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter().AsDBNullEnabled() :
+        TypeConverter<object> conv = nullable ? new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter().AsDBNullEnabled() :
                               new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsDBNullEnabled();
 
         string? s = conv.ConvertToString(DBNull.Value);

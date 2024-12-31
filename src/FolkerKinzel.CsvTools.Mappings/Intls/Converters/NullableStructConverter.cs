@@ -4,13 +4,13 @@ using System.Diagnostics.CodeAnalysis;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
 
-internal sealed class NullableStructConverter<T> : CsvTypeConverter<T?> where T : struct
+internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : struct
 {
-    private readonly CsvTypeConverter<T> _typeConverter;
+    private readonly TypeConverter<T> _typeConverter;
 
     public override bool AcceptsNull => true;
 
-    internal NullableStructConverter(CsvTypeConverter<T> converter)
+    internal NullableStructConverter(TypeConverter<T> converter)
         : base((converter ?? throw new ArgumentNullException(nameof(converter))).Throwing) => _typeConverter = converter;
 
     public override string? ConvertToString(T? value) => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;

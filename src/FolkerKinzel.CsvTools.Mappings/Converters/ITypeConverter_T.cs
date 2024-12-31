@@ -4,7 +4,7 @@
 /// Interface for converting between CSV data and .NET data types.
 /// </summary>
 /// <typeparam name="T">The .NET data type the converter can convert.</typeparam>
-public interface ICsvTypeConverter<T>
+public interface ITypeConverter<T>
 {
     /// <summary>
     /// Gets a value indicating whether the converter throws a

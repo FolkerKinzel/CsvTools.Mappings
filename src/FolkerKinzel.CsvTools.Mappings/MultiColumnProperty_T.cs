@@ -10,7 +10,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
 /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
 /// Only ASCII characters are accepted.</param>
-/// <param name="converter">An object derived from <see cref="CsvMultiColumnTypeConverter{T}"/> that performs the type conversion.</param>
+/// <param name="converter">An object derived from <see cref="MultiColumnTypeConverter{T}"/> that performs the type conversion.</param>
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.
 /// </exception>
@@ -19,13 +19,13 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <exception cref="RegexMatchTimeoutException">
 /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
 /// </exception>
-public class MultiColumnProperty<T>(string propertyName, CsvMultiColumnTypeConverter<T> converter) 
+public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter) 
     : MappingProperty(propertyName)
 {
     /// <summary>
-    /// An object derived from <see cref="CsvMultiColumnTypeConverter{T}"/> that performs the type conversion.
+    /// An object derived from <see cref="MultiColumnTypeConverter{T}"/> that performs the type conversion.
     /// </summary>
-    public CsvMultiColumnTypeConverter<T> Converter { get; } = converter ?? throw new ArgumentNullException(nameof(converter));
+    public MultiColumnTypeConverter<T> Converter { get; } = converter ?? throw new ArgumentNullException(nameof(converter));
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record

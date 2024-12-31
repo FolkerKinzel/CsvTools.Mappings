@@ -96,7 +96,7 @@ internal static class CsvToDataTable
 
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
-        CsvTypeConverter<object> stringConverter 
+        TypeConverter<object> stringConverter 
             = new StringConverter(nullable: false).AsDBNullEnabled();
 
         wrapper.AddProperty
