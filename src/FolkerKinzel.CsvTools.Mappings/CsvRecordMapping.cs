@@ -146,10 +146,10 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
     /// <summary>
     /// Allows access to the properties registered in <see cref="CsvRecordMapping"/> via a zero-based index. The index corresponds 
-    /// to the order in which the <see cref="CsvProperty"/> objects are registered in the <see cref="CsvRecordMapping"/>.
+    /// to the order in which the <see cref="MappingProperty"/> objects are registered in the <see cref="CsvRecordMapping"/>.
     /// </summary>
-    /// <param name="index">Zero-based index of the registered <see cref="CsvProperty"/> instance.</param>
-    /// <returns>Return value of the <see cref="CsvProperty"/> registered at <paramref name="index"/>.</returns>
+    /// <param name="index">Zero-based index of the registered <see cref="MappingProperty"/> instance.</param>
+    /// <returns>Return value of the <see cref="MappingProperty"/> registered at <paramref name="index"/>.</returns>
     /// 
     /// <exception cref="ArgumentOutOfRangeException">
     /// <paramref name="index"/> index is less than zero or greater than or equal to <see cref="Count"/>.</exception>
@@ -161,8 +161,8 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// the return value of the indexed <see cref="CsvProperty"/> could not be parsed successfully and the 
-    /// type converter of this <see cref="CsvProperty"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// the return value of the indexed <see cref="MappingProperty"/> could not be parsed successfully and the 
+    /// type converter of this <see cref="MappingProperty"/> was configured to throw an <see cref="InvalidCastException"/>
     /// in this case.
     /// </para>
     /// </exception>

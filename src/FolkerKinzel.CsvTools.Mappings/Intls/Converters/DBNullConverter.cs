@@ -6,14 +6,13 @@ internal sealed class DBNullConverter<T> : TypeConverter<object>
 {
     private readonly TypeConverter<T> _valueConverter;
 
+    internal DBNullConverter(TypeConverter<T> converter)
+        : base(converter.Throwing, DBNull.Value) => _valueConverter = converter;
+
     public override bool AcceptsNull => _valueConverter.AcceptsNull;
 
-    internal DBNullConverter(TypeConverter<T> converter)
-        : base((converter ?? throw new ArgumentNullException(nameof(converter))).Throwing, DBNull.Value)
-        => _valueConverter = converter;
-
     public override string? ConvertToString(object value)
-        => value == DBNull.Value
+        => Convert.IsDBNull(value)
             ? null
             : _valueConverter.ConvertToString((T)value);
 

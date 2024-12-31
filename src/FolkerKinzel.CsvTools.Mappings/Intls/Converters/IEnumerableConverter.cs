@@ -5,64 +5,66 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
 internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TItem?>?>
 {
-    private readonly char _separatorChar;
+    private readonly string _separator;
     private readonly TypeConverter<TItem?> _itemsConverter;
 
     public override bool AcceptsNull => true;
 
-    internal IEnumerableConverter(TypeConverter<TItem?> itemsConverter, bool nullable, char fieldSeparator)
-        : base(false, nullable ? null : Array.Empty<TItem>())
+    /// <summary>
+    /// Initializes a new <see cref="IEnumerableConverter{TItem}"/> instance.
+    /// </summary>
+    /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance that converts the items.</param>
+    /// <param name="separator">A <see cref="string"/> that separates the items in field of the CSV file. When parsing
+    /// the CSV, <paramref name="separator"/> will not be part of the results.</param>    
+    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.FallbackValue"/>
+    /// to <c>null</c>; <c>false</c> to have <see cref="Enumerable.Empty{TResult}"/> as 
+    /// <see cref="TypeConverter{T}.FallbackValue"/>.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>
+    /// is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
+    internal IEnumerableConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
+        : base(itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)), 
+               nullable ? null : [])
     {
-        _itemsConverter = itemsConverter ?? throw new ArgumentNullException(nameof(itemsConverter));
-        _separatorChar = fieldSeparator;
+        _itemsConverter = itemsConverter;
+        _separator = separator ?? throw new ArgumentNullException(nameof(separator));
+
+        if (separator.Length == 0)
+        {
+            throw new ArgumentException("The separator can't be an empty string.", nameof(separator));
+        }
     }
 
     public override string? ConvertToString(IEnumerable<TItem?>? value)
-    {
-        if (value is null || !value.Any())
-        {
-            return null;
-        }
-
-        var sb = new StringBuilder();
-        using var writer = new StringWriter(sb);
-        using (var csvWriter = new CsvWriter(writer, value.Count(), delimiter: _separatorChar))
-        {
-            Span<ReadOnlyMemory<char>> values = csvWriter.Record.Values;
-
-            int idx = 0;
-            foreach (TItem? item in value)
-            {
-                values[idx++] = _itemsConverter.ConvertToString(item).AsMemory();
-            }
-
-            csvWriter.WriteRecord();
-        }
-
-        return writer.ToString();
-    }
+        => value is null || !value.Any() 
+            ? null 
+            : string.Join(_separator, value.Select(x => _itemsConverter.ConvertToString(x)));
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out IEnumerable<TItem?>? result)
     {
+        Debug.Assert(_separator.Length > 0);   
+        Debug.Assert(_itemsConverter.Throwing == Throwing);
+
+        const int notFound = -1;
         var list = new List<TItem?>();
 
-        using var reader = new StringReader(value.ToString());
-        using var csvReader = new CsvEnumerator(reader, false, delimiter: _separatorChar);
-
-        CsvRecord? record = csvReader.FirstOrDefault();
-
-        if (record is null || record.Count == 0)
+        while (true)
         {
-            result = list;
-            return true;
-        }
+            int idx = value.IndexOf(_separator, StringComparison.Ordinal);
 
-        for (int i = 0; i < record.Count; i++)
-        {
-            list.Add(_itemsConverter.Parse(record.Values[i].Span));
-        }
+            if (idx == notFound)
+            {
+                // inherits the Throwing behavior from _itemsConverter:
+                list.Add(_itemsConverter.Parse(value));
+                result = list;
+                return true;
+            }
 
-        result = list;
-        return true;
+            list.Add(_itemsConverter.Parse(value.Slice(0,idx)));
+            idx += _separator.Length;
+
+            value = value.Slice(idx);
+        }
     }
 }

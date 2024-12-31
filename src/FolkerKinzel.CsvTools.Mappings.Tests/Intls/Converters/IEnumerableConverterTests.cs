@@ -21,7 +21,7 @@ public class IEnumerableConverterTests
             11
         };
 
-        TypeConverter<IEnumerable<int?>?> conv = new Int32Converter().ToNullableConverter().ToIEnumerableConverter();
+        TypeConverter<IEnumerable<int?>?> conv = new Int32Converter().ToNullableConverter().ToIEnumerableConverter("::");
         string? s = conv.ConvertToString(list);
 
         var result = (IEnumerable<int?>?)conv.Parse(s.AsSpan());
@@ -33,7 +33,7 @@ public class IEnumerableConverterTests
     public void IEnumerableTConverterTest()
     {
         IEnumerable<int> arr1 = [1, 2, 3];
-        TypeConverter<IEnumerable<int>?> conv = new Int32Converter().ToIEnumerableConverter();
+        TypeConverter<IEnumerable<int>?> conv = new Int32Converter().ToIEnumerableConverter("::");
 
         var wrapper = new CsvRecordMapping();
         var prop = new IndexProperty<IEnumerable<int>?>("TestProp", 0, conv);
