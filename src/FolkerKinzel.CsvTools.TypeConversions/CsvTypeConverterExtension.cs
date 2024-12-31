@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using FolkerKinzel.CsvTools.TypeConversions.Converters;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters;
 using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
@@ -25,7 +18,7 @@ public static class CsvTypeConverterExtension
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvTypeConverter<Nullable<T>> AsNullableConverter<T>(this CsvTypeConverter<T> converter) 
+    public static CsvTypeConverter<Nullable<T>> AsNullableConverter<T>(this CsvTypeConverter<T> converter)
         where T : struct => new NullableStructConverter<T>(converter);
 
 
@@ -48,5 +41,5 @@ public static class CsvTypeConverterExtension
 
     //    return dbNullEnabled ? converter.AsDBNullEnabled() : converter;
     //}
-    
+
 }
