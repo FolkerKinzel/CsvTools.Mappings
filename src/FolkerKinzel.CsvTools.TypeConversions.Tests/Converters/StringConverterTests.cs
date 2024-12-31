@@ -39,7 +39,7 @@ public class StringConverterTests
 
         Assert.IsNull(conv.ConvertToString(DBNull.Value));
 
-        Assert.IsNull(conv.ConvertToString(null));
+        Assert.IsNull(conv.ConvertToString(null!));
 
         const string test = "Test";
 

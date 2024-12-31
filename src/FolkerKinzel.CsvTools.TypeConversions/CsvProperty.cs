@@ -7,10 +7,10 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// <summary>
 /// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>.
 /// </summary>
-public abstract partial class CsvPropertyBase
+public abstract partial class CsvProperty
 {
     /// <summary>
-    /// Initializes a new <see cref="CsvPropertyBase"/> instance.
+    /// Initializes a new <see cref="CsvProperty"/> instance.
     /// </summary>
     /// <param name="propertyName">
     /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
@@ -24,7 +24,7 @@ public abstract partial class CsvPropertyBase
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
     /// </exception>
-    protected CsvPropertyBase(string propertyName)
+    protected CsvProperty(string propertyName)
     {
         _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 

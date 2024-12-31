@@ -10,6 +10,9 @@ using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
 
+/// <summary>
+/// Extension methods for <see cref="CsvTypeConverter{T}"/>.
+/// </summary>
 public static class CsvTypeConverterExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

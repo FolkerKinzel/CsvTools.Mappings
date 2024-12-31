@@ -6,7 +6,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Intls.Extensions;
 internal static class PropertyCollectionExtension
 {
     internal static bool TryGetValue(
-        this KeyedCollection<string, CsvPropertyBase> kColl, string key, [NotNullWhen(true)] out CsvPropertyBase? value)
+        this KeyedCollection<string, CsvProperty> kColl, string key, [NotNullWhen(true)] out CsvProperty? value)
     {
         Debug.Assert(kColl != null);
         Debug.Assert(key != null);

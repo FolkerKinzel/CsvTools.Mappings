@@ -1,6 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 
-namespace FolkerKinzel.CsvTools.TypeConversions;
+namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 
 /// <summary>
 /// Abstract base class for serializing and deserializing objects whose data is distributed 
@@ -38,7 +38,7 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// </summary>
     /// <value><c>true</c> if the converter accepts <c>null</c> values,
     /// otherwise <c>false</c>.</value>
-    public abstract bool AcceptsNull {  get; }
+    public abstract bool AcceptsNull { get; }
 
     /// <summary>
     /// Gets a value indicating whether the converter throws a
@@ -66,13 +66,13 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract bool CsvHasValue();
 
     /// <summary>
-    /// Tries to convert several <see cref="CsvPropertyBase"/> instances in
+    /// Tries to convert several <see cref="CsvProperty"/> instances in
     /// <see cref="Mapping"/> to a <typeparamref name="T"/> value.
     /// </summary>
     /// 
     /// <param name="result">
     /// After the method was successful, contains the <typeparamref name="T"/> value that is equivalent
-    /// to the content of the converted <see cref="CsvPropertyBase"/> instances in
+    /// to the content of the converted <see cref="CsvProperty"/> instances in
     /// <see cref="Mapping"/>,
     /// or the default value of <typeparamref name="T"/> if the parsing failed.
     /// </param>
@@ -86,7 +86,7 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract bool TryConvertMapping(out T result);
 
     /// <summary>
-    /// Converts several <see cref="CsvPropertyBase"/> instances in <see cref="Mapping"/> to a 
+    /// Converts several <see cref="CsvProperty"/> instances in <see cref="Mapping"/> to a 
     /// <typeparamref name="T"/> value.
     /// </summary>
     /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
@@ -111,7 +111,7 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract void DoConvertToCsv(T? value);
 
     /// <summary>
-    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvPropertyBase.Record"/> 
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvProperty.Record"/> 
     /// using <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
@@ -124,14 +124,14 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
             throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)));
         }
 
-        DoConvertToCsv((T?)value);
+        DoConvertToCsv(value);
     }
 
     /// <summary>
-    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvPropertyBase.Record"/> 
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="CsvProperty.Record"/> 
     /// using <see cref="Mapping"/>.
     /// </summary>
-    /// <param name="value">The object to write to the selected fields of <see cref="CsvPropertyBase.Record"/>.</param>
+    /// <param name="value">The object to write to the selected fields of <see cref="CsvProperty.Record"/>.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
     public void ConvertToCsv(object? value) => ConvertToCsv((T?)value);
 }

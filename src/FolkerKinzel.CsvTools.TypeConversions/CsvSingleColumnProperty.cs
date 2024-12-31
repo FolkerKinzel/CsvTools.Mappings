@@ -8,7 +8,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>
 /// whose data comes from a single column of the CSV file.
 /// </summary>
-public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
+public abstract class CsvSingleColumnProperty<T> : CsvProperty
 {
     /// <summary>
     /// Initializes a new <see cref="CsvSingleColumnProperty{T}"/> instance.
@@ -41,8 +41,8 @@ public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
     protected internal override CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// The index of the column in the CSV file that <see cref="CsvPropertyBase"/> actually accesses, 
-    /// or <c>null</c> if <see cref="CsvPropertyBase"/> does not find a target in the CSV file.
+    /// The index of the column in the CSV file that <see cref="CsvProperty"/> actually accesses, 
+    /// or <c>null</c> if <see cref="CsvProperty"/> does not find a target in the CSV file.
     /// </summary>
     /// <remarks>The property is updated on each read or write access.</remarks>
     public int? ReferredCsvIndex { get; protected set; }

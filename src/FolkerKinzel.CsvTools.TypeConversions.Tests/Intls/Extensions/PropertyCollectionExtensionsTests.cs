@@ -5,9 +5,9 @@ using FolkerKinzel.CsvTools.TypeConversions.Converters;
 
 namespace FolkerKinzel.CsvTools.TypeConversions.Intls.Extensions.Tests;
 
-internal sealed class TestCollection : KeyedCollection<string, CsvPropertyBase>
+internal sealed class TestCollection : KeyedCollection<string, CsvProperty>
 {
-    protected override string GetKeyForItem(CsvPropertyBase item) => item.PropertyName;
+    protected override string GetKeyForItem(CsvProperty item) => item.PropertyName;
 }
 
 [TestClass()]
@@ -16,13 +16,13 @@ public class PropertyCollectionExtensionsTests
     [TestMethod()]
     public void TryGetValueTest()
     {
-        KeyedCollection<string, CsvPropertyBase> kColl = new TestCollection();
+        KeyedCollection<string, CsvProperty> kColl = new TestCollection();
 
         var prop1 = new CsvColumnNameProperty<bool>("Test", [], new BooleanConverter());
 
         kColl.Add(prop1); 
 
-        Assert.IsTrue(kColl.TryGetValue("Test", out CsvPropertyBase? prop2));
+        Assert.IsTrue(kColl.TryGetValue("Test", out CsvProperty? prop2));
 
         Assert.AreEqual(prop1, prop2);
     }

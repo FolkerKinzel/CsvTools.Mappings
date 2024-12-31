@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
+﻿using FolkerKinzel.CsvTools.TypeConversions.Converters;
+using FolkerKinzel.CsvTools.TypeConversions.Converters.Intls;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.TypeConversions;
@@ -7,7 +8,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// Abstract base class for classes representing a dynamic property of <see cref="CsvRecordMapping"/> 
 /// whose data comes from multiple columns of the CSV file.
 /// </summary>
-public class CsvMultiColumnProperty<T> : CsvPropertyBase
+public class CsvMultiColumnProperty<T> : CsvProperty
 {
     /// <summary>
     /// Initializes a new <see cref="CsvMultiColumnProperty{T}"/> instance.

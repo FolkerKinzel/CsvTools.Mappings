@@ -25,8 +25,8 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// instance of <see cref="CsvRecordMapping"/> must be assigned to a variable that is declared with the keyword <c>dynamic</c>.
 /// </para>
 /// <para>
-/// After a <see cref="CsvRecordMapping"/> object has been initialized, the method <see cref="AddProperty(CsvPropertyBase)"/> has to be called to 
-/// register <see cref="CsvPropertyBase"/> 
+/// After a <see cref="CsvRecordMapping"/> object has been initialized, the method <see cref="AddProperty(CsvProperty)"/> has to be called to 
+/// register <see cref="CsvProperty"/> 
 /// objects, which are dynamic properties of the <see cref="CsvRecordMapping"/> object and perform type conversions for the string data in the underlying 
 /// <see cref="CsvRecord"/> object. The order in which the properties are registered determines the order, in which the return values ​​of these properties 
 /// are returned if the <see cref="CsvRecordMapping"/> object is iterated in a <c>foreach</c> loop, or if it is accessed with the indexer <see cref="this[int]"/>. 
@@ -41,14 +41,14 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// </para>
 /// <para>The order of the registered properties can be influenced at any time with the following methods:</para>
 /// <list type="bullet">
-/// <item><see cref="InsertProperty(int, CsvPropertyBase)"/></item>
-/// <item><see cref="ReplaceProperty(string, CsvPropertyBase)"/></item>
-/// <item><see cref="ReplacePropertyAt(int, CsvPropertyBase)"/></item>
+/// <item><see cref="InsertProperty(int, CsvProperty)"/></item>
+/// <item><see cref="ReplaceProperty(string, CsvProperty)"/></item>
+/// <item><see cref="ReplacePropertyAt(int, CsvProperty)"/></item>
 /// <item><see cref="RemoveProperty(string)"/></item>
 /// <item><see cref="RemovePropertyAt(int)"/></item>
 /// </list>
-/// With <see cref="Contains(string)"/> you can check whether a <see cref="CsvPropertyBase"/> instance with the specified 
-/// <see cref="CsvPropertyBase.PropertyName"/> is already registered. 
+/// With <see cref="Contains(string)"/> you can check whether a <see cref="CsvProperty"/> instance with the specified 
+/// <see cref="CsvProperty.PropertyName"/> is already registered. 
 /// <para>
 /// The indexers <see cref="this[int]"/>, and <see cref="this[string]"/> can also be accessed if the <see cref="CsvRecordMapping"/>
 /// instance is assigned to a normal variable, but the the values returned by the indexers possibly have to be cast into the actual 
@@ -56,8 +56,8 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// </para>
 /// <para>
 /// If the <see cref="CsvRecordMapping"/> instance is assigned to a variable that has been declared with the keyword <c>dynamic</c>, 
-/// the runtime takes over the necessary casts. In addition, it is then possible to address the registered <see cref="CsvPropertyBase"/> 
-/// objects like normal .NET properties by their name (<see cref="CsvPropertyBase.PropertyName"/>). The disadvantage is that Visual Studio cannot 
+/// the runtime takes over the necessary casts. In addition, it is then possible to address the registered <see cref="CsvProperty"/> 
+/// objects like normal .NET properties by their name (<see cref="CsvProperty.PropertyName"/>). The disadvantage is that Visual Studio cannot 
 /// offer any "IntelliSense" on dynamic variables.
 /// </para>
 /// For writing it is sufficient to assign the <see cref="CsvRecord"/> instance to the <see cref="CsvRecordMapping"/> object only once, because 
@@ -81,9 +81,9 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// </example>
 public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<string, object?>>
 {
-    private class PropertyCollection : KeyedCollection<string, CsvPropertyBase>
+    private class PropertyCollection : KeyedCollection<string, CsvProperty>
     {
-        protected override string GetKeyForItem(CsvPropertyBase item) => item.PropertyName;
+        protected override string GetKeyForItem(CsvProperty item) => item.PropertyName;
 
         public PropertyCollection() : base(StringComparer.Ordinal) { }
     }
@@ -124,7 +124,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     }
 
     /// <summary>
-    /// Gets the number of <see cref="CsvPropertyBase"/> instances, which are registered in the 
+    /// Gets the number of <see cref="CsvProperty"/> instances, which are registered in the 
     /// <see cref="CsvRecordMapping"/>.
     /// </summary>
     public int Count => _dynProps.Count;
@@ -146,10 +146,10 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
     /// <summary>
     /// Allows access to the properties registered in <see cref="CsvRecordMapping"/> via a zero-based index. The index corresponds 
-    /// to the order in which the <see cref="CsvPropertyBase"/> objects are registered in the <see cref="CsvRecordMapping"/>.
+    /// to the order in which the <see cref="CsvProperty"/> objects are registered in the <see cref="CsvRecordMapping"/>.
     /// </summary>
-    /// <param name="index">Zero-based index of the registered <see cref="CsvPropertyBase"/> instance.</param>
-    /// <returns>Return value of the <see cref="CsvPropertyBase"/> registered at <paramref name="index"/>.</returns>
+    /// <param name="index">Zero-based index of the registered <see cref="CsvProperty"/> instance.</param>
+    /// <returns>Return value of the <see cref="CsvProperty"/> registered at <paramref name="index"/>.</returns>
     /// 
     /// <exception cref="ArgumentOutOfRangeException">
     /// <paramref name="index"/> index is less than zero or greater than or equal to <see cref="Count"/>.</exception>
@@ -161,8 +161,8 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// the return value of the indexed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// the return value of the indexed <see cref="CsvProperty"/> could not be parsed successfully and the 
+    /// type converter of this <see cref="CsvProperty"/> was configured to throw an <see cref="InvalidCastException"/>
     /// in this case.
     /// </para>
     /// </exception>
@@ -190,19 +190,19 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
     /// <summary>
     /// Allows access to the properties registered in <see cref="CsvRecordMapping"/> via the value of their 
-    /// <see cref="CsvPropertyBase.PropertyName"/> property.
+    /// <see cref="CsvProperty.PropertyName"/> property.
     /// </summary>
-    /// <param name="propertyName"> Name of the registered property. (Corresponds to <see cref="CsvPropertyBase.PropertyName"/>.)
+    /// <param name="propertyName"> Name of the registered property. (Corresponds to <see cref="CsvProperty.PropertyName"/>.)
     /// The comparison is case-sensitive.</param>
     /// <returns>
-    /// Return value of the registered <see cref="CsvPropertyBase"/> whose <see cref="CsvPropertyBase.PropertyName"/> property 
+    /// Return value of the registered <see cref="CsvProperty"/> whose <see cref="CsvProperty.PropertyName"/> property 
     /// matches <paramref name="propertyName"/>. The comparison is case-sensitive.
     /// </returns>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
-    /// There was no <see cref="CsvPropertyBase"/> found among the properties registered at <see cref="CsvRecordMapping"/> whose 
-    /// <see cref="CsvPropertyBase.PropertyName"/> property matches <paramref name="propertyName"/>.
+    /// There was no <see cref="CsvProperty"/> found among the properties registered at <see cref="CsvRecordMapping"/> whose 
+    /// <see cref="CsvProperty.PropertyName"/> property matches <paramref name="propertyName"/>.
     /// </exception>
     /// 
     /// <exception cref="InvalidCastException">
@@ -212,8 +212,8 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// the return value of the accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="InvalidCastException"/>
+    /// the return value of the accessed <see cref="CsvProperty"/> could not be parsed successfully and the 
+    /// type converter of this <see cref="CsvProperty"/> was configured to throw an <see cref="InvalidCastException"/>
     /// in this case.
     /// </para>
     /// </exception>
@@ -227,7 +227,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
                 ? throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)))
                 : propertyName is null
                     ? throw new ArgumentNullException(nameof(propertyName))
-                    : this._dynProps.TryGetValue(propertyName, out CsvPropertyBase? prop)
+                    : this._dynProps.TryGetValue(propertyName, out CsvProperty? prop)
                         ? prop.GetValue()
                         : throw new ArgumentException(string.Format(Res.PropertyNotFound, nameof(propertyName)), nameof(propertyName));
         }
@@ -241,7 +241,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
             _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 
-            if (this._dynProps.TryGetValue(propertyName, out CsvPropertyBase? prop))
+            if (this._dynProps.TryGetValue(propertyName, out CsvProperty? prop))
             {
                 prop.SetValue(value);
             }
@@ -253,15 +253,15 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     }
 
     /// <summary>
-    /// Registers a <see cref="CsvPropertyBase"/> at the end of the list of registered properties.
+    /// Registers a <see cref="CsvProperty"/> at the end of the list of registered properties.
     /// </summary>
-    /// <param name="property">The <see cref="CsvPropertyBase"/> to be added.</param>
+    /// <param name="property">The <see cref="CsvProperty"/> to be added.</param>
     /// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
-    /// There is already a <see cref="CsvPropertyBase"/> with the same <see cref="CsvPropertyBase.PropertyName"/> registered. 
+    /// There is already a <see cref="CsvProperty"/> with the same <see cref="CsvProperty.PropertyName"/> registered. 
     /// Check this beforehand with <see cref="Contains(string?)"/>!
     /// </exception>
-    public void AddProperty(CsvPropertyBase property)
+    public void AddProperty(CsvProperty property)
     {
         _ArgumentNullException.ThrowIfNull(property, nameof(property));
         
@@ -270,25 +270,25 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     }
 
     /// <summary>
-    /// Removes the <see cref="CsvPropertyBase"/> with the specified <see cref="CsvPropertyBase.PropertyName"/>
+    /// Removes the <see cref="CsvProperty"/> with the specified <see cref="CsvProperty.PropertyName"/>
     /// from the list of registered properties.
     /// </summary>
     /// <param name="propertyName">
-    /// The <see cref="CsvPropertyBase.PropertyName"/> of the <see cref="CsvPropertyBase"/> to remove.
+    /// The <see cref="CsvProperty.PropertyName"/> of the <see cref="CsvProperty"/> to remove.
     /// </param>
     /// <returns>
-    /// <c>true</c> if the searched <see cref="CsvPropertyBase"/> was among the registered properties and could 
+    /// <c>true</c> if the searched <see cref="CsvProperty"/> was among the registered properties and could 
     /// be removed.
     /// </returns>
     public bool RemoveProperty(string? propertyName)
         => propertyName is not null && _dynProps.Remove(propertyName);
 
     /// <summary>
-    /// Removes the <see cref="CsvPropertyBase"/> on the specified <paramref name="index"/> from the list of 
+    /// Removes the <see cref="CsvProperty"/> on the specified <paramref name="index"/> from the list of 
     /// registered properties.
     /// </summary>
     /// <param name="index">
-    /// The zero-based index at which the <see cref="CsvPropertyBase"/> should be removed.
+    /// The zero-based index at which the <see cref="CsvProperty"/> should be removed.
     /// </param>
     /// <exception cref="ArgumentOutOfRangeException"> <paramref name="index"/> index is less than zero or greater than or 
     /// equal to <see cref="Count"/>.</exception>
@@ -300,17 +300,17 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </summary>
     /// <param name="index">
     /// The zero-based index at which to insert <paramref name="property"/>.</param>
-    /// <param name="property">The <see cref="CsvPropertyBase"/> to insert.</param>
+    /// <param name="property">The <see cref="CsvProperty"/> to insert.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> index is less than zero or greater than or equal
     /// to <see cref="Count"/>.</exception>
     /// 
     /// <exception cref="ArgumentException">
-    /// There is already a <see cref="CsvPropertyBase"/> with the same <see cref="CsvPropertyBase.PropertyName"/> registered. 
+    /// There is already a <see cref="CsvProperty"/> with the same <see cref="CsvProperty.PropertyName"/> registered. 
     /// Check this beforehand with <see cref="Contains(string?)"/>!
     /// </exception>
-    public void InsertProperty(int index, CsvPropertyBase property)
+    public void InsertProperty(int index, CsvProperty property)
     {
         _ArgumentNullException.ThrowIfNull(property, nameof(property));
         
@@ -319,52 +319,52 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     }
 
     /// <summary>
-    /// Replaces the <see cref="CsvPropertyBase"/> at the specified index of the list of registered properties 
+    /// Replaces the <see cref="CsvProperty"/> at the specified index of the list of registered properties 
     /// with <paramref name="property"/>.
     /// </summary>
     /// <param name="index">
-    /// The zero-based index at which the registered <see cref="CsvPropertyBase"/> instance is replaced with 
+    /// The zero-based index at which the registered <see cref="CsvProperty"/> instance is replaced with 
     /// <paramref name="property"/>.</param>
-    /// <param name="property">A <see cref="CsvPropertyBase"/> instance.</param>
+    /// <param name="property">A <see cref="CsvProperty"/> instance.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> index is less than zero or 
     /// greater than or equal to <see cref="Count"/>.</exception>
     /// <exception cref="ArgumentException">
-    /// There is already a <see cref="CsvPropertyBase"/> with the same <see cref="CsvPropertyBase.PropertyName"/> 
+    /// There is already a <see cref="CsvProperty"/> with the same <see cref="CsvProperty.PropertyName"/> 
     /// registered. 
     /// Check this beforehand with <see cref="Contains(string?)"/>!
     /// </exception>
-    public void ReplacePropertyAt(int index, CsvPropertyBase property)
+    public void ReplacePropertyAt(int index, CsvProperty property)
     {
         _ArgumentNullException.ThrowIfNull(property, nameof(property));
         _dynProps[index] = property;
     }
 
     /// <summary>
-    /// Replaces the registered <see cref="CsvPropertyBase"/> instance whose <see cref="CsvPropertyBase.PropertyName"/>
+    /// Replaces the registered <see cref="CsvProperty"/> instance whose <see cref="CsvProperty.PropertyName"/>
     /// property equals <paramref name="propertyName"/> with <paramref name="property"/>.
     /// </summary>
-    /// <param name="propertyName">Identifier of the registered <see cref="CsvPropertyBase"/> instance to be replaced. 
-    /// (See <see cref="CsvPropertyBase.PropertyName"/>.)</param>
-    /// <param name="property">The <see cref="CsvPropertyBase"/> instance object to be used for replacement.</param>
+    /// <param name="propertyName">Identifier of the registered <see cref="CsvProperty"/> instance to be replaced. 
+    /// (See <see cref="CsvProperty.PropertyName"/>.)</param>
+    /// <param name="property">The <see cref="CsvProperty"/> instance object to be used for replacement.</param>
     ///
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/>, or <paramref name="property"/>
     /// is <c>null</c>.</exception>
     /// 
     /// <exception cref="ArgumentException">
     /// <para>
-    /// There is no registered <see cref="CsvPropertyBase"/> whose <see cref="CsvPropertyBase.PropertyName"/> property 
+    /// There is no registered <see cref="CsvProperty"/> whose <see cref="CsvProperty.PropertyName"/> property 
     /// matches <paramref name="propertyName"/>,
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// there is already a registered <see cref="CsvPropertyBase"/> instance whose <see cref="CsvPropertyBase.PropertyName"/> 
+    /// there is already a registered <see cref="CsvProperty"/> instance whose <see cref="CsvProperty.PropertyName"/> 
     /// property is identical with which of <paramref name="property"/>.
     /// Check this beforehand with <see cref="Contains(string?)"/>!
     /// </para>
     /// </exception>
-    public void ReplaceProperty(string propertyName, CsvPropertyBase property)
+    public void ReplaceProperty(string propertyName, CsvProperty property)
     {
         _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
         _ArgumentNullException.ThrowIfNull(property, nameof(property));
@@ -381,21 +381,21 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     }
 
     /// <summary>
-    /// Examines whether a <see cref="CsvPropertyBase"/> instance is already registered in the <see cref="CsvRecordMapping"/>
+    /// Examines whether a <see cref="CsvProperty"/> instance is already registered in the <see cref="CsvRecordMapping"/>
     /// under the name that is specified with <paramref name="propertyName"/>.
     /// </summary>
-    /// <param name="propertyName">The <see cref="CsvPropertyBase.PropertyName"/> of the <see cref="CsvPropertyBase"/> instance
+    /// <param name="propertyName">The <see cref="CsvProperty.PropertyName"/> of the <see cref="CsvProperty"/> instance
     /// to be searched for.</param>
-    /// <returns><c>true</c>, wenn ein <see cref="CsvPropertyBase"/>-Objekt unter dem mit <paramref name="propertyName"/>
+    /// <returns><c>true</c>, wenn ein <see cref="CsvProperty"/>-Objekt unter dem mit <paramref name="propertyName"/>
     /// angegebenen Namen registriert ist.</returns>
     public bool Contains(string? propertyName) => propertyName is not null && _dynProps.Contains(propertyName);
 
     /// <summary>
-    /// Gibt den Index der Eigenschaft zurück, die den Eigenschaftsnamen (<see cref="CsvPropertyBase.PropertyName"/>) der 
+    /// Gibt den Index der Eigenschaft zurück, die den Eigenschaftsnamen (<see cref="CsvProperty.PropertyName"/>) der 
     /// <paramref name="propertyName"/> entspricht oder -1, wenn eine solche Eigenschaft nicht in <see cref="CsvRecordMapping"/> registriert ist.
     /// </summary>
-    /// <param name="propertyName">Der Eigenschaftsname der zu suchenden <see cref="CsvPropertyBase"/>.</param>
-    /// <returns>Der Index der Eigenschaft, die <paramref name="propertyName"/> als Eigenschaftsnamen (<see cref="CsvPropertyBase.PropertyName"/>) hat
+    /// <param name="propertyName">Der Eigenschaftsname der zu suchenden <see cref="CsvProperty"/>.</param>
+    /// <returns>Der Index der Eigenschaft, die <paramref name="propertyName"/> als Eigenschaftsnamen (<see cref="CsvProperty.PropertyName"/>) hat
     /// oder -1, wenn eine solche Eigenschaft nicht in <see cref="CsvRecordMapping"/> registriert ist.</returns>
     public int IndexOf(string? propertyName) => propertyName is null ? -1 : _dynProps.Contains(propertyName) ? _dynProps.IndexOf(_dynProps[propertyName]) : -1;
 
@@ -405,7 +405,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </summary>
     /// <param name="binder">Informationen über die aufrufende dynamische Eigenschaft.</param>
     /// <param name="value">Das Objekt, das der dynamisch implementierten Eigenschaft zugewiesen wird.</param>
-    /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die bereits zuvor als <see cref="CsvPropertyBase"/>
+    /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die bereits zuvor als <see cref="CsvProperty"/>
     /// im <see cref="CsvRecordMapping"/>-Objekt registriert wurde.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> ist <c>null</c>. (Das kann nur passieren,
     /// wenn die Methode direkt aus eigenem Code aufgerufen wird.)</exception>
@@ -429,7 +429,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
         }
 
-        if (this._dynProps.TryGetValue(binder.Name, out CsvPropertyBase? prop))
+        if (this._dynProps.TryGetValue(binder.Name, out CsvProperty? prop))
         {
             prop.SetValue(value);
             return true;
@@ -444,14 +444,14 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </summary>
     /// <param name="binder">Informationen über die aufrufende dynamische Eigenschaft.</param>
     /// <param name="result">Das Objekt, das den Rückgabewert der dynamisch implementierten Eigenschaft darstellt.</param>
-    /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die zuvor als <see cref="CsvPropertyBase"/>
+    /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die zuvor als <see cref="CsvProperty"/>
     /// im <see cref="CsvRecordMapping"/>-Objekt registriert wurde.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> ist <c>null</c>. (Das kann nur passieren,
     /// wenn die Methode direkt aus eigenem Code aufgerufen wird.)</exception>
     /// 
     /// <exception cref="FormatException">
-    /// The return value of the accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="FormatException"/>
+    /// The return value of the accessed <see cref="CsvProperty"/> could not be parsed successfully and the 
+    /// type converter of this <see cref="CsvProperty"/> was configured to throw an <see cref="FormatException"/>
     /// in this case.
     /// </exception>
     /// 
@@ -466,7 +466,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
         }
 
-        if (this._dynProps.TryGetValue(binder.Name, out CsvPropertyBase? prop))
+        if (this._dynProps.TryGetValue(binder.Name, out CsvProperty? prop))
         {
             result = prop.GetValue();
             return true;
@@ -537,15 +537,15 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
     /// <summary>
     /// Returns an <see cref="IEnumerator{T}">IEnumerator&lt;KeyValuePair&lt;string, object?&gt;&gt;</see> with which the return values of 
-    /// the dynamically implemented properties are iterated. The order corresponds to the order in which the <see cref="CsvPropertyBase"/> 
+    /// the dynamically implemented properties are iterated. The order corresponds to the order in which the <see cref="CsvProperty"/> 
     /// instances are registered in the <see cref="CsvRecordMapping"/>.
     /// </summary>
     /// 
     /// <returns>An <see cref="IEnumerator{T}">IEnumerator&lt;KeyValuePair&lt;string, object?&gt;&gt;</see>.</returns>
     /// 
     /// <exception cref="FormatException">
-    /// The return value of an accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="FormatException"/>
+    /// The return value of an accessed <see cref="CsvProperty"/> could not be parsed successfully and the 
+    /// type converter of this <see cref="CsvProperty"/> was configured to throw an <see cref="FormatException"/>
     /// in this case.
     /// </exception>
     /// 
@@ -557,7 +557,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
         }
 
-        foreach (CsvPropertyBase? prop in this._dynProps)
+        foreach (CsvProperty? prop in this._dynProps)
         {
             yield return new KeyValuePair<string, object?>(prop.PropertyName, prop.GetValue());
         }
@@ -565,14 +565,14 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
     /// <summary>
     /// Returns an <see cref="IEnumerator"/> with which the return values of 
-    /// the dynamically implemented properties are iterated. The order corresponds to the order in which the <see cref="CsvPropertyBase"/> 
+    /// the dynamically implemented properties are iterated. The order corresponds to the order in which the <see cref="CsvProperty"/> 
     /// instances are registered in the <see cref="CsvRecordMapping"/>.
     /// </summary>
     /// <returns>An <see cref="IEnumerator"/>.</returns>
     /// 
     /// <exception cref="FormatException">
-    /// The return value of an accessed <see cref="CsvPropertyBase"/> could not be parsed successfully and the 
-    /// type converter of this <see cref="CsvPropertyBase"/> was configured to throw an <see cref="FormatException"/>
+    /// The return value of an accessed <see cref="CsvProperty"/> could not be parsed successfully and the 
+    /// type converter of this <see cref="CsvProperty"/> was configured to throw an <see cref="FormatException"/>
     /// in this case.
     /// </exception>
     /// 
