@@ -23,16 +23,9 @@ public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverte
     : MappingProperty(propertyName)
 {
     /// <summary>
-    /// An object derived from <see cref="MultiColumnTypeConverter{T}"/> that performs the type conversion.
+    /// The data type of the dynamic property.
     /// </summary>
-    public MultiColumnTypeConverter<T> Converter { get; } = converter ?? throw new ArgumentNullException(nameof(converter));
-
-    /// <inheritdoc/>
-    protected internal override CsvRecord? Record
-    { 
-        get => Converter.Mapping.Record; 
-        internal set => Converter.Mapping.Record = value;
-    }
+    public Type DataType => Converter.DataType;
 
     /// <summary>
     /// Allows to get and set the value of the referenced field in <see cref="Record"/>
@@ -46,6 +39,18 @@ public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverte
     {
         get => Converter.Convert();
         set => Converter.ConvertToCsv(value);
+    }
+    
+    /// <summary>
+    /// An object derived from <see cref="MultiColumnTypeConverter{T}"/> that performs the type conversion.
+    /// </summary>
+    public MultiColumnTypeConverter<T> Converter { get; } = converter ?? throw new ArgumentNullException(nameof(converter));
+
+    /// <inheritdoc/>
+    protected internal override CsvRecord? Record
+    { 
+        get => Converter.Mapping.Record; 
+        internal set => Converter.Mapping.Record = value;
     }
 
     /// <inheritdoc/>
