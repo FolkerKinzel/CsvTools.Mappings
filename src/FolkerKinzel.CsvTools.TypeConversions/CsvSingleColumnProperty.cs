@@ -108,5 +108,4 @@ public abstract class CsvSingleColumnProperty<T> : CsvPropertyBase
 
     /// <inheritdoc/>
     protected internal override void SetValue(object? value) => SetTypedValue((T?)value);
-    
 }

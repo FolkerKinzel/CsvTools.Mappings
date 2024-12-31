@@ -10,7 +10,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// 
 /// <param name="mapping">The <see cref="CsvRecordMapping"/> to use to access those columns 
 /// of the CSV file that are required for the <see cref="Type"/> conversion.</param>
-/// <param name="throwsOnParseErrors">Sets the value of the 
+/// <param name="throwing">Sets the value of the 
 /// <see cref="Throwing"/> property.</param>
 /// <param name="fallbackValue">
 /// The <see cref="FallbackValue"/> to return when a parsing error occurs and
@@ -23,7 +23,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions;
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
 public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
-                                                     bool throwsOnParseErrors,
+                                                     bool throwing,
                                                      T? fallbackValue = default)
 {
     /// <summary>
@@ -49,7 +49,7 @@ public abstract class CsvMultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <value><c>true</c> if the converter throws a 
     /// <see cref="FormatException"/> on parsing errors,
     /// <c>false</c> otherwise.</value>
-    public bool Throwing { get; } = throwsOnParseErrors;
+    public bool Throwing { get; } = throwing;
 
     /// <summary>
     /// Gets the value to return when a parsing error occurs and

@@ -5,13 +5,13 @@
 /// between CSV data and .NET data types.
 /// </summary>
 /// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
-/// <param name="throwsOnParseErrors">Sets the value of the 
+/// <param name="throwing">Sets the value of the 
 /// <see cref="Throwing"/> property.</param>
 /// <param name="fallbackValue">
 /// The <see cref="FallbackValue"/> to return when a parsing error occurs and
 /// the <see cref="Throwing"/> property is <c>false</c>.
 /// </param>
-public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
+public abstract class CsvTypeConverter<T>(bool throwing,
                                           T? fallbackValue = default)
 {
     /// <summary>
@@ -21,7 +21,7 @@ public abstract class CsvTypeConverter<T>(bool throwsOnParseErrors,
     public T? FallbackValue { get; } = fallbackValue;
 
     ///<inheritdoc/>
-    public bool Throwing { get; } = throwsOnParseErrors;
+    public bool Throwing { get; } = throwing;
 
     /// <summary>
     /// Tries to parse a read-only span of characters as a <typeparamref name="T"/> value.

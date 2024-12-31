@@ -8,7 +8,6 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 public sealed class StringConverter(bool nullable = true) 
     : CsvTypeConverter<string?>(false, nullable ? null : string.Empty)
 {
-
     /// <inheritdoc/>
     public override bool AcceptsNull => true;
 

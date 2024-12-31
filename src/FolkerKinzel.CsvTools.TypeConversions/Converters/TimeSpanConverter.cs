@@ -15,19 +15,28 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     private readonly bool _parseExact;
     private readonly TimeSpanStyles _styles;
 
+    /// <summary>
+    /// Initializes a new <see cref="TimeSpanConverter"/> instance.
+    /// </summary>
+    /// <param name="throwing">Sets the value of the 
+    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="formatProvider">
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
+    /// <see cref="CultureInfo.InvariantCulture"/>.
+    /// </param>
+    /// <remarks>This constructor initializes a <see cref="TimeSpanConverter"/> instance that uses the format string
+    /// "g". This constructor is much faster than its overload.</remarks>
     public TimeSpanConverter(bool throwing = true, IFormatProvider? formatProvider = null) : base(throwing)
         => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <summary>
-    /// Initializes a new <see cref="TimeSpanConverter"/> instance.
+    /// Initializes a new <see cref="TimeSpanConverter"/> instance and allows to specify a format string.
     /// </summary>
     /// <param name="format">
     /// A format string that is used for the <see cref="string"/> output of <see cref="TimeSpan"/> values. If the 
     /// option <paramref name="parseExact"/> is selected this format string is also used for parsing.</param>
-    /// <param name="throwing">
-    /// If <c>true</c> the method <see cref="CsvTypeConverter{T}.Parse"/> throws an exception when parsing fails, 
-    /// otherwise it returns <see cref="CsvTypeConverter{T}.FallbackValue"/> in this case.
-    /// </param>
+    /// <param name="throwing">Sets the value of the 
+    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
@@ -37,7 +46,8 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     /// </param>
     /// 
     /// <param name="styles">
-    /// A value of the TimeSpanStyles enum that provides additional information for parsing. (Becomes evaluated only if parseExact is true.)
+    /// A value of the <see cref="TimeSpanStyles"/> enum that provides additional information for parsing. (Becomes evaluated only if 
+    /// <paramref name="parseExact"/> is <c>true</c>.)
     /// </param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>

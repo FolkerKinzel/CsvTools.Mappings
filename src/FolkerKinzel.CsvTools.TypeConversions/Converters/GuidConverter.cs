@@ -8,15 +8,34 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 /// </summary>
 public sealed class GuidConverter : CsvTypeConverter<Guid>
 {
-    private readonly string _format;
+    private readonly string? _format;
 
+    /// <summary>
+    /// Initializes a new <see cref="GuidConverter"/> instance.
+    /// </summary>
+    /// <param name="throwing">Sets the value of the 
+    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <remarks>
+    /// Instances initialized with this constructor use the format string "D".
+    /// This constructor is much faster than its overload.
+    /// </remarks>
     public GuidConverter(bool throwing = true) : base(throwing) => _format = "D";
 
+    /// <summary>
+    /// Initializes a new <see cref="GuidConverter"/> instance and allows
+    /// to specify a format string.
+    /// </summary>
+    /// <param name="format">A format string or <c>null</c> for "D".</param>
+    /// <param name="throwing">Sets the value of the 
+    /// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+    /// <exception cref="ArgumentException">
+    /// <paramref name="format"/> is not valid.
+    /// </exception>
     public GuidConverter(
         string? format,
         bool throwing = true) : base(throwing, default)
     {
-        _format = format ?? string.Empty;
+        _format = format;
         ExamineFormat(nameof(format));
     }
 
@@ -36,13 +55,18 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
 
     private void ExamineFormat(string parameterName)
     {
-        try
+        switch (_format)
         {
-            _ = Guid.Empty.ToString(_format, CultureInfo.InvariantCulture);
-        }
-        catch (FormatException e)
-        {
-            throw new ArgumentException(e.Message, parameterName, e);
+            case "N":
+            case "D":
+            case "B":
+            case "P":
+            case "X":
+            case null:
+            case "":
+                return;
+            default:
+                throw new ArgumentException("Invalid format string.", parameterName);
         }
     }
 }

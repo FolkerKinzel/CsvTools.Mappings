@@ -5,6 +5,12 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 /// <summary>
 /// <see cref="CsvTypeConverter{T}"/> implementation for <see cref="float"/>.
 /// </summary>
+/// <param name="throwing">Sets the value of the 
+/// <see cref="CsvTypeConverter{T}.Throwing"/> property.</param>
+/// <param name="formatProvider">
+/// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
+/// <see cref="CultureInfo.InvariantCulture"/>.
+/// </param>
 public sealed class SingleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
     : CsvTypeConverter<float>(throwing)
 {

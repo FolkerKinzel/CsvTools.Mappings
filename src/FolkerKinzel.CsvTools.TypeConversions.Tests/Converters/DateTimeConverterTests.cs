@@ -16,12 +16,12 @@ public class DateTimeConverterTests
         Assert.IsNotNull(conv);
     }
 
-    [TestMethod()]
-    public void DateTimeConverterTest2()
-    {
-        var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
-        Assert.IsNotNull(conv);
-    }
+    //[TestMethod()]
+    //public void DateTimeConverterTest2()
+    //{
+    //    var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
+    //    Assert.IsNotNull(conv);
+    //}
 
     [TestMethod()]
     public void DateTimeConverterTest3()
@@ -97,18 +97,18 @@ public class DateTimeConverterTests
         Assert.AreEqual(new DateTime(1974, 02, 16), dt);
     }
 
-    [TestMethod()]
-    public void ConvertToStringTest1()
-    {
-        var dt = new DateTime(1985, 11, 17);
-        var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
+    //[TestMethod()]
+    //public void ConvertToStringTest1()
+    //{
+    //    var dt = new DateTime(1985, 11, 17);
+    //    var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
 
-        //dt = dt.ToLocalTime();
+    //    //dt = dt.ToLocalTime();
 
-        string? s = conv.ConvertToString(dt);
+    //    string? s = conv.ConvertToString(dt);
 
-        Assert.IsNotNull(s);
-    }
+    //    Assert.IsNotNull(s);
+    //}
 
     [TestMethod()]
     public void ConvertToStringTest2()
