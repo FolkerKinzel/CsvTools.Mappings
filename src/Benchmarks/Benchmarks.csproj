@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\FolkerKinzel.CsvTools.TypeConversions\FolkerKinzel.CsvTools.TypeConversions.csproj" />
+	  <ProjectReference Include="..\FolkerKinzel.CsvTools.Mappings\FolkerKinzel.CsvTools.Mappings.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

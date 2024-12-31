@@ -1,6 +1,6 @@
-# FolkerKinzel.CsvTools.TypeConversions
-[![NuGet](https://img.shields.io/nuget/v/FolkerKinzel.CsvTools.TypeConversions)](https://www.nuget.org/packages/FolkerKinzel.CsvTools.TypeConversions/)
-[![GitHub](https://img.shields.io/github/license/FolkerKinzel/CsvTools.TypeConversions)](https://github.com/FolkerKinzel/CsvTools.TypeConversions/blob/master/LICENSE)
+# FolkerKinzel.CsvTools.Mappings
+[![NuGet](https://img.shields.io/nuget/v/FolkerKinzel.CsvTools.Mappings)](https://www.nuget.org/packages/FolkerKinzel.CsvTools.Mappings/)
+[![GitHub](https://img.shields.io/github/license/FolkerKinzel/CsvTools.Mappings)](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/LICENSE)
 
 Type conversion system for [FolkerKinzel.CsvTools](https://www.nuget.org/packages/FolkerKinzel.CsvTools/).
 

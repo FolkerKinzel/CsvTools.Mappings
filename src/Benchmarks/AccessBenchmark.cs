@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FolkerKinzel.CsvTools.TypeConversions;
+using FolkerKinzel.CsvTools.Mappings;
 using FolkerKinzel.CsvTools;
 using BenchmarkDotNet.Attributes;
 using System.IO;
-using FolkerKinzel.CsvTools.TypeConversions.Converters;
+using FolkerKinzel.CsvTools.Mappings.Converters;
 
 namespace Benchmarks;
 

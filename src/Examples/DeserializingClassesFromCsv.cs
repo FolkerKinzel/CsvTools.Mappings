@@ -1,6 +1,6 @@
 ﻿using FolkerKinzel.CsvTools;
-using FolkerKinzel.CsvTools.TypeConversions;
-using FolkerKinzel.CsvTools.TypeConversions.Converters;
+using FolkerKinzel.CsvTools.Mappings;
+using FolkerKinzel.CsvTools.Mappings.Converters;
 using System.Text;
 
 namespace Examples;
