@@ -141,7 +141,7 @@ public class EnumConverterTests
 
         TypeConverter<TypeCode?> conv 
             = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase)
-             .AsNullableConverter();
+             .ToNullableConverter();
 
         string? s = conv.ConvertToString(val);
         Assert.IsNull(s);
@@ -160,7 +160,7 @@ public class EnumConverterTests
 
         TypeConverter<TypeCode?> conv 
             = new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase)
-              .AsNullableConverter();
+              .ToNullableConverter();
 
         string? s = conv.ConvertToString(val);
         Assert.IsNull(s);
@@ -181,7 +181,7 @@ public class EnumConverterTests
     {
         var enumConv = new EnumConverter<TypeCode>(format: "F", throwing: throwOnParseErrors, ignoreCase: ignoreCase);
 
-        TypeConverter<object> conv = nullable ? enumConv.AsNullableConverter().AsDBNullEnabled() : enumConv.AsDBNullEnabled();
+        TypeConverter<object> conv = nullable ? enumConv.ToNullableConverter().ToDBNullConverter() : enumConv.ToDBNullConverter();
 
         string? s = conv.ConvertToString(DBNull.Value);
         Assert.IsNull(s);
@@ -200,8 +200,8 @@ public class EnumConverterTests
     [DataRow(true, true, true)]
     public void RoundtripTest10(bool throwOnParseErrors, bool ignoreCase, bool nullable)
     {
-        TypeConverter<object> conv = nullable ? new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsNullableConverter().AsDBNullEnabled() :
-                              new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).AsDBNullEnabled();
+        TypeConverter<object> conv = nullable ? new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).ToNullableConverter().ToDBNullConverter() :
+                              new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).ToDBNullConverter();
 
         string? s = conv.ConvertToString(DBNull.Value);
         Assert.IsNull(s);

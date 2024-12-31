@@ -35,7 +35,7 @@ public class StringConverterTests
     [TestMethod()]
     public void ConvertToStringTest()
     {
-        TypeConverter<object> conv = new StringConverter().AsDBNullEnabled();
+        TypeConverter<object> conv = new StringConverter().ToDBNullConverter();
 
         Assert.IsNull(conv.ConvertToString(DBNull.Value));
 

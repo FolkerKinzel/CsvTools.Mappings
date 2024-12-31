@@ -97,7 +97,7 @@ internal static class CsvToDataTable
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
         TypeConverter<object> stringConverter 
-            = new StringConverter(nullable: false).AsDBNullEnabled();
+            = new StringConverter(nullable: false).ToDBNullConverter();
 
         wrapper.AddProperty
             (
@@ -115,13 +115,13 @@ internal static class CsvToDataTable
             (
                 new ColumnNameProperty<object>(LESSON_DAY,
                                 [LESSON_DAY],
-                                new EnumConverter<DayOfWeek>(format: "G").AsDBNullEnabled())
+                                new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
             );
         wrapper.AddProperty
             (
                 new ColumnNameProperty<object>(LESSON_BEGIN,
                                 [LESSON_BEGIN],
-                                new TimeSpanConverter().AsDBNullEnabled())
+                                new TimeSpanConverter().ToDBNullConverter())
             );
 
         return wrapper;

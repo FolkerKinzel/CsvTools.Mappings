@@ -5,11 +5,21 @@
 /// to change their behavior to enable hexadecimal conversion.
 /// </summary>
 /// <typeparam name="T">Generic type parameter.</typeparam>
-public interface IHexConverter<T>
+public interface IHexConverter<T> : ICloneable
 {
     /// <summary>
-    /// Changes the converter to parse and output hexadecimal values.
+    /// Initializes a new instance of <see cref="IHexConverter{T}"/> 
+    /// that can convert hexadecimal string values.
     /// </summary>
-    /// <returns>The modified converter instance to be able to chain calls.</returns>
-    TypeConverter<T> AsHexConverter();
+    /// <returns>A new instance of <see cref="IHexConverter{T}"/> 
+    /// that can convert hexadecimal string values.</returns>
+    TypeConverter<T> ToHexConverter();
+
+    /// <summary>
+    /// Gets a value that indicates whether the instance can convert
+    /// hexadecimal string values.
+    /// </summary>
+    /// <value><c>true</c> if the converter can convert hexadecimal values,
+    /// <c>false</c> if not.</value>
+    bool IsHexConverter { get; }
 }

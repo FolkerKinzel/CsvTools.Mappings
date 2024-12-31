@@ -8,7 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 public static class TypeConverterExtension
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TypeConverter<object> AsDBNullEnabled<T>(this TypeConverter<T> converter)
+    public static TypeConverter<object> ToDBNullConverter<T>(this TypeConverter<T> converter)
     {
         return converter is TypeConverter<object> result && Convert.IsDBNull(result.FallbackValue)
             ? result
@@ -17,12 +17,12 @@ public static class TypeConverterExtension
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TypeConverter<T?> AsNullableConverter<T>(this TypeConverter<T> converter)
+    public static TypeConverter<T?> ToNullableConverter<T>(this TypeConverter<T> converter)
         where T : struct => new NullableStructConverter<T>(converter);
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TypeConverter<IEnumerable<TItem?>?> AsIEnumerableConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
+    public static TypeConverter<IEnumerable<TItem?>?> ToIEnumerableConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
                                                                                  bool nullable = true,
                                                                                  char fieldSeparator = ',')
         => new IEnumerableConverter<TItem>(itemsConverter, nullable, fieldSeparator);

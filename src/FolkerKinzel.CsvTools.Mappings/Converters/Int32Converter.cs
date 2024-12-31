@@ -27,12 +27,20 @@ public sealed class Int32Converter(bool throwing = true, IFormatProvider? format
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    public TypeConverter<int> AsHexConverter()
+    public bool IsHexConverter { get; private set; }
+
+    /// <inheritdoc/>
+    public TypeConverter<int> ToHexConverter()
     {
-        _styles = HEX_STYLE;
-        _format = HEX_FORMAT;
-        return this;
+        var clone = (Int32Converter)Clone();
+        clone._styles = HEX_STYLE;
+        clone._format = HEX_FORMAT;
+        clone.IsHexConverter = true;
+        return clone;
     }
+
+    /// <inheritdoc/>
+    public object Clone() => new Int32Converter(Throwing, _formatProvider);
 
     /// <inheritdoc/>
     public override string? ConvertToString(int value) => value.ToString(_format, _formatProvider);

@@ -23,6 +23,9 @@ public abstract class TypeConverter<T>(bool throwing,
     /// <inheritdoc/>
     public abstract bool AcceptsNull { get; }
 
+    /// <inheritdoc/>
+    public Type DataType => typeof(T);
+
     /// <summary>
     /// Tries to parse a read-only span of characters as a <typeparamref name="T"/> value.
     /// </summary>

@@ -28,12 +28,20 @@ public sealed class UInt64Converter(bool throwing = true, IFormatProvider? forma
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    public TypeConverter<ulong> AsHexConverter()
+    public bool IsHexConverter { get; private set; }
+
+    /// <inheritdoc/>
+    public TypeConverter<ulong> ToHexConverter()
     {
-        _styles = HEX_STYLE;
-        _format = HEX_FORMAT;
-        return this;
+        var clone = (UInt64Converter)Clone();
+        clone._styles = HEX_STYLE;
+        clone._format = HEX_FORMAT;
+        clone.IsHexConverter = true;
+        return clone;
     }
+
+    /// <inheritdoc/>
+    public object Clone() => new UInt64Converter(Throwing, _formatProvider);
 
     /// <inheritdoc/>
     public override string? ConvertToString(ulong value) => value.ToString(_format, _formatProvider);

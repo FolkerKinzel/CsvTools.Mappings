@@ -39,6 +39,9 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <inheritdoc/>
     public T? FallbackValue { get; } = fallbackValue;
 
+    /// <inheritdoc/>
+    public Type DataType => typeof(T);
+
     /// <summary>
     /// Returns a <see cref="bool"/> value indicating whether the 
     /// content of <see cref="Mapping"/> that has to be parsed represents a value or not.

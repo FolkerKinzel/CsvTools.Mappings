@@ -75,13 +75,13 @@ internal static class DeserializingClassesFromCsv
             (
                 new ColumnNameProperty<DayOfWeek?>("LessonDay",
                                 ["*day", "*tag"],
-                                new EnumConverter<DayOfWeek>().AsNullableConverter())
+                                new EnumConverter<DayOfWeek>().ToNullableConverter())
             );
         wrapper.AddProperty
             (
                 new ColumnNameProperty<TimeSpan?>("LessonBegin",
                                 ["*begin?"],
-                                new TimeSpanConverter().AsNullableConverter())
+                                new TimeSpanConverter().ToNullableConverter())
             );
 
         // Analyze the CSV file to determine the right parameters

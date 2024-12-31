@@ -9,7 +9,7 @@ public class HexConverterTests
     [TestMethod()]
     public void HexConverterTest1()
     {
-        TypeConverter<int> conv = new Int32Converter().AsHexConverter();
+        TypeConverter<int> conv = new Int32Converter().ToHexConverter();
         Assert.IsNotNull(conv);
     }
 
@@ -23,7 +23,7 @@ public class HexConverterTests
     {
         int i = 123456789;
 
-        TypeConverter<int> conv = new Int32Converter().AsHexConverter();
+        TypeConverter<int> conv = new Int32Converter().ToHexConverter();
 
         string? s = conv.ConvertToString(i);
         Assert.IsNotNull(s);
@@ -39,7 +39,7 @@ public class HexConverterTests
     {
         int i = 123456789;
 
-        TypeConverter<int> conv = new Int32Converter().AsHexConverter();
+        TypeConverter<int> conv = new Int32Converter().ToHexConverter();
 
         string? s = conv.ConvertToString(i)?.ToLowerInvariant();
         Assert.IsNotNull(s);

@@ -30,4 +30,9 @@ public interface ITypeConverter<T>
     /// <value><c>true</c> if the converter accepts <c>null</c> values,
     /// otherwise <c>false</c>.</value>
     bool AcceptsNull { get; }
+
+    /// <summary>
+    /// The data type the converter converts.
+    /// </summary>
+    Type DataType { get; }
 }
