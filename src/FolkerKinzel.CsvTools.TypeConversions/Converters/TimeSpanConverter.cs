@@ -11,7 +11,6 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     private const string DEFAULT_FORMAT = "g";
 
     private readonly IFormatProvider _formatProvider;
-    private readonly string _format = DEFAULT_FORMAT;
     private readonly bool _parseExact;
     private readonly TimeSpanStyles _styles;
 
@@ -61,7 +60,7 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     {
         _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         _styles = styles;
-        _format = format;
+        Format = format;
         _parseExact = parseExact;
         ExamineFormat();
     }
@@ -69,18 +68,23 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
+    /// <summary>
+    /// The format string to use.
+    /// </summary>
+    public string Format { get; } = DEFAULT_FORMAT;
+
     /// <inheritdoc/>
-    public override string? ConvertToString(TimeSpan value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(TimeSpan value) => value.ToString(Format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out TimeSpan result)
 #if NET462 || NETSTANDARD2_0
         => _parseExact
-            ? TimeSpan.TryParseExact(value.ToString(), _format, _formatProvider, _styles, out result)
+            ? TimeSpan.TryParseExact(value.ToString(), Format, _formatProvider, _styles, out result)
             : TimeSpan.TryParse(value.ToString(), _formatProvider, out result);
 #else
         => _parseExact
-            ? TimeSpan.TryParseExact(value, _format, _formatProvider, _styles, out result)
+            ? TimeSpan.TryParseExact(value, Format, _formatProvider, _styles, out result)
             : TimeSpan.TryParse(value, _formatProvider, out result);
 #endif
 
@@ -88,11 +92,11 @@ public sealed class TimeSpanConverter : CsvTypeConverter<TimeSpan>
     {
         try
         {
-            string tmp = TimeSpan.Zero.ToString(_format, _formatProvider);
+            string tmp = TimeSpan.Zero.ToString(Format, _formatProvider);
 
             if (_parseExact)
             {
-                _ = TimeSpan.ParseExact(tmp, _format, _formatProvider, _styles);
+                _ = TimeSpan.ParseExact(tmp, Format, _formatProvider, _styles);
             }
         }
         catch (FormatException e)

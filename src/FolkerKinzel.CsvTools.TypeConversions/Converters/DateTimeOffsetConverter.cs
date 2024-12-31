@@ -8,6 +8,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 /// </summary>
 public sealed class DateTimeOffsetConverter : CsvTypeConverter<DateTimeOffset>
 {
+    private const string DEFAULT_FORMAT = "O";
     private readonly IFormatProvider _formatProvider;
     private readonly bool _parseExact;
 
@@ -27,7 +28,6 @@ public sealed class DateTimeOffsetConverter : CsvTypeConverter<DateTimeOffset>
     public DateTimeOffsetConverter(bool throwing = true, IFormatProvider? formatProvider = null) : base(throwing)
     {
         _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-        Format = "O";
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public sealed class DateTimeOffsetConverter : CsvTypeConverter<DateTimeOffset>
     /// <summary>
     /// The format string to use.
     /// </summary>
-    public string Format { get; }
+    public string Format { get; } = DEFAULT_FORMAT;
 
     /// <inheritdoc/>
     public override string? ConvertToString(DateTimeOffset value) => value.ToString(Format, _formatProvider);

@@ -14,7 +14,6 @@ public sealed class DateTimeConverter : CsvTypeConverter<DateTime>
     //private const string DATE_FORMAT = "d";
 
     private readonly IFormatProvider _formatProvider;
-    private readonly string _format = DEFAULT_FORMAT;
     private readonly bool _parseExact;
 
     /// <summary>
@@ -56,7 +55,7 @@ public sealed class DateTimeConverter : CsvTypeConverter<DateTime>
         bool parseExact = false) : base(throwing)
     {
         _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-        _format = format;
+        Format = format;
         _parseExact = parseExact;
         ExamineFormat();
     }
@@ -65,21 +64,26 @@ public sealed class DateTimeConverter : CsvTypeConverter<DateTime>
     //public static DateTimeConverter CreateDateConverter(bool throwing = true, IFormatProvider? formatProvider = null, bool parseExact = false)
     //    => new(DATE_FORMAT, throwing, formatProvider, parseExact);
 
+    /// <summary>
+    /// The format string to use.
+    /// </summary>
+    public string Format { get; } = DEFAULT_FORMAT;
+
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
-    public override string? ConvertToString(DateTime value) => value.ToString(_format, _formatProvider);
+    public override string? ConvertToString(DateTime value) => value.ToString(Format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out DateTime result)
 #if NET462 || NETSTANDARD2_0
         => _parseExact
-            ? DateTime.TryParseExact(value.ToString(), _format, _formatProvider, STYLE, out result)
+            ? DateTime.TryParseExact(value.ToString(), Format, _formatProvider, STYLE, out result)
             : DateTime.TryParse(value.ToString(), _formatProvider, STYLE, out result);
 #else
         => _parseExact
-            ? DateTime.TryParseExact(value, _format, _formatProvider, STYLE, out result)
+            ? DateTime.TryParseExact(value, Format, _formatProvider, STYLE, out result)
             : DateTime.TryParse(value, _formatProvider, STYLE, out result);
 #endif
 
@@ -88,11 +92,11 @@ public sealed class DateTimeConverter : CsvTypeConverter<DateTime>
     {
         try
         {
-            string tmp = DateTime.Now.ToString(_format, _formatProvider);
+            string tmp = DateTime.Now.ToString(Format, _formatProvider);
 
             if (_parseExact)
             {
-                _ = DateTime.ParseExact(tmp, _format, _formatProvider, STYLE);
+                _ = DateTime.ParseExact(tmp, Format, _formatProvider, STYLE);
             }
         }
         catch (FormatException e)

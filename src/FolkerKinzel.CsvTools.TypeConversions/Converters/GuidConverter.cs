@@ -8,7 +8,7 @@ namespace FolkerKinzel.CsvTools.TypeConversions.Converters;
 /// </summary>
 public sealed class GuidConverter : CsvTypeConverter<Guid>
 {
-    private readonly string? _format;
+    private const string DEFAULT_FORMAT = "D";
 
     /// <summary>
     /// Initializes a new <see cref="GuidConverter"/> instance.
@@ -19,7 +19,7 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
     /// Instances initialized with this constructor use the format string "D".
     /// This constructor is much faster than its overload.
     /// </remarks>
-    public GuidConverter(bool throwing = true) : base(throwing) => _format = "D";
+    public GuidConverter(bool throwing = true) : base(throwing) { }
 
     /// <summary>
     /// Initializes a new <see cref="GuidConverter"/> instance and allows
@@ -35,15 +35,20 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
         string? format,
         bool throwing = true) : base(throwing, default)
     {
-        _format = format;
+        Format = format;
         ExamineFormat(nameof(format));
     }
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
 
+    /// <summary>
+    /// The format string to use.
+    /// </summary>
+    public string? Format { get; } = DEFAULT_FORMAT;
+
     /// <inheritdoc/>
-    public override string? ConvertToString(Guid value) => value.ToString(_format, CultureInfo.InvariantCulture);
+    public override string? ConvertToString(Guid value) => value.ToString(Format, CultureInfo.InvariantCulture);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out Guid result)
@@ -55,7 +60,7 @@ public sealed class GuidConverter : CsvTypeConverter<Guid>
 
     private void ExamineFormat(string parameterName)
     {
-        switch (_format)
+        switch (Format)
         {
             case "N":
             case "D":
