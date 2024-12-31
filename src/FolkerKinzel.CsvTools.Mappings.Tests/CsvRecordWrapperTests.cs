@@ -458,7 +458,7 @@ public class CsvRecordWrapperTests
         const string prop2Name = "Prop2";
         const string prop3Name = "Prop3";
 
-        var conv = new Int32Converter().AsNullableConverter();
+        CsvTypeConverter<int?> conv = new Int32Converter().AsNullableConverter();
 
         var prop1 =
             new CsvIndexProperty<int?>(prop1Name, 0, conv);

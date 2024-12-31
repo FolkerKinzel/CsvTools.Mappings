@@ -1,1 +1,1 @@
-C:\Users\fkinz\source\repos\FolkerKinzel.CsvTools.TypeConversions\src\FolkerKinzel.CsvTools.TypeConversions.Tests\ 
+C:\Users\fkinz\source\repos\FolkerKinzel.CsvTools.Mappings\src\FolkerKinzel.CsvTools.Mappings.Tests\ 

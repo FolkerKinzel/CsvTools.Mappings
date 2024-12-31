@@ -7,7 +7,6 @@ internal static class TestFiles
     private const string TEST_FILE_DIRECTORY_NAME = "TestFiles";
     private static readonly string _testFileDirectory;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>")]
     static TestFiles()
     {
         ProjectDirectory = Properties.Resources.ProjDir.Trim();

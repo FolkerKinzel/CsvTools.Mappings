@@ -1,7 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using System.Collections.ObjectModel;
-using FolkerKinzel.CsvTools.Mappings;
-using FolkerKinzel.CsvTools.Mappings.Converters;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Extensions.Tests;
 
@@ -20,7 +18,7 @@ public class PropertyCollectionExtensionsTests
 
         var prop1 = new CsvColumnNameProperty<bool>("Test", [], new BooleanConverter());
 
-        kColl.Add(prop1); 
+        kColl.Add(prop1);
 
         Assert.IsTrue(kColl.TryGetValue("Test", out CsvProperty? prop2));
 

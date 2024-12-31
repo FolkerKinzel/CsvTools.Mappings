@@ -12,11 +12,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Intls\Extensions\**" />
 	  <Compile Remove="reports\**" />
-	  <EmbeddedResource Remove="Intls\Extensions\**" />
 	  <EmbeddedResource Remove="reports\**" />
-	  <None Remove="Intls\Extensions\**" />
 	  <None Remove="reports\**" />
 	</ItemGroup>
 
