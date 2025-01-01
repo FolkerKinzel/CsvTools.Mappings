@@ -35,7 +35,7 @@ public class IEnumerableConverterTests
         IEnumerable<int> arr1 = [1, 2, 3];
         TypeConverter<IEnumerable<int>?> conv = new Int32Converter().ToIEnumerableConverter("::");
 
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
         var prop = new IndexProperty<IEnumerable<int>?>("TestProp", 0, conv);
         wrapper.Add(prop);
 

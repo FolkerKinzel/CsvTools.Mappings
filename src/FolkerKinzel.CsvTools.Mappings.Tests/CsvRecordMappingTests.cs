@@ -12,8 +12,8 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void CsvRecordWrapperTest()
     {
-        var wrapper = new CsvRecordMapping();
-        Assert.IsNotNull(wrapper);
+        var wrapper = CsvRecordMapping.Create();
+        Assert.IsInstanceOfType<CsvRecordMapping>(wrapper);
     }
 
     //[TestMethod()]
@@ -116,7 +116,7 @@ public class CsvRecordMappingTests
     //public void ReplacePropertyAtTest1()
     //{
     //    var wrapper = new CsvRecordMapping();
-    
+
     //    const string prop1Name = "Prop1";
     //    const string prop2Name = "Prop2";
     //    const string prop3Name = "Prop3";
@@ -342,7 +342,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TrySetMemberTest()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         const string prop1Name = "Prop1";
 
@@ -362,7 +362,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TryGetMemberTest()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         const string prop1Name = "Prop1";
 
@@ -381,16 +381,13 @@ public class CsvRecordMappingTests
     [TestMethod]
     public void DynPropTest()
     {
-        var rec = new CsvRecord([ "Hallo1", "Blabla" ], false, true, true);
+        var rec = new CsvRecord(["Hallo1", "Blabla"], false, true, true);
 
-        var wrapper = new CsvRecordMapping
-        {
-            Record = rec
-        };
+        var wrapper = CsvRecordMapping.Create();
+        wrapper.Record = rec;
 
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
-
 
         var prop1 =
             new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
@@ -426,10 +423,8 @@ public class CsvRecordMappingTests
     {
         var rec = new CsvRecord(3);
 
-        var wrapper = new CsvRecordMapping
-        {
-            Record = rec
-        };
+        var wrapper = CsvRecordMapping.Create();
+        wrapper.Record = rec;
 
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
@@ -480,7 +475,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void IndexOfTest()
     {
-        CsvRecordMapping wrapper = 
+        CsvRecordMapping wrapper =
             CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", new StringConverter());
 
         Assert.AreEqual(0, wrapper.IndexOf("Hallo"));
@@ -488,7 +483,7 @@ public class CsvRecordMappingTests
         Assert.AreEqual(-1, wrapper.IndexOf(string.Empty));
     }
 
-        [TestMethod()]
+    [TestMethod()]
     public void ContainsTest()
     {
         CsvRecordMapping wrapper =
@@ -503,7 +498,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void AddPropertyTest1()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         Assert.AreEqual(0, wrapper.Count);
 
@@ -526,7 +521,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(ArgumentException))]
     public void AddPropertyTest3()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         var conv = new StringConverter();
 
@@ -546,7 +541,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void RemovePropertyTest1()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
@@ -579,7 +574,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void RemovePropertyTest2()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
         Assert.IsFalse(wrapper.RemoveProperty("bla"));
     }
 
@@ -587,7 +582,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void RemovePropertyAtTest1()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
@@ -619,7 +614,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
     public void RemovePropertyAtTest2()
     {
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
         wrapper.RemovePropertyAt(42);
     }
 
@@ -630,7 +625,7 @@ public class CsvRecordMappingTests
         record.Values[0] = "42".AsMemory();
         record.Values[1] = "43".AsMemory();
 
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         var intConverter = new Int32Converter();
 
@@ -666,7 +661,7 @@ public class CsvRecordMappingTests
     {
         var rec = new CsvRecord(3);
 
-        var wrapper = new CsvRecordMapping();
+        var wrapper = CsvRecordMapping.Create();
 
         string s = wrapper.ToString();
         Assert.IsNotNull(s);

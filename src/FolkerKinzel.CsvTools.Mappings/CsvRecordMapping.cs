@@ -86,7 +86,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     /// has to be assigned to <see cref="Record"/>.
     /// </note>
     /// </remarks>
-    public CsvRecordMapping() { }
+    private CsvRecordMapping() { }
 
     /// <summary>
     /// Creates a new <see cref="CsvRecordMapping"/> instance. 
