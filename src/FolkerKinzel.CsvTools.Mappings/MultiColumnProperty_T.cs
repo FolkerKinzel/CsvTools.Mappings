@@ -22,9 +22,6 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter)
     : MappingProperty(propertyName), ITypedProperty<T>
 {
-    ///// <inheritdoc/>
-    //public Type DataType => Converter.DataType;
-
     /// <inheritdoc/>
     public new T? Value
     {

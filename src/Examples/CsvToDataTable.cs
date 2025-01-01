@@ -42,7 +42,7 @@ internal static class CsvToDataTable
                     // columns of the CSV file).
                     for (int i = 0; i < wrapper.Count; i++)
                     {
-                        wrapper[i] = dataRow[i];
+                        wrapper[i].Value = dataRow[i];
                     }
 
                     writer.WriteRecord();
@@ -66,7 +66,7 @@ internal static class CsvToDataTable
                 // CsvRecordWrapper reorders that for us.
                 for (int i = 0; i < wrapper.Count; i++)
                 {
-                    dataRow[i] = wrapper[i];
+                    dataRow[i] = wrapper[i].Value;
                 }
 
             }
@@ -92,39 +92,17 @@ internal static class CsvToDataTable
 
     private static CsvRecordMapping InitCsvRecordWrapper()
     {
-        var wrapper = new CsvRecordMapping();
-
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
-        TypeConverter<object> stringConverter 
+        TypeConverter<object> stringConverter
             = new StringConverter(nullable: false).ToDBNullConverter();
 
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<object>(PUPILS_NAME,
-                                [PUPILS_NAME],
-                                stringConverter)
-            );
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<object>(SUBJECT,
-                                [SUBJECT],
-                                stringConverter)
-            );
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<object>(LESSON_DAY,
-                                [LESSON_DAY],
-                                new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
-            );
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<object>(LESSON_BEGIN,
-                                [LESSON_BEGIN],
-                                new TimeSpanConverter().ToDBNullConverter())
-            );
-
-        return wrapper;
+        return CsvRecordMapping
+            .Create()
+            .AddSingleColumnProperty(PUPILS_NAME, stringConverter)
+            .AddSingleColumnProperty(SUBJECT, stringConverter)
+            .AddSingleColumnProperty(LESSON_DAY, new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
+            .AddSingleColumnProperty(LESSON_BEGIN, new TimeSpanConverter().ToDBNullConverter());
     }
 
 

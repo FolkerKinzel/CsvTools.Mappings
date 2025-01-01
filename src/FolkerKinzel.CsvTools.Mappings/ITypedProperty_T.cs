@@ -1,6 +1,11 @@
 ﻿
 namespace FolkerKinzel.CsvTools.Mappings;
 
+/// <summary>
+/// Interface for typed <see cref="MappingProperty"/> 
+/// instances.
+/// </summary>
+/// <typeparam name="T">The type of the dynamic properties value.</typeparam>
 public interface ITypedProperty<T>
 {
     ///// <summary>

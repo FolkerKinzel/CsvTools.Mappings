@@ -16,343 +16,324 @@ public class CsvRecordMappingTests
         Assert.IsNotNull(wrapper);
     }
 
-    [TestMethod()]
-    public void InsertPropertyTest1()
-    {
-        var wrapper = new CsvRecordMapping();
+    //[TestMethod()]
+    //public void InsertPropertyTest1()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
+    //    const string prop1Name = "Prop1";
+    //    const string prop2Name = "Prop2";
 
-        var conv = new StringConverter();
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    var conv = new StringConverter();
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
+    //        conv);
 
-        wrapper.AddProperty(prop2);
-        Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
+    //    wrapper.Add(prop2);
+    //    Assert.AreEqual(1, wrapper.Count);
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
 
-        wrapper.InsertProperty(0, prop1);
+    //    wrapper.InsertProperty(0, prop1);
 
-        Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
-    }
+    //    Assert.AreEqual(2, wrapper.Count);
+    //    Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
+    //}
 
-    [TestMethod()]
-    public void InsertPropertyTest2()
-    {
-        var wrapper = new CsvRecordMapping();
+    //[TestMethod()]
+    //public void InsertPropertyTest2()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        const string prop1Name = "Prop1";
+    //    const string prop1Name = "Prop1";
 
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            new StringConverter());
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        new StringConverter());
 
 
-        wrapper.InsertProperty(0, prop1);
-        Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
-    }
+    //    wrapper.InsertProperty(0, prop1);
+    //    Assert.AreEqual(1, wrapper.Count);
+    //    Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+    //}
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentNullException))]
-    public void InsertPropertyTest3()
-    {
-        var wrapper = new CsvRecordMapping();
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentNullException))]
+    //public void InsertPropertyTest3()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        wrapper.InsertProperty(0, null!);
-    }
+    //    wrapper.InsertProperty(0, null!);
+    //}
 
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void InsertPropertyTest4()
-    {
-        var wrapper = new CsvRecordMapping();
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentOutOfRangeException))]
+    //public void InsertPropertyTest4()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        const string prop1Name = "Prop1";
+    //    const string prop1Name = "Prop1";
 
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            new StringConverter());
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        new StringConverter());
 
 
-        wrapper.InsertProperty(4711, prop1);
-    }
+    //    wrapper.InsertProperty(4711, prop1);
+    //}
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void InsertPropertyTest5()
-    {
-        var wrapper = new CsvRecordMapping();
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentException))]
+    //public void InsertPropertyTest5()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        const string prop1Name = "Prop1";
+    //    const string prop1Name = "Prop1";
 
-        var conv = new StringConverter();
+    //    var conv = new StringConverter();
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo2"],
-            conv);
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo2"],
+    //        conv);
 
-        wrapper.AddProperty(prop2);
-        wrapper.InsertProperty(0, prop1);
-    }
+    //    wrapper.Add(prop2);
+    //    wrapper.InsertProperty(0, prop1);
+    //}
 
 
-    [TestMethod()]
-    public void ReplacePropertyAtTest1()
-    {
-        var wrapper = new CsvRecordMapping();
+    //[TestMethod()]
+    //public void ReplacePropertyAtTest1()
+    //{
+    //    var wrapper = new CsvRecordMapping();
+    
+    //    const string prop1Name = "Prop1";
+    //    const string prop2Name = "Prop2";
+    //    const string prop3Name = "Prop3";
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
-        const string prop3Name = "Prop3";
+    //    var conv = new StringConverter();
 
-        var conv = new StringConverter();
 
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
+    //        conv);
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
+    //    var prop3 =
+    //        new ColumnNameProperty<string?>(prop3Name, ["Hallo3"],
+    //        conv);
 
-        var prop3 =
-            new ColumnNameProperty<string?>(prop3Name, ["Hallo3"],
-            conv);
+    //    wrapper.AddProperty(prop1);
+    //    wrapper.AddProperty(prop2);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+    //    Assert.AreEqual(2, wrapper.Count);
+    //    Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
 
-        Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
+    //    wrapper.ReplacePropertyAt(0, prop3);
+    ////        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    ////        conv);
 
-        wrapper.ReplacePropertyAt(0, prop3);
+    //    Assert.AreEqual(2, wrapper.Count);
+    //    Assert.AreEqual(prop3Name, wrapper.PropertyNames.First());
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
+    //}
 
-        Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop3Name, wrapper.PropertyNames.First());
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
-    }
+    //    var prop3 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo3"],
+    //        conv);
 
+    //    wrapper.Add(prop1);
+    //    wrapper.Add(prop2);
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void ReplacePropertyAtTest2()
-    {
-        var wrapper = new CsvRecordMapping();
+    //    wrapper.ReplacePropertyAt(0, prop3);
+    //}
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
 
-        var conv = new StringConverter();
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentOutOfRangeException))]
+    //public void ReplacePropertyAtTest3()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
+    //    const string prop1Name = "Prop1";
+    //    const string prop2Name = "Prop2";
+    //    const string prop3Name = "Prop3";
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    var conv = new StringConverter();
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
 
-        var prop3 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo3"],
-            conv);
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
+    //        conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+    //    var prop3 =
+    //        new ColumnNameProperty<string?>(prop3Name, ["Hallo3"],
+    //        conv);
 
-        wrapper.ReplacePropertyAt(0, prop3);
-    }
+    //    wrapper.Add(prop1);
+    //    wrapper.Add(prop2);
 
+    //    wrapper.ReplacePropertyAt(4711, prop3);
+    //}
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void ReplacePropertyAtTest3()
-    {
-        var wrapper = new CsvRecordMapping();
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
-        const string prop3Name = "Prop3";
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentNullException))]
+    //public void ReplacePropertyAtTest4()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        var conv = new StringConverter();
+    //    const string prop1Name = "Prop1";
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        new StringConverter());
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
 
-        var prop3 =
-            new ColumnNameProperty<string?>(prop3Name, ["Hallo3"],
-            conv);
+    //    wrapper.Add(prop1);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+    //    wrapper.ReplacePropertyAt(0, null!);
+    //}
 
-        wrapper.ReplacePropertyAt(4711, prop3);
-    }
+    //[TestMethod()]
+    //public void ReplacePropertyTest1()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
+    //    const string prop1Name = "Prop1";
+    //    const string prop2Name = "Prop2";
+    //    const string prop3Name = "Prop3";
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentNullException))]
-    public void ReplacePropertyAtTest4()
-    {
-        var wrapper = new CsvRecordMapping();
+    //    var conv = new StringConverter();
 
-        const string prop1Name = "Prop1";
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            new StringConverter());
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
 
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
+    //        conv);
 
-        wrapper.AddProperty(prop1);
+    //    var prop3 =
+    //        new ColumnNameProperty<string?>(prop3Name, ["Hallo3"],
+    //        conv);
 
-        wrapper.ReplacePropertyAt(0, null!);
-    }
+    //    wrapper.Add(prop1);
+    //    wrapper.Add(prop2);
 
-    [TestMethod()]
-    public void ReplacePropertyTest1()
-    {
-        var wrapper = new CsvRecordMapping();
+    //    Assert.AreEqual(2, wrapper.Count);
+    //    Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
-        const string prop3Name = "Prop3";
+    //    wrapper.ReplaceProperty(prop1Name, prop3);
 
-        var conv = new StringConverter();
+    //    Assert.AreEqual(2, wrapper.Count);
+    //    Assert.AreEqual(prop3Name, wrapper.PropertyNames.First());
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
+    //}
 
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentException))]
+    //public void ReplacePropertyTest2a()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    const string prop1Name = "Prop1";
+    //    const string prop2Name = "Prop2";
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
+    //    var conv = new StringConverter();
 
-        var prop3 =
-            new ColumnNameProperty<string?>(prop3Name, ["Hallo3"],
-            conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
 
-        Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
+    //        conv);
 
-        wrapper.ReplaceProperty(prop1Name, prop3);
+    //    var prop3 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo3"],
+    //        conv);
 
-        Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop3Name, wrapper.PropertyNames.First());
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
-    }
+    //    wrapper.Add(prop1);
+    //    wrapper.Add(prop2);
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void ReplacePropertyTest2a()
-    {
-        var wrapper = new CsvRecordMapping();
+    //    wrapper.ReplaceProperty(prop1Name, prop3);
+    //}
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
 
-        var conv = new StringConverter();
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentException))]
+    //public void ReplacePropertyTest2b()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
+    //    const string prop1Name = "Prop1";
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        new StringConverter());
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
+    //    wrapper.ReplaceProperty("bla", prop1);
+    //}
 
-        var prop3 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo3"],
-            conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentNullException))]
+    //public void ReplacePropertyTest3()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        wrapper.ReplaceProperty(prop1Name, prop3);
-    }
+    //    const string prop1Name = "Prop1";
 
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        new StringConverter());
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void ReplacePropertyTest2b()
-    {
-        var wrapper = new CsvRecordMapping();
 
-        const string prop1Name = "Prop1";
+    //    wrapper.Add(prop1);
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            new StringConverter());
+    //    wrapper.ReplaceProperty(null!, prop1);
+    //}
 
-        wrapper.ReplaceProperty("bla", prop1);
-    }
 
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentNullException))]
-    public void ReplacePropertyTest3()
-    {
-        var wrapper = new CsvRecordMapping();
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentNullException))]
+    //public void ReplacePropertyTest4()
+    //{
+    //    var wrapper = new CsvRecordMapping();
 
-        const string prop1Name = "Prop1";
+    //    const string prop1Name = "Prop1";
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            new StringConverter());
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        new StringConverter());
 
 
-        wrapper.AddProperty(prop1);
+    //    wrapper.Add(prop1);
 
-        wrapper.ReplaceProperty(null!, prop1);
-    }
-
-
-
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentNullException))]
-    public void ReplacePropertyTest4()
-    {
-        var wrapper = new CsvRecordMapping();
-
-        const string prop1Name = "Prop1";
-
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            new StringConverter());
-
-
-        wrapper.AddProperty(prop1);
-
-        wrapper.ReplaceProperty(prop1Name, null!);
-    }
+    //    wrapper.ReplaceProperty(prop1Name, null!);
+    //}
 
 
 
@@ -369,7 +350,7 @@ public class CsvRecordMappingTests
             new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
             new Int32Converter().ToNullableConverter());
 
-        wrapper.AddProperty(prop1);
+        wrapper.Add(prop1);
 
         dynamic dyn = wrapper;
 
@@ -389,7 +370,7 @@ public class CsvRecordMappingTests
             new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
             new Int32Converter().ToNullableConverter());
 
-        wrapper.AddProperty(prop1);
+        wrapper.Add(prop1);
 
         dynamic dyn = wrapper;
 
@@ -397,11 +378,8 @@ public class CsvRecordMappingTests
     }
 
 
-    [DataTestMethod]
-    [DataRow(Timeout.Infinite)]
-    [DataRow(CsvRecordMapping.MaxRegexTimeout)]
-    [DataRow(CsvRecordMapping.MaxRegexTimeout + 1)]
-    public void DynPropTest(int wildcardTimeout)
+    [TestMethod]
+    public void DynPropTest()
     {
         var rec = new CsvRecord([ "Hallo1", "Blabla" ], false, true, true);
 
@@ -415,17 +393,16 @@ public class CsvRecordMappingTests
 
 
         var prop1 =
-            new ColumnNameProperty<int?>(prop1Name, [ "Hallo1" ],
+            new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
             new Int32Converter().ToNullableConverter());
 
-        wrapper.AddProperty(prop1);
+        wrapper.Add(prop1);
 
         var prop2 =
             new ColumnNameProperty<string?>(prop2Name, ["Blub", null!, "Bla*"],
-            new StringConverter(),
-            wildcardTimeout);
+            new StringConverter());
 
-        wrapper.AddProperty(prop2);
+        wrapper.Add(prop2);
 
         dynamic dyn = wrapper;
 
@@ -469,9 +446,9 @@ public class CsvRecordMappingTests
         var prop3 =
             new IndexProperty<int?>(prop3Name, 2, conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
-        wrapper.AddProperty(prop3);
+        wrapper.Add(prop1);
+        wrapper.Add(prop2);
+        wrapper.Add(prop3);
 
         dynamic dyn = wrapper;
 
@@ -480,18 +457,18 @@ public class CsvRecordMappingTests
         dyn.Prop3 = 3;
 
 
-        foreach (KeyValuePair<string, object> kvp in dyn)
+        foreach (MappingProperty kvp in dyn)
         {
-            switch (kvp.Key)
+            switch (kvp.PropertyName)
             {
                 case prop1Name:
-                    Assert.AreEqual(1, (int)kvp.Value);
+                    Assert.AreEqual(1, kvp.Value);
                     break;
                 case prop2Name:
-                    Assert.AreEqual(2, (int)kvp.Value);
+                    Assert.AreEqual(2, kvp.Value);
                     break;
                 case prop3Name:
-                    Assert.AreEqual(3, (int)kvp.Value);
+                    Assert.AreEqual(3, kvp.Value);
                     break;
                 default:
                     Assert.Fail();
@@ -500,43 +477,25 @@ public class CsvRecordMappingTests
         }
     }
 
-
-    [TestMethod()]
-    [ExpectedException(typeof(InvalidOperationException))]
-    public void GetEnumeratorTest2()
-    {
-        var wrapper = new CsvRecordMapping();
-
-        foreach (KeyValuePair<string, object?> _ in wrapper)
-        {
-
-        }
-    }
-
-
     [TestMethod()]
     public void IndexOfTest()
     {
-        var wrapper = new CsvRecordMapping();
-
-        wrapper.AddProperty(new ColumnNameProperty<string?>("Hallo", ["Hallo"], new StringConverter()));
+        CsvRecordMapping wrapper = 
+            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", new StringConverter());
 
         Assert.AreEqual(0, wrapper.IndexOf("Hallo"));
         Assert.AreEqual(-1, wrapper.IndexOf("Wolli"));
-        Assert.AreEqual(-1, wrapper.IndexOf(null));
         Assert.AreEqual(-1, wrapper.IndexOf(string.Empty));
     }
 
-    [TestMethod()]
+        [TestMethod()]
     public void ContainsTest()
     {
-        var wrapper = new CsvRecordMapping();
-
-        wrapper.AddProperty(new ColumnNameProperty<string?>("Hallo", ["Hallo"], new StringConverter()));
+        CsvRecordMapping wrapper =
+            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", new StringConverter());
 
         Assert.IsTrue(wrapper.Contains("Hallo"));
         Assert.IsFalse(wrapper.Contains("Wolli"));
-        Assert.IsFalse(wrapper.Contains(null));
         Assert.IsFalse(wrapper.Contains(string.Empty));
     }
 
@@ -552,7 +511,7 @@ public class CsvRecordMappingTests
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
             new StringConverter());
 
-        wrapper.AddProperty(prop);
+        wrapper.Add(prop);
 
         Assert.AreEqual(1, wrapper.Count);
     }
@@ -560,12 +519,7 @@ public class CsvRecordMappingTests
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void AddPropertyTest2()
-    {
-        var wrapper = new CsvRecordMapping();
-
-        wrapper.AddProperty(null!);
-    }
+    public void AddPropertyTest2() => CsvRecordMapping.Create().Add(null!);
 
 
     [TestMethod()]
@@ -584,8 +538,8 @@ public class CsvRecordMappingTests
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
             conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+        wrapper.Add(prop1);
+        wrapper.Add(prop2);
     }
 
 
@@ -608,8 +562,8 @@ public class CsvRecordMappingTests
             new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
             conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+        wrapper.Add(prop1);
+        wrapper.Add(prop2);
 
         Assert.AreEqual(2, wrapper.Count);
         Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
@@ -648,8 +602,8 @@ public class CsvRecordMappingTests
             new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
             conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+        wrapper.Add(prop1);
+        wrapper.Add(prop2);
 
         Assert.AreEqual(2, wrapper.Count);
         Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
@@ -680,13 +634,13 @@ public class CsvRecordMappingTests
 
         var intConverter = new Int32Converter();
 
-        wrapper.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[0], [record.ColumnNames[0]], intConverter));
-        wrapper.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[1], [record.ColumnNames[1]], intConverter));
+        wrapper.Add(new ColumnNameProperty<int>(record.ColumnNames[0], [record.ColumnNames[0]], intConverter));
+        wrapper.Add(new ColumnNameProperty<int>(record.ColumnNames[1], [record.ColumnNames[1]], intConverter));
 
         wrapper.Record = record;
 
-        Assert.AreEqual(42, wrapper[0]);
-        Assert.AreEqual(43, wrapper[1]);
+        Assert.AreEqual(42, wrapper[0].Value);
+        Assert.AreEqual(43, wrapper[1].Value);
 
 
         dynamic dyn = wrapper;
@@ -739,9 +693,9 @@ public class CsvRecordMappingTests
         var prop3 =
             new IndexProperty<int?>(prop3Name, 2, conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
-        wrapper.AddProperty(prop3);
+        wrapper.Add(prop1);
+        wrapper.Add(prop2);
+        wrapper.Add(prop3);
 
         s = wrapper.ToString();
         Assert.IsNotNull(s);

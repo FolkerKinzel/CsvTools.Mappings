@@ -22,7 +22,7 @@ public static class MappingPropertyExtension
     /// <exception cref="InvalidCastException"><paramref name="property"/> is not of type 
     /// <see cref="ITypedProperty{T}"/>.</exception>"
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ITypedProperty<T> As<T>(this MappingProperty property)
+    public static ITypedProperty<T> AsITypedProperty<T>(this MappingProperty property)
     {
         _ArgumentNullException.ThrowIfNull(property, nameof(property));
         return (ITypedProperty<T>)property;

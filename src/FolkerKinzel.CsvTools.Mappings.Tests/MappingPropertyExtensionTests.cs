@@ -10,7 +10,7 @@ public class MappingPropertyExtensionTests
     public void AsTest1()
     {
         MappingProperty? prop = null;
-        _ = prop!.As<int>();
+        _ = prop!.AsITypedProperty<int>();
     }
 
     [TestMethod]
@@ -18,14 +18,14 @@ public class MappingPropertyExtensionTests
     public void AsTest2()
     {
         MappingProperty prop = new IndexProperty<string?>("name", 0, new StringConverter());
-        _ = prop.As<int>();
+        _ = prop.AsITypedProperty<int>();
     }
 
     [TestMethod]
     public void AsTest3()
     {
         MappingProperty? prop = new IndexProperty<string?>("name", 0, new StringConverter());
-        ITypedProperty<string?> casted = prop.As<string?>();
+        ITypedProperty<string?> casted = prop.AsITypedProperty<string?>();
         Assert.IsNotNull(casted);
     }
 }

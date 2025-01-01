@@ -24,9 +24,6 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter)
     : MappingProperty(propertyName), ITypedProperty<T>
 {
-    ///// <inheritdoc/>
-    //public Type DataType => Converter.DataType;
-
     /// <inheritdoc/>
     public new T? Value
     {

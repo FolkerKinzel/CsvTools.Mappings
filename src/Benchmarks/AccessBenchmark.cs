@@ -22,15 +22,17 @@ public class AccessBenchmark
     {
         _csv = Properties.Resources.Test1;
         var conv = new StringConverter();
-        _indexWrapper = new CsvRecordMapping();
-        _indexWrapper.AddProperty(new IndexProperty<string?>("Column0", 0, conv));
-        _indexWrapper.AddProperty(new IndexProperty<string?>("Column1", 1, conv));
-        _indexWrapper.AddProperty(new IndexProperty<string?>("Column2", 2, conv));
+        _indexWrapper = CsvRecordMapping
+            .Create()
+            .AddSingleColumnProperty("Column0", 0, conv)
+            .AddSingleColumnProperty("Column1", 1, conv)
+            .AddSingleColumnProperty("Column2", 2, conv);
 
-        _nameWrapper = new CsvRecordMapping();
-        _nameWrapper.AddProperty(new ColumnNameProperty<string?>("Column0", ["Column0"], conv));
-        _nameWrapper.AddProperty(new ColumnNameProperty<string?>("Column1", ["Column1"], conv));
-        _nameWrapper.AddProperty(new ColumnNameProperty<string?>("Column2", ["Column2"], conv));
+        _nameWrapper = CsvRecordMapping
+            .Create()
+            .AddSingleColumnProperty("Column0", conv)
+            .AddSingleColumnProperty("Column1", conv)
+            .AddSingleColumnProperty("Column2", conv);
     }
 
     [Benchmark]
@@ -39,13 +41,14 @@ public class AccessBenchmark
         int letters = 0;
 
         var reader = new CsvEnumerator(new StringReader(_csv));
+
         foreach (CsvRecord row in reader)
         {
             _indexWrapper.Record = row;
 
             for (int i = 0; i < _indexWrapper.Count; i++)
             {
-                letters += ((string?)_indexWrapper[i])!.Length;
+                letters += _indexWrapper[i].AsITypedProperty<string?>().Value!.Length;
             }
         }
 
@@ -58,13 +61,14 @@ public class AccessBenchmark
         int letters = 0;
 
         var reader = new CsvEnumerator(new StringReader(_csv));
+
         foreach (CsvRecord row in reader)
         {
             _nameWrapper.Record = row;
 
             for (int i = 0; i < _nameWrapper.Count; i++)
             {
-                letters += ((string?)_nameWrapper[i])!.Length;
+                letters += _nameWrapper[i].AsITypedProperty<string?>().Value!.Length;
             }
         }
 

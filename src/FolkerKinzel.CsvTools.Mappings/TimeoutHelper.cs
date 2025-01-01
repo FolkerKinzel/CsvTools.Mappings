@@ -14,9 +14,9 @@ internal static class TimeoutHelper
     /// is negative or zero and not <see cref="Timeout.Infinite"/>.</event>"
     internal static int NormalizeRegexTimeout(int timeOut, string paramName)
     {
-        if (timeOut > CsvRecordMapping.MaxRegexTimeout)
+        if (timeOut > CsvRecordMapping.RegexTimeout)
         {
-            return CsvRecordMapping.MaxRegexTimeout;
+            return CsvRecordMapping.RegexTimeout;
         }
         else if (timeOut != Timeout.Infinite)
         {

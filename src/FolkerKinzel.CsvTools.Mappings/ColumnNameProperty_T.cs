@@ -29,48 +29,41 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     /// </summary>
     /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# 
     /// identifiers. Only ASCII characters are accepted.</param>
-    /// <param name="columnNameAliases">
-    /// Column names of the CSV file that <see cref="ColumnNameProperty{T}"/> can access. For the access 
-    /// <see cref="ColumnNameProperty{T}"/> 
-    /// uses the first alias that is a match with a column name of the CSV file. The alias strings may contain the 
-    /// wildcard characters * and ?. 
-    /// If a wildcard alias matches several columns in the CSV file, the column with the lowest index is referenced.</param>
-    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
-    /// <param name="wildcardTimeout">
+    ///<param name="columnNameAliases">
     /// <para>
-    /// The timeout value in milliseconds used to resolve a single column name alias. Set this value to 
-    /// <see cref="Timeout.Infinite"/> to disable the timeout. If the value is greater than 
-    /// <see cref="CsvRecordMapping.MaxRegexTimeout"/>, it is normalized to this value.
+    /// Column names of the CSV file that the <see cref="MappingProperty"/> can access. The first alias that is a match 
+    /// with a column name of the CSV file is used. The alias <see cref="string"/>s may contain the 
+    /// wildcard characters * and ?. 
     /// </para>
     /// <para>
-    /// If an alias in <paramref name="columnNameAliases"/> cannot be resolved inside this timeout, 
-    /// <see cref="ColumnNameProperty{T}"/> reacts as if it had no target in the columns of the CSV file. 
+    /// If a wildcard alias matches several columns in the CSV file, the column with the lowest index is referenced.
+    /// </para>
+    /// <para>
+    /// The collection will be copied.
     /// </para>
     /// </param>
+    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
+    /// 
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or <paramref name="columnNameAliases"/>
     /// is <c>null</c>.</exception>
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# 
     /// identifiers (only ASCII characters).</exception>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="wildcardTimeout"/> is less than 1 and not 
-    /// <see cref="Timeout.Infinite"/>.</exception>
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
     public ColumnNameProperty(string propertyName,
-                              IEnumerable<string> columnNameAliases,
-                              TypeConverter<T> converter,
-                              int wildcardTimeout = 10)
+                              IEnumerable<string?> columnNameAliases,
+                              TypeConverter<T> converter)
         : base(propertyName, converter)
     {
         _ArgumentNullException.ThrowIfNull(columnNameAliases, nameof(columnNameAliases));
 
-        this._wildcardTimeout = GetTimeout(wildcardTimeout);
-        this.ColumnNameAliases = new ReadOnlyCollection<string>(columnNameAliases.Where(x => x != null).ToArray());
+        this._wildcardTimeout = GetTimeout(CsvRecordMapping.RegexTimeout);
+        this.ColumnNameAliases = columnNameAliases.OfType<string>().ToArray();
 
         static TimeSpan GetTimeout(int wildcardTimeout)
         {
-            wildcardTimeout = TimeoutHelper.NormalizeRegexTimeout(wildcardTimeout, nameof(wildcardTimeout));
             return wildcardTimeout == Timeout.Infinite
                             ? Regex.InfiniteMatchTimeout
                             : TimeSpan.FromMilliseconds(wildcardTimeout);
@@ -91,7 +84,7 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     /// recommended to assign the same alias to several <see cref="CsvRecord"/> objects. 
     /// </para>
     /// </remarks>
-    public ReadOnlyCollection<string> ColumnNameAliases { get; }
+    public IReadOnlyList<string> ColumnNameAliases { get; }
 
     /// <inheritdoc/>
     protected override void UpdateReferredCsvIndex()
@@ -110,19 +103,15 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     private int? GetReferredIndex()
     {
         Debug.Assert(Record is not null);
+        Debug.Assert(ColumnNameAliases is string[]);
+        Debug.Assert(Record.ColumnNames is string[]);
 
-        IReadOnlyList<string>? columnNames = Record.ColumnNames;
+        ReadOnlySpan<string> columnNames = ((string[])Record.ColumnNames).AsSpan();
+        ReadOnlySpan<string> aliases = ((string[])ColumnNameAliases).AsSpan();
         RegexOptions? regexOptions = null;
 
-        for (int i = 0; i < ColumnNameAliases.Count; i++)
+        foreach(string alias in aliases)
         {
-            string alias = ColumnNameAliases[i];
-
-            if (alias is null)
-            {
-                continue;
-            }
-
             if (HasWildcard(alias))
             {
                 if(!regexOptions.HasValue)
@@ -132,7 +121,7 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
 
                 string pattern = CreateRegexPattern(alias);
 
-                for (int k = 0; k < columnNames.Count; k++)
+                for (int k = 0; k < columnNames.Length; k++)
                 {
                     string columnName = columnNames[k];
 
@@ -151,11 +140,9 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
             }
             else
             {
-                for (int j = 0; j < columnNames.Count; j++)
+                for (int j = 0; j < columnNames.Length; j++)
                 {
-                    string columnName = columnNames[j];
-
-                    if (Record.Comparer.Equals(columnName, alias)) // Es kann in columnNames keine 2 Strings geben, auf die das zutrifft.
+                    if (Record.Comparer.Equals(columnNames[j], alias)) // Es kann in columnNames keine 2 Strings geben, auf die das zutrifft.
                     {
                         return j;
                     }
@@ -167,21 +154,7 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
 
         ////////////////////////////////////////////////////////////////////
 
-        static bool HasWildcard(string alias)
-        {
-            // Suche Wildcardzeichen im alias
-            for (int j = 0; j < alias.Length; j++)
-            {
-                char c = alias[j];
-
-                if (c is '*' or '?')
-                {
-                    return true;
-                }
-            }//for
-
-            return false; // keine Wildcard-Zeichen
-        }//HasWildcard
+        static bool HasWildcard(string alias) => alias.AsSpan().ContainsAny('*', '?');
 
         static RegexOptions InitRegexOptions(bool caseSensitive)
         {

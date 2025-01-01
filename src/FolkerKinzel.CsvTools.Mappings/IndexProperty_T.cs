@@ -26,13 +26,14 @@ public sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// when writing. When reading, in this case, <see cref="TypeConverter{T}.FallbackValue"/> is returned.</param>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
-    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# 
-    /// identifiers (only ASCII characters).</exception>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or 
     /// <paramref name="converter"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="csvIndex"/>  is less than Zero.</exception>
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# 
+    /// identifiers (only ASCII characters).</exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.RegexTimeout"/>.
     /// </exception>
     public IndexProperty(
         string propertyName, int csvIndex, TypeConverter<T> converter) : base(propertyName, converter)

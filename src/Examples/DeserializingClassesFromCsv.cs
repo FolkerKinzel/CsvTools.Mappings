@@ -50,39 +50,19 @@ internal static class DeserializingClassesFromCsv
                 ";;Frederic Chopin")
             .ToString());
 
+        // Reuse a converter for more than one property:
+        var stringConverter = new StringConverter();
+
         // Initialize a CsvRecordWrapper which retrieves the data from
         // the CSV-Columns and converts it to the right data type.
         // Aliases with wildcards can be used to match the column-headers
         // of the CSV file.
-        var wrapper = new CsvRecordMapping();
-
-        // Reuse a converter for more than one property:
-        var stringConverter = new StringConverter();
-
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<string?>("Name",
-                                ["*name"],
-                                stringConverter)
-            );
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<string?>("Subject",
-                                ["*subject", "*fach"],
-                                stringConverter)
-            );
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<DayOfWeek?>("LessonDay",
-                                ["*day", "*tag"],
-                                new EnumConverter<DayOfWeek>().ToNullableConverter())
-            );
-        wrapper.AddProperty
-            (
-                new ColumnNameProperty<TimeSpan?>("LessonBegin",
-                                ["*begin?"],
-                                new TimeSpanConverter().ToNullableConverter())
-            );
+        CsvRecordMapping mapping = CsvRecordMapping
+            .Create()
+            .AddSingleColumnProperty("Name", ["*name"], stringConverter)
+            .AddSingleColumnProperty("Subject", ["*subject", "*fach"], stringConverter)
+            .AddSingleColumnProperty("LessonDay", ["*day", "*tag"], new EnumConverter<DayOfWeek>().ToNullableConverter())
+            .AddSingleColumnProperty("LessonBegin", ["*begin?"], new TimeSpanConverter().ToNullableConverter());
 
         // Analyze the CSV file to determine the right parameters
         // for proper reading:
@@ -99,12 +79,12 @@ internal static class DeserializingClassesFromCsv
 
         foreach (CsvRecord record in reader)
         {
-            wrapper.Record = record;
+            mapping.Record = record;
 
             // Using a dynamic variable enables you to assign
             // the properties without having to explicitely cast them
             // to the target data type:
-            dynamic dynWrapper = wrapper;
+            dynamic dynWrapper = mapping;
 
             pupilsList.Add(new Pupil
             {
