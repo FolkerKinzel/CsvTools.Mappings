@@ -1,5 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Intls;
+using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -17,20 +18,22 @@ public sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// <summary>
     /// Initializes a new <see cref="IndexProperty{T}"/> instance.
     /// </summary>
-    /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
-    /// Only ASCII characters are accepted.
+    /// <param name="propertyName">The identifier under which the property is addressed. It must follow the 
+    /// rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
     /// If this index doesn't exist, the <see cref="IndexProperty{T}"/> is ignored 
     /// when writing. When reading, in this case, <see cref="TypeConverter{T}.FallbackValue"/> is returned.</param>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
-    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# identifiers (only ASCII characters).</exception>
-    /// 
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# 
+    /// identifiers (only ASCII characters).</exception>
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or 
     /// <paramref name="converter"/> is <c>null</c>.</exception>
-    /// 
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="csvIndex"/>  is less than Zero.</exception>
+    /// <exception cref="RegexMatchTimeoutException">
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+    /// </exception>
     public IndexProperty(
         string propertyName, int csvIndex, TypeConverter<T> converter) : base(propertyName, converter)
     {

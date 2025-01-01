@@ -19,25 +19,16 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
 /// for C# identifiers (only ASCII characters).</exception>
 /// <exception cref="RegexMatchTimeoutException">
-/// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
+/// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
 /// </exception>
 public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter)
-    : MappingProperty(propertyName)
+    : MappingProperty(propertyName), ITypedProperty<T>
 {
-    /// <summary>
-    /// The data type of the dynamic property.
-    /// </summary>
-    public Type DataType => Converter.DataType;
+    ///// <inheritdoc/>
+    //public Type DataType => Converter.DataType;
 
-    /// <summary>
-    /// Allows to get and set the value of the referenced field in <see cref="Record"/>
-    /// without having to use a dynamic property.
-    /// </summary>
-    /// <remarks>
-    /// This property supports high performance scenarios: boxing and unboxing of 
-    /// value types can be omitted in this way.
-    /// </remarks>
-    public T? Value
+    /// <inheritdoc/>
+    public new T? Value
     {
         get => GetTypedValue();
         set => SetTypedValue(value);
@@ -87,16 +78,9 @@ public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter
         Debug.Assert(Record != null);
         UpdateReferredCsvIndex();
 
-        try
-        {
-            return ReferredCsvIndex.HasValue
-                ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span)
-                : Converter.FallbackValue;
-        }
-        catch (Exception e)
-        {
-            throw new FormatException(e.Message, e);
-        }
+        return ReferredCsvIndex.HasValue
+            ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span)
+            : Converter.FallbackValue;
     }
 
     private void SetTypedValue(T? value)

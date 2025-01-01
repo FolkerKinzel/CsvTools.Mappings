@@ -38,14 +38,22 @@ public class MappingPropertyTests
     public void CsvPropertyTest6() 
         => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), -7);
 
+    [TestMethod()]
+    [ExpectedException(typeof(ArgumentOutOfRangeException))]
+    public void CsvPropertyTest6b()
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), 0);
 
     [TestMethod()]
     public void CsvPropertyTest7()
-        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), ColumnNameProperty<string?>.MaxWildcardTimeout + 1);
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), CsvRecordMapping.MaxRegexTimeout + 1);
+
+    [TestMethod()]
+    public void CsvPropertyTest7b()
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), 1);
 
     [TestMethod()]
     public void CsvPropertyTest8() 
-        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), 0);
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter(), Timeout.Infinite);
 
 
     [TestMethod()]

@@ -398,9 +398,9 @@ public class CsvRecordMappingTests
 
 
     [DataTestMethod]
-    [DataRow(0)]
-    [DataRow(ColumnNameProperty<int>.MaxWildcardTimeout)]
-    [DataRow(ColumnNameProperty<int>.MaxWildcardTimeout + 1)]
+    [DataRow(Timeout.Infinite)]
+    [DataRow(CsvRecordMapping.MaxRegexTimeout)]
+    [DataRow(CsvRecordMapping.MaxRegexTimeout + 1)]
     public void DynPropTest(int wildcardTimeout)
     {
         var rec = new CsvRecord([ "Hallo1", "Blabla" ], false, true, true);

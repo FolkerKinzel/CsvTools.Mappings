@@ -10,6 +10,7 @@ using System.Dynamic;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -88,6 +89,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
         public PropertyCollection() : base(StringComparer.Ordinal) { }
     }
 
+    private static int _regexTimeout = MaxRegexTimeout;
     private readonly PropertyCollection _dynProps = new();
     private CsvRecord? _record;
 
@@ -101,6 +103,26 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </note>
     /// </remarks>
     public CsvRecordMapping() { }
+
+    /// <summary>
+    /// Maximum time (in milliseconds) that can be used to resolve a <see cref="Regex"/>.
+    /// </summary>
+    public const int MaxRegexTimeout = 100;
+
+    /// <summary>
+    /// Maximum time (in milliseconds) that can be used to resolve a <see cref="Regex"/>.
+    /// Set this value to <see cref="Timeout.Infinite"/> to disable the timeout.
+    /// </summary>
+    /// <remarks>If the value is greater than <see cref="MaxRegexTimeout"/>, 
+    /// <see cref="MaxRegexTimeout"/> is used instead.</remarks>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Value is less than 1 and not <see cref="Timeout.Infinite"/>.
+    /// </exception>
+    public static int RegexTimeout
+    {
+        get => _regexTimeout;
+        set => _regexTimeout = TimeoutHelper.NormalizeRegexTimeout(value, nameof(value));
+    }
 
     /// <summary>
     /// The <see cref="CsvRecord"/> instance whose data is accessed with dynamic properties.
@@ -134,16 +156,6 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
     /// </summary>
     public IEnumerable<string> PropertyNames => _dynProps.Select(x => x.PropertyName);
 
-    ///// <summary>
-    ///// Gibt eine Kopie der in <see cref="CsvRecord"/> gespeicherten Daten zurück.
-    ///// </summary>
-    ///// <exception cref="InvalidCastException">Der Rückgabewert einer indexierten <see cref="CsvPropertyBase"/> konnte nicht erfolgreich geparst werden und 
-    ///// der <see cref="ICsvTypeConverter"/> dieser <see cref="CsvPropertyBase"/> war so konfiguriert, dass er in diesem Fall eine
-    ///// Ausnahme wirft.</exception>
-    ///// <exception cref="InvalidOperationException">Es wurde versucht, auf die Daten von <see cref="CsvRecordMapping"/> zuzugreifen, ohne dass diesem
-    ///// ein <see cref="CsvRecord"/>-Objekt zugewiesen war.</exception>
-    //public IList<object?> Values => this.Select(x => x.Value).ToArray();
-
     /// <summary>
     /// Allows access to the properties registered in <see cref="CsvRecordMapping"/> via a zero-based index. The index corresponds 
     /// to the order in which the <see cref="MappingProperty"/> objects are registered in the <see cref="CsvRecordMapping"/>.
@@ -174,7 +186,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
         {
             return Record is null
                 ? throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)))
-                : _dynProps[index].GetValue();
+                : _dynProps[index].Value;
         }
 
         set
@@ -184,7 +196,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
             }
 
-            _dynProps[index].SetValue(value);
+            _dynProps[index].Value = value;
         }
     }
 
@@ -228,7 +240,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
                 : propertyName is null
                     ? throw new ArgumentNullException(nameof(propertyName))
                     : this._dynProps.TryGetValue(propertyName, out MappingProperty? prop)
-                        ? prop.GetValue()
+                        ? prop.Value
                         : throw new ArgumentException(string.Format(Res.PropertyNotFound, nameof(propertyName)), nameof(propertyName));
         }
 
@@ -243,7 +255,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
             if (this._dynProps.TryGetValue(propertyName, out MappingProperty? prop))
             {
-                prop.SetValue(value);
+                prop.Value = value;
             }
             else
             {
@@ -431,7 +443,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
         if (this._dynProps.TryGetValue(binder.Name, out MappingProperty? prop))
         {
-            prop.SetValue(value);
+            prop.Value = value;
             return true;
         }
 
@@ -468,7 +480,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
         if (this._dynProps.TryGetValue(binder.Name, out MappingProperty? prop))
         {
-            result = prop.GetValue();
+            result = prop.Value;
             return true;
         }
 
@@ -559,7 +571,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<KeyValuePair<s
 
         foreach (MappingProperty? prop in this._dynProps)
         {
-            yield return new KeyValuePair<string, object?>(prop.PropertyName, prop.GetValue());
+            yield return new KeyValuePair<string, object?>(prop.PropertyName, prop.Value);
         }
     }
 

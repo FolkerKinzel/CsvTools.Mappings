@@ -22,7 +22,7 @@ public abstract partial class MappingProperty
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
     protected MappingProperty(string propertyName)
     {
@@ -44,6 +44,15 @@ public abstract partial class MappingProperty
     /// Identifier of the dynamic property.
     /// </summary>
     public string PropertyName { get; }
+
+    /// <summary>
+    /// Gets or sets the value of the dynamic property.
+    /// </summary>
+    public object? Value
+    { 
+        get => GetValue();
+        set => SetValue(value);
+    }
 
     /// <summary>
     /// The <see cref="CsvRecord"/> object used to access the CSV file.
@@ -68,9 +77,10 @@ public abstract partial class MappingProperty
     protected internal abstract void SetValue(object? value);
 
 #if NET8_0_OR_GREATER
-    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, 100)]
+    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, CsvRecordMapping.MaxRegexTimeout)]
     private static partial Regex PropertyNameRegex();
 #else
-    private static Regex PropertyNameRegex { get; } = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
+    private static Regex PropertyNameRegex { get; } 
+        = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(CsvRecordMapping.MaxRegexTimeout));
 #endif
 }

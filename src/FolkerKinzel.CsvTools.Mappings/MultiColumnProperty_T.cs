@@ -17,30 +17,21 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
 /// for C# identifiers (only ASCII characters).</exception>
 /// <exception cref="RegexMatchTimeoutException">
-/// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
+/// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
 /// </exception>
-public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter) 
-    : MappingProperty(propertyName)
+public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter)
+    : MappingProperty(propertyName), ITypedProperty<T>
 {
-    /// <summary>
-    /// The data type of the dynamic property.
-    /// </summary>
-    public Type DataType => Converter.DataType;
+    ///// <inheritdoc/>
+    //public Type DataType => Converter.DataType;
 
-    /// <summary>
-    /// Allows to get and set the value of the referenced field in <see cref="Record"/>
-    /// without having to use a dynamic property.
-    /// </summary>
-    /// <remarks>
-    /// This property supports high performance scenarios: boxing and unboxing of 
-    /// value types can be omitted in this way.
-    /// </remarks>
-    public T? Value
+    /// <inheritdoc/>
+    public new T? Value
     {
         get => Converter.Convert();
         set => Converter.ConvertToCsv(value);
     }
-    
+
     /// <summary>
     /// An object derived from <see cref="MultiColumnTypeConverter{T}"/> that performs the type conversion.
     /// </summary>
@@ -48,8 +39,8 @@ public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverte
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record
-    { 
-        get => Converter.Mapping.Record; 
+    {
+        get => Converter.Mapping.Record;
         internal set => Converter.Mapping.Record = value;
     }
 
