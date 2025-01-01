@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 using System;
 using System.Globalization;
 
@@ -87,7 +88,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
                 : TryConvertMapping(out T? result)
                     ? result
                     : Throwing
-                        ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, "Cannot convert the CSV data to {0}.", typeof(T)))
+                        ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, Res.CannotParseCsv, typeof(T).FullName))
                         : FallbackValue;
 
     /// <summary>
@@ -110,7 +111,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     {
         if (value is null && !AcceptsNull)
         {
-            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, "Cannot cast null to {0}.", typeof(T)));
+            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
 
         DoConvertToCsv(value);
@@ -126,11 +127,11 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     {
         if (value is null && !AcceptsNull)
         {
-            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, "Cannot cast null to {0}.", typeof(T).FullName));
+            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
         else
         {
-            ConvertToCsv((T?)value);
+            DoConvertToCsv((T?)value);
         }
     }
 }

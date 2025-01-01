@@ -120,8 +120,17 @@
   <data name="BadIdentifier" xml:space="preserve">
     <value>The identifier is not well-formed.</value>
   </data>
+  <data name="CannotCastNull" xml:space="preserve">
+    <value>Cannot cast null to {0}.</value>
+  </data>
+  <data name="CannotParseCsv" xml:space="preserve">
+    <value>Cannot parse the CSV data as {0}.</value>
+  </data>
   <data name="CsvRecordIsNull" xml:space="preserve">
     <value>{0} is null.</value>
+  </data>
+  <data name="EmptySeparator" xml:space="preserve">
+    <value>The separator must not be an empty string.</value>
   </data>
   <data name="FormatStringNotSupported" xml:space="preserve">
     <value>The format string is not supported: {0}.</value>

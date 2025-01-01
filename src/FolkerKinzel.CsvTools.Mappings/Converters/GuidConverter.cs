@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
@@ -71,7 +72,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
             case "":
                 return;
             default:
-                throw new ArgumentException("Invalid format string.", parameterName);
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, Format), parameterName);
         }
     }
 }

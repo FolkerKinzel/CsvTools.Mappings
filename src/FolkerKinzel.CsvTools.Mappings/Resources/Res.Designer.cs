@@ -70,11 +70,38 @@ namespace FolkerKinzel.CsvTools.Mappings.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot cast null to {0}..
+        /// </summary>
+        internal static string CannotCastNull {
+            get {
+                return ResourceManager.GetString("CannotCastNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot parse the CSV data as {0}..
+        /// </summary>
+        internal static string CannotParseCsv {
+            get {
+                return ResourceManager.GetString("CannotParseCsv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is null..
         /// </summary>
         internal static string CsvRecordIsNull {
             get {
                 return ResourceManager.GetString("CsvRecordIsNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The separator must not be an empty string..
+        /// </summary>
+        internal static string EmptySeparator {
+            get {
+                return ResourceManager.GetString("EmptySeparator", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Text;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
@@ -32,7 +33,7 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
 
         if (separator.Length == 0)
         {
-            throw new ArgumentException("The separator can't be an empty string.", nameof(separator));
+            throw new ArgumentException(Res.EmptySeparator, nameof(separator));
         }
     }
 
