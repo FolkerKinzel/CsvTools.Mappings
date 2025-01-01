@@ -48,6 +48,10 @@ public abstract partial class MappingProperty
     /// <summary>
     /// Gets or sets the value of the dynamic property.
     /// </summary>
+    /// <remarks>
+    /// If the containing <see cref="CsvRecordMapping"/> instance is assigned to a <c>dynamic</c> 
+    /// variable, the runtime will do all the required casting operations automatically.
+    /// </remarks>
     public object? Value
     { 
         get => GetValue();
