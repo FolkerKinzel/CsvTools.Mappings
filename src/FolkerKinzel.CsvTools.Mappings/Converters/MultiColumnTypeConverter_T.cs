@@ -1,4 +1,6 @@
-﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using System;
+
+namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
 /// Abstract base class for serializing and deserializing objects whose data is distributed 
@@ -118,5 +120,15 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// </summary>
     /// <param name="value">The object to write to the selected fields of <see cref="MappingProperty.Record"/>.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
-    public void ConvertToCsv(object? value) => ConvertToCsv((T?)value);
+    public void ConvertToCsv(object? value)
+    {
+        if (value is null && !AcceptsNull)
+        {
+            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T).FullName));
+        }
+        else
+        {
+            ConvertToCsv((T?)value);
+        }
+    }
 }

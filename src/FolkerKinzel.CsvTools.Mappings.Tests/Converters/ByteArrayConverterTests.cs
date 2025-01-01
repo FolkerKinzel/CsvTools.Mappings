@@ -31,7 +31,7 @@ public class ByteArrayConverterTests
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
-        _ = conv.Parse("blabla".AsSpan());
+        _ = conv.Parse("bl@!*abla".AsSpan());
     }
 
     [TestMethod]
@@ -41,7 +41,7 @@ public class ByteArrayConverterTests
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
-        Assert.IsNull(conv.Parse("blabla".AsSpan()));
+        Assert.IsNull(conv.Parse("bl@!*abla".AsSpan()));
     }
 
     [TestMethod]

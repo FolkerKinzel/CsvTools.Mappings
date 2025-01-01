@@ -29,6 +29,10 @@ public interface ITypeConverter<T>
     /// </summary>
     /// <value><c>true</c> if the converter accepts <c>null</c> values,
     /// otherwise <c>false</c>.</value>
+    /// <remarks>
+    /// <note type="implement">This value should be <c>true</c> for all reference types
+    /// and <c>false</c> for all value types, except <see cref="Nullable{T}"/>.</note>
+    /// </remarks>
     bool AcceptsNull { get; }
 
     /// <summary>

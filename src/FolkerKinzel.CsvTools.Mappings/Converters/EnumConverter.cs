@@ -41,6 +41,8 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
     /// </param>
     /// <param name="ignoreCase">A value that indicates whether the parser takes casing into account.
     /// (<c>false</c> for case-sensitive parsing, otherwise <c>true</c>.)</param>
+    /// <remarks>The format strings "X" and "x" are not supported.</remarks>
+    /// <exception cref="ArgumentException">The value of <paramref name="format"/> is not supported.</exception>"
     public EnumConverter(
         string? format,
         bool throwing = true,
@@ -48,7 +50,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
         bool ignoreCase = true)
         : base(throwing, fallbackValue)
     {
-        ValidateFormat(format);
+        EnumConverter<TEnum>.ValidateFormat(format);
         IgnoreCase = ignoreCase;
         Format = format;
     }
@@ -61,15 +63,16 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
             case "g":
             case "D":
             case "d":
-            case "X":
-            case "x":
             case "F":
             case "f":
             case null:
             case "":
-                return;
+                break;
+            //case "X":
+            //case "x":
+                //break;
             default:
-                throw new ArgumentException("Invalid format string.", nameof(format));
+                throw new ArgumentException(string.Format("The format string is not supported: {0}", format), nameof(format));
         }
     }
 

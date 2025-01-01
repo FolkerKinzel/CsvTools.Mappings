@@ -21,7 +21,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <exception cref="RegexMatchTimeoutException">
 /// Validating of <paramref name="propertyName"/> takes longer than 100 ms.
 /// </exception>
-public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter) 
+public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter)
     : MappingProperty(propertyName)
 {
     /// <summary>
@@ -42,7 +42,7 @@ public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter
         get => GetTypedValue();
         set => SetTypedValue(value);
     }
-    
+
     /// <summary>
     /// The index of the column in the CSV file that <see cref="MappingProperty"/> actually accesses, 
     /// or <c>null</c> if <see cref="MappingProperty"/> does not find a target in the CSV file.
@@ -70,7 +70,17 @@ public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter
     protected internal override object? GetValue() => GetTypedValue();
 
     /// <inheritdoc/>
-    protected internal override void SetValue(object? value) => SetTypedValue((T?)value);
+    protected internal override void SetValue(object? value)
+    {
+        if (value is null && !Converter.AcceptsNull)
+        {
+            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T).FullName));
+        }
+        else
+        {
+            SetTypedValue((T?)value);
+        }
+    }
 
     private T? GetTypedValue()
     {
@@ -79,8 +89,8 @@ public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter
 
         try
         {
-            return ReferredCsvIndex.HasValue 
-                ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span) 
+            return ReferredCsvIndex.HasValue
+                ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span)
                 : Converter.FallbackValue;
         }
         catch (Exception e)
@@ -94,7 +104,7 @@ public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter
         Debug.Assert(Record != null);
 
         string? val = value is null
-                ? Converter.AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)))
+                ? Converter.AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T).FullName))
                 : Converter.ConvertToString(value);
 
         UpdateReferredCsvIndex();

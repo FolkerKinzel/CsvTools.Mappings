@@ -26,8 +26,8 @@ public static class TypeConverterExtension
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
     /// <remarks>
-    /// The method initializes not in any case a new instance: If <paramref name="converter"/> already fits
-    /// the requirements, it returns <paramref name="converter"/>.
+    /// The method does not always initialize a new instance: if <paramref name="converter"/> already 
+    /// meets the requirements, it returns <paramref name="converter"/>.
     /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TypeConverter<object> ToDBNullConverter<T>(this TypeConverter<T> converter)

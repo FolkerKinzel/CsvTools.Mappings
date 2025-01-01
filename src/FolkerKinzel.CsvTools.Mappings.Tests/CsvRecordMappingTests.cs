@@ -403,7 +403,7 @@ public class CsvRecordMappingTests
     [DataRow(ColumnNameProperty<int>.MaxWildcardTimeout + 1)]
     public void DynPropTest(int wildcardTimeout)
     {
-        var rec = new CsvRecord([ "Hallo1", "Blabla" ], false, false, true);
+        var rec = new CsvRecord([ "Hallo1", "Blabla" ], false, true, true);
 
         var wrapper = new CsvRecordMapping
         {

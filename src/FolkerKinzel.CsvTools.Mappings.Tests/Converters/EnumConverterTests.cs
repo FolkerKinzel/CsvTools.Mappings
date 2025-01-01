@@ -208,4 +208,36 @@ public class EnumConverterTests
 
         Assert.IsTrue(Convert.IsDBNull(conv.Parse(s.AsSpan())));
     }
+
+    [TestMethod]
+    public void RoundtripTest11()
+    {
+        const CsvOpts val = CsvOpts.CaseSensitiveKeys | CsvOpts.DisableCaching;
+
+        var conv = new EnumConverter<CsvOpts>();
+
+        string? s = conv.ConvertToString(val);
+
+        Assert.AreEqual(val, conv.Parse(s.AsSpan()));
+    }
+
+    [DataTestMethod]
+    [DataRow("G")]
+    [DataRow("g")]
+    [DataRow("D")]
+    [DataRow("d")]
+    [DataRow("F")]
+    [DataRow("f")]
+    [DataRow(null)]
+    [DataRow("")]
+    public void RoundtripTest12(string format)
+    {
+        const CsvOpts val = CsvOpts.CaseSensitiveKeys | CsvOpts.DisableCaching;
+
+        var conv = new EnumConverter<CsvOpts>(format);
+
+        string? s = conv.ConvertToString(val);
+
+        Assert.AreEqual(val, conv.Parse(s.AsSpan()));
+    }
 }
