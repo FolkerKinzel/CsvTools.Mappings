@@ -34,25 +34,7 @@ public class MappingPropertyTests
         => _ = new ColumnNameProperty<string?>("Ähh", ["Col1"], new StringConverter());
 
     [TestMethod()]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void CsvPropertyTest6() 
-        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
-
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void CsvPropertyTest6b()
-        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
-
-    [TestMethod()]
     public void CsvPropertyTest7()
-        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
-
-    [TestMethod()]
-    public void CsvPropertyTest7b()
-        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
-
-    [TestMethod()]
-    public void CsvPropertyTest8() 
         => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
 
 

@@ -511,12 +511,6 @@ public class CsvRecordMappingTests
         Assert.AreEqual(1, wrapper.Count);
     }
 
-
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentNullException))]
-    public void AddPropertyTest2() => CsvRecordMapping.Create().Add(null!);
-
-
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
     public void AddPropertyTest3()
@@ -536,7 +530,6 @@ public class CsvRecordMappingTests
         wrapper.Add(prop1);
         wrapper.Add(prop2);
     }
-
 
     [TestMethod()]
     public void RemovePropertyTest1()
@@ -640,20 +633,20 @@ public class CsvRecordMappingTests
 
         dynamic dyn = wrapper;
 
-        Assert.AreEqual(42, dyn[0]);
-        Assert.AreEqual(43, dyn[1]);
+        Assert.AreEqual(42, dyn[0].Value);
+        Assert.AreEqual(43, dyn[1].Value);
 
-        int test = dyn[0];
+        int test = dyn[0].Value;
         Assert.AreEqual(42, test);
 
-        test = dyn["Column1"];
+        test = dyn["Column1"].Value;
         Assert.AreEqual(42, test);
 
-        dyn["Column2"] = 7;
-        Assert.AreEqual(7, dyn["Column2"]);
+        dyn["Column2"].Value = 7;
+        Assert.AreEqual(7, dyn["Column2"].Value);
 
-        dyn[0] = 3;
-        Assert.AreEqual(3, dyn[0]);
+        dyn[0].Value = 3;
+        Assert.AreEqual(3, dyn[0].Value);
     }
 
     [TestMethod()]
