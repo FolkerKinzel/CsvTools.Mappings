@@ -20,18 +20,18 @@ internal static class CsvToDataTable
     {
         using DataTable dataTable = InitDataTable();
 
-        CsvRecordMapping wrapper = InitCsvRecordWrapper();
+        CsvRecordMapping mapping = InitCsvRecordWrapper();
 
         // Write the CSV file:
         // (We can sort the columns of the CSV file differently than those 
         // of the DataTable - CsvRecordWrapper will reorder that.)
-        string[] columns = 
+        string[] columns =
             [SUBJECT, LESSON_BEGIN, PUPILS_NAME, LESSON_DAY];
 
-        using (var writer = new CsvWriter(FILE_NAME, columns))
+        using (var writer = Csv.OpenWrite(FILE_NAME, columns))
         {
             // (CsvWriter reuses the same record.)
-            wrapper.Record = writer.Record;
+            mapping.Record = writer.Record;
 
             foreach (DataRow? obj in dataTable.Rows)
             {
@@ -40,9 +40,9 @@ internal static class CsvToDataTable
                     // The properties of the CsvRecordWrapper match the columns
                     // of the DataTable in data type and order (but not the 
                     // columns of the CSV file).
-                    for (int i = 0; i < wrapper.Count; i++)
+                    for (int i = 0; i < mapping.Count; i++)
                     {
-                        wrapper[i].Value = dataRow[i];
+                        mapping[i].Value = dataRow[i];
                     }
 
                     writer.WriteRecord();
@@ -53,23 +53,22 @@ internal static class CsvToDataTable
         dataTable.Clear();
 
         // Refill the DataTable from the CSV-file:
-        using (var reader = new CsvEnumerator(FILE_NAME))
+        using CsvReader reader = Csv.OpenRead(FILE_NAME);
+
+        foreach (CsvRecord record in reader)
         {
-            foreach (CsvRecord record in reader)
+            mapping.Record = record;
+            DataRow dataRow = dataTable.NewRow();
+            dataTable.Rows.Add(dataRow);
+
+            // It doesn't matter that the columns in the CSV file have a
+            // different order than the columns of the DataTable:
+            // CsvRecordWrapper reorders that for us.
+            for (int i = 0; i < mapping.Count; i++)
             {
-                wrapper.Record = record;
-                DataRow dataRow = dataTable.NewRow();
-                dataTable.Rows.Add(dataRow);
-
-                // It doesn't matter that the columns in the CSV file have a
-                // different order than the columns of the DataTable:
-                // CsvRecordWrapper reorders that for us.
-                for (int i = 0; i < wrapper.Count; i++)
-                {
-                    dataRow[i] = wrapper[i].Value;
-                }
-
+                dataRow[i] = mapping[i].Value;
             }
+
         }
 
         WriteConsole(dataTable);

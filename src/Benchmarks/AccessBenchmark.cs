@@ -40,7 +40,7 @@ public class AccessBenchmark
     {
         int letters = 0;
 
-        var reader = new CsvEnumerator(new StringReader(_csv));
+        var reader = new CsvReader(new StringReader(_csv));
 
         foreach (CsvRecord row in reader)
         {
@@ -60,7 +60,7 @@ public class AccessBenchmark
     {
         int letters = 0;
 
-        var reader = new CsvEnumerator(new StringReader(_csv));
+        var reader = new CsvReader(new StringReader(_csv));
 
         foreach (CsvRecord row in reader)
         {

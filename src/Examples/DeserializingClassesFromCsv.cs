@@ -70,7 +70,7 @@ internal static class DeserializingClassesFromCsv
 
         // Read the CSV file:
         using var reader =
-            new CsvEnumerator(csvFileName,
+            new CsvReader(csvFileName,
                           result.HasHeaderRow,
                           result.Options,
                           result.Delimiter);

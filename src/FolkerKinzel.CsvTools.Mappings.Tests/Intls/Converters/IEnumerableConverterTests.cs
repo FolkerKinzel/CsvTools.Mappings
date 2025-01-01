@@ -51,7 +51,7 @@ public class IEnumerableConverterTests
         string csv = writer.ToString();
 
         using var reader = new StringReader(csv);
-        using var csvReader = new CsvEnumerator(reader, false);
+        using var csvReader = new CsvReader(reader, false);
 
         wrapper.Record = csvReader.First();
 
