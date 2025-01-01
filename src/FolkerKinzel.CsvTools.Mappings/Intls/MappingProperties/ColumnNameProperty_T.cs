@@ -1,9 +1,8 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
-using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
-namespace FolkerKinzel.CsvTools.Mappings;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
 /// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files with header row.
@@ -14,7 +13,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its CSV column name.
 /// </remarks>
-public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
+internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
 {
     /// <summary>
     /// Ein Hashcode, der für alle <see cref="CsvRecord"/>-Objekte, die zum selben Lese- oder Schreibvorgang
@@ -59,8 +58,8 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     {
         _ArgumentNullException.ThrowIfNull(columnNameAliases, nameof(columnNameAliases));
 
-        this._wildcardTimeout = GetTimeout(CsvRecordMapping.RegexTimeout);
-        this.ColumnNameAliases = columnNameAliases.OfType<string>().ToArray();
+        _wildcardTimeout = GetTimeout(CsvRecordMapping.RegexTimeout);
+        ColumnNameAliases = columnNameAliases.OfType<string>().ToArray();
 
         static TimeSpan GetTimeout(int wildcardTimeout)
         {
@@ -110,11 +109,11 @@ public sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
         ReadOnlySpan<string> aliases = ((string[])ColumnNameAliases).AsSpan();
         RegexOptions? regexOptions = null;
 
-        foreach(string alias in aliases)
+        foreach (string alias in aliases)
         {
             if (HasWildcard(alias))
             {
-                if(!regexOptions.HasValue)
+                if (!regexOptions.HasValue)
                 {
                     regexOptions = InitRegexOptions(Record.HasCaseSensitiveColumnNames);
                 }

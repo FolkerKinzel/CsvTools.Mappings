@@ -1,6 +1,4 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls;
-
-namespace FolkerKinzel.CsvTools.Mappings;
+﻿namespace FolkerKinzel.CsvTools.Mappings.Intls;
 
 internal static class TimeoutHelper
 {

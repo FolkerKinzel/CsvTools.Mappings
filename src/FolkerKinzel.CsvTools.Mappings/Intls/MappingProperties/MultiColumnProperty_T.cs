@@ -1,7 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using System.Text.RegularExpressions;
 
-namespace FolkerKinzel.CsvTools.Mappings;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
 /// Abstract base class for classes representing a dynamic property of <see cref="CsvRecordMapping"/> 
@@ -19,7 +19,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <exception cref="RegexMatchTimeoutException">
 /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
 /// </exception>
-public class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter)
+internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter)
     : MappingProperty(propertyName), ITypedProperty<T>
 {
     /// <inheritdoc/>

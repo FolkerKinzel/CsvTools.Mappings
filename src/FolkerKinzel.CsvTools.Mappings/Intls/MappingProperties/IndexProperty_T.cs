@@ -1,8 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
-using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Text.RegularExpressions;
 
-namespace FolkerKinzel.CsvTools.Mappings;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
 /// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files without a header.
@@ -13,7 +12,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its zero-based column index.
 /// </remarks>
-public sealed class IndexProperty<T> : SingleColumnProperty<T>
+internal sealed class IndexProperty<T> : SingleColumnProperty<T>
 {
     /// <summary>
     /// Initializes a new <see cref="IndexProperty{T}"/> instance.
@@ -39,7 +38,7 @@ public sealed class IndexProperty<T> : SingleColumnProperty<T>
         string propertyName, int csvIndex, TypeConverter<T> converter) : base(propertyName, converter)
     {
         _ArgumentOutOfRangeException.ThrowIfNegative(csvIndex, nameof(csvIndex));
-        this.CsvIndex = csvIndex;
+        CsvIndex = csvIndex;
     }
 
     /// <summary>

@@ -1,8 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
-using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Text.RegularExpressions;
 
-namespace FolkerKinzel.CsvTools.Mappings;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
 /// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>
@@ -21,7 +20,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <exception cref="RegexMatchTimeoutException">
 /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
 /// </exception>
-public abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter)
+internal abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter)
     : MappingProperty(propertyName), ITypedProperty<T>
 {
     /// <inheritdoc/>
