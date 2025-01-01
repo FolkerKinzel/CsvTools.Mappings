@@ -17,7 +17,15 @@ public class MappingPropertyExtensionTests
     [ExpectedException(typeof(InvalidCastException))]
     public void AsTest2()
     {
+        MappingProperty prop = new IndexProperty<string?>("name", 0, new StringConverter());
+        _ = prop.As<int>();
+    }
+
+    [TestMethod]
+    public void AsTest3()
+    {
         MappingProperty? prop = new IndexProperty<string?>("name", 0, new StringConverter());
-        _ = prop!.As<int>();
+        ITypedProperty<string?> casted = prop.As<string?>();
+        Assert.IsNotNull(casted);
     }
 }
