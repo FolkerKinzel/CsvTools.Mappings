@@ -24,7 +24,7 @@
     <RepositoryUrl>https://github.com/FolkerKinzel/CsvTools.Mappings.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/FolkerKinzel/CsvTools.Mappings</PackageProjectUrl>
-    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
     <PackageIconUrl />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -40,6 +40,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <AnalysisLevel>6.0-recommended</AnalysisLevel>
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />

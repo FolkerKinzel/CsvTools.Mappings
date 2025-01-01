@@ -1,4 +1,7 @@
-﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+using System.Globalization;
+
+namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
 /// Generic <see cref="TypeConverter{T}"/> implementation for <c>enum</c> types.
@@ -72,7 +75,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
             //case "x":
                 //break;
             default:
-                throw new ArgumentException(string.Format("The format string is not supported: {0}", format), nameof(format));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
         }
     }
 

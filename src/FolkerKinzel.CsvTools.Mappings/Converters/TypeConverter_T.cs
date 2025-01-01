@@ -1,4 +1,6 @@
-﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using System.Globalization;
+
+namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
 /// Abstract base class for implementing type converters that convert 
@@ -74,7 +76,7 @@ public abstract class TypeConverter<T>(bool throwing,
                 ? result
                 : Throwing
                     ? throw new FormatException(
-                        string.Format("Cannot convert {0} into {1}.",
+                        string.Format(CultureInfo.CurrentCulture, "Cannot convert {0} into {1}.",
                         value.Length > 40 ? nameof(value) : $"\"{value.ToString()}\"",
                         typeof(T)))
                     : FallbackValue;

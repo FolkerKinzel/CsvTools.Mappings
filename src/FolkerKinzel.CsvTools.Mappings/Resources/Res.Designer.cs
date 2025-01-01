@@ -79,6 +79,15 @@ namespace FolkerKinzel.CsvTools.Mappings.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The format string is not supported: {0}..
+        /// </summary>
+        internal static string FormatStringNotSupported {
+            get {
+                return ResourceManager.GetString("FormatStringNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No property named &quot;{0}&quot; was found..
         /// </summary>
         internal static string PropertyNotFound {

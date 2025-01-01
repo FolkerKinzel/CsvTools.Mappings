@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
@@ -61,7 +62,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     {
         if (value is null && !Converter.AcceptsNull)
         {
-            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T).FullName));
+            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, "Cannot cast null to {0}.", typeof(T).FullName));
         }
         else
         {
@@ -84,7 +85,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
         Debug.Assert(Record != null);
 
         string? val = value is null
-                ? Converter.AcceptsNull ? null : throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T).FullName))
+                ? Converter.AcceptsNull ? null : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, "Cannot cast null to {0}.", typeof(T).FullName))
                 : Converter.ConvertToString(value);
 
         UpdateReferredCsvIndex();

@@ -1,5 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 using System;
+using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
@@ -86,7 +87,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
                 : TryConvertMapping(out T? result)
                     ? result
                     : Throwing
-                        ? throw new FormatException(string.Format("Cannot convert the CSV data to {0}.", typeof(T)))
+                        ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, "Cannot convert the CSV data to {0}.", typeof(T)))
                         : FallbackValue;
 
     /// <summary>
@@ -109,7 +110,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     {
         if (value is null && !AcceptsNull)
         {
-            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T)));
+            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, "Cannot cast null to {0}.", typeof(T)));
         }
 
         DoConvertToCsv(value);
@@ -125,7 +126,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     {
         if (value is null && !AcceptsNull)
         {
-            throw new InvalidCastException(string.Format("Cannot cast null to {0}.", typeof(T).FullName));
+            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, "Cannot cast null to {0}.", typeof(T).FullName));
         }
         else
         {

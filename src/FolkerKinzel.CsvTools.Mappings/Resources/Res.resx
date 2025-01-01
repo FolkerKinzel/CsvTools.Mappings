@@ -123,6 +123,9 @@
   <data name="CsvRecordIsNull" xml:space="preserve">
     <value>{0} is null.</value>
   </data>
+  <data name="FormatStringNotSupported" xml:space="preserve">
+    <value>The format string is not supported: {0}.</value>
+  </data>
   <data name="PropertyNotFound" xml:space="preserve">
     <value>No property named "{0}" was found.</value>
   </data>
