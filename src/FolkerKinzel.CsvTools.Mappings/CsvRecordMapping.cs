@@ -73,7 +73,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
         public PropertyCollection() : base(StringComparer.Ordinal) { }
     }
 
-    private static int _regexTimeout = MaxRegexTimeout;
+    private static int _regexTimeout = 10;
     private readonly PropertyCollection _dynProps = new();
     private CsvRecord? _record;
 
@@ -106,11 +106,11 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
 
     /// <summary>
     /// Maximum time (in milliseconds) that can be used to resolve a CSV column 
-    /// name alias.
-    /// Set this value to <see cref="Timeout.Infinite"/> to disable the timeout.
+    /// name alias. 
     /// </summary>
-    /// <remarks>If the value is greater than <see cref="MaxRegexTimeout"/>, 
-    /// <see cref="MaxRegexTimeout"/> is used instead.</remarks>
+    /// <value>If the value is greater than <see cref="MaxRegexTimeout"/>, 
+    /// <see cref="MaxRegexTimeout"/> is used instead. The default value is 10.
+    /// Set this value to <see cref="Timeout.Infinite"/> to disable the timeout.</value>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Value is less than 1 and not <see cref="Timeout.Infinite"/>.
     /// </exception>

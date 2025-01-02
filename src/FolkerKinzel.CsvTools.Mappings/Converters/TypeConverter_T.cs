@@ -23,7 +23,7 @@ public abstract class TypeConverter<T>(bool throwing,
     public bool Throwing { get; } = throwing;
 
     /// <inheritdoc/>
-    public abstract bool AcceptsNull { get; }
+    public abstract bool AllowsNull { get; }
 
     /// <inheritdoc/>
     public Type DataType => typeof(T);

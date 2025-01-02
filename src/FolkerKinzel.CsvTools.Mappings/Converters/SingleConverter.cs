@@ -20,7 +20,7 @@ public sealed class SingleConverter(bool throwing = true, IFormatProvider? forma
     private const NumberStyles STYLE = NumberStyles.Any;
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(float value) 

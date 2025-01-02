@@ -9,7 +9,7 @@ internal sealed class DBNullConverter<T> : TypeConverter<object>
     internal DBNullConverter(TypeConverter<T> converter)
         : base(converter.Throwing, DBNull.Value) => _valueConverter = converter;
 
-    public override bool AcceptsNull => _valueConverter.AcceptsNull;
+    public override bool AllowsNull => _valueConverter.AllowsNull;
 
     public override string? ConvertToString(object value)
         => Convert.IsDBNull(value)

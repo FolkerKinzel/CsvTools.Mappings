@@ -91,7 +91,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
     public string? Format { get; } = DEFAULT_FORMAT;
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(TEnum value) => value.ToString(Format);

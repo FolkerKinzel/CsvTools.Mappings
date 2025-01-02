@@ -13,7 +13,7 @@ public sealed class CharConverter(bool throwing = true, char fallbackValue = def
     : TypeConverter<char>(throwing, fallbackValue)
 {
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(char value) => value.ToString();

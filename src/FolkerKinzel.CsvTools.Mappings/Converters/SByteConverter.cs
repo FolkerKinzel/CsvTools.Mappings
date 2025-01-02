@@ -26,7 +26,7 @@ public sealed class SByteConverter(bool throwing = true, IFormatProvider? format
     private const string? DEFAULT_FORMAT = null;
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public bool IsHexConverter { get; private set; }

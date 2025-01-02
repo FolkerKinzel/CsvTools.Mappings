@@ -24,7 +24,7 @@ public sealed class Int32Converter(bool throwing = true, IFormatProvider? format
     private string? _format = DEFAULT_FORMAT;
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public bool IsHexConverter { get; private set; }

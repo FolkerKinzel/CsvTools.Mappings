@@ -70,7 +70,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     public string Format { get; } = DEFAULT_FORMAT;
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(DateTime value) => value.ToString(Format, _formatProvider);

@@ -41,7 +41,7 @@ public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatP
 
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(byte value) 

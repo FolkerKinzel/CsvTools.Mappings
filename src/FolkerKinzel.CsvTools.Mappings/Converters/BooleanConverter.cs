@@ -13,7 +13,7 @@ public sealed class BooleanConverter(bool throwing = true, bool fallbackValue = 
     : TypeConverter<bool>(throwing, fallbackValue)
 {
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(bool value) => value.ToString();

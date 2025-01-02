@@ -12,7 +12,7 @@ public sealed class StringConverter(bool nullable = true)
     : TypeConverter<string?>(false, nullable ? null : string.Empty)
 {
     /// <inheritdoc/>
-    public override bool AcceptsNull => true;
+    public override bool AllowsNull => true;
 
     /// <inheritdoc/>
     public override string? ConvertToString(string? value) => value;

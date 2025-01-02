@@ -20,7 +20,7 @@ public sealed class DecimalConverter(bool throwing = true, IFormatProvider? form
     private const NumberStyles STYLE = NumberStyles.Any;
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(decimal value) => value.ToString(FORMAT, _formatProvider);

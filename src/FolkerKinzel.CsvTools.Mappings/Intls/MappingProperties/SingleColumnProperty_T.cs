@@ -61,7 +61,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     /// <inheritdoc/>
     protected internal override void SetValue(object? value)
     {
-        if (value is null && !Converter.AcceptsNull)
+        if (value is null && !Converter.AllowsNull)
         {
             throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
@@ -86,7 +86,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
         Debug.Assert(Record != null);
 
         string? val = value is null
-                ? Converter.AcceptsNull ? null : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
+                ? Converter.AllowsNull ? null : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
                 : Converter.ConvertToString(value);
 
         UpdateReferredCsvIndex();

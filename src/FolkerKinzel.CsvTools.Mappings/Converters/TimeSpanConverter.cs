@@ -66,7 +66,7 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
     }
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <summary>
     /// The format string to use.

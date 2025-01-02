@@ -41,7 +41,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
     }
 
     /// <inheritdoc/>
-    public override bool AcceptsNull => false;
+    public override bool AllowsNull => false;
 
     /// <summary>
     /// The format string to use.

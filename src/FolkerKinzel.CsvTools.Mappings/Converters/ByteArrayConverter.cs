@@ -14,7 +14,7 @@ public sealed class ByteArrayConverter(bool throwing = true, bool nullable = tru
     : TypeConverter<byte[]?>(throwing, nullable ? null : [])
 {
     /// <inheritdoc/>
-    public override bool AcceptsNull => true;
+    public override bool AllowsNull => true;
 
     /// <inheritdoc/>
     public override string? ConvertToString(byte[]? value)

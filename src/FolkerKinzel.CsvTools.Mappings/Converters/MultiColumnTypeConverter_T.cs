@@ -36,7 +36,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     public CsvRecordMapping Mapping { get; } = mapping ?? throw new ArgumentNullException(nameof(mapping));
 
     /// <inheritdoc/>
-    public abstract bool AcceptsNull { get; }
+    public abstract bool AllowsNull { get; }
 
     /// <inheritdoc/>
     public bool Throwing { get; } = throwing;
@@ -105,11 +105,11 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// using <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AcceptsNull"/>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AllowsNull"/>
     /// is <c>false</c>.</exception>
     public void ConvertToCsv(T? value)
     {
-        if (value is null && !AcceptsNull)
+        if (value is null && !AllowsNull)
         {
             throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
@@ -125,7 +125,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
     public void ConvertToCsv(object? value)
     {
-        if (value is null && !AcceptsNull)
+        if (value is null && !AllowsNull)
         {
             throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
