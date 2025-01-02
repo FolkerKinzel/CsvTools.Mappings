@@ -518,7 +518,7 @@ public class CsvRecordMappingTests
     {
         var wrapper = CsvRecordMapping.Create();
 
-        var conv = StringConverter.CreateNullable();
+        TypeConverter<string?> conv = StringConverter.CreateNullable();
 
         var prop1 =
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],

@@ -10,7 +10,7 @@ public class StringConverterTests
     [TestMethod()]
     public void StringConverterTest()
     {
-        var conv = StringConverter.CreateNonNullable();
+        TypeConverter<string> conv = StringConverter.CreateNonNullable();
 
         Assert.IsNotNull(conv.Parse(null));
         Assert.AreEqual(typeof(StringConverter), conv.GetType());

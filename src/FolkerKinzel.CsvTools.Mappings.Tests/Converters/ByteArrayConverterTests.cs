@@ -11,14 +11,14 @@ public class ByteArrayConverterTests
     [TestMethod()]
     public void Base64ConverterTest1()
     {
-        var conv = new ByteArrayConverter();
+        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
         Assert.IsNotNull(conv);
     }
 
     [TestMethod]
     public void ParseTest1()
     {
-        var conv = new ByteArrayConverter();
+        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(null));
@@ -28,7 +28,7 @@ public class ByteArrayConverterTests
     [ExpectedException(typeof(FormatException))]
     public void ParseTest2()
     {
-        var conv = new ByteArrayConverter();
+        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
@@ -38,7 +38,7 @@ public class ByteArrayConverterTests
     [TestMethod]
     public void ParseTest3()
     {
-        var conv = new ByteArrayConverter(false);
+        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable(false);
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
@@ -52,7 +52,7 @@ public class ByteArrayConverterTests
         using var rnd = RandomNumberGenerator.Create();
         rnd.GetBytes(bytes);
 
-        var conv = new ByteArrayConverter();
+        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
 
         string? s = conv.ConvertToString(bytes);
         Assert.IsNotNull(s);
@@ -64,6 +64,6 @@ public class ByteArrayConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(InvalidCastException))]
-    public void MyTestMethod() => new IndexProperty<byte[]?>("prop", 0, new ByteArrayConverter()).SetValue(4711);
+    public void MyTestMethod() => new IndexProperty<byte[]?>("prop", 0, ByteArrayConverter.CreateNullable()).SetValue(4711);
 
 }
