@@ -33,20 +33,20 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <see cref="MappingProperty"/> instances access.
 /// </para>
 /// 
-/// <para>The order of the <see cref="MappingProperty"/> instances in the <see cref="CsvRecordMapping"/> can be influenced at any time with 
-/// the following methods:</para>
-/// <list type="bullet">
-/// <item><see cref="RemoveProperty(string)"/></item>
-/// <item><see cref="RemovePropertyAt(int)"/></item>
-/// </list>
-/// With <see cref="Contains(string)"/> you can check whether a <see cref="MappingProperty"/> instance with the specified 
-/// <see cref="MappingProperty.PropertyName"/> is already registered. 
 /// <para>
+/// With <see cref="Contains(string)"/> you can check whether a <see cref="MappingProperty"/> instance with the specified 
+/// <see cref="MappingProperty.PropertyName"/> is already added.<para>
 /// In order to support high-performance scenarios, the <see cref="MappingProperty"/> instances can be accessed accessed directly without
 /// having to use dynamic .NET properties: Use the indexers <see cref="this[int]"/> or <see cref="this[string]"/> to get a 
 /// <see cref="MappingProperty"/> instance. Cast it with <see cref="MappingPropertyExtension.AsITypedProperty{T}(MappingProperty)"/>
 /// and access its data directly with <see cref="ITypedProperty{T}.Value"/>. With this approach boxing and unboxing of value types can 
 /// be avoided.
+/// </para>
+/// <para>
+/// For dynamic properties, the compiler does not monitor the nullability of reference types. With the approach just presented, the use of 
+/// dynamic properties can be avoided. A critical point here is the correct type cast with the 
+/// <see cref="MappingPropertyExtension.AsITypedProperty{T}(MappingProperty)"/> method: Make sure that you choose the correct nullability of 
+/// the reference types. The compiler does not check this.
 /// </para>
 /// <para>
 /// For CSV writing it is sufficient to assign the <see cref="CsvRecord"/> instance to the <see cref="CsvRecordMapping"/> object only once, because 
@@ -196,29 +196,34 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     }
 
     /// <summary>
-    /// Removes the <see cref="MappingProperty"/> with the specified <see cref="MappingProperty.PropertyName"/>
-    /// from the list of registered properties.
+    /// Removes all <see cref="MappingProperty"/> instances from the <see cref="CsvRecordMapping"/>.
     /// </summary>
-    /// <param name="propertyName">
-    /// The <see cref="MappingProperty.PropertyName"/> of the <see cref="MappingProperty"/> to remove.
-    /// </param>
-    /// <returns>
-    /// <c>true</c> if the searched <see cref="MappingProperty"/> was among the registered properties and could 
-    /// be removed.
-    /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
-    public bool RemoveProperty(string propertyName) => _dynProps.Remove(propertyName);
+    public void Clear() => _dynProps.Clear();
 
-    /// <summary>
-    /// Removes the <see cref="MappingProperty"/> on the specified <paramref name="index"/> from the list of 
-    /// registered properties.
-    /// </summary>
-    /// <param name="index">
-    /// The zero-based index at which the <see cref="MappingProperty"/> should be removed.
-    /// </param>
-    /// <exception cref="ArgumentOutOfRangeException"> <paramref name="index"/> index is less than zero or greater than or 
-    /// equal to <see cref="Count"/>.</exception>
-    public void RemovePropertyAt(int index) => _dynProps.RemoveAt(index);
+    ///// <summary>
+    ///// Removes the <see cref="MappingProperty"/> with the specified <see cref="MappingProperty.PropertyName"/>
+    ///// from the list of registered properties.
+    ///// </summary>
+    ///// <param name="propertyName">
+    ///// The <see cref="MappingProperty.PropertyName"/> of the <see cref="MappingProperty"/> to remove.
+    ///// </param>
+    ///// <returns>
+    ///// <c>true</c> if the searched <see cref="MappingProperty"/> was among the registered properties and could 
+    ///// be removed.
+    ///// </returns>
+    ///// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
+    //public bool RemoveProperty(string propertyName) => _dynProps.Remove(propertyName);
+
+    ///// <summary>
+    ///// Removes the <see cref="MappingProperty"/> on the specified <paramref name="index"/> from the list of 
+    ///// registered properties.
+    ///// </summary>
+    ///// <param name="index">
+    ///// The zero-based index at which the <see cref="MappingProperty"/> should be removed.
+    ///// </param>
+    ///// <exception cref="ArgumentOutOfRangeException"> <paramref name="index"/> index is less than zero or greater than or 
+    ///// equal to <see cref="Count"/>.</exception>
+    //public void RemovePropertyAt(int index) => _dynProps.RemoveAt(index);
 
     ///// <summary>
     ///// Inserts <paramref name="property"/> at <paramref name="index"/> in the list of the registered properties.
@@ -316,22 +321,22 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
     public bool Contains(string propertyName) => _dynProps.Contains(propertyName);
+    
+    ///// <summary>
+    ///// Gets the index of the <see cref="MappingProperty"/> whose <see cref="MappingProperty.PropertyName"/> equals
+    ///// <paramref name="propertyName"/>, or -1 if no such property has been found.
+    ///// </summary>
+    ///// <param name="propertyName">Der Eigenschaftsname der zu suchenden <see cref="MappingProperty"/>.</param>
+    ///// <returns>The index of the <see cref="MappingProperty"/> whose <see cref="MappingProperty.PropertyName"/> equals
+    ///// <paramref name="propertyName"/>, or -1 if no such property has been found.</returns>
+    ///// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
+    //public int IndexOf(string propertyName) => _dynProps.Contains(propertyName) ? _dynProps.IndexOf(_dynProps[propertyName]) : -1;
 
     /// <inheritdoc/>
     public IEnumerator<MappingProperty> GetEnumerator() => ((IEnumerable<MappingProperty>)_dynProps).GetEnumerator();
 
     /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator() => _dynProps.GetEnumerator();
-
-    /// <summary>
-    /// Gets the index of the <see cref="MappingProperty"/> whose <see cref="MappingProperty.PropertyName"/> equals
-    /// <paramref name="propertyName"/>, or -1 if no such property has been found.
-    /// </summary>
-    /// <param name="propertyName">Der Eigenschaftsname der zu suchenden <see cref="MappingProperty"/>.</param>
-    /// <returns>The index of the <see cref="MappingProperty"/> whose <see cref="MappingProperty.PropertyName"/> equals
-    /// <paramref name="propertyName"/>, or -1 if no such property has been found.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
-    public int IndexOf(string propertyName) => _dynProps.Contains(propertyName) ? _dynProps.IndexOf(_dynProps[propertyName]) : -1;
 
     /// <summary>
     /// Wird automatisch aufgerufen, wenn einer dynamisch implementierten Eigenschaft ein Wert
@@ -470,49 +475,6 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryUnaryOperation(UnaryOperationBinder binder, out object? result) => base.TryUnaryOperation(binder, out result);
 
-    ///// <summary>
-    ///// Returns an <see cref="IEnumerator{T}">IEnumerator&lt;KeyValuePair&lt;string, object?&gt;&gt;</see> with which the return values of 
-    ///// the dynamically implemented properties are iterated. The order corresponds to the order in which the <see cref="MappingProperty"/> 
-    ///// instances are registered in the <see cref="CsvRecordMapping"/>.
-    ///// </summary>
-    ///// 
-    ///// <returns>An <see cref="IEnumerator{T}">IEnumerator&lt;KeyValuePair&lt;string, object?&gt;&gt;</see>.</returns>
-    ///// 
-    ///// <exception cref="FormatException">
-    ///// The return value of an accessed <see cref="MappingProperty"/> could not be parsed successfully and the 
-    ///// type converter of this <see cref="MappingProperty"/> was configured to throw an <see cref="FormatException"/>
-    ///// in this case.
-    ///// </exception>
-    ///// 
-    ///// <exception cref="InvalidOperationException">No <see cref="CsvRecord"/> instance was assigned to <see cref="Record"/>.</exception>
-    //public IEnumerator<KeyValuePair<string, object?>> GetEnumerator()
-    //{
-    //    if (Record is null)
-    //    {
-    //        throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
-    //    }
-
-    //    foreach (MappingProperty? prop in this._dynProps)
-    //    {
-    //        yield return new KeyValuePair<string, object?>(prop.PropertyName, prop.Value);
-    //    }
-    //}
-
-    ///// <summary>
-    ///// Returns an <see cref="IEnumerator"/> with which the return values of 
-    ///// the dynamically implemented properties are iterated. The order corresponds to the order in which the <see cref="MappingProperty"/> 
-    ///// instances are registered in the <see cref="CsvRecordMapping"/>.
-    ///// </summary>
-    ///// <returns>An <see cref="IEnumerator"/>.</returns>
-    ///// 
-    ///// <exception cref="FormatException">
-    ///// The return value of an accessed <see cref="MappingProperty"/> could not be parsed successfully and the 
-    ///// type converter of this <see cref="MappingProperty"/> was configured to throw an <see cref="FormatException"/>
-    ///// in this case.
-    ///// </exception>
-    ///// 
-    ///// <exception cref="InvalidOperationException">No <see cref="CsvRecord"/> instance was assigned to <see cref="Record"/>.</exception>
-    //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     /// <inheritdoc/>
     public override string ToString()

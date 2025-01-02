@@ -7,23 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
-[TestClass]
-public class CsvRecordMappingExtensionTests
-{
-    [TestMethod]
-    public void AddSingleColumnPropertyTest1()
-    {
-        TypeConverter<string?> conv = StringConverter.CreateNullable();
-
-        dynamic mapping = CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", conv);
-        mapping.Record = new CsvRecord(1);
-        ITypedProperty<string?> typed = mapping[0].AsITypedProperty<string?>();
-        string val = typed.Value;
-
-        val = mapping.Hallo;
-    }
-}
-
 [TestClass()]
 public class CsvRecordMappingTests
 {
@@ -490,16 +473,16 @@ public class CsvRecordMappingTests
         }
     }
 
-    [TestMethod()]
-    public void IndexOfTest()
-    {
-        CsvRecordMapping wrapper =
-            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", StringConverter.CreateNullable());
+    //[TestMethod()]
+    //public void IndexOfTest()
+    //{
+    //    CsvRecordMapping wrapper =
+    //        CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", StringConverter.CreateNullable());
 
-        Assert.AreEqual(0, wrapper.IndexOf("Hallo"));
-        Assert.AreEqual(-1, wrapper.IndexOf("Wolli"));
-        Assert.AreEqual(-1, wrapper.IndexOf(string.Empty));
-    }
+    //    Assert.AreEqual(0, wrapper.IndexOf("Hallo"));
+    //    Assert.AreEqual(-1, wrapper.IndexOf("Wolli"));
+    //    Assert.AreEqual(-1, wrapper.IndexOf(string.Empty));
+    //}
 
     [TestMethod()]
     public void ContainsTest()
@@ -549,85 +532,85 @@ public class CsvRecordMappingTests
         wrapper.Add(prop2);
     }
 
-    [TestMethod()]
-    public void RemovePropertyTest1()
-    {
-        var wrapper = CsvRecordMapping.Create();
+    //[TestMethod()]
+    //public void RemovePropertyTest1()
+    //{
+    //    var wrapper = CsvRecordMapping.Create();
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
+    //    const string prop1Name = "Prop1";
+    //    const string prop2Name = "Prop2";
 
-        var conv = StringConverter.CreateNullable();
-
-
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
-
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
-
-        wrapper.Add(prop1);
-        wrapper.Add(prop2);
-
-        Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
-
-        Assert.IsTrue(wrapper.RemoveProperty(prop1Name));
-
-        Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
-    }
+    //    var conv = StringConverter.CreateNullable();
 
 
-    [TestMethod()]
-    public void RemovePropertyTest2()
-    {
-        var wrapper = CsvRecordMapping.Create();
-        Assert.IsFalse(wrapper.RemoveProperty("bla"));
-    }
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
+
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
+    //        conv);
+
+    //    wrapper.Add(prop1);
+    //    wrapper.Add(prop2);
+
+    //    Assert.AreEqual(2, wrapper.Count);
+    //    Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
+
+    //    Assert.IsTrue(wrapper.RemoveProperty(prop1Name));
+
+    //    Assert.AreEqual(1, wrapper.Count);
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
+    //}
 
 
-    [TestMethod()]
-    public void RemovePropertyAtTest1()
-    {
-        var wrapper = CsvRecordMapping.Create();
+    //[TestMethod()]
+    //public void RemovePropertyTest2()
+    //{
+    //    var wrapper = CsvRecordMapping.Create();
+    //    Assert.IsFalse(wrapper.RemoveProperty("bla"));
+    //}
 
-        const string prop1Name = "Prop1";
-        const string prop2Name = "Prop2";
 
-        var conv = StringConverter.CreateNullable();
+    //[TestMethod()]
+    //public void RemovePropertyAtTest1()
+    //{
+    //    var wrapper = CsvRecordMapping.Create();
 
-        var prop1 =
-            new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
-            conv);
+    //    const string prop1Name = "Prop1";
+    //    const string prop2Name = "Prop2";
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
-            conv);
+    //    var conv = StringConverter.CreateNullable();
 
-        wrapper.Add(prop1);
-        wrapper.Add(prop2);
+    //    var prop1 =
+    //        new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],
+    //        conv);
 
-        Assert.AreEqual(2, wrapper.Count);
-        Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
+    //    var prop2 =
+    //        new ColumnNameProperty<string?>(prop2Name, ["Hallo2"],
+    //        conv);
 
-        wrapper.RemovePropertyAt(0);
+    //    wrapper.Add(prop1);
+    //    wrapper.Add(prop2);
 
-        Assert.AreEqual(1, wrapper.Count);
-        Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
-    }
+    //    Assert.AreEqual(2, wrapper.Count);
+    //    Assert.AreEqual(prop1Name, wrapper.PropertyNames.First());
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.ElementAt(1));
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void RemovePropertyAtTest2()
-    {
-        var wrapper = CsvRecordMapping.Create();
-        wrapper.RemovePropertyAt(42);
-    }
+    //    wrapper.RemovePropertyAt(0);
+
+    //    Assert.AreEqual(1, wrapper.Count);
+    //    Assert.AreEqual(prop2Name, wrapper.PropertyNames.First());
+    //}
+
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentOutOfRangeException))]
+    //public void RemovePropertyAtTest2()
+    //{
+    //    var wrapper = CsvRecordMapping.Create();
+    //    wrapper.RemovePropertyAt(42);
+    //}
 
     [TestMethod()]
     public void IndexerTest()

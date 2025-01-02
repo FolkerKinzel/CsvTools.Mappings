@@ -18,6 +18,12 @@ internal sealed class DBNullConverter<T> : TypeConverter<object>
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out object? result)
     {
+        if(value.IsEmpty)
+        {
+            result = FallbackValue;
+            return true;
+        }
+
         if (_valueConverter.TryParseValue(value, out T? tmp))
         {
             result = tmp ?? FallbackValue;

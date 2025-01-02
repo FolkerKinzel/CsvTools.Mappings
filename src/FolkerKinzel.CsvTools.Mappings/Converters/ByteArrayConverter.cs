@@ -23,8 +23,14 @@ public sealed class ByteArrayConverter(bool throwing = true, bool nullable = tru
               : Convert.ToBase64String(value, Base64FormattingOptions.None);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out byte[] result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out byte[]? result)
     {
+        if (value.IsWhiteSpace())
+        {
+            result = FallbackValue;
+            return true;
+        }
+
         try
         {
             result = Base64.GetBytes(value, Base64ParserOptions.AcceptMissingPadding);

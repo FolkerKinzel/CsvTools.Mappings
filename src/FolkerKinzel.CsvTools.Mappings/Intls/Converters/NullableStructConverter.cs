@@ -22,8 +22,14 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
 
     public override string? ConvertToString(T? value) => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;
 
-    public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out T? result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out T? result)
     {
+        if (value.IsEmpty)
+        {
+            result = FallbackValue;
+            return true;
+        }
+
         if (_typeConverter.TryParseValue(value, out T tmp))
         {
             result = tmp;
