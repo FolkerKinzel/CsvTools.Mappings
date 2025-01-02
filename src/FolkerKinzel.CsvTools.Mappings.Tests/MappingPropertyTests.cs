@@ -11,18 +11,18 @@ public class MappingPropertyTests
     [TestMethod()]
     public void CsvPropertyTest1()
     {
-        var prop = new  ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
+        var prop = new  ColumnNameProperty<string?>("Prop", ["Col1"], StringConverter.CreateNullable());
         Assert.IsNotNull(prop);
     }
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest2() => _ = new ColumnNameProperty<string?>(null!, ["Col1"], new StringConverter());
+    public void CsvPropertyTest2() => _ = new ColumnNameProperty<string?>(null!, ["Col1"], StringConverter.CreateNullable());
 
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest3() => _ = new ColumnNameProperty<string?>("Prop", null!, new StringConverter());
+    public void CsvPropertyTest3() => _ = new ColumnNameProperty<string?>("Prop", null!, StringConverter.CreateNullable());
 
 
     [TestMethod()]
@@ -32,18 +32,18 @@ public class MappingPropertyTests
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
     public void CsvPropertyTest5()
-        => _ = new ColumnNameProperty<string?>("Ähh", ["Col1"], new StringConverter());
+        => _ = new ColumnNameProperty<string?>("Ähh", ["Col1"], StringConverter.CreateNullable());
 
     [TestMethod()]
     public void CsvPropertyTest7()
-        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], new StringConverter());
+        => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], StringConverter.CreateNullable());
 
 
     [TestMethod()]
     public void CsvIndexPropertyTest9()
     {
         const string propertyName = "myProp";
-        var prop = new IndexProperty<string?>(propertyName, 0, new StringConverter());
+        var prop = new IndexProperty<string?>(propertyName, 0, StringConverter.CreateNullable());
 
         Assert.IsNotNull(prop);
         Assert.AreEqual(prop.PropertyName, propertyName);
@@ -52,11 +52,11 @@ public class MappingPropertyTests
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void CsvPropertyTest10() => _ = new IndexProperty<string?>("propertyName", -1, new StringConverter());
+    public void CsvPropertyTest10() => _ = new IndexProperty<string?>("propertyName", -1, StringConverter.CreateNullable());
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CsvPropertyTest11() => _ = new IndexProperty<string?>(null!, 17, new StringConverter());
+    public void CsvPropertyTest11() => _ = new IndexProperty<string?>(null!, 17, StringConverter.CreateNullable());
 
 
     [TestMethod()]
@@ -65,9 +65,7 @@ public class MappingPropertyTests
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
-    public void CsvPropertyTest13() => _ = new IndexProperty<string?>("Ähh", 17, new StringConverter());
-   
-
+    public void CsvPropertyTest13() => _ = new IndexProperty<string?>("Ähh", 17, StringConverter.CreateNullable());
 
     //[TestMethod()]
     //[Obsolete("Obsolete")]

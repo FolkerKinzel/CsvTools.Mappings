@@ -12,7 +12,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
 public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : TypeConverter<byte>(throwing), IHexConverter<byte>
+    : TypeConverter<byte>(throwing, default), IHexConverter<byte>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -20,8 +20,8 @@ public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatP
     private const string? DEFAULT_FORMAT = null;
 
     private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-    private  NumberStyles _styles = DEFAULT_STYLE;
-    private  string? _format = DEFAULT_FORMAT;
+    private NumberStyles _styles = DEFAULT_STYLE;
+    private string? _format = DEFAULT_FORMAT;
 
     /// <inheritdoc/>
     public bool IsHexConverter { get; private set; }
@@ -44,14 +44,17 @@ public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatP
     public override bool AllowsNull => false;
 
     /// <inheritdoc/>
-    public override string? ConvertToString(byte value) 
+    public override string? ConvertToString(byte value)
         => value.ToString(_format, _formatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out byte result)
+    {
 #if NET462 || NETSTANDARD2_0
-        => byte.TryParse(value.ToString(), _styles, _formatProvider, out result);
+        result = default;
+        return !value.IsWhiteSpace() && byte.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
-        => byte.TryParse(value, _styles, _formatProvider, out result);
+        return byte.TryParse(value, _styles, _formatProvider, out result);
 #endif
+    }
 }

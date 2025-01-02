@@ -1,4 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.Resources;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
@@ -23,10 +25,10 @@ internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTyp
     : MappingProperty(propertyName), ITypedProperty<T>
 {
     /// <inheritdoc/>
-    public new T? Value
+    public new T Value
     {
-        get => Converter.Convert();
-        set => Converter.ConvertToCsv(value);
+        get => GetTypedValue()!;
+        set => SetTypedValue(value);
     }
 
     /// <summary>
@@ -42,8 +44,33 @@ internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTyp
     }
 
     /// <inheritdoc/>
-    protected internal override object? GetValue() => Converter.Convert();
+    protected internal override object? GetValue() => GetTypedValue();
+
+    private T? GetTypedValue()
+    {
+        return Record is null
+            ? throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)))
+            : Converter.Convert();
+    }
 
     /// <inheritdoc/>
-    protected internal override void SetValue(object? value) => Converter.ConvertToCsv(value);
+    protected internal override void SetValue(object? value)
+    {
+        if (Record is null)
+        {
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
+        }
+
+        Converter.ConvertToCsv(value);
+    }
+
+    private void SetTypedValue(T? value)
+    {
+        if (Record is null)
+        {
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
+        }
+
+        Converter.ConvertToCsv(value);
+    }
 }

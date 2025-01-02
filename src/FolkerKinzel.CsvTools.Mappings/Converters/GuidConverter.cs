@@ -20,7 +20,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
     /// Instances initialized with this constructor use the format string "D".
     /// This constructor is much faster than its overload.
     /// </remarks>
-    public GuidConverter(bool throwing = true) : base(throwing) { }
+    public GuidConverter(bool throwing = true) : base(throwing, default) { }
 
     /// <summary>
     /// Initializes a new <see cref="GuidConverter"/> instance and allows
@@ -53,11 +53,14 @@ public sealed class GuidConverter : TypeConverter<Guid>
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out Guid result)
+    { 
 #if NET462 || NETSTANDARD2_0
-        => Guid.TryParse(value.ToString(), out result);
+        result = default;
+        return !value.IsWhiteSpace() && Guid.TryParse(value.ToString(), out result);
 #else
-        => Guid.TryParse(value, out result);
+        return Guid.TryParse(value, out result);
 #endif
+    }
 
     private void ExamineFormat(string parameterName)
     {

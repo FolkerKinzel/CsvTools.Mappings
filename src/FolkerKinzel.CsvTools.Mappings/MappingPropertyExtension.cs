@@ -18,6 +18,13 @@ public static class MappingPropertyExtension
     /// <returns>
     /// <paramref name="property"/> casted to <see cref="ITypedProperty{T}"/>.
     /// </returns>
+    /// <remarks>
+    /// <note type="caution">
+    /// When using nullable reference types, take care to cast to the correct nullability:
+    /// The compiler won't warn you!
+    /// </note>
+    /// </remarks>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
     /// <exception cref="InvalidCastException"><paramref name="property"/> is not of type 
     /// <see cref="ITypedProperty{T}"/>.</exception>"

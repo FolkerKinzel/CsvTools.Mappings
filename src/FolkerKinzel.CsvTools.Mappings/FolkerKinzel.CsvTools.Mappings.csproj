@@ -42,6 +42,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <AnalysisLevel>6.0-recommended</AnalysisLevel>
   </PropertyGroup>
+        
+  <ItemGroup>
+    <Compile Remove="Converters\StringConverter_old.cs" />
+  </ItemGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
     <Using Include="System.Runtime.CompilerServices" />

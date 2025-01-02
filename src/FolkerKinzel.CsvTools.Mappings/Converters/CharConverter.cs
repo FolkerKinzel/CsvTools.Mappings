@@ -21,7 +21,7 @@ public sealed class CharConverter(bool throwing = true, char fallbackValue = def
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out char result)
     {
-        if (value.Trim().Length == 1)
+        if (value.Length == 1)
         {
             result = value[0];
             return true;

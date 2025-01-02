@@ -25,7 +25,8 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
     /// </param>
     /// <remarks>This constructor initializes a <see cref="TimeSpanConverter"/> instance that uses the format string
     /// "g". This constructor is much faster than its overload.</remarks>
-    public TimeSpanConverter(bool throwing = true, IFormatProvider? formatProvider = null) : base(throwing)
+    public TimeSpanConverter(bool throwing = true, IFormatProvider? formatProvider = null) 
+        : base(throwing, default)
         => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <summary>
@@ -56,7 +57,7 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
         bool throwing = true,
         IFormatProvider? formatProvider = null,
         bool parseExact = false,
-        TimeSpanStyles styles = TimeSpanStyles.None) : base(throwing)
+        TimeSpanStyles styles = TimeSpanStyles.None) : base(throwing, default)
     {
         _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         _styles = styles;
@@ -78,15 +79,23 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out TimeSpan result)
+    { 
 #if NET462 || NETSTANDARD2_0
-        => _parseExact
+        if(value.IsWhiteSpace())
+        {
+            result = default;
+            return false;
+        }
+
+        return _parseExact
             ? TimeSpan.TryParseExact(value.ToString(), Format, _formatProvider, _styles, out result)
             : TimeSpan.TryParse(value.ToString(), _formatProvider, out result);
 #else
-        => _parseExact
+        return _parseExact
             ? TimeSpan.TryParseExact(value, Format, _formatProvider, _styles, out result)
             : TimeSpan.TryParse(value, _formatProvider, out result);
 #endif
+    }
 
     private void ExamineFormat()
     {

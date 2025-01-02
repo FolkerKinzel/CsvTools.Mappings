@@ -88,15 +88,6 @@ namespace FolkerKinzel.CsvTools.Mappings.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} is null..
-        /// </summary>
-        internal static string CsvRecordIsNull {
-            get {
-                return ResourceManager.GetString("CsvRecordIsNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The separator must not be an empty string..
         /// </summary>
         internal static string EmptySeparator {
@@ -111,6 +102,15 @@ namespace FolkerKinzel.CsvTools.Mappings.Resources {
         internal static string FormatStringNotSupported {
             get {
                 return ResourceManager.GetString("FormatStringNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is null..
+        /// </summary>
+        internal static string InstanceIsNull {
+            get {
+                return ResourceManager.GetString("InstanceIsNull", resourceCulture);
             }
         }
         

@@ -13,7 +13,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </param>
 [CLSCompliant(false)]
 public sealed class SByteConverter(bool throwing = true, IFormatProvider? formatProvider = null) 
-    : TypeConverter<sbyte>(throwing), IHexConverter<sbyte>
+    : TypeConverter<sbyte>(throwing, default), IHexConverter<sbyte>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -49,9 +49,12 @@ public sealed class SByteConverter(bool throwing = true, IFormatProvider? format
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out sbyte result)
+    {
 #if NET462 || NETSTANDARD2_0
-        => sbyte.TryParse(value.ToString(), _styles, _formatProvider, out result);
+        result = default;
+        return !value.IsWhiteSpace() && sbyte.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
-        => sbyte.TryParse(value, _styles, _formatProvider, out result);
+        return sbyte.TryParse(value, _styles, _formatProvider, out result);
 #endif
+    }
 }

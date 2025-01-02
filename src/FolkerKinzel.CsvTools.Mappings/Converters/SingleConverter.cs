@@ -12,7 +12,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
 public sealed class SingleConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : TypeConverter<float>(throwing)
+    : TypeConverter<float>(throwing, default)
 {
     private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
@@ -28,9 +28,12 @@ public sealed class SingleConverter(bool throwing = true, IFormatProvider? forma
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out float result)
+    {
 #if NET462 || NETSTANDARD2_0
-        => float.TryParse(value.ToString(), STYLE, _formatProvider, out result);
+        result = default;
+        return !value.IsWhiteSpace() && float.TryParse(value.ToString(), STYLE, _formatProvider, out result);
 #else
-        => float.TryParse(value, STYLE, _formatProvider, out result);
+        return float.TryParse(value, STYLE, _formatProvider, out result);
 #endif
+    }
 }

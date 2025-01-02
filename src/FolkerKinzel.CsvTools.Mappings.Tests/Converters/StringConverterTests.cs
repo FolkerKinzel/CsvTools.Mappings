@@ -10,7 +10,7 @@ public class StringConverterTests
     [TestMethod()]
     public void StringConverterTest()
     {
-        var conv = new StringConverter(false);
+        var conv = StringConverter.CreateNonNullable();
 
         Assert.IsNotNull(conv.Parse(null));
         Assert.AreEqual(typeof(StringConverter), conv.GetType());
@@ -19,13 +19,13 @@ public class StringConverterTests
     [TestMethod()]
     public void ParseTest()
     {
-        var conv = new StringConverter();
+        TypeConverter<string?> conv = StringConverter.CreateNullable();
 
         Assert.IsNull(conv.Parse(null));
 
-        conv = new StringConverter(false);
+        TypeConverter<string> conv2 = StringConverter.CreateNonNullable();
 
-        Assert.IsNotNull(conv.Parse(null));
+        Assert.IsNotNull(conv2.Parse(null));
 
         const string test = "Test";
 
@@ -36,7 +36,7 @@ public class StringConverterTests
     [TestMethod()]
     public void ConvertToStringTest()
     {
-        TypeConverter<object> conv = new StringConverter().ToDBNullConverter();
+        TypeConverter<object> conv = StringConverter.CreateNonNullable().ToDBNullConverter();
 
         Assert.IsNull(conv.ConvertToString(DBNull.Value));
 
@@ -51,14 +51,14 @@ public class StringConverterTests
     [TestMethod()]
     public void ConvertToStringTest_ThrowOnInvalidType()
     {
-        var conv = new StringConverter();
+        TypeConverter<string> conv = StringConverter.CreateNonNullable();
 
-        new IndexProperty<string?>("prop", 0,  conv).SetValue(4711);
+        new IndexProperty<string>("prop", 0,  conv).SetValue(4711);
     }
 
 
     [ExpectedException(typeof(InvalidCastException))]
     [TestMethod()]
     public void ConvertToStringTest_ThrowOnDBNull()
-        => new IndexProperty<string?>("prop",0, new StringConverter()).SetValue(DBNull.Value);
+        => new IndexProperty<string?>("prop",0, StringConverter.CreateNullable()).SetValue(DBNull.Value);
 }

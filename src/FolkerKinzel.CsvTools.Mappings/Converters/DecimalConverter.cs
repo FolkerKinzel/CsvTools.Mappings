@@ -12,7 +12,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
 public sealed class DecimalConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : TypeConverter<decimal>(throwing)
+    : TypeConverter<decimal>(throwing, default)
 {
     private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
@@ -27,9 +27,12 @@ public sealed class DecimalConverter(bool throwing = true, IFormatProvider? form
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out decimal result)
+    {
 #if NET462 || NETSTANDARD2_0
-        => decimal.TryParse(value.ToString(), STYLE, _formatProvider, out result);
+        result = default;
+        return !value.IsWhiteSpace() && decimal.TryParse(value.ToString(), STYLE, _formatProvider, out result);
 #else
-        => decimal.TryParse(value, STYLE, _formatProvider, out result);
+        return decimal.TryParse(value, STYLE, _formatProvider, out result);
 #endif
+    }
 }

@@ -27,7 +27,8 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     /// </param>
     /// <remarks>This constructor initializes a <see cref="DateTimeConverter"/> instance that uses the format string
     /// "s". This constructor is much faster than its overload.</remarks>
-    public DateTimeConverter(bool throwing = true, IFormatProvider? formatProvider = null) : base(throwing)
+    public DateTimeConverter(bool throwing = true, IFormatProvider? formatProvider = null)
+        : base(throwing, default)
         => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 
     /// <summary>
@@ -52,7 +53,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
         string format,
         bool throwing = true,
         IFormatProvider? formatProvider = null,
-        bool parseExact = false) : base(throwing)
+        bool parseExact = false) : base(throwing, default)
     {
         _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;
@@ -76,16 +77,24 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     public override string? ConvertToString(DateTime value) => value.ToString(Format, _formatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out DateTime result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out DateTime result)
+    {
 #if NET462 || NETSTANDARD2_0
-        => _parseExact
+        if(value.IsWhiteSpace())
+        {
+            result = default;
+            return false;
+        }
+
+        return _parseExact
             ? DateTime.TryParseExact(value.ToString(), Format, _formatProvider, STYLE, out result)
             : DateTime.TryParse(value.ToString(), _formatProvider, STYLE, out result);
 #else
-        => _parseExact
+        return _parseExact
             ? DateTime.TryParseExact(value, Format, _formatProvider, STYLE, out result)
             : DateTime.TryParse(value, _formatProvider, STYLE, out result);
 #endif
+    }
 
 
     private void ExamineFormat()

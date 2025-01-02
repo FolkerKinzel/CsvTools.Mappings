@@ -121,7 +121,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     }
 
     /// <summary>
-    /// The <see cref="CsvRecord"/> instance whose data is accessed with dynamic properties.
+    /// Gets or sets the <see cref="CsvRecord"/> instance whose data is accessed with dynamic properties.
     /// </summary>
     public CsvRecord? Record
     {
@@ -353,16 +353,21 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     /// <exception cref="Exception">Es wurde versucht, auf eine nicht registrierte Property zuzugreifen.</exception>
     /// 
     /// <exception cref="InvalidOperationException">No <see cref="CsvRecord"/> instance was assigned to <see cref="Record"/>.</exception>
+    /// <exception cref="InvalidCastException">
+    /// <para>
+    /// <paramref name="value"/> is <c>null</c> and 
+    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
+    /// </para>
+    /// <para>- or -</para>
+    /// <para>
+    /// <paramref name="value"/> does not match the expected data type.
+    /// </para>
+    /// </exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TrySetMember(SetMemberBinder binder, object? value)
     {
         _ArgumentNullException.ThrowIfNull(binder, nameof(binder));
         
-        if (Record is null)
-        {
-            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
-        }
-
         if (this._dynProps.TryGetValue(binder.Name, out MappingProperty? prop))
         {
             prop.Value = value;
@@ -390,15 +395,11 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     /// </exception>
     /// 
     /// <exception cref="InvalidOperationException">No <see cref="CsvRecord"/> instance was assigned to <see cref="Record"/>.</exception>
+    /// <exception cref="FormatException">Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryGetMember(GetMemberBinder binder, out object? result)
     {
         _ArgumentNullException.ThrowIfNull(binder, nameof(binder));
-
-        if (Record is null)
-        {
-            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.CsvRecordIsNull, nameof(Record)));
-        }
 
         if (this._dynProps.TryGetValue(binder.Name, out MappingProperty? prop))
         {

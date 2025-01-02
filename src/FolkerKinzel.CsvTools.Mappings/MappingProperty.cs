@@ -52,6 +52,21 @@ public abstract partial class MappingProperty
     /// If the containing <see cref="CsvRecordMapping"/> instance is assigned to a <c>dynamic</c> 
     /// variable, the runtime will do all the required casting operations automatically.
     /// </remarks>
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
+    /// to <see cref="CsvRecordMapping.Record"/> first before accessing this property.</exception>
+    /// <exception cref="InvalidCastException">
+    /// <para>
+    /// When setting the value,
+    /// <paramref name="value"/> is <c>null</c> and 
+    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
+    /// </para>
+    /// <para>- or -</para>
+    /// <para>
+    /// <paramref name="value"/> does not match the expected data type.
+    /// </para>
+    /// </exception>
+    /// <exception cref="FormatException">When getting the value, parsing fails and <see cref="TypeConverter{T}.Throwing"/>
+    /// is <c>true</c>.</exception>
     public object? Value
     { 
         get => GetValue();
@@ -64,20 +79,30 @@ public abstract partial class MappingProperty
     protected internal abstract CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// Extracts data of a specific type from <see cref="Record"/>.
+    /// Gets the value of the dynamic property.
     /// </summary>
-    /// <returns>The extracted data.</returns>
-    /// <exception cref="FormatException"> 
-    /// Parsing fails and the converter is prepared to throw a <see cref="FormatException"/>
-    /// in this case.
-    /// </exception>
+    /// <returns>The value.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
+    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// <exception cref="FormatException">Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
     protected internal abstract object? GetValue();
 
     /// <summary>
-    /// Stores data of a specific type in <see cref="Record"/>.
+    /// Sets the value of the dynamic property.
     /// </summary>
-    /// <param name="value">The data object to be stored.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> does not match the expected data type.</exception>
+    /// <param name="value">The value to set.</param>
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
+    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// <exception cref="InvalidCastException">
+    /// <para>
+    /// <paramref name="value"/> is <c>null</c> and 
+    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
+    /// </para>
+    /// <para>- or -</para>
+    /// <para>
+    /// <paramref name="value"/> does not match the expected data type.
+    /// </para>
+    /// </exception>
     protected internal abstract void SetValue(object? value);
 
 #if NET8_0_OR_GREATER

@@ -16,15 +16,15 @@ internal sealed class DBNullConverter<T> : TypeConverter<object>
             ? null
             : _valueConverter.ConvertToString((T)value);
 
-    public override bool TryParseValue(ReadOnlySpan<char> value, out object result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out object? result)
     {
-        if (_valueConverter.TryParseValue(value, out T tmp))
+        if (_valueConverter.TryParseValue(value, out T? tmp))
         {
-            result = tmp ?? FallbackValue!;
+            result = tmp ?? FallbackValue;
             return true;
         }
 
-        result = FallbackValue!;
+        result = FallbackValue;
         return false;
     }
 }

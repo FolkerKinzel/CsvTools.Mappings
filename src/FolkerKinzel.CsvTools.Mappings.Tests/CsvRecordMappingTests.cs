@@ -7,6 +7,23 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
+[TestClass]
+public class CsvRecordMappingExtensionTests
+{
+    [TestMethod]
+    public void AddSingleColumnPropertyTest1()
+    {
+        TypeConverter<string?> conv = StringConverter.CreateNullable();
+
+        dynamic mapping = CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", conv);
+        mapping.Record = new CsvRecord(1);
+        ITypedProperty<string?> typed = mapping[0].AsITypedProperty<string?>();
+        string val = typed.Value;
+
+        val = mapping.Hallo;
+    }
+}
+
 [TestClass()]
 public class CsvRecordMappingTests
 {
@@ -398,7 +415,7 @@ public class CsvRecordMappingTests
 
         var prop2 =
             new ColumnNameProperty<string?>(prop2Name, ["Blub", null!, "Bla*"],
-            new StringConverter());
+            StringConverter.CreateNullable());
 
         wrapper.Add(prop2);
 
@@ -477,7 +494,7 @@ public class CsvRecordMappingTests
     public void IndexOfTest()
     {
         CsvRecordMapping wrapper =
-            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", new StringConverter());
+            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", StringConverter.CreateNullable());
 
         Assert.AreEqual(0, wrapper.IndexOf("Hallo"));
         Assert.AreEqual(-1, wrapper.IndexOf("Wolli"));
@@ -488,7 +505,7 @@ public class CsvRecordMappingTests
     public void ContainsTest()
     {
         CsvRecordMapping wrapper =
-            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", new StringConverter());
+            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", StringConverter.CreateNullable());
 
         Assert.IsTrue(wrapper.Contains("Hallo"));
         Assert.IsFalse(wrapper.Contains("Wolli"));
@@ -505,7 +522,7 @@ public class CsvRecordMappingTests
 
         var prop =
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
-            new StringConverter());
+            StringConverter.CreateNullable());
 
         wrapper.Add(prop);
 
@@ -518,7 +535,7 @@ public class CsvRecordMappingTests
     {
         var wrapper = CsvRecordMapping.Create();
 
-        var conv = new StringConverter();
+        var conv = StringConverter.CreateNullable();
 
         var prop1 =
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
@@ -540,7 +557,7 @@ public class CsvRecordMappingTests
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
 
-        var conv = new StringConverter();
+        var conv = StringConverter.CreateNullable();
 
 
         var prop1 =
@@ -581,7 +598,7 @@ public class CsvRecordMappingTests
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
 
-        var conv = new StringConverter();
+        var conv = StringConverter.CreateNullable();
 
         var prop1 =
             new ColumnNameProperty<string?>(prop1Name, ["Hallo1"],

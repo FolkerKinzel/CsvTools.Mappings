@@ -126,7 +126,7 @@
   <data name="CannotParseCsv" xml:space="preserve">
     <value>Cannot parse the CSV data as {0}.</value>
   </data>
-  <data name="CsvRecordIsNull" xml:space="preserve">
+  <data name="InstanceIsNull" xml:space="preserve">
     <value>{0} is null.</value>
   </data>
   <data name="EmptySeparator" xml:space="preserve">

@@ -23,7 +23,7 @@ public sealed class ByteArrayConverter(bool throwing = true, bool nullable = tru
               : Convert.ToBase64String(value, Base64FormattingOptions.None);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out byte[]? result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out byte[] result)
     {
         try
         {
@@ -32,7 +32,7 @@ public sealed class ByteArrayConverter(bool throwing = true, bool nullable = tru
         }
         catch (FormatException)
         {
-            result = null;
+            result = [];
             return false;
         }
     }

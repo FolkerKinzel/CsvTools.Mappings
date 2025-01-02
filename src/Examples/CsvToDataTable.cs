@@ -28,7 +28,7 @@ internal static class CsvToDataTable
         string[] columns =
             [SUBJECT, LESSON_BEGIN, PUPILS_NAME, LESSON_DAY];
 
-        using (var writer = Csv.OpenWrite(FILE_NAME, columns))
+        using (CsvWriter writer = Csv.OpenWrite(FILE_NAME, columns))
         {
             // (CsvWriter reuses the same record.)
             mapping.Record = writer.Record;
@@ -94,7 +94,7 @@ internal static class CsvToDataTable
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
         TypeConverter<object> stringConverter
-            = new StringConverter(nullable: false).ToDBNullConverter();
+            = StringConverter.CreateNonNullable().ToDBNullConverter();
 
         return CsvRecordMapping
             .Create()

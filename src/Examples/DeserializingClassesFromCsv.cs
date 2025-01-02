@@ -51,7 +51,7 @@ internal static class DeserializingClassesFromCsv
             .ToString());
 
         // Reuse a converter for more than one property:
-        var stringConverter = new StringConverter();
+        var stringConverter = StringConverter.CreateNullable();
 
         // Initialize a CsvRecordWrapper which retrieves the data from
         // the CSV-Columns and converts it to the right data type.

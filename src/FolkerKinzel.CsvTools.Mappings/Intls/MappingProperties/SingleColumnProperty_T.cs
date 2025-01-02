@@ -26,9 +26,9 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     : MappingProperty(propertyName), ITypedProperty<T>
 {
     /// <inheritdoc/>
-    public new T? Value
+    public new T Value
     {
-        get => GetTypedValue();
+        get => GetTypedValue()!;
         set => SetTypedValue(value);
     }
 
@@ -71,9 +71,20 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
         }
     }
 
+    /// <summary>
+    /// Gets the value of the dynamic property.
+    /// </summary>
+    /// <returns>The value.</returns>
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
+    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// <exception cref="FormatException">Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
     private T? GetTypedValue()
     {
-        Debug.Assert(Record != null);
+        if (Record is null)
+        {
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
+        }
+
         UpdateReferredCsvIndex();
 
         return ReferredCsvIndex.HasValue
@@ -81,9 +92,20 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
             : Converter.FallbackValue;
     }
 
+    /// <summary>
+    /// Sets the value of the dynamic property.
+    /// </summary>
+    /// <param name="value">The value to set.</param>
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
+    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and 
+    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>.</exception>
     private void SetTypedValue(T? value)
     {
-        Debug.Assert(Record != null);
+        if (Record is null)
+        {
+            throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
+        }
 
         string? val = value is null
                 ? Converter.AllowsNull ? null : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))

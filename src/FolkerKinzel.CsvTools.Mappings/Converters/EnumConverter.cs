@@ -73,7 +73,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
                 break;
             //case "X":
             //case "x":
-                //break;
+            //break;
             default:
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
         }
@@ -98,9 +98,12 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out TEnum result)
+    {
 #if NET462 || NETSTANDARD2_0 || NETSTANDARD2_1 || NET5_0
-        => Enum.TryParse<TEnum>(value.ToString(), IgnoreCase, out result);
+        result = default;
+        return !value.IsWhiteSpace() && Enum.TryParse<TEnum>(value.ToString(), IgnoreCase, out result);
 #else
-        => Enum.TryParse<TEnum>(value, IgnoreCase, out result);
+        return Enum.TryParse<TEnum>(value, IgnoreCase, out result);
 #endif
+    }
 }

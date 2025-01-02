@@ -21,7 +21,7 @@ public class AccessBenchmark
     public AccessBenchmark()
     {
         _csv = Properties.Resources.Test1;
-        var conv = new StringConverter();
+        var conv = StringConverter.CreateNonNullable();
         _indexWrapper = CsvRecordMapping
             .Create()
             .AddSingleColumnProperty("Column0", 0, conv)
@@ -48,7 +48,7 @@ public class AccessBenchmark
 
             for (int i = 0; i < _indexWrapper.Count; i++)
             {
-                letters += _indexWrapper[i].AsITypedProperty<string?>().Value!.Length;
+                letters += _indexWrapper[i].AsITypedProperty<string>().Value.Length;
             }
         }
 
@@ -68,7 +68,7 @@ public class AccessBenchmark
 
             for (int i = 0; i < _nameWrapper.Count; i++)
             {
-                letters += _nameWrapper[i].AsITypedProperty<string?>().Value!.Length;
+                letters += _nameWrapper[i].AsITypedProperty<string>().Value.Length;
             }
         }
 

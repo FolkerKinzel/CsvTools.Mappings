@@ -25,7 +25,8 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
     /// </param>
     /// <remarks>This constructor initializes a <see cref="DateTimeOffsetConverter"/> instance that uses the format string
     /// "O". This constructor is much faster than its overload.</remarks>
-    public DateTimeOffsetConverter(bool throwing = true, IFormatProvider? formatProvider = null) : base(throwing)
+    public DateTimeOffsetConverter(bool throwing = true, IFormatProvider? formatProvider = null) 
+        : base(throwing, default)
     {
         _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
     }
@@ -53,7 +54,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
         string format,
         bool throwing = true,
         IFormatProvider? formatProvider = null,
-        bool parseExact = false) : base(throwing)
+        bool parseExact = false) : base(throwing, default)
     {
         _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;
@@ -73,16 +74,24 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
     public override string? ConvertToString(DateTimeOffset value) => value.ToString(Format, _formatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out DateTimeOffset result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out DateTimeOffset result)
+    { 
 #if NET462 || NETSTANDARD2_0
-        => _parseExact
+        if(value.IsWhiteSpace())
+        {
+            result = default;
+            return false;
+        }
+
+        return _parseExact
             ? DateTimeOffset.TryParseExact(value.ToString(), Format, _formatProvider, STYLE, out result)
             : DateTimeOffset.TryParse(value.ToString(), _formatProvider, STYLE, out result);
 #else
-        => _parseExact
+        return _parseExact
             ? DateTimeOffset.TryParseExact(value, Format, _formatProvider, STYLE, out result)
             : DateTimeOffset.TryParse(value, _formatProvider, STYLE, out result);
 #endif
+    }
 
     private void ExamineFormat(string paramName)
     {

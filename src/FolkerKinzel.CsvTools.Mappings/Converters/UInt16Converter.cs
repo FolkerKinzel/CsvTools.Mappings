@@ -13,7 +13,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </param>
 [CLSCompliant(false)]
 public sealed class UInt16Converter(bool throwing = true, IFormatProvider? formatProvider = null) 
-    : TypeConverter<ushort>(throwing), IHexConverter<ushort>
+    : TypeConverter<ushort>(throwing, default), IHexConverter<ushort>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -48,9 +48,12 @@ public sealed class UInt16Converter(bool throwing = true, IFormatProvider? forma
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out ushort result)
+    { 
 #if NET462 || NETSTANDARD2_0
-        => ushort.TryParse(value.ToString(), _styles, _formatProvider, out result);
+        result = default;
+        return !value.IsWhiteSpace() &&  ushort.TryParse(value.ToString(), _styles, _formatProvider, out result);
 #else
-        => ushort.TryParse(value, _styles, _formatProvider, out result);
+        return ushort.TryParse(value, _styles, _formatProvider, out result);
 #endif
+    }
 }
