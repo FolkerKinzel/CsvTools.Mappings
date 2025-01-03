@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
@@ -8,28 +9,10 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </summary>
 public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
 {
-    private const string DEFAULT_FORMAT = "O";
-    private readonly IFormatProvider _formatProvider;
-    private readonly bool _parseExact;
-
-    private const DateTimeStyles STYLE = DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind;
-
     /// <summary>
-    /// Initializes a new <see cref="DateTimeOffsetConverter"/> instance.
+    /// The default value of <see cref="Styles"/>.
     /// </summary>
-    /// <param name="throwing">Sets the value of the 
-    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
-    /// </param>
-    /// <remarks>This constructor initializes a <see cref="DateTimeOffsetConverter"/> instance that uses the format string
-    /// "O". This constructor is much faster than its overload.</remarks>
-    public DateTimeOffsetConverter(bool throwing = true, IFormatProvider? formatProvider = null) 
-        : base(throwing, default)
-    {
-        _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-    }
+    public const DateTimeStyles DefaultStyle = DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind;
 
     /// <summary>
     /// Initializes a new <see cref="DateTimeOffsetConverter"/> instance and allows to specify a format string.
@@ -44,69 +27,92 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
+    /// <param name="styles">
+    /// A combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
+    /// </param>
     /// <param name="parseExact">
     /// If <c>true</c>, the text in the CSV file must exactly match the format string specified with <paramref name="format"/>.
     /// </param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="format"/> is not a valid format string.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The value of <paramref name="styles"/> is invalid.</exception>
     public DateTimeOffsetConverter(
-        string format,
+#if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
+        [StringSyntax(StringSyntaxAttribute.DateTimeFormat)]
+#endif
+        string format = "O",
         bool throwing = true,
         IFormatProvider? formatProvider = null,
+        DateTimeStyles styles = DefaultStyle,
         bool parseExact = false) : base(throwing, default)
     {
-        _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
+        FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;
-        _parseExact = parseExact;
-        ExamineFormat(nameof(format));
+
+        if(parseExact)
+        {
+            ParseExact = parseExact;
+            _ArgumentNullException.ThrowIfNull(format, nameof(format));
+        }
+
+        ValidateStyles(styles);
     }
 
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
     /// <summary>
+    /// Gets the <see cref="IFormatProvider"/> instance that provides 
+    /// culture-specific formatting information.
+    /// </summary>
+    public IFormatProvider FormatProvider { get; }
+
+    /// <summary>
     /// The format string to use.
     /// </summary>
-    public string Format { get; } = DEFAULT_FORMAT;
+    public string Format { get; }
+
+    /// <summary>
+    /// Gets a combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
+    /// </summary>
+    public DateTimeStyles Styles { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the text in the CSV file must exactly match the format determined with <see cref="Format"/>.
+    /// </summary>
+    /// <value><c>true</c> if the text in the CSV file must exactly match the format determined with <see cref="Format"/>,
+    /// <c>false</c>, if not.</value>
+    public bool ParseExact { get; }
 
     /// <inheritdoc/>
-    public override string? ConvertToString(DateTimeOffset value) => value.ToString(Format, _formatProvider);
+    public override string? ConvertToString(DateTimeOffset value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out DateTimeOffset result)
-    { 
+    {
 #if NET462 || NETSTANDARD2_0
-        if(value.IsWhiteSpace())
-        {
-            result = default;
-            return false;
-        }
-
-        return _parseExact
-            ? DateTimeOffset.TryParseExact(value.ToString(), Format, _formatProvider, STYLE, out result)
-            : DateTimeOffset.TryParse(value.ToString(), _formatProvider, STYLE, out result);
+        return ParseExact
+            ? DateTimeOffset.TryParseExact(value.ToString(), Format, FormatProvider, Styles, out result)
+            : DateTimeOffset.TryParse(value.ToString(), FormatProvider, Styles, out result);
 #else
-        return _parseExact
-            ? DateTimeOffset.TryParseExact(value, Format, _formatProvider, STYLE, out result)
-            : DateTimeOffset.TryParse(value, _formatProvider, STYLE, out result);
+        return ParseExact
+            ? DateTimeOffset.TryParseExact(value, Format, FormatProvider, Styles, out result)
+            : DateTimeOffset.TryParse(value, FormatProvider, Styles, out result);
 #endif
     }
 
-    private void ExamineFormat(string paramName)
+    private static void ValidateStyles(DateTimeStyles styles)
     {
-        try
-        {
-            string tmp = DateTimeOffset.Now.ToString(Format, _formatProvider);
+        const DateTimeStyles InvalidDateTimeStyles = ~(DateTimeStyles.AllowLeadingWhite | DateTimeStyles.AllowTrailingWhite
+                                                     | DateTimeStyles.AllowInnerWhite | DateTimeStyles.NoCurrentDateDefault
+                                                     | DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeLocal
+                                                     | DateTimeStyles.AssumeUniversal | DateTimeStyles.RoundtripKind);
 
-            if (_parseExact)
-            {
-                _ = DateTimeOffset.ParseExact(tmp, Format, _formatProvider, STYLE);
-            }
-        }
-        catch (FormatException e)
+        if ((styles & InvalidDateTimeStyles) != 0
+          || styles.HasFlag(DateTimeStyles.AssumeLocal | DateTimeStyles.AssumeUniversal)
+          || styles.HasFlag(DateTimeStyles.NoCurrentDateDefault))
         {
-            throw new ArgumentException(e.Message, paramName, e);
+            throw new ArgumentOutOfRangeException(nameof(styles));
         }
     }
 }

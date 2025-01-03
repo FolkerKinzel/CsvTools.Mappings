@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 
@@ -9,108 +10,92 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </summary>
 public sealed class DateTimeConverter : TypeConverter<DateTime>
 {
-    private const DateTimeStyles STYLE = DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind;
-    private const string DEFAULT_FORMAT = "s";
-    //private const string DATE_FORMAT = "d";
-
-    private readonly IFormatProvider _formatProvider;
-    private readonly bool _parseExact;
-
+    /// <summary>
+    /// The default value of <see cref="Styles"/>.
+    /// </summary>
+    public const DateTimeStyles DefaultStyle = DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind;
+    
     /// <summary>
     /// Initializes a new <see cref="DateTimeConverter"/> instance.
     /// </summary>
-    /// <param name="throwing">Sets the value of the 
-    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
-    /// <remarks>This constructor initializes a <see cref="DateTimeConverter"/> instance that uses the format string
-    /// "s". This constructor is much faster than its overload.</remarks>
-    public DateTimeConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-        : base(throwing, default)
-        => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-
-    /// <summary>
-    /// Initializes a new <see cref="DateTimeConverter"/> instance and allows to specify a format string.
-    /// </summary>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="DateTime"/> values. If the 
-    /// option <paramref name="parseExact"/> is selected, this format string is also used for parsing.</param>
-    /// <param name="throwing">Sets the value of the 
-    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="DateTime"/> values. If 
+    /// <paramref name="format"/> is not <c>null</c>, this format string is also used for parsing.</param>
+    /// <param name="styles">
+    /// A combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
     /// </param>
     /// <param name="parseExact">
-    /// If <c>true</c>, the text in the CSV file must exactly match the format string specified with <paramref name="format"/>.
+    /// If <c>true</c> the text in the CSV file must exactly match the format string specified with <paramref name="format"/>,
+    /// if <c>false</c>, it doesn't.
     /// </param>
+    /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="format"/> is not a valid format string.</exception>
     public DateTimeConverter(
-        string format,
-        bool throwing = true,
         IFormatProvider? formatProvider = null,
-        bool parseExact = false) : base(throwing, default)
+#if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
+        [StringSyntax(StringSyntaxAttribute.DateTimeFormat)]
+#endif
+        string? format = "s",
+        DateTimeStyles styles = DefaultStyle,
+        bool parseExact = false,
+        bool throwing = true) : base(throwing, default)
     {
-        _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
+        FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;
-        _parseExact = parseExact;
-        ExamineFormat();
+        Styles = styles;
+
+        if (parseExact)
+        {
+            ParseExact = parseExact;
+            _ArgumentNullException.ThrowIfNull(format, nameof(format));
+        }
     }
 
-    //[MethodImpl(MethodImplOptions.AggressiveInlining)]
-    //public static DateTimeConverter CreateDateConverter(bool throwing = true, IFormatProvider? formatProvider = null, bool parseExact = false)
-    //    => new(DATE_FORMAT, throwing, formatProvider, parseExact);
+    /// <summary>
+    /// Gets the <see cref="IFormatProvider"/> instance that provides 
+    /// culture-specific formatting information.
+    /// </summary>
+    public IFormatProvider FormatProvider { get; }
 
     /// <summary>
     /// The format string to use.
     /// </summary>
-    public string Format { get; } = DEFAULT_FORMAT;
+    public string? Format { get; }
+
+    /// <summary>
+    /// Gets a combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
+    /// </summary>
+    public DateTimeStyles Styles { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the text in the CSV file must exactly match the format determined with <see cref="Format"/>.
+    /// </summary>
+    /// <value><c>true</c> if the text in the CSV file must exactly match the format determined with <see cref="Format"/>,
+    /// <c>false</c>, if not.</value>
+    public bool ParseExact { get; }
 
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
     /// <inheritdoc/>
-    public override string? ConvertToString(DateTime value) => value.ToString(Format, _formatProvider);
+    public override string? ConvertToString(DateTime value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out DateTime result)
     {
 #if NET462 || NETSTANDARD2_0
-        if(value.IsWhiteSpace())
-        {
-            result = default;
-            return false;
-        }
-
-        return _parseExact
-            ? DateTime.TryParseExact(value.ToString(), Format, _formatProvider, STYLE, out result)
-            : DateTime.TryParse(value.ToString(), _formatProvider, STYLE, out result);
+        return ParseExact
+            ? DateTime.TryParseExact(value.ToString(), Format, FormatProvider, Styles, out result)
+            : DateTime.TryParse(value.ToString(), FormatProvider, Styles, out result);
 #else
-        return _parseExact
-            ? DateTime.TryParseExact(value, Format, _formatProvider, STYLE, out result)
-            : DateTime.TryParse(value, _formatProvider, STYLE, out result);
+        return ParseExact
+            ? DateTime.TryParseExact(value, Format, FormatProvider, Styles, out result)
+            : DateTime.TryParse(value, FormatProvider, Styles, out result);
 #endif
-    }
-
-
-    private void ExamineFormat()
-    {
-        try
-        {
-            string tmp = DateTime.Now.ToString(Format, _formatProvider);
-
-            if (_parseExact)
-            {
-                _ = DateTime.ParseExact(tmp, Format, _formatProvider, STYLE);
-            }
-        }
-        catch (FormatException e)
-        {
-            throw new ArgumentException(e.Message, e);
-        }
     }
 }

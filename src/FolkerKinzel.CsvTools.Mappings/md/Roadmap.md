@@ -6,5 +6,5 @@
 - [ ] Add a DateOnlyConverter.
 - [ ] Add a TimeOnlyConverter.
 - [x] Add a UriConverter.
-- [ ] Add a VersionConverter.
+- [x] Add a VersionConverter.
 - [x] Add a `AllowsNull` property to `CsvTypeConverter<T>`.

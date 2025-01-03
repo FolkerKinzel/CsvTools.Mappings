@@ -26,29 +26,29 @@ public class DateTimeConverterTests
     [TestMethod()]
     public void DateTimeConverterTest3()
     {
-        var conv = new DateTimeConverter("");
+        var conv = new DateTimeConverter(format: "");
         Assert.IsNotNull(conv);
     }
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
-    public void DateTimeConverterTest4() => _ = new DateTimeConverter("", parseExact: true);
+    public void DateTimeConverterTest4() => _ = new DateTimeConverter(format: "");
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
     public void DateTimeConverterTest5()
-        => _ = new DateTimeConverter("Ä");
+        => _ = new DateTimeConverter(format: "Ä");
 
     [TestMethod()]
     public void DateTimeConverterTest6()
     {
-        var conv = new DateTimeConverter("D");
+        var conv = new DateTimeConverter(format: "D");
         Assert.IsNotNull(conv);
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void DateTimeConverterTest7() => _ = new DateTimeConverter(null!, parseExact: true);
+    public void DateTimeConverterTest7() => _ = new DateTimeConverter(format: null!);
 
     [TestMethod()]
     public void Roundtrip1()
@@ -74,7 +74,7 @@ public class DateTimeConverterTests
 
         now = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, now.Second, DateTimeKind.Utc);
 
-        var conv = new DateTimeConverter("F");
+        var conv = new DateTimeConverter(format: "F");
 
         string? tmp = conv.ConvertToString(now);
 

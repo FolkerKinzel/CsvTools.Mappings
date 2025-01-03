@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
@@ -8,109 +9,90 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </summary>
 public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
 {
-    private const string DEFAULT_FORMAT = "g";
-
-    private readonly IFormatProvider _formatProvider;
-    private readonly bool _parseExact;
-    private readonly TimeSpanStyles _styles;
-
     /// <summary>
     /// Initializes a new <see cref="TimeSpanConverter"/> instance.
     /// </summary>
-    /// <param name="throwing">Sets the value of the 
-    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
-    /// <remarks>This constructor initializes a <see cref="TimeSpanConverter"/> instance that uses the format string
-    /// "g". This constructor is much faster than its overload.</remarks>
-    public TimeSpanConverter(bool throwing = true, IFormatProvider? formatProvider = null) 
-        : base(throwing, default)
-        => _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-
-    /// <summary>
-    /// Initializes a new <see cref="TimeSpanConverter"/> instance and allows to specify a format string.
-    /// </summary>
     /// <param name="format">
     /// A format string that is used for the <see cref="string"/> output of <see cref="TimeSpan"/> values. If the 
     /// option <paramref name="parseExact"/> is selected this format string is also used for parsing.</param>
-    /// <param name="throwing">Sets the value of the 
-    /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
-    /// </param>
     /// <param name="parseExact">
-    /// If <c>true</c> the text in the CSV file must exactly match the format string specified with <paramref name="format"/>.
+    /// If <c>true</c> the text in the CSV file must exactly match the format string specified with <paramref name="format"/>,
+    /// if <c>false</c>, it doesn't.
     /// </param>
-    /// 
     /// <param name="styles">
-    /// A value of the <see cref="TimeSpanStyles"/> enum that provides additional information for parsing. (Becomes evaluated only if 
-    /// <paramref name="parseExact"/> is <c>true</c>.)
+    /// A value of the <see cref="TimeSpanStyles"/> enum that provides additional information for parsing. (Becomes evaluated
+    /// only if <paramref name="parseExact"/> is <c>true</c>.)
     /// </param>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="format"/> is not a valid format string.</exception>
+    /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and 
+    /// <paramref name="parseExact"/> is <c>true</c>.</exception>
     public TimeSpanConverter(
-        string format,
-        bool throwing = true,
         IFormatProvider? formatProvider = null,
+#if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
+        [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)]
+#endif
+        string? format = "g",
         bool parseExact = false,
-        TimeSpanStyles styles = TimeSpanStyles.None) : base(throwing, default)
+        TimeSpanStyles styles = TimeSpanStyles.None,
+        bool throwing = true) : base(throwing, default)
     {
-        _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
-        _styles = styles;
+        FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
+        Styles = styles;
         Format = format;
-        _parseExact = parseExact;
-        ExamineFormat();
+
+        if (parseExact)
+        {
+            ParseExact = parseExact;
+            _ArgumentNullException.ThrowIfNull(format, nameof(format));
+        }
     }
 
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
     /// <summary>
-    /// The format string to use.
+    /// Gets the <see cref="IFormatProvider"/> instance that provides 
+    /// culture-specific formatting information.
     /// </summary>
-    public string Format { get; } = DEFAULT_FORMAT;
+    public IFormatProvider FormatProvider { get; }
+
+    /// <summary>
+    /// Gets the format string to use.
+    /// </summary>
+    public string? Format { get; }
+
+    /// <summary>
+    /// Gets a value of the <see cref="TimeSpanStyles"/> enum that provides additional information for parsing.
+    /// </summary>
+    public TimeSpanStyles Styles { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the text in the CSV file must exactly match the format determined with <see cref="Format"/>.
+    /// </summary>
+    /// <value><c>true</c> if the text in the CSV file must exactly match the format determined with <see cref="Format"/>,
+    /// <c>false</c>, if not.</value>
+    public bool ParseExact { get; }
 
     /// <inheritdoc/>
-    public override string? ConvertToString(TimeSpan value) => value.ToString(Format, _formatProvider);
+    public override string? ConvertToString(TimeSpan value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out TimeSpan result)
     { 
 #if NET462 || NETSTANDARD2_0
-        if(value.IsWhiteSpace())
-        {
-            result = default;
-            return false;
-        }
-
-        return _parseExact
-            ? TimeSpan.TryParseExact(value.ToString(), Format, _formatProvider, _styles, out result)
-            : TimeSpan.TryParse(value.ToString(), _formatProvider, out result);
+        return ParseExact
+            ? TimeSpan.TryParseExact(value.ToString(), Format, FormatProvider, Styles, out result)
+            : TimeSpan.TryParse(value.ToString(), FormatProvider, out result);
 #else
-        return _parseExact
-            ? TimeSpan.TryParseExact(value, Format, _formatProvider, _styles, out result)
-            : TimeSpan.TryParse(value, _formatProvider, out result);
+        return ParseExact
+            ? TimeSpan.TryParseExact(value, Format, FormatProvider, Styles, out result)
+            : TimeSpan.TryParse(value, FormatProvider, out result);
 #endif
-    }
-
-    private void ExamineFormat()
-    {
-        try
-        {
-            string tmp = TimeSpan.Zero.ToString(Format, _formatProvider);
-
-            if (_parseExact)
-            {
-                _ = TimeSpan.ParseExact(tmp, Format, _formatProvider, _styles);
-            }
-        }
-        catch (FormatException e)
-        {
-            throw new ArgumentException(e.Message, e);
-        }
     }
 }

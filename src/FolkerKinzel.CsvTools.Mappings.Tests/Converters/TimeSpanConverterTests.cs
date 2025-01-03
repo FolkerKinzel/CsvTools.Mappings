@@ -17,28 +17,28 @@ public class TimeSpanConverterTests
     [TestMethod()]
     public void TimeSpanConverterTest2()
     {
-        var conv = new TimeSpanConverter("");
+        var conv = new TimeSpanConverter(format: "");
         Assert.IsNotNull(conv);
     }
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
-    public void TimeSpanConverterTest3() => _ = new TimeSpanConverter("", parseExact: true);
+    public void TimeSpanConverterTest3() => _ = new TimeSpanConverter(format: "", parseExact: true);
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
-    public void TimeSpanConverterTest4() => _ = new TimeSpanConverter("bla");
+    public void TimeSpanConverterTest4() => _ = new TimeSpanConverter(format: "bla");
 
     [TestMethod()]
     public void TimeSpanConverterTest5()
     {
-        var conv = new TimeSpanConverter("G");
+        var conv = new TimeSpanConverter(format: "G");
         Assert.IsNotNull(conv);
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void TimeSpanConverterTest6() => _ = new TimeSpanConverter(null!, parseExact: true);
+    public void TimeSpanConverterTest6() => _ = new TimeSpanConverter(format: null!, parseExact: true);
 
     [TestMethod()]
     public void Roundtrip1()
@@ -61,7 +61,7 @@ public class TimeSpanConverterTests
     {
         TimeSpan now = DateTime.UtcNow.TimeOfDay;
 
-        var conv = new TimeSpanConverter("G");
+        var conv = new TimeSpanConverter(format: "G");
 
         string? tmp = conv.ConvertToString(now);
 
