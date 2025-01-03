@@ -77,8 +77,13 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <returns><c>true</c> if the parsing was successfull, otherwise <c>false</c>.</returns>
     /// <remarks>
     /// <note type="implement">
+    /// Implement this method in derived classes to determine the behavior of <see cref="Parse"/>.
+    /// <para>
+    /// </para>
+    /// <para>
     /// In any case the method MUST NOT throw an exception. Instead, it should return <c>false</c> 
     /// if parsing fails. In this case <paramref name="result"/> is treated as undefined.
+    /// </para>
     /// </note>
     /// </remarks>
     protected abstract bool TryParseMapping(out T? result);
@@ -90,7 +95,12 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
     /// <exception cref="FormatException">The conversion fails and <see cref="Throwing"/> is <c>true</c>.
     /// </exception>
-    public T? Convert()
+    /// <remarks>
+    /// <note type="implement">
+    /// Override <see cref="TryParseMapping(out T?)"/> to define the behavior of this method.
+    /// </note>
+    /// </remarks>
+    public T? Parse()
         => TryParseMapping(out T? result)
              ? result
              : Throwing
@@ -108,6 +118,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// have to be filled with data.)
     /// </note>
     /// </remarks>
+    /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
     protected abstract void DoConvertToCsv(T? value);
 
     /// <summary>
@@ -115,13 +126,16 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// using <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AllowsNull"/>
-    /// is <c>false</c>.</exception>
+    /// 
     /// <remarks>
     /// <note type="implement">
     /// Override <see cref="DoConvertToCsv(T?)"/> to define the behavior of this method.
     /// </note>
     /// </remarks>
+    /// 
+    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AllowsNull"/>
+    /// is <c>false</c>.</exception>
+    /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
     public void ConvertToCsv(T? value)
     {
         if (value is null && !AllowsNull)
@@ -137,12 +151,15 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// using <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The object to write to the selected fields of <see cref="MappingProperty.Record"/>.</param>
-    /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
+    /// 
     /// <remarks>
     /// <note type="implement">
     /// Override <see cref="DoConvertToCsv(T?)"/> to define the behavior of this method.
     /// </note>
     /// </remarks>
+    /// 
+    /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
+    /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
     public void ConvertToCsv(object? value)
     {
         if (value is null && !AllowsNull)

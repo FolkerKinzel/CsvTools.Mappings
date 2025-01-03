@@ -50,7 +50,7 @@ internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTyp
     {
         return Record is null
             ? throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)))
-            : Converter.Convert();
+            : Converter.Parse();
     }
 
     /// <inheritdoc/>

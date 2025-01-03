@@ -53,20 +53,19 @@ public abstract class TypeConverter<T>(bool throwing,
     /// <typeparamref name="T"/> if the parsing failed.
     /// </param>
     /// <returns><c>true</c> if the parsing was successfull, otherwise <c>false</c>.</returns>
+    /// 
     /// <remarks>
     /// <note type="implement">
+    /// Implement this method in derived classes to determine the behavior of <see cref="Parse(ReadOnlySpan{char})"/>.
+    /// <para>
+    /// </para>
+    /// <para>
     /// In any case the method MUST NOT throw an exception. Instead, it should return <c>false</c> 
     /// if parsing fails. In this case <paramref name="result"/> is treated as undefined.
+    /// </para>
     /// </note>
     /// </remarks>
     public abstract bool TryParseValue(ReadOnlySpan<char> value, out T? result);
-
-    /// <summary>
-    /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.
-    /// </summary>
-    /// <param name="value">The value to convert.</param>
-    /// <returns>A <see cref="string"/> that represents <paramref name="value"/> or <c>null</c>.</returns>
-    public abstract string? ConvertToString(T value);
 
     /// <summary>
     /// Parses a read-only span of characters and returns 
@@ -74,6 +73,12 @@ public abstract class TypeConverter<T>(bool throwing,
     /// </summary>
     /// <param name="value">The span to parse.</param>
     /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
+    /// <remarks>
+    /// <note type="implement">
+    /// Override <see cref="TryParseValue(ReadOnlySpan{char}, out T?)"/> to define the behavior 
+    /// of this method.
+    /// </note>
+    /// </remarks>
     /// <exception cref="FormatException">
     /// The parsing failed and <see cref="Throwing"/> is <c>true</c>.
     /// </exception>
@@ -86,4 +91,12 @@ public abstract class TypeConverter<T>(bool throwing,
                      value.Length > 40 ? nameof(value) : $"\"{value.ToString()}\"",
                      typeof(T).FullName))
                  : FallbackValue;
+
+    /// <summary>
+    /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.
+    /// </summary>
+    /// <param name="value">The value to convert.</param>
+    /// <returns>A <see cref="string"/> that represents <paramref name="value"/> or <c>null</c>.</returns>
+    /// <exception cref="FormatException">The instance uses an invalid format string.</exception>
+    public abstract string? ConvertToString(T value);
 }

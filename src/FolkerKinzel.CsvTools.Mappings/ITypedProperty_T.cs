@@ -25,8 +25,16 @@ public interface ITypedProperty<T>
     /// <paramref name="value"/> is <c>null</c> and 
     /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>.
     /// </exception>
-    /// <exception cref="FormatException">When getting the value, parsing fails and <see cref="ITypeConverter{T}.Throwing"/>
-    /// is <c>true</c>.</exception>
+    /// <exception cref="FormatException">
+    /// <para>
+    /// When getting the value, parsing fails and <see cref="TypeConverter{T}.Throwing"/>
+    /// is <c>true</c>.
+    /// </para>
+    /// <para>- or -</para>
+    /// <para>
+    /// When setting the value, the converter uses an invalid format string.
+    /// </para>
+    /// </exception>
     T Value { get; set; }
 
     // Value can't be T? here: If it were, this property could never return

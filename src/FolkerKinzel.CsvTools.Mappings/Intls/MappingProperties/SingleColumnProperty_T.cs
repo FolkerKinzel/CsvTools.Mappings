@@ -102,6 +102,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
     /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and 
     /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>.</exception>
+    /// <exception cref="FormatException">The converter uses an invalid format string.</exception>
     private void SetTypedValue(T? value)
     {
         if (Record is null)

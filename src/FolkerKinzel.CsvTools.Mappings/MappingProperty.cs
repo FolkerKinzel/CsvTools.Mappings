@@ -66,8 +66,16 @@ public abstract partial class MappingProperty
     /// <paramref name="value"/> does not match the expected data type.
     /// </para>
     /// </exception>
-    /// <exception cref="FormatException">When getting the value, parsing fails and <see cref="TypeConverter{T}.Throwing"/>
-    /// is <c>true</c>.</exception>
+    /// <exception cref="FormatException">
+    /// <para>
+    /// When getting the value, parsing fails and <see cref="TypeConverter{T}.Throwing"/>
+    /// is <c>true</c>.
+    /// </para>
+    /// <para>- or -</para>
+    /// <para>
+    /// When setting the value, the converter uses an invalid format string.
+    /// </para>
+    /// </exception>
     public object? Value
     { 
         get => GetValue();
@@ -104,6 +112,7 @@ public abstract partial class MappingProperty
     /// <paramref name="value"/> does not match the expected data type.
     /// </para>
     /// </exception>
+    /// <exception cref="FormatException">The converter uses an invalid format string.</exception>
     protected internal abstract void SetValue(object? value);
 
 #if NET8_0_OR_GREATER
