@@ -24,7 +24,7 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out T? result)
     {
-        if (value.IsEmpty)
+        if (value.IsWhiteSpace())
         {
             result = FallbackValue;
             return true;

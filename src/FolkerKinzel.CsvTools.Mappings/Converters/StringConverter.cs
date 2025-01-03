@@ -8,26 +8,23 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 public sealed class StringConverter : TypeConverter<string?>
 {
     /// Initializes a new <see cref="StringConverter"/> instance.
-    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.FallbackValue"/>
-    /// to <c>null</c>; <c>false</c> to have <see cref="string.Empty"/> as 
-    /// <see cref="TypeConverter{T}.FallbackValue"/>.</param>
+    /// <param name="fallbackValue">The value of <see cref="TypeConverter{T}.FallbackValue"/>.</param>
     private StringConverter(string? fallbackValue)
         : base(false, fallbackValue) { }
 
     /// <summary>
-    /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;String?&gt;</see> instance
-    /// whose <see cref="ITypeConverter{T}.FallbackValue"/> is <c>null</c>.
+    /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;String?&gt;</see> instance.
     /// </summary>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;String?&gt;</see>
-    /// instance.</returns>
+    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be <c>null</c>.</returns>
     public static TypeConverter<string?> CreateNullable() => new StringConverter(null);
 
     /// <summary>
-    /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see> instance
-    /// whose <see cref="ITypeConverter{T}.FallbackValue"/> is <see cref="string.Empty"/>.
+    /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see> instance.
     /// </summary>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see>
-    /// instance.</returns>
+    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be <see cref="string.Empty"/>.
+    /// </returns>
     public static TypeConverter<string> CreateNonNullable() => new StringConverter("")!;
 
     /// <inheritdoc/>
