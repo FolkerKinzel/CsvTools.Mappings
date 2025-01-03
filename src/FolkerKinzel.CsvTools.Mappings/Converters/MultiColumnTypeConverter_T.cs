@@ -48,14 +48,6 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     public Type DataType => typeof(T);
 
     /// <summary>
-    /// Returns a <see cref="bool"/> value indicating whether the 
-    /// content of <see cref="Mapping"/> that has to be parsed represents a value or not.
-    /// </summary>
-    /// <returns><c>true</c> if <see cref="Mapping"/> contains a parseable value, 
-    /// otherwise <c>false</c>.</returns>
-    protected abstract bool CsvHasValue();
-
-    /// <summary>
     /// Tries to convert several <see cref="MappingProperty"/> instances in
     /// <see cref="Mapping"/> to a <typeparamref name="T"/> value.
     /// </summary>
@@ -69,11 +61,11 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <returns><c>true</c> if the parsing was successfull, otherwise <c>false</c>.</returns>
     /// <remarks>
     /// <note type="implement">
-    /// If <see cref="Throwing"/> is <c>false</c> the method has to catch any <see cref="FormatException"/>
-    /// that a converter in <see cref="Mapping"/> might throw.
+    /// In any case the method MUST NOT throw an exception. Instead, it should return <c>false</c> 
+    /// if parsing fails. In this case <paramref name="result"/> is treated as undefined.
     /// </note>
     /// </remarks>
-    protected abstract bool TryConvertMapping(out T result);
+    protected abstract bool TryParseMapping(out T result);
 
     /// <summary>
     /// Converts several <see cref="MappingProperty"/> instances in <see cref="Mapping"/> to a 
@@ -83,20 +75,22 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <exception cref="FormatException">The conversion fails and <see cref="Throwing"/> is <c>true</c>.
     /// </exception>
     public T? Convert()
-        => !CsvHasValue()
-                ? FallbackValue
-                : TryConvertMapping(out T? result)
-                    ? result
-                    : Throwing
-                        ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, Res.CannotParseCsv, typeof(T).FullName))
-                        : FallbackValue;
+        => TryParseMapping(out T? result)
+             ? result
+             : Throwing
+                 ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, Res.CannotParseCsv, typeof(T).FullName))
+                 : FallbackValue;
 
     /// <summary>
     /// Writes a <typeparamref name="T"/> value to several properties of <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
     /// <remarks>
-    /// Implement this method in derived classes to determine the behavior of <see cref="ConvertToCsv(object?)"/>.
+    /// <note type="implement">
+    /// Implement this method in derived classes to determine the behavior of <see cref="ConvertToCsv(object?)"/>
+    /// and <see cref="ConvertToCsv(T?)"/>. (Several <see cref="MappingProperty"/> instances in <see cref="Mapping"/>
+    /// have to be filled with data.)
+    /// </note>
     /// </remarks>
     protected abstract void DoConvertToCsv(T? value);
 
@@ -107,6 +101,11 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <param name="value">The value to convert.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AllowsNull"/>
     /// is <c>false</c>.</exception>
+    /// <remarks>
+    /// <note type="implement">
+    /// Override <see cref="DoConvertToCsv(T?)"/> to define the behavior of this method.
+    /// </note>
+    /// </remarks>
     public void ConvertToCsv(T? value)
     {
         if (value is null && !AllowsNull)
@@ -123,6 +122,11 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// </summary>
     /// <param name="value">The object to write to the selected fields of <see cref="MappingProperty.Record"/>.</param>
     /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
+    /// <remarks>
+    /// <note type="implement">
+    /// Override <see cref="DoConvertToCsv(T?)"/> to define the behavior of this method.
+    /// </note>
+    /// </remarks>
     public void ConvertToCsv(object? value)
     {
         if (value is null && !AllowsNull)
