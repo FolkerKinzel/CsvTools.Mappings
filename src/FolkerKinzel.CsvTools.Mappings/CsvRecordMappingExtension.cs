@@ -11,8 +11,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public static class CsvRecordMappingExtension
 {
     /// <summary>
-    /// Adds a new <see cref="MappingProperty"/> instance to <paramref name="mapping"/>, which accesses a single
-    /// column of the CSV file.
+    /// Adds a new <see cref="MappingProperty"/> instance, which accesses a single column of the CSV file, 
+    /// to <paramref name="mapping"/>.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="MappingProperty"/> to.</param>
@@ -59,8 +59,8 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="MappingProperty"/> instance to <paramref name="mapping"/>, which accesses a single
-    /// column of a CSV file with header.
+    /// Adds a new <see cref="MappingProperty"/> instance, which accesses a single column of a CSV file with header,
+    /// to <paramref name="mapping"/>.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="MappingProperty"/> to.</param>
@@ -119,8 +119,8 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="MappingProperty"/> instance to <paramref name="mapping"/>, which accesses a single
-    /// column of a CSV file with header.
+    /// Adds a new <see cref="MappingProperty"/> instance, which accesses a single column of a CSV file with header,
+    /// to <paramref name="mapping"/>.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="MappingProperty"/> to.</param>
@@ -157,15 +157,16 @@ public static class CsvRecordMappingExtension
         => AddSingleColumnProperty(mapping, propertyName, [propertyName], converter);
 
     /// <summary>
-    /// Adds a new <see cref="MappingProperty"/> instance to <paramref name="mapping"/>, which accesses a several
-    /// columns of the CSV file.
+    /// Adds a new <see cref="MappingProperty"/> instance, which accesses several columns of a CSV file, to 
+    /// <paramref name="mapping"/>.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="MappingProperty"/> to.</param>
     /// <param name="propertyName">The identifier of the dynamic .NET property. It must follow the 
     /// rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
-    /// <param name="converter">The <see cref="MultiColumnTypeConverter{T}"/> that does the type conversion.</param>
+    /// <param name="converter">An instance derived from the abstract <see cref="MultiColumnTypeConverter{T}"/> 
+    /// class. You have to write this class yourself because it depends on the CSV file.</param>
     /// 
     /// <returns><paramref name="mapping"/> with the added <see cref="MappingProperty"/> to chain calls.</returns>
     /// 

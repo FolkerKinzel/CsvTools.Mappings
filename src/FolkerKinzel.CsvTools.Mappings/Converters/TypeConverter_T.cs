@@ -17,9 +17,21 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// is <c>true</c>.
 /// </param>
 public abstract class TypeConverter<T>(bool throwing,
-                                       T? fallbackValue) : ITypeConverter<T> 
+                                       T? fallbackValue) : ITypeConverter<T>
 {
     /// <inheritdoc/>
+    /// <remarks>
+    /// <note type="implement">
+    /// The value can be <c>null</c> for non-nullable reference types
+    /// if two conditions are met at the same time:
+    /// <list type="number">
+    /// <item><see cref="Throwing"/> MUST be <c>true</c> in this case, and</item>
+    /// <item><see cref="TryParseValue(ReadOnlySpan{char}, out T?)"/> MUST
+    /// return <c>false</c> if its result is <see cref="FallbackValue"/> 
+    /// (respectively <c>null</c>).</item>
+    /// </list>
+    /// </note>
+    /// </remarks>
     public T? FallbackValue { get; } = fallbackValue;
 
     ///<inheritdoc/>
@@ -55,19 +67,6 @@ public abstract class TypeConverter<T>(bool throwing,
     /// <param name="value">The value to convert.</param>
     /// <returns>A <see cref="string"/> that represents <paramref name="value"/> or <c>null</c>.</returns>
     public abstract string? ConvertToString(T value);
-
-    ///// <summary>
-    ///// Returns a <see cref="bool"/> value indicating whether the 
-    ///// <paramref name="csvInput"/> represents a value or not.
-    ///// </summary>
-    ///// <param name="csvInput">The input to examine.</param>
-    ///// <returns><c>true</c> if <paramref name="csvInput"/> represents a value, 
-    ///// otherwise <c>false</c>.</returns>
-    ///// <remarks>The method returns <c>false</c> if <paramref name="csvInput"/> is empty or 
-    ///// contains only whitespace.
-    ///// Override this method in derived classes to change this behavior.
-    ///// </remarks>
-    //protected virtual bool CsvHasValue(ReadOnlySpan<char> csvInput) => !csvInput.IsWhiteSpace();
 
     /// <summary>
     /// Parses a read-only span of characters and returns 

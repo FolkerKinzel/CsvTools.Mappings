@@ -20,14 +20,18 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// the <see cref="Throwing"/> property is <c>false</c>.
 /// </param>
 /// <remarks>
-/// Instances derived from this class are required by <see cref="MultiColumnProperty{T}"/>.
+/// <note type="implement">
+/// Writing a derived class is easy: Pass a <see cref="CsvRecordMapping"/> instance that 
+/// targets the required columns of the CSV file to the constructor, and override the abstract 
+/// members.
+/// </note>
 /// </remarks>
 /// <seealso cref="MultiColumnProperty{T}"/>
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
 public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
-                                                     bool throwing,
-                                                     T? fallbackValue = default) : ITypeConverter<T>
+                                                  bool throwing,
+                                                  T? fallbackValue = default) : ITypeConverter<T>
 {
     /// <summary>
     /// The <see cref="CsvRecordMapping"/> to use to access those columns 
@@ -42,6 +46,18 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     public bool Throwing { get; } = throwing;
 
     /// <inheritdoc/>
+    /// <remarks>
+    /// <note type="implement">
+    /// The value can be <c>null</c> for non-nullable reference types
+    /// if two conditions are met at the same time:
+    /// <list type="number">
+    /// <item><see cref="Throwing"/> MUST be <c>true</c> in this case, and</item>
+    /// <item><see cref="TryParseMapping(out T?)"/> MUST
+    /// return <c>false</c> if its result is <see cref="FallbackValue"/> 
+    /// (respectively <c>null</c>).</item>
+    /// </list>
+    /// </note>
+    /// </remarks>
     public T? FallbackValue { get; } = fallbackValue;
 
     /// <inheritdoc/>
@@ -65,7 +81,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// if parsing fails. In this case <paramref name="result"/> is treated as undefined.
     /// </note>
     /// </remarks>
-    protected abstract bool TryParseMapping(out T result);
+    protected abstract bool TryParseMapping(out T? result);
 
     /// <summary>
     /// Converts several <see cref="MappingProperty"/> instances in <see cref="Mapping"/> to a 

@@ -14,11 +14,12 @@ public interface ITypeConverter<T>
     /// </summary>
     /// <value><c>true</c> if the converter throws a 
     /// <see cref="FormatException"/> on parsing errors,
-    /// <c>false</c> otherwise.</value>
+    /// <c>false</c> to return <see cref="FallbackValue"/>
+    /// in this case.</value>
     bool Throwing { get; }
 
     /// <summary>
-    /// Gets the value to return when a parsing error occurs and
+    /// Gets the value to return if parsing fails and
     /// the <see cref="Throwing"/> property is <c>false</c>.
     /// </summary>
     T? FallbackValue { get; }

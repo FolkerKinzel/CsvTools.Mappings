@@ -28,6 +28,8 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     /// <inheritdoc/>
     public new T Value
     {
+        // The Type can't be T?. If it were, this property could never return
+        // a non-nullable reference type.
         get => GetTypedValue()!;
         set => SetTypedValue(value);
     }

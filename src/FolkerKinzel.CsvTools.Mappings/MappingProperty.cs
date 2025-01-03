@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 
@@ -84,7 +85,7 @@ public abstract partial class MappingProperty
     /// <returns>The value.</returns>
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
     /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
-    /// <exception cref="FormatException">Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
+    /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
     protected internal abstract object? GetValue();
 
     /// <summary>

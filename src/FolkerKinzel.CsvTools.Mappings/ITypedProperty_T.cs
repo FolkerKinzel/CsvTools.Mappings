@@ -25,4 +25,7 @@ public interface ITypedProperty<T>
     /// <exception cref="FormatException">When getting the value, parsing fails and <see cref="TypeConverter{T}.Throwing"/>
     /// is <c>true</c>.</exception>
     T Value { get; set; }
+
+    // Value can't be T?. If it were, this property could never return
+    // a non-nullable reference type.
 }
