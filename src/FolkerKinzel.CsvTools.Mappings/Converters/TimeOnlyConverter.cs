@@ -6,21 +6,21 @@ using System.Runtime.CompilerServices;
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="TypeConverter{T}"/> implementation for <see cref="DateOnly"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="TimeOnly"/>.
 /// </summary>
-public sealed class DateOnlyConverter : TypeConverter<DateOnly>
+public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>
 {
     /// <summary>
-    /// Initializes a new <see cref="DateOnlyConverter"/> instance.
+    /// Initializes a new <see cref="TimeOnlyConverter"/> instance.
     /// </summary>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="DateOnly"/> values. If 
-    /// <paramref name="format"/> is not <c>null</c>, this format string is also used for parsing. 
-    /// The accepted standard formats are 'r', 'R', 'o', 'O', 'm', 'M', 'd', 'D', 'y' 'Y'.</param>
+    /// A format string that is used for the <see cref="string"/> output of <see cref="TimeOnly"/> values. If 
+    /// <paramref name="format"/> is not <c>null</c>, this format string is also used for parsing. The accepted standard formats 
+    /// are 'r', 'R', 'o', 'O', 't' and 'T'. </param>
     /// <param name="styles">
     /// A combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
     /// </param>
@@ -31,12 +31,12 @@ public sealed class DateOnlyConverter : TypeConverter<DateOnly>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
-    public DateOnlyConverter(
+    public TimeOnlyConverter(
         IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
-        [StringSyntax(StringSyntaxAttribute.DateOnlyFormat)]
+        [StringSyntax(StringSyntaxAttribute.TimeOnlyFormat)]
 #endif
-        string? format = "d",
+        string? format = "T",
         DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces,
         bool parseExact = false,
         bool throwing = true) : base(throwing, default)
@@ -81,17 +81,17 @@ public sealed class DateOnlyConverter : TypeConverter<DateOnly>
     /// <inheritdoc/>
     /// <exception cref="FormatException">
     /// <para>The length of <see cref="Format"/> is 1, and it is not one of the format specifier characters defined 
-    /// for <see cref="DateTimeFormatInfo"/>.</para>
+    /// for <see cref="TimeOnly"/>.</para>
     /// <para>-or-</para>
     /// <para><see cref="Format"/> does not contain a valid custom format pattern.</para>
     /// </exception>
-    public override string? ConvertToString(DateOnly value) => value.ToString(Format, FormatProvider);
+    public override string? ConvertToString(TimeOnly value) => value.ToString(Format, FormatProvider);
    
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out DateOnly result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out TimeOnly result)
     {
         return ParseExact
-            ? DateOnly.TryParseExact(value, Format.AsSpan(), FormatProvider, Styles, out result)
-            : DateOnly.TryParse(value, FormatProvider, Styles, out result);
+            ? TimeOnly.TryParseExact(value, Format.AsSpan(), FormatProvider, Styles, out result)
+            : TimeOnly.TryParse(value, FormatProvider, Styles, out result);
     }
 }
