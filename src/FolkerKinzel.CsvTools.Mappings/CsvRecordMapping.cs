@@ -32,10 +32,11 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// that <see cref="CsvRecordMapping"/> instance. These indexes may differ from the indexes of the columns of the CSV file that these 
 /// <see cref="MappingProperty"/> instances access.
 /// </para>
-/// 
 /// <para>
 /// With <see cref="Contains(string)"/> you can check whether a <see cref="MappingProperty"/> instance with the specified 
-/// <see cref="MappingProperty.PropertyName"/> is already added.<para>
+/// <see cref="MappingProperty.PropertyName"/> is already added.
+/// </para>
+/// <para>
 /// In order to support high-performance scenarios, the <see cref="MappingProperty"/> instances can be accessed accessed directly without
 /// having to use dynamic .NET properties: Use the indexers <see cref="this[int]"/> or <see cref="this[string]"/> to get a 
 /// <see cref="MappingProperty"/> instance. Cast it with <see cref="MappingPropertyExtension.AsITypedProperty{T}(MappingProperty)"/>

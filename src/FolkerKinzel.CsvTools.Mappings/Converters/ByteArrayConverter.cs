@@ -30,6 +30,12 @@ public sealed class ByteArrayConverter : TypeConverter<byte[]?>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;byte[]?&gt;</see>
     /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be an empty <see cref="byte"/>
     /// array.</returns>
+    /// <remarks>
+    /// <note type="tip">
+    /// It's recommended to use <see cref="CreateNullable(bool)"/> instead if you plan to call 
+    /// <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> on the return value.
+    /// </note>
+    /// </remarks>
     public static TypeConverter<byte[]> CreateNonNullable(bool throwing = true)
         => new ByteArrayConverter(throwing, [])!;
 

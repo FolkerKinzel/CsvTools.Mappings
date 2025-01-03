@@ -35,7 +35,7 @@ public interface ITypeConverter<T>
     /// and <c>false</c> for all value types, except <see cref="Nullable{T}"/>.</note>
     /// <remarks>
     /// <para>
-    /// The behavior is equivalent to the behavior of the <see cref="AllowNullAttribute"/>:
+    /// The behavior is equivalent to the behavior of the AllowNullAttribute:
     /// Even if the converters <see cref="DataType"/> doesn't allow <c>null</c> values, 
     /// <c>null</c> will be accepted as input if the <see cref="AllowsNull"/> property 
     /// is <c>true</c>.
