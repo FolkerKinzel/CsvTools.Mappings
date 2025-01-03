@@ -11,11 +11,6 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 public sealed class DateTimeConverter : TypeConverter<DateTime>
 {
     /// <summary>
-    /// The default value of <see cref="Styles"/>.
-    /// </summary>
-    public const DateTimeStyles DefaultStyle = DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind;
-    
-    /// <summary>
     /// Initializes a new <see cref="DateTimeConverter"/> instance.
     /// </summary>
     /// <param name="formatProvider">
@@ -41,7 +36,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
         [StringSyntax(StringSyntaxAttribute.DateTimeFormat)]
 #endif
         string? format = "s",
-        DateTimeStyles styles = DefaultStyle,
+        DateTimeStyles styles = DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind,
         bool parseExact = false,
         bool throwing = true) : base(throwing, default)
     {

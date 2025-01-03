@@ -10,11 +10,6 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
 {
     /// <summary>
-    /// The default value of <see cref="Styles"/>.
-    /// </summary>
-    public const DateTimeStyles DefaultStyle = DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind;
-
-    /// <summary>
     /// Initializes a new <see cref="DateTimeOffsetConverter"/> instance and allows to specify a format string.
     /// </summary>
     /// 
@@ -43,7 +38,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
         string format = "O",
         bool throwing = true,
         IFormatProvider? formatProvider = null,
-        DateTimeStyles styles = DefaultStyle,
+        DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind,
         bool parseExact = false) : base(throwing, default)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
