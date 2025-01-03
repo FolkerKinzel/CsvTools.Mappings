@@ -44,7 +44,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;
 
-        if(parseExact)
+        if (parseExact)
         {
             ParseExact = parseExact;
             _ArgumentNullException.ThrowIfNull(format, nameof(format));
@@ -80,7 +80,23 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
     public bool ParseExact { get; }
 
     /// <inheritdoc/>
-    public override string? ConvertToString(DateTimeOffset value) => value.ToString(Format, FormatProvider);
+    /// <exception cref="FormatException">
+    /// <para>The length of <see cref="Format"/> is 1, and it is not one of the format specifier characters defined 
+    /// for <see cref="DateTimeFormatInfo"/>.</para>
+    /// <para>-or-</para>
+    /// <para><see cref="Format"/> does not contain a valid custom format pattern.</para>
+    /// </exception>
+    public override string? ConvertToString(DateTimeOffset value)
+    {
+        try
+        {
+            return value.ToString(Format, FormatProvider);
+        }
+        catch(ArgumentOutOfRangeException)
+        {
+            return null;
+        };
+    }
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out DateTimeOffset result)

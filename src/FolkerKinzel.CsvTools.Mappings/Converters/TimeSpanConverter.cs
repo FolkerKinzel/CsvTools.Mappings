@@ -32,6 +32,8 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and 
     /// <paramref name="parseExact"/> is <c>true</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The value of <paramref name="styles"/> is invalid and 
+    /// <paramref name="parseExact"/> is <c>true</c>.</exception>
     public TimeSpanConverter(
         IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
@@ -50,6 +52,7 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
         {
             ParseExact = parseExact;
             _ArgumentNullException.ThrowIfNull(format, nameof(format));
+            ValidateStyles(styles);
         }
     }
 
@@ -80,6 +83,8 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
     public bool ParseExact { get; }
 
     /// <inheritdoc/>
+    /// <exception cref="FormatException">The value of <see cref="Format"/> is not recognized 
+    /// or is not supported.</exception>
     public override string? ConvertToString(TimeSpan value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
@@ -94,5 +99,13 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
             ? TimeSpan.TryParseExact(value, Format, FormatProvider, Styles, out result)
             : TimeSpan.TryParse(value, FormatProvider, out result);
 #endif
+    }
+
+    private static void ValidateStyles(TimeSpanStyles styles)
+    {
+        if (styles is not TimeSpanStyles.None and not TimeSpanStyles.AssumeNegative)
+        {
+            throw new ArgumentOutOfRangeException(nameof(styles));
+        }
     }
 }

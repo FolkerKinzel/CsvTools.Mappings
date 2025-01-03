@@ -1,5 +1,6 @@
 ﻿using System;
 using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -19,11 +20,9 @@ public class MappingPropertyTests
     [ExpectedException(typeof(ArgumentNullException))]
     public void CsvPropertyTest2() => _ = new ColumnNameProperty<string?>(null!, ["Col1"], StringConverter.CreateNullable());
 
-
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
     public void CsvPropertyTest3() => _ = new ColumnNameProperty<string?>("Prop", null!, StringConverter.CreateNullable());
-
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
@@ -38,7 +37,6 @@ public class MappingPropertyTests
     public void CsvPropertyTest7()
         => _ = new ColumnNameProperty<string?>("Prop", ["Col1"], StringConverter.CreateNullable());
 
-
     [TestMethod()]
     public void CsvIndexPropertyTest9()
     {
@@ -47,7 +45,7 @@ public class MappingPropertyTests
 
         Assert.IsNotNull(prop);
         Assert.AreEqual(prop.PropertyName, propertyName);
-        Assert.IsInstanceOfType< StringConverter>(prop.Converter);
+        Assert.IsInstanceOfType<StringConverterIntl>(prop.Converter);
     }
 
     [TestMethod()]
@@ -57,7 +55,6 @@ public class MappingPropertyTests
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]
     public void CsvPropertyTest11() => _ = new IndexProperty<string?>(null!, 17, StringConverter.CreateNullable());
-
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentNullException))]

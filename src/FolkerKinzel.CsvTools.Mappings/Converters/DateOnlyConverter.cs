@@ -6,19 +6,19 @@ using System.Runtime.CompilerServices;
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="TypeConverter{T}"/> implementation for <see cref="DateTime"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="DateOnly"/>.
 /// </summary>
-public sealed class DateTimeConverter : TypeConverter<DateTime>
+public sealed class DateOnlyConverter : TypeConverter<DateOnly>
 {
     /// <summary>
-    /// Initializes a new <see cref="DateTimeConverter"/> instance.
+    /// Initializes a new <see cref="DateOnlyConverter"/> instance.
     /// </summary>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="DateTime"/> values. If 
+    /// A format string that is used for the <see cref="string"/> output of <see cref="DateOnly"/> values. If 
     /// <paramref name="format"/> is not <c>null</c>, this format string is also used for parsing.</param>
     /// <param name="styles">
     /// A combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
@@ -30,13 +30,13 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
-    public DateTimeConverter(
+    public DateOnlyConverter(
         IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.DateTimeFormat)]
 #endif
-        string? format = "s",
-        DateTimeStyles styles = DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind,
+        string? format = "d",
+        DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces,
         bool parseExact = false,
         bool throwing = true) : base(throwing, default)
     {
@@ -84,29 +84,19 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     /// <para>-or-</para>
     /// <para><see cref="Format"/> does not contain a valid custom format pattern.</para>
     /// </exception>
-    public override string? ConvertToString(DateTime value)
-    {
-        try
-        {
-            return value.ToString(Format, FormatProvider);
-        }
-        catch (ArgumentOutOfRangeException)
-        {
-            return null;
-        };
-    }
-
+    public override string? ConvertToString(DateOnly value) => value.ToString(Format, FormatProvider);
+   
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out DateTime result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out DateOnly result)
     {
 #if NET462 || NETSTANDARD2_0
         return ParseExact
-            ? DateTime.TryParseExact(value.ToString(), Format, FormatProvider, Styles, out result)
-            : DateTime.TryParse(value.ToString(), FormatProvider, Styles, out result);
+            ? DateOnly.TryParseExact(value.ToString(), Format, FormatProvider, Styles, out result)
+            : DateOnly.TryParse(value.ToString(), FormatProvider, Styles, out result);
 #else
         return ParseExact
-            ? DateTime.TryParseExact(value, Format, FormatProvider, Styles, out result)
-            : DateTime.TryParse(value, FormatProvider, Styles, out result);
+            ? DateOnly.TryParseExact(value, Format, FormatProvider, Styles, out result)
+            : DateOnly.TryParse(value, FormatProvider, Styles, out result);
 #endif
     }
 }
