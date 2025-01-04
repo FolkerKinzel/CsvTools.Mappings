@@ -23,7 +23,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
 /// </exception>
 internal abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter)
-    : MappingProperty(propertyName), ITypedProperty<T>
+    : DynamicProperty(propertyName), ITypedProperty<T>
 {
     /// <inheritdoc/>
     public new T Value
@@ -35,8 +35,8 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     }
 
     /// <summary>
-    /// The index of the column in the CSV file that <see cref="MappingProperty"/> actually accesses, 
-    /// or <c>null</c> if <see cref="MappingProperty"/> does not find a target in the CSV file.
+    /// The index of the column in the CSV file that <see cref="DynamicProperty"/> actually accesses, 
+    /// or <c>null</c> if <see cref="DynamicProperty"/> does not find a target in the CSV file.
     /// </summary>
     /// <remarks>The property is updated on each read or write access.</remarks>
     public int? ReferredCsvIndex { get; protected set; }

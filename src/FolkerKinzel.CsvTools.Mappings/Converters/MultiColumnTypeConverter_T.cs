@@ -64,13 +64,13 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     public Type DataType => typeof(T);
 
     /// <summary>
-    /// Tries to convert several <see cref="MappingProperty"/> instances in
+    /// Tries to convert several <see cref="DynamicProperty"/> instances in
     /// <see cref="Mapping"/> to a <typeparamref name="T"/> value.
     /// </summary>
     /// 
     /// <param name="result">
     /// After the method was successful, contains the <typeparamref name="T"/> value that is equivalent
-    /// to the content of the converted <see cref="MappingProperty"/> instances in
+    /// to the content of the converted <see cref="DynamicProperty"/> instances in
     /// <see cref="Mapping"/>,
     /// or the default value of <typeparamref name="T"/> if the parsing failed.
     /// </param>
@@ -89,7 +89,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract bool TryParseMapping(out T? result);
 
     /// <summary>
-    /// Converts several <see cref="MappingProperty"/> instances in <see cref="Mapping"/> to a 
+    /// Converts several <see cref="DynamicProperty"/> instances in <see cref="Mapping"/> to a 
     /// <typeparamref name="T"/> value.
     /// </summary>
     /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
@@ -114,7 +114,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     /// <remarks>
     /// <note type="implement">
     /// Implement this method in derived classes to determine the behavior of <see cref="ConvertToCsv(object?)"/>
-    /// and <see cref="ConvertToCsv(T?)"/>. (Several <see cref="MappingProperty"/> instances in <see cref="Mapping"/>
+    /// and <see cref="ConvertToCsv(T?)"/>. (Several <see cref="DynamicProperty"/> instances in <see cref="Mapping"/>
     /// have to be filled with data.)
     /// </note>
     /// </remarks>
@@ -122,7 +122,7 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     protected abstract void DoConvertToCsv(T? value);
 
     /// <summary>
-    /// Writes <paramref name="value"/> to the selected fields of <see cref="MappingProperty.Record"/> 
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="DynamicProperty.Record"/> 
     /// using <see cref="Mapping"/>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
@@ -147,10 +147,10 @@ public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
     }
 
     /// <summary>
-    /// Writes <paramref name="value"/> to the selected fields of <see cref="MappingProperty.Record"/> 
+    /// Writes <paramref name="value"/> to the selected fields of <see cref="DynamicProperty.Record"/> 
     /// using <see cref="Mapping"/>.
     /// </summary>
-    /// <param name="value">The object to write to the selected fields of <see cref="MappingProperty.Record"/>.</param>
+    /// <param name="value">The object to write to the selected fields of <see cref="DynamicProperty.Record"/>.</param>
     /// 
     /// <remarks>
     /// <note type="implement">

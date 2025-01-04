@@ -30,7 +30,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     /// identifiers. Only ASCII characters are accepted.</param>
     ///<param name="columnNameAliases">
     /// <para>
-    /// Column names of the CSV file that the <see cref="MappingProperty"/> can access. The first alias that is a match 
+    /// Column names of the CSV file that the <see cref="DynamicProperty"/> can access. The first alias that is a match 
     /// with a column name of the CSV file is used. The alias <see cref="string"/>s may contain the 
     /// wildcard characters * and ?. 
     /// </para>

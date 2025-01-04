@@ -6,7 +6,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 internal static class PropertyCollectionExtension
 {
     internal static bool TryGetValue(
-        this KeyedCollection<string, MappingProperty> kColl, string key, [NotNullWhen(true)] out MappingProperty? value)
+        this KeyedCollection<string, DynamicProperty> kColl, string key, [NotNullWhen(true)] out DynamicProperty? value)
     {
         Debug.Assert(kColl != null);
         Debug.Assert(key != null);

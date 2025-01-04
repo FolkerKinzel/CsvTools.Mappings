@@ -8,10 +8,10 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>.
 /// </summary>
-public abstract partial class MappingProperty
+public abstract partial class DynamicProperty
 {
     /// <summary>
-    /// Initializes a new <see cref="MappingProperty"/> instance.
+    /// Initializes a new <see cref="DynamicProperty"/> instance.
     /// </summary>
     /// <param name="propertyName">
     /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
@@ -25,7 +25,7 @@ public abstract partial class MappingProperty
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
-    protected MappingProperty(string propertyName)
+    protected DynamicProperty(string propertyName)
     {
         _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
 

@@ -453,7 +453,7 @@ public class CsvRecordMappingTests
         dyn.Prop3 = 3;
 
 
-        foreach (MappingProperty kvp in dyn)
+        foreach (DynamicProperty kvp in dyn)
         {
             switch (kvp.PropertyName)
             {

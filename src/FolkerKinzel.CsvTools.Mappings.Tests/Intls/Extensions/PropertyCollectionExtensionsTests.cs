@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Extensions.Tests;
 
-internal sealed class TestCollection : KeyedCollection<string, MappingProperty>
+internal sealed class TestCollection : KeyedCollection<string, DynamicProperty>
 {
-    protected override string GetKeyForItem(MappingProperty item) => item.PropertyName;
+    protected override string GetKeyForItem(DynamicProperty item) => item.PropertyName;
 }
 
 [TestClass()]
@@ -15,13 +15,13 @@ public class PropertyCollectionExtensionsTests
     [TestMethod()]
     public void TryGetValueTest()
     {
-        KeyedCollection<string, MappingProperty> kColl = new TestCollection();
+        KeyedCollection<string, DynamicProperty> kColl = new TestCollection();
 
         var prop1 = new ColumnNameProperty<bool>("Test", [], new BooleanConverter());
 
         kColl.Add(prop1);
 
-        Assert.IsTrue(kColl.TryGetValue("Test", out MappingProperty? prop2));
+        Assert.IsTrue(kColl.TryGetValue("Test", out DynamicProperty? prop2));
 
         Assert.AreEqual(prop1, prop2);
     }

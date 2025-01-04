@@ -22,7 +22,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
 /// </exception>
 internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter)
-    : MappingProperty(propertyName), ITypedProperty<T>
+    : DynamicProperty(propertyName), ITypedProperty<T>
 {
     /// <inheritdoc/>
     public new T Value

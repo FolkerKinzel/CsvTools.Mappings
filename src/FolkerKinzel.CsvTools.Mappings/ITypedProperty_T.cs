@@ -3,7 +3,7 @@
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Interface for typed <see cref="MappingProperty"/> 
+/// Interface for typed <see cref="DynamicProperty"/> 
 /// instances.
 /// </summary>
 /// <typeparam name="T">The type of the dynamic properties value.</typeparam>
@@ -17,7 +17,7 @@ public interface ITypedProperty<T>
     /// This property supports high performance scenarios: boxing and unboxing of 
     /// value types can be omitted in this way.
     /// </remarks>
-    /// <exception cref="InvalidOperationException"><see cref="MappingProperty.Record"/>
+    /// <exception cref="InvalidOperationException"><see cref="DynamicProperty.Record"/>
     /// is <c>null</c>. Assign a <see cref="CsvRecord"/> instance to 
     /// <see cref="CsvRecordMapping.Record"/> before accessing this property.</exception>
     /// <exception cref="InvalidCastException">
