@@ -488,7 +488,7 @@ public class CsvRecordMappingTests
     public void ContainsTest()
     {
         CsvRecordMapping wrapper =
-            CsvRecordMapping.Create().AddSingleColumnProperty("Hallo", StringConverter.CreateNullable());
+            CsvRecordMapping.Create().AddProperty("Hallo", StringConverter.CreateNullable());
 
         Assert.IsTrue(wrapper.Contains("Hallo"));
         Assert.IsFalse(wrapper.Contains("Wolli"));

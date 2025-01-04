@@ -312,12 +312,12 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     //}
 
     /// <summary>
-    /// Examines whether a <see cref="MappingProperty"/> instance is already registered in the <see cref="CsvRecordMapping"/>
+    /// Examines whether a <see cref="DynamicProperty"/> instance is already registered in the <see cref="CsvRecordMapping"/>
     /// under the name that is specified with <paramref name="propertyName"/>.
     /// </summary>
-    /// <param name="propertyName">The <see cref="MappingProperty.PropertyName"/> of the <see cref="MappingProperty"/> instance
+    /// <param name="propertyName">The <see cref="DynamicProperty.PropertyName"/> of the <see cref="DynamicProperty"/> instance
     /// to be searched for.</param>
-    /// <returns><c>true</c>, wenn ein <see cref="MappingProperty"/>-Objekt unter dem mit <paramref name="propertyName"/>
+    /// <returns><c>true</c>, wenn ein <see cref="DynamicProperty"/>-Objekt unter dem mit <paramref name="propertyName"/>
     /// angegebenen Namen registriert ist.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>

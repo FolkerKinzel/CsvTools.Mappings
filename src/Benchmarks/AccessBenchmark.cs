@@ -24,15 +24,15 @@ public class AccessBenchmark
         var conv = StringConverter.CreateNonNullable();
         _indexWrapper = CsvRecordMapping
             .Create()
-            .AddSingleColumnProperty("Column0", 0, conv)
-            .AddSingleColumnProperty("Column1", 1, conv)
-            .AddSingleColumnProperty("Column2", 2, conv);
+            .AddProperty("Column0", 0, conv)
+            .AddProperty("Column1", 1, conv)
+            .AddProperty("Column2", 2, conv);
 
         _nameWrapper = CsvRecordMapping
             .Create()
-            .AddSingleColumnProperty("Column0", conv)
-            .AddSingleColumnProperty("Column1", conv)
-            .AddSingleColumnProperty("Column2", conv);
+            .AddProperty("Column0", conv)
+            .AddProperty("Column1", conv)
+            .AddProperty("Column2", conv);
     }
 
     [Benchmark]

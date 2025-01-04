@@ -98,10 +98,10 @@ internal static class CsvToDataTable
 
         return CsvRecordMapping
             .Create()
-            .AddSingleColumnProperty(PUPILS_NAME, stringConverter)
-            .AddSingleColumnProperty(SUBJECT, stringConverter)
-            .AddSingleColumnProperty(LESSON_DAY, new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
-            .AddSingleColumnProperty(LESSON_BEGIN, new TimeSpanConverter().ToDBNullConverter());
+            .AddProperty(PUPILS_NAME, stringConverter)
+            .AddProperty(SUBJECT, stringConverter)
+            .AddProperty(LESSON_DAY, new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
+            .AddProperty(LESSON_BEGIN, new TimeSpanConverter().ToDBNullConverter());
     }
 
 

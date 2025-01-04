@@ -59,10 +59,10 @@ internal static class DeserializingClassesFromCsv
         // of the CSV file.
         CsvRecordMapping mapping = CsvRecordMapping
             .Create()
-            .AddSingleColumnProperty("Name", ["*name"], stringConverter)
-            .AddSingleColumnProperty("Subject", ["*subject", "*fach"], stringConverter)
-            .AddSingleColumnProperty("LessonDay", ["*day", "*tag"], new EnumConverter<DayOfWeek>().ToNullableConverter())
-            .AddSingleColumnProperty("LessonBegin", ["*begin?"], new TimeSpanConverter().ToNullableConverter());
+            .AddProperty("Name", ["*name"], stringConverter)
+            .AddProperty("Subject", ["*subject", "*fach"], stringConverter)
+            .AddProperty("LessonDay", ["*day", "*tag"], new EnumConverter<DayOfWeek>().ToNullableConverter())
+            .AddProperty("LessonBegin", ["*begin?"], new TimeSpanConverter().ToNullableConverter());
 
         // Analyze the CSV file to determine the right parameters
         // for proper reading:

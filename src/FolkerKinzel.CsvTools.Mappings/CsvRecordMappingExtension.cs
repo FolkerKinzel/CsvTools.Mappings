@@ -47,10 +47,10 @@ public static class CsvRecordMappingExtension
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddSingleColumnProperty<T>(this CsvRecordMapping mapping,
-                                                              string propertyName,
-                                                              int csvIndex,
-                                                              TypeConverter<T> converter)
+    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
+                                                  string propertyName,
+                                                  int csvIndex,
+                                                  TypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
@@ -107,7 +107,7 @@ public static class CsvRecordMappingExtension
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddSingleColumnProperty<T>(this CsvRecordMapping mapping,
+    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
                                                               string propertyName,
                                                               IEnumerable<string?> columnNameAliases,
                                                               TypeConverter<T> converter)
@@ -155,10 +155,10 @@ public static class CsvRecordMappingExtension
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddSingleColumnProperty<T>(this CsvRecordMapping mapping,
+    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
                                                               string propertyName,
                                                               TypeConverter<T> converter)
-        => AddSingleColumnProperty(mapping, propertyName, [propertyName], converter);
+        => AddProperty(mapping, propertyName, [propertyName], converter);
 
     /// <summary>
     /// Adds a new <see cref="DynamicProperty"/> instance, which accesses several columns of a CSV file, to 
@@ -195,7 +195,7 @@ public static class CsvRecordMappingExtension
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddMultiColumnProperty<T>(this CsvRecordMapping mapping,
+    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
                                                               string propertyName,
                                                               MultiColumnTypeConverter<T> converter)
     {
