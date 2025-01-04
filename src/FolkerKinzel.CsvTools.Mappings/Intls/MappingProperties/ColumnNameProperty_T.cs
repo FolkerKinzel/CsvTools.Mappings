@@ -86,14 +86,14 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     public IReadOnlyList<string> ColumnNameAliases { get; }
 
     /// <inheritdoc/>
-    protected override void UpdateReferredCsvIndex()
+    protected override void UpdateCsvIndex()
     {
         Debug.Assert(Record is not null);
 
         if (_csvRecordIdentifier != Record.Identifier)
         {
             _csvRecordIdentifier = Record.Identifier;
-            ReferredCsvIndex = GetReferredIndex(); ;
+            CsvIndex = GetReferredIndex();
         }
     }
 

@@ -38,18 +38,19 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
         string propertyName, int csvIndex, TypeConverter<T> converter) : base(propertyName, converter)
     {
         _ArgumentOutOfRangeException.ThrowIfNegative(csvIndex, nameof(csvIndex));
-        CsvIndex = csvIndex;
+        Index = csvIndex;
     }
 
     /// <summary>
-    /// The zero-based index of the column in the CSV file that <see cref="IndexProperty{T}"/> would like to access.
+    /// The zero-based index of the column in the CSV file that <see cref="IndexProperty{T}"/>
+    /// would like to access.
     /// </summary>
-    public int CsvIndex { get; }
+    public int Index { get; }
 
     /// <inheritdoc/>
-    protected override void UpdateReferredCsvIndex()
+    protected override void UpdateCsvIndex()
     {
         Debug.Assert(Record is not null);
-        ReferredCsvIndex = CsvIndex < Record.Count ? CsvIndex : null;
+        CsvIndex = Index < Record.Count ? Index : null;
     }
 }

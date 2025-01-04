@@ -39,7 +39,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     /// or <c>null</c> if <see cref="DynamicProperty"/> does not find a target in the CSV file.
     /// </summary>
     /// <remarks>The property is updated on each read or write access.</remarks>
-    public int? ReferredCsvIndex { get; protected set; }
+    public int? CsvIndex { get; protected set; }
 
     /// <summary>
     /// An object that does the <see cref="Type"/> conversion.
@@ -50,12 +50,12 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     protected internal override CsvRecord? Record { get; internal set; }
 
     /// <summary>
-    /// Updates <see cref="ReferredCsvIndex"/>.
+    /// Updates <see cref="CsvIndex"/>.
     /// </summary>
     /// <remarks>
-    /// The method is called on each read or write access to check if <see cref="ReferredCsvIndex"/> is still up to date.
+    /// The method is called on each read or write access to check if <see cref="CsvIndex"/> is still up to date.
     /// </remarks>
-    protected abstract void UpdateReferredCsvIndex();
+    protected abstract void UpdateCsvIndex();
 
     /// <inheritdoc/>
     protected internal override object? GetValue() => GetTypedValue();
@@ -87,10 +87,10 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
         }
 
-        UpdateReferredCsvIndex();
+        UpdateCsvIndex();
 
-        return ReferredCsvIndex.HasValue
-            ? Converter.Parse(Record.Values[ReferredCsvIndex.Value].Span)
+        return CsvIndex.HasValue
+            ? Converter.Parse(Record.Values[CsvIndex.Value].Span)
             : Converter.FallbackValue;
     }
 
@@ -114,11 +114,11 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
                 ? Converter.AllowsNull ? null : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
                 : Converter.ConvertToString(value);
 
-        UpdateReferredCsvIndex();
+        UpdateCsvIndex();
 
-        if (ReferredCsvIndex.HasValue)
+        if (CsvIndex.HasValue)
         {
-            Record.Values[ReferredCsvIndex.Value]
+            Record.Values[CsvIndex.Value]
                 = val.AsMemory();
         }
     }

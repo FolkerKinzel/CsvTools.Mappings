@@ -23,8 +23,8 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses a single column 
-    /// of the CSV file with its index.
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses 
+    /// a single column of the CSV file with its index.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="DynamicProperty"/> to.</param>
@@ -81,12 +81,12 @@ public static class CsvRecordMappingExtension
     /// </param>
     /// <param name="columnNameAliases">
     /// <para>
-    /// Column names of the CSV file that the <see cref="DynamicProperty"/> can access. The first alias that is a match 
-    /// with a column name of the CSV file is used. The alias <see cref="string"/>s may contain the 
-    /// wildcard characters * and ?. 
+    /// Column names of the CSV file that the <see cref="DynamicProperty"/> can access. The aliases can use the 
+    /// wildcard characters '*' and '?'. 
     /// </para>
     /// <para>
-    /// If a wildcard alias matches several columns in the CSV file, the column with the lowest index is referenced.
+    /// The first alias, which is a match with a column name of the CSV file, is used. If a wildcard alias matches 
+    /// several columns in the CSV file, the column with the lowest index is referenced.
     /// </para>
     /// <para>
     /// The collection will be copied.
@@ -98,8 +98,13 @@ public static class CsvRecordMappingExtension
     /// <returns><paramref name="mapping"/> with the added <see cref="DynamicProperty"/> to chain calls.</returns>
     /// 
     /// <remarks>
+    /// <para>
     /// Use this method if a CSV column name doesn't match the requirements of C# 
     /// identifiers, or if the CSV column name is unknown.
+    /// </para>
+    /// <para>
+    /// In the very special case where '*' is a letter of the column name, replace '*' with '?'.
+    /// </para>
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="mapping"/>, 
@@ -120,9 +125,9 @@ public static class CsvRecordMappingExtension
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
     /// </exception>
     public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
-                                                              string propertyName,
-                                                              IEnumerable<string?> columnNameAliases,
-                                                              TypeConverter<T> converter)
+                                                  string propertyName,
+                                                  IEnumerable<string?> columnNameAliases,
+                                                  TypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
