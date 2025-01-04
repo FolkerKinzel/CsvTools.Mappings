@@ -5,14 +5,14 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="byte"/>.
 /// </summary>
-/// <param name="throwing">Sets the value of the 
-/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="formatProvider">
 /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
-public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : TypeConverter<byte>(throwing, default), IHexConverter<byte>
+/// <param name="throwing">Sets the value of the 
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+public sealed class ByteConverter(IFormatProvider? formatProvider = null, bool throwing = true)
+    : TypeConverter<byte>(default, throwing), IHexConverter<byte>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -37,7 +37,7 @@ public sealed class ByteConverter(bool throwing = true, IFormatProvider? formatP
     }
 
     /// <inheritdoc/>
-    public object Clone() => new ByteConverter(Throwing, _formatProvider);
+    public object Clone() => new ByteConverter(_formatProvider, Throwing);
 
 
     /// <inheritdoc/>

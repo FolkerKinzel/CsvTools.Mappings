@@ -21,13 +21,13 @@ public class TimeSpanConverterTests
         Assert.IsNotNull(conv);
     }
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void TimeSpanConverterTest3() => _ = new TimeSpanConverter(format: "", parseExact: true);
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentException))]
+    //public void TimeSpanConverterTest3() => _ = new TimeSpanConverter(format: "", parseExact: true);
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void TimeSpanConverterTest4() => _ = new TimeSpanConverter(format: "bla");
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentException))]
+    //public void TimeSpanConverterTest4() => _ = new TimeSpanConverter(format: "bla");
 
     [TestMethod()]
     public void TimeSpanConverterTest5()

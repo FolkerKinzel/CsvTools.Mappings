@@ -30,8 +30,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
 public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
-                                                  bool throwing,
-                                                  T? fallbackValue = default) : ITypeConverter<T>
+                                                  T? fallbackValue,
+                                                  bool throwing) : ITypeConverter<T>
 {
     /// <summary>
     /// The <see cref="CsvRecordMapping"/> to use to access those columns 

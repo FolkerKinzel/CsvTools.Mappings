@@ -12,7 +12,7 @@ internal sealed class UriConverterIntl : TypeConverter<Uri?>
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="fallbackValue">The value of <see cref="TypeConverter{T}.FallbackValue"/>.</param>
     internal UriConverterIntl(bool throwing, Uri? fallbackValue)
-        : base(throwing, fallbackValue) { }
+        : base(fallbackValue, throwing) { }
 
     /// <inheritdoc/>
     public override bool AllowsNull => true;

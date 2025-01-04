@@ -13,7 +13,7 @@ internal sealed class ByteArrayConverterIntl : TypeConverter<byte[]?>
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="fallbackValue">The value of <see cref="TypeConverter{T}.FallbackValue"/>.</param>
     internal ByteArrayConverterIntl(bool throwing, byte[]? fallbackValue)
-        : base(throwing, fallbackValue) { }
+        : base(fallbackValue, throwing) { }
 
     /// <inheritdoc/>
     public override bool AllowsNull => true;

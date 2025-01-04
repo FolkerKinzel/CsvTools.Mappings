@@ -5,14 +5,14 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="long"/>.
 /// </summary>
-/// <param name="throwing">Sets the value of the 
-/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="formatProvider">
 /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
-public sealed class Int64Converter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : TypeConverter<long>(throwing, default), IHexConverter<long>
+/// <param name="throwing">Sets the value of the 
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+public sealed class Int64Converter(IFormatProvider? formatProvider = null, bool throwing = true)
+    : TypeConverter<long>(default, throwing), IHexConverter<long>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -40,7 +40,7 @@ public sealed class Int64Converter(bool throwing = true, IFormatProvider? format
     }
 
     /// <inheritdoc/>
-    public object Clone() => new Int64Converter(Throwing, _formatProvider);
+    public object Clone() => new Int64Converter(_formatProvider, Throwing);
 
     /// <inheritdoc/>
     public override string? ConvertToString(long value) => value.ToString(_format, _formatProvider);

@@ -5,14 +5,14 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="decimal"/>.
 /// </summary>
-/// <param name="throwing">Sets the value of the 
-/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="formatProvider">
 /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
-public sealed class DecimalConverter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : TypeConverter<decimal>(throwing, default)
+/// <param name="throwing">Sets the value of the 
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+public sealed class DecimalConverter(IFormatProvider? formatProvider = null, bool throwing = true)
+    : TypeConverter<decimal>(default, throwing)
 {
     private readonly IFormatProvider? _formatProvider = formatProvider ?? CultureInfo.InvariantCulture;
 

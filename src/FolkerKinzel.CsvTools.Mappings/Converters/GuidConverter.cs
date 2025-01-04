@@ -26,7 +26,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
         [StringSyntax(StringSyntaxAttribute.GuidFormat)]
 #endif
         string? format = "D",
-        bool throwing = true) : base(throwing, default)
+        bool throwing = true) : base(default, throwing)
     {
         Format = format;
         ValidateFormat(nameof(format));

@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// <see cref="TypeConverter{T}"/> implementation for <see cref="DateTime"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="System.DateTime"/>.
 /// </summary>
 public sealed class DateTimeConverter : TypeConverter<DateTime>
 {
@@ -18,7 +18,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="DateTime"/> values. If 
+    /// A format string that is used for the <see cref="string"/> output of <see cref="System.DateTime"/> values. If 
     /// <paramref name="format"/> is not <c>null</c>, this format string is also used for parsing.</param>
     /// <param name="styles">
     /// A combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
@@ -38,7 +38,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
         string? format = "s",
         DateTimeStyles styles = DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind,
         bool parseExact = false,
-        bool throwing = true) : base(throwing, default)
+        bool throwing = true) : base(default, throwing)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;

@@ -25,8 +25,8 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
     /// is <c>null</c>.</exception>
     /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
     internal IEnumerableConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
-        : base(itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)), 
-               nullable ? null : [])
+        : base(nullable ? null : [],
+               itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)))
     {
         _itemsConverter = itemsConverter;
         _separator = separator ?? throw new ArgumentNullException(nameof(separator));

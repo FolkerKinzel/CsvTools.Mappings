@@ -41,7 +41,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
         bool ignoreCase = true,
         TEnum fallbackValue = default,
         bool throwing = true)
-        : base(throwing, fallbackValue)
+        : base(fallbackValue, throwing)
     {
         EnumConverter<TEnum>.ValidateFormat(format);
         IgnoreCase = ignoreCase;

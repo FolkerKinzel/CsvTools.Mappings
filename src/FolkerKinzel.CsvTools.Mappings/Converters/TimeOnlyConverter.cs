@@ -30,7 +30,7 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>
     /// </param>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">The value of <paramref name="styles"/> is invalid.</exception>
     public TimeOnlyConverter(
         IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
@@ -39,17 +39,13 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>
         string? format = "T",
         DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces,
         bool parseExact = false,
-        bool throwing = true) : base(throwing, default)
+        bool throwing = true) : base(default, throwing)
     {
+        ValidateStyles(styles);
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;
         Styles = styles;
-
-        if (parseExact)
-        {
-            ParseExact = parseExact;
-            _ArgumentNullException.ThrowIfNull(format, nameof(format));
-        }
+        ParseExact = parseExact;
     }
 
     /// <summary>
@@ -80,8 +76,8 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>
 
     /// <inheritdoc/>
     /// <exception cref="FormatException">
-    /// <para>The length of <see cref="Format"/> is 1, and it is not one of the format specifier characters defined 
-    /// for <see cref="TimeOnly"/>.</para>
+    /// <para>The length of <see cref="Format"/> is 1, and it is not one of the standard format specifier characters 
+    /// defined for <see cref="TimeOnly"/> ('r', 'R', 'o', 'O', 't' or 'T').</para>
     /// <para>-or-</para>
     /// <para><see cref="Format"/> does not contain a valid custom format pattern.</para>
     /// </exception>
@@ -93,5 +89,13 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>
         return ParseExact
             ? TimeOnly.TryParseExact(value, Format.AsSpan(), FormatProvider, Styles, out result)
             : TimeOnly.TryParse(value, FormatProvider, Styles, out result);
+    }
+
+    private static void ValidateStyles(DateTimeStyles styles)
+    {
+        if ((styles & ~DateTimeStyles.AllowWhiteSpaces) != 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(styles));
+        }
     }
 }

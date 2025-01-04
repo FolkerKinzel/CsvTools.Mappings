@@ -10,7 +10,7 @@ internal sealed class StringConverterIntl : TypeConverter<string?>
     /// Initializes a new <see cref="StringConverter"/> instance.
     /// <param name="fallbackValue">The value of <see cref="TypeConverter{T}.FallbackValue"/>.</param>
     internal StringConverterIntl(string? fallbackValue)
-        : base(false, fallbackValue) { }
+        : base(fallbackValue, false) { }
 
     /// <inheritdoc/>
     public override bool AllowsNull => true;

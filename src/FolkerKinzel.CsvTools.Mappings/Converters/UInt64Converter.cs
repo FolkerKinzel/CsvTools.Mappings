@@ -5,15 +5,15 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="ulong"/>.
 /// </summary>
-/// <param name="throwing">Sets the value of the 
-/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="formatProvider">
 /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
+/// <param name="throwing">Sets the value of the 
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 [CLSCompliant(false)]
-public sealed class UInt64Converter(bool throwing = true, IFormatProvider? formatProvider = null)
-    : TypeConverter<ulong>(throwing, default), IHexConverter<ulong>
+public sealed class UInt64Converter(IFormatProvider? formatProvider = null, bool throwing = true)
+    : TypeConverter<ulong>(default, throwing), IHexConverter<ulong>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -41,7 +41,7 @@ public sealed class UInt64Converter(bool throwing = true, IFormatProvider? forma
     }
 
     /// <inheritdoc/>
-    public object Clone() => new UInt64Converter(Throwing, _formatProvider);
+    public object Clone() => new UInt64Converter(_formatProvider, Throwing);
 
     /// <inheritdoc/>
     public override string? ConvertToString(ulong value) => value.ToString(_format, _formatProvider);

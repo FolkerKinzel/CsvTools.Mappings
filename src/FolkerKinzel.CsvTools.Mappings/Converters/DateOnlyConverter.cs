@@ -39,7 +39,7 @@ public sealed class DateOnlyConverter : TypeConverter<DateOnly>
         string? format = "d",
         DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces,
         bool parseExact = false,
-        bool throwing = true) : base(throwing, default)
+        bool throwing = true) : base(default, throwing)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;

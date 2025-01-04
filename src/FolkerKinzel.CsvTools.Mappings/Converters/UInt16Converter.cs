@@ -5,15 +5,15 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="ushort"/>.
 /// </summary>
-/// <param name="throwing">Sets the value of the 
-/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="formatProvider">
 /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
 /// <see cref="CultureInfo.InvariantCulture"/>.
 /// </param>
+/// <param name="throwing">Sets the value of the 
+/// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 [CLSCompliant(false)]
-public sealed class UInt16Converter(bool throwing = true, IFormatProvider? formatProvider = null) 
-    : TypeConverter<ushort>(throwing, default), IHexConverter<ushort>
+public sealed class UInt16Converter(IFormatProvider? formatProvider = null, bool throwing = true)
+    : TypeConverter<ushort>(default, throwing), IHexConverter<ushort>
 {
     private const NumberStyles DEFAULT_STYLE = NumberStyles.Any;
     private const NumberStyles HEX_STYLE = NumberStyles.HexNumber;
@@ -41,7 +41,7 @@ public sealed class UInt16Converter(bool throwing = true, IFormatProvider? forma
     }
 
     /// <inheritdoc/>
-    public object Clone() => new UInt16Converter(Throwing, _formatProvider);
+    public object Clone() => new UInt16Converter(_formatProvider, Throwing);
 
     /// <inheritdoc/>
     public override string? ConvertToString(ushort value) => value.ToString(_format, _formatProvider);

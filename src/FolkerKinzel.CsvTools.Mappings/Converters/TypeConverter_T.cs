@@ -16,8 +16,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// not be <c>null</c> for non-nullable reference types, except <paramref name="throwing"/>
 /// is <c>true</c>.
 /// </param>
-public abstract class TypeConverter<T>(bool throwing,
-                                       T? fallbackValue) : ITypeConverter<T>
+public abstract class TypeConverter<T>(T? fallbackValue,
+                                       bool throwing) : ITypeConverter<T>
 {
     /// <inheritdoc/>
     /// <remarks>

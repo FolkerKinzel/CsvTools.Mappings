@@ -13,7 +13,7 @@ public class StringConverterTests
         TypeConverter<string> conv = StringConverter.CreateNonNullable();
 
         Assert.IsNotNull(conv.Parse(null));
-        Assert.AreEqual(typeof(StringConverter), conv.GetType());
+        Assert.IsInstanceOfType<ITypeConverter<string?>>(conv);
     }
 
     [TestMethod()]

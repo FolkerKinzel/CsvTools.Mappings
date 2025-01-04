@@ -42,7 +42,7 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>
         string? format = "g",
         bool parseExact = false,
         TimeSpanStyles styles = TimeSpanStyles.None,
-        bool throwing = true) : base(throwing, default)
+        bool throwing = true) : base(default, throwing)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Styles = styles;

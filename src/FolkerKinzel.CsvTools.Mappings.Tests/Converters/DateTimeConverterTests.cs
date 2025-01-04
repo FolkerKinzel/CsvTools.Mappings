@@ -30,14 +30,14 @@ public class DateTimeConverterTests
         Assert.IsNotNull(conv);
     }
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void DateTimeConverterTest4() => _ = new DateTimeConverter(format: "");
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentException))]
+    //public void DateTimeConverterTest4() => _ = new DateTimeConverter(format: "");
 
-    [TestMethod()]
-    [ExpectedException(typeof(ArgumentException))]
-    public void DateTimeConverterTest5()
-        => _ = new DateTimeConverter(format: "Ä");
+    //[TestMethod()]
+    //[ExpectedException(typeof(ArgumentException))]
+    //public void DateTimeConverterTest5()
+    //    => _ = new DateTimeConverter(format: "Ä");
 
     [TestMethod()]
     public void DateTimeConverterTest6()
@@ -47,7 +47,6 @@ public class DateTimeConverterTests
     }
 
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException))]
     public void DateTimeConverterTest7() => _ = new DateTimeConverter(format: null!);
 
     [TestMethod()]

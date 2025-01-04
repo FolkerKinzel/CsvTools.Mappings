@@ -160,7 +160,7 @@ public class EnumConverterTests
         TypeCode? val = null;
 
         TypeConverter<TypeCode?> conv 
-            = new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase)
+            = new EnumConverter<TypeCode>(throwing: throwOnParseErrors, ignoreCase: ignoreCase)
               .ToNullableConverter();
 
         string? s = conv.ConvertToString(val);
@@ -201,8 +201,8 @@ public class EnumConverterTests
     [DataRow(true, true, true)]
     public void RoundtripTest10(bool throwOnParseErrors, bool ignoreCase, bool nullable)
     {
-        TypeConverter<object> conv = nullable ? new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).ToNullableConverter().ToDBNullConverter() :
-                              new EnumConverter<TypeCode>(throwOnParseErrors, ignoreCase: ignoreCase).ToDBNullConverter();
+        TypeConverter<object> conv = nullable ? new EnumConverter<TypeCode>(throwing: throwOnParseErrors, ignoreCase: ignoreCase).ToNullableConverter().ToDBNullConverter() :
+                              new EnumConverter<TypeCode>(throwing: throwOnParseErrors, ignoreCase: ignoreCase).ToDBNullConverter();
 
         string? s = conv.ConvertToString(DBNull.Value);
         Assert.IsNull(s);
