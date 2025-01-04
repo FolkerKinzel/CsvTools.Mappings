@@ -11,7 +11,19 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public static class CsvRecordMappingExtension
 {
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to <paramref name="mapping"/>, which accesses a single column 
+    /// Removes all <see cref="DynamicProperty"/> instances from the <see cref="CsvRecordMapping"/>.
+    /// </summary>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> whose content has to be removed.</param>
+    /// <returns><paramref name="mapping"/> after its content heas been removed.</returns>
+    public static CsvRecordMapping Clear(this CsvRecordMapping mapping)
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        mapping.Clear();
+        return mapping;
+    }
+
+    /// <summary>
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses a single column 
     /// of the CSV file with its index.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
@@ -59,7 +71,7 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to <paramref name="mapping"/>, which accesses a 
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses a 
     /// single column of a CSV file with header with a collection of column name aliases.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
@@ -119,7 +131,7 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to <paramref name="mapping"/>, which accesses a single 
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses a single 
     /// column of a CSV file with header with its column name.
     /// 
     /// </summary>
@@ -161,8 +173,8 @@ public static class CsvRecordMappingExtension
         => AddProperty(mapping, propertyName, [propertyName], converter);
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance, which accesses several columns of a CSV file, to 
-    /// <paramref name="mapping"/>.
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses 
+    /// several columns of a CSV file.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="DynamicProperty"/> to.</param>

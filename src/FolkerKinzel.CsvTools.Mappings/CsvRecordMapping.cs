@@ -199,7 +199,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     /// <summary>
     /// Removes all <see cref="DynamicProperty"/> instances from the <see cref="CsvRecordMapping"/>.
     /// </summary>
-    public void Clear() => _dynProps.Clear();
+    internal void Clear() => _dynProps.Clear(); // Must be internal to make the extension method usable!
 
     ///// <summary>
     ///// Removes the <see cref="MappingProperty"/> with the specified <see cref="MappingProperty.PropertyName"/>
