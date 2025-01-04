@@ -16,7 +16,8 @@ public sealed class BooleanConverter(bool fallbackValue = default, bool throwing
     public override bool AllowsNull => false;
 
     /// <inheritdoc/>
-    public override string? ConvertToString(bool value) => value.ToString();
+    public override string? ConvertToString(bool value) // There is an overload that uses IFormatProvider
+        => value.ToString();                            // but that parameter is reserved and not used.
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out bool result)
