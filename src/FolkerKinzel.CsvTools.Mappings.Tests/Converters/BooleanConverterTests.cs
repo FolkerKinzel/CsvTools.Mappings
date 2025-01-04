@@ -12,6 +12,6 @@ public class BooleanConverterTests
         string blString = true.ToString(CultureInfo.CreateSpecificCulture("de-DE"));
         var conv = new BooleanConverter();
         Assert.IsTrue(conv.TryParseValue(blString.AsSpan(), out bool result));
-
+        Assert.IsTrue(result);
     }
 }

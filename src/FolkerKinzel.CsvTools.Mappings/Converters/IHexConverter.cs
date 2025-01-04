@@ -15,11 +15,11 @@ public interface IHexConverter<T> : ICloneable
     /// that can convert hexadecimal string values.</returns>
     TypeConverter<T> ToHexConverter();
 
-    /// <summary>
-    /// Gets a value that indicates whether the instance can convert
-    /// hexadecimal string values.
-    /// </summary>
-    /// <value><c>true</c> if the converter can convert hexadecimal values,
-    /// <c>false</c> if not.</value>
-    bool IsHexConverter { get; }
+    ///// <summary>
+    ///// Gets a value that indicates whether the instance can convert
+    ///// hexadecimal string values.
+    ///// </summary>
+    ///// <value><c>true</c> if the converter can convert hexadecimal values,
+    ///// <c>false</c> if not.</value>
+    //bool IsHexConverter { get; }
 }

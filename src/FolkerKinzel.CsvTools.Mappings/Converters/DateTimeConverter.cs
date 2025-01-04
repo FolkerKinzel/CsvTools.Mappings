@@ -19,7 +19,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     /// </param>
     /// <param name="format">
     /// A format string that is used for the <see cref="string"/> output of <see cref="System.DateTime"/> values. If 
-    /// <paramref name="format"/> is not <c>null</c>, this format string is also used for parsing.</param>
+    /// <paramref name="parseExact"/> is <c>true</c>, this format string is also used for parsing.</param>
     /// <param name="styles">
     /// A combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
     /// </param>
@@ -29,7 +29,8 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
     /// </param>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is 
+    /// <c>true</c>.</exception>
     public DateTimeConverter(
         IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
