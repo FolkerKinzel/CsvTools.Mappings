@@ -11,8 +11,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public static class CsvRecordMappingExtension
 {
     /// <summary>
-    /// Adds a new <see cref="MappingProperty"/> instance, which accesses a single column of the CSV file, 
-    /// to <paramref name="mapping"/>.
+    /// Adds a new <see cref="MappingProperty"/> instance to <paramref name="mapping"/>, which accesses a single column 
+    /// of the CSV file with its index.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="MappingProperty"/> to.</param>
@@ -59,8 +59,8 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="MappingProperty"/> instance, which accesses a single column of a CSV file with header,
-    /// to <paramref name="mapping"/>.
+    /// Adds a new <see cref="MappingProperty"/> instance to <paramref name="mapping"/>, which accesses a 
+    /// single column of a CSV file with header with a collection of column name aliases.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="MappingProperty"/> to.</param>
@@ -119,8 +119,9 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="MappingProperty"/> instance, which accesses a single column of a CSV file with header,
-    /// to <paramref name="mapping"/>.
+    /// Adds a new <see cref="MappingProperty"/> instance to <paramref name="mapping"/>, which accesses a single 
+    /// column of a CSV file with header with its column name.
+    /// 
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="MappingProperty"/> to.</param>
@@ -133,7 +134,10 @@ public static class CsvRecordMappingExtension
     /// <returns><paramref name="mapping"/> with the added <see cref="MappingProperty"/> to chain calls.</returns>
     /// 
     /// <remarks>
-    /// Use this method if the CSV column name is known and if it matches the requirements of C# identifiers.
+    /// When using this method, <paramref name="propertyName"/> and the referenced CSV column name must match, 
+    /// and <paramref name="propertyName"/> must meet the requirements for C# identifiers. Use the 
+    /// <see cref="CsvRecord.HasCaseSensitiveColumnNames"/> property to determine whether the comparison is 
+    /// case-sensitive.
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="mapping"/>, 

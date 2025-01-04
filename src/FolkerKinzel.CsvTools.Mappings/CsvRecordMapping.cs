@@ -143,7 +143,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<MappingPropert
     }
 
     /// <summary>
-    /// Gets the number of <see cref="MappingProperty"/> instances, which are registered in the 
+    /// Gets the number of <see cref="MappingProperty"/> instances in the 
     /// <see cref="CsvRecordMapping"/>.
     /// </summary>
     public int Count => _dynProps.Count;
