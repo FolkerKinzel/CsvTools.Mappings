@@ -17,6 +17,10 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>
     /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/> values.
     /// The format strings "R" and "r" are not supported.
     /// </param>
+    /// <param name="styles">
+    /// A combined value of the <see cref="NumberStyles"/> enum that provides additional 
+    /// information for parsing.
+    /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <exception cref="ArgumentException">
@@ -75,14 +79,11 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out byte result)
-    {
 #if NET462 || NETSTANDARD2_0
-        result = default;
-        return !value.IsWhiteSpace() && byte.TryParse(value.ToString(), Styles, FormatProvider, out result);
+        => byte.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else
-        return byte.TryParse(value, Styles, FormatProvider, out result);
+        => byte.TryParse(value, Styles, FormatProvider, out result);
 #endif
-    }
 
     private static void ValidateFormat(string? format)
     {

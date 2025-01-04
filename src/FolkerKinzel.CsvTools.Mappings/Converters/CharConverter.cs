@@ -16,7 +16,9 @@ public sealed class CharConverter(char fallbackValue = default, bool throwing = 
     public override bool AllowsNull => false;
 
     /// <inheritdoc/>
-    public override string? ConvertToString(char value) => value.ToString();
+    public override string? ConvertToString(char value) 
+        => value.ToString(); // There is an overload that uses IFormatProvider,
+                             // but the parameter is not used.
 
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out char result)
@@ -27,7 +29,7 @@ public sealed class CharConverter(char fallbackValue = default, bool throwing = 
             return true;
         }
 
-        result = default;
+        result = FallbackValue;
         return false;
     }
 }
