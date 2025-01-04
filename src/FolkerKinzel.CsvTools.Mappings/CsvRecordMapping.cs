@@ -476,7 +476,6 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryUnaryOperation(UnaryOperationBinder binder, out object? result) => base.TryUnaryOperation(binder, out result);
 
-
     /// <inheritdoc/>
     public override string ToString()
     {
@@ -487,23 +486,24 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
 
         var sb = new StringBuilder();
 
-        foreach (string propName in this.PropertyNames)
+        foreach (DynamicProperty prop in this)
         {
-            object? value;
-
-            string valString;
+            _ = sb.Append(prop.PropertyName).Append(": ");
 
             try
             {
-                value = this[propName];
-                valString = value is null ? "<null>" : value is DBNull ? "<DBNull>" : value.ToString() ?? string.Empty;
+                object?  value = prop.Value;
+                _ = value is null ? sb.Append("<null>") 
+                                  : value is DBNull 
+                                    ? sb.Append("<DBNull>") 
+                                    : sb.Append(value);
             }
             catch
             {
-                valString = "<Exception>";
+                sb.Append("<Exception>");
             }
 
-            _ = sb.Append(propName).Append(": ").Append(valString).Append(", ");
+            sb.Append(", ");
         }
 
         if (sb.Length >= 2)
