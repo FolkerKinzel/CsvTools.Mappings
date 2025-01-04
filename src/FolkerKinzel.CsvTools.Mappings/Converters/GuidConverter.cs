@@ -28,8 +28,8 @@ public sealed class GuidConverter : TypeConverter<Guid>
         string? format = "D",
         bool throwing = true) : base(default, throwing)
     {
+        ValidateFormat(format);
         Format = format;
-        ValidateFormat(nameof(format));
     }
 
     /// <inheritdoc/>
@@ -54,9 +54,9 @@ public sealed class GuidConverter : TypeConverter<Guid>
 #endif
     }
 
-    private void ValidateFormat(string parameterName)
+    private static void ValidateFormat(string? format)
     {
-        switch (Format)
+        switch (format)
         {
             case "N":
             case "D":
@@ -67,7 +67,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
             case "":
                 return;
             default:
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, Format), parameterName);
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
         }
     }
 }
