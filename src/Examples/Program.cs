@@ -1,4 +1,6 @@
-﻿namespace Examples;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Examples;
 
 internal sealed class Program
 {
