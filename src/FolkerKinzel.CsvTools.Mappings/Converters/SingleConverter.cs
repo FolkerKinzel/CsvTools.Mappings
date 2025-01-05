@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
@@ -6,7 +7,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="float"/>.
 /// </summary>
-public sealed class SingleConverter : TypeConverter<float>
+public sealed class SingleConverter : TypeConverter<float>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="SingleConverter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -45,10 +46,7 @@ public sealed class SingleConverter : TypeConverter<float>
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
     /// <summary>

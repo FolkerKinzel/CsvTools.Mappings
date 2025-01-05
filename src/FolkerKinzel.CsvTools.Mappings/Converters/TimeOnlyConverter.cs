@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -8,7 +9,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="TimeOnly"/>.
 /// </summary>
-public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>
+public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>, ILocalizable
 {
     /// <summary>
     /// Initializes a new <see cref="TimeOnlyConverter"/> instance.
@@ -48,10 +49,7 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>
         ParseExact = parseExact;
     }
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
     /// <summary>

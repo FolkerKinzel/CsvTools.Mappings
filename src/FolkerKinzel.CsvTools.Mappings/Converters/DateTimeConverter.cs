@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.CompilerServices;
@@ -8,7 +9,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="System.DateTime"/>.
 /// </summary>
-public sealed class DateTimeConverter : TypeConverter<DateTime>
+public sealed class DateTimeConverter : TypeConverter<DateTime>, ILocalizable
 {
     /// <summary>
     /// Initializes a new <see cref="DateTimeConverter"/> instance.
@@ -52,10 +53,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>
         }
     }
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
     /// <summary>

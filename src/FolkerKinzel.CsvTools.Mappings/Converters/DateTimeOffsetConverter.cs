@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
@@ -7,7 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="DateTimeOffset"/>.
 /// </summary>
-public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
+public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILocalizable
 {
     /// <summary>
     /// Initializes a new <see cref="DateTimeOffsetConverter"/> instance and allows to specify a format string.
@@ -56,10 +57,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
     /// <summary>

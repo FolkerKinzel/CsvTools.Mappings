@@ -1,4 +1,6 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 using System;
 using System.Globalization;
 
@@ -8,7 +10,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="uint"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>
+public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, ILocalizable
 {
     /// <summary> Initializes a new <see cref="UInt32Converter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -46,28 +48,25 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
-    /// <summary>
-    /// The format string to use.
-    /// </summary>
+    /// <inheritdoc/>
     public string? Format { get; private set; }
 
-    /// <summary>
-    /// Gets a combined value of the <see cref="NumberStyles"/> enum that 
-    /// provides additional information for parsing.
-    /// </summary>
+    /// <inheritdoc/>
     public NumberStyles Styles { get; private set; }
 
     /// <inheritdoc/>
     public TypeConverter<uint> ToHexConverter()
     {
+        if (HexConverterValidator.IsHexConverter(this))
+        {
+            return this;
+        }
+
         var clone = (UInt32Converter)Clone();
-        clone.Styles = Styles | NumberStyles.AllowHexSpecifier;
+        clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
         clone.Format = "X";
         return clone;
     }

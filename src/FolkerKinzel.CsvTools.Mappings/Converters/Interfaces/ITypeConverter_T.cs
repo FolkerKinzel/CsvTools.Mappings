@@ -1,4 +1,4 @@
-﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
+﻿namespace FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 
 /// <summary>
 /// Interface for classes that provide conversions between CSV data and .NET data types.

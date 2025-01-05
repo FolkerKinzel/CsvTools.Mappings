@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 

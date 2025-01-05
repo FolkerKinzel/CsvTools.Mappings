@@ -1,4 +1,6 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 using System;
 using System.Globalization;
 
@@ -7,16 +9,16 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="short"/>.
 /// </summary>
-public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>
+public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>, ILocalizable
 {
     /// <summary> Initializes a new <see cref="Int16Converter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting 
+    /// information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="short"/> values.
-    /// The format strings "R" and "r" are not supported.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="short"/> 
+    /// values. The format strings "R" and "r" are not supported.
     /// </param>
     /// <param name="styles">
     /// A combined value of the <see cref="NumberStyles"/> enum that provides additional 
@@ -45,28 +47,25 @@ public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
-    /// <summary>
-    /// The format string to use.
-    /// </summary>
+    /// <inheritdoc/>
     public string? Format { get; private set; }
 
-    /// <summary>
-    /// Gets a combined value of the <see cref="NumberStyles"/> enum that 
-    /// provides additional information for parsing.
-    /// </summary>
+    /// <inheritdoc/>
     public NumberStyles Styles { get; private set; }
 
     /// <inheritdoc/>
     public TypeConverter<short> ToHexConverter()
     {
+        if (HexConverterValidator.IsHexConverter(this))
+        {
+            return this;
+        }
+
         var clone = (Int16Converter)Clone();
-        clone.Styles = Styles | NumberStyles.AllowHexSpecifier;
+        clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
         clone.Format = "X";
         return clone;
     }

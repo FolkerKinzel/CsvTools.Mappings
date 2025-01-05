@@ -1,4 +1,6 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 using System;
 using System.Globalization;
 
@@ -8,7 +10,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="sbyte"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>
+public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>, ILocalizable
 {
     /// <summary> Initializes a new <see cref="SByteConverter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -46,28 +48,25 @@ public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
-    /// <summary>
-    /// The format string to use.
-    /// </summary>
+    /// <inheritdoc/>
     public string? Format { get; private set; }
 
-    /// <summary>
-    /// Gets a combined value of the <see cref="NumberStyles"/> enum that 
-    /// provides additional information for parsing.
-    /// </summary>
+    /// <inheritdoc/>
     public NumberStyles Styles { get; private set; }
 
     /// <inheritdoc/>
     public TypeConverter<sbyte> ToHexConverter()
     {
+        if (HexConverterValidator.IsHexConverter(this))
+        {
+            return this;
+        }
+
         var clone = (SByteConverter)Clone();
-        clone.Styles = Styles | NumberStyles.AllowHexSpecifier;
+        clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
         clone.Format = "X";
         return clone;
     }

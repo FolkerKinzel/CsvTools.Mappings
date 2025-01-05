@@ -1,4 +1,6 @@
-﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using System.Globalization;
+
+namespace FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 
 /// <summary>
 /// Generic interface that allows implementing instances of <see cref="TypeConverter{T}"/>
@@ -15,11 +17,15 @@ public interface IHexConverter<T> : ICloneable
     /// that can convert hexadecimal string values.</returns>
     TypeConverter<T> ToHexConverter();
 
-    ///// <summary>
-    ///// Gets a value that indicates whether the instance can convert
-    ///// hexadecimal string values.
-    ///// </summary>
-    ///// <value><c>true</c> if the converter can convert hexadecimal values,
-    ///// <c>false</c> if not.</value>
-    //bool IsHexConverter { get; }
+    /// <summary>
+    /// The format string to use.
+    /// </summary>
+    public string? Format { get; }
+
+    /// <summary>
+    /// Gets a combined value of the <see cref="NumberStyles"/> enum that 
+    /// provides additional information for parsing.
+    /// </summary>
+    public NumberStyles Styles { get; }
+
 }

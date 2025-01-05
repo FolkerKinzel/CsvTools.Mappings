@@ -40,7 +40,7 @@ internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTyp
     protected internal override CsvRecord? Record
     {
         get => Converter.Mapping.Record;
-        internal set => Converter.Mapping.Record = value;
+        internal set => Converter.Mapping.Record = value!; // This is called internal only
     }
 
     /// <inheritdoc/>

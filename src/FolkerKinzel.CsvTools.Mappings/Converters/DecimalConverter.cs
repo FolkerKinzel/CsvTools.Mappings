@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
@@ -6,7 +7,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="decimal"/>.
 /// </summary>
-public sealed class DecimalConverter : TypeConverter<decimal>
+public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="DecimalConverter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -44,10 +45,7 @@ public sealed class DecimalConverter : TypeConverter<decimal>
     /// <inheritdoc/>
     public override bool AllowsNull => false;
 
-    /// <summary>
-    /// Gets the <see cref="IFormatProvider"/> instance that provides 
-    /// culture-specific formatting information.
-    /// </summary>
+    /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
 
     /// <summary>
