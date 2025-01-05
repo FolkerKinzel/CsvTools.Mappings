@@ -3,7 +3,7 @@
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
 [TestClass]
-public class CsvRecordMappingExtensionTests
+public class MappingExtensionTests
 {
     //[TestMethod]
     //public void AddSingleColumnPropertyTest1()

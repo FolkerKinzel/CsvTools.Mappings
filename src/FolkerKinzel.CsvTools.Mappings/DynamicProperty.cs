@@ -65,8 +65,10 @@ public abstract partial class DynamicProperty
     /// <seealso cref="ITypedProperty{T}.Value"/>
     /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
     /// 
-    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/>
-    /// instance to the containing <see cref="Mapping"/> before accessing this property.</exception>
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a 
+    /// <see cref="CsvRecord"/> instance to the containing <see cref="Mapping"/> before accessing 
+    /// this property.
+    /// </exception>
     /// <exception cref="InvalidCastException">
     /// <para>
     /// When setting the value,

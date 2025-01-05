@@ -52,7 +52,7 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// if two conditions are met at the same time:
     /// <list type="number">
     /// <item><see cref="Throwing"/> MUST be <c>true</c> in this case, and</item>
-    /// <item><see cref="TryParseMapping(out T?)"/> MUST
+    /// <item><see cref="TryParse(out T?)"/> MUST
     /// return <c>false</c> if its result is <see cref="FallbackValue"/> 
     /// (respectively <c>null</c>).</item>
     /// </list>
@@ -64,8 +64,7 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     public Type DataType => typeof(T);
 
     /// <summary>
-    /// Tries to convert several <see cref="DynamicProperty"/> instances in
-    /// <see cref="Mapping"/> to a <typeparamref name="T"/> value.
+    /// Tries to convert the content of <see cref="Mapping"/> to <typeparamref name="T"/>.
     /// </summary>
     /// 
     /// <param name="result">
@@ -86,22 +85,21 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// </para>
     /// </note>
     /// </remarks>
-    protected abstract bool TryParseMapping(out T? result);
+    protected abstract bool TryParse(out T? result);
 
     /// <summary>
-    /// Converts several <see cref="DynamicProperty"/> instances in <see cref="Mapping"/> to a 
-    /// <typeparamref name="T"/> value.
+    /// Converts the content of <see cref="Mapping"/> to <typeparamref name="T"/>.
     /// </summary>
-    /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
+    /// <returns>An instance of <typeparamref name="T"/> or <see cref="FallbackValue"/>.</returns>
     /// <exception cref="FormatException">The conversion fails and <see cref="Throwing"/> is <c>true</c>.
     /// </exception>
     /// <remarks>
     /// <note type="implement">
-    /// Override <see cref="TryParseMapping(out T?)"/> to define the behavior of this method.
+    /// Override <see cref="TryParse(out T?)"/> to define the behavior of this method.
     /// </note>
     /// </remarks>
     public T? Parse()
-        => TryParseMapping(out T? result)
+        => TryParse(out T? result)
              ? result
              : Throwing
                  ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, Res.CannotParseCsv, typeof(T).FullName))

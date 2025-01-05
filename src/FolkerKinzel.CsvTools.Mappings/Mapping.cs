@@ -137,6 +137,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>
     /// <value>If the value is <c>null</c>, the <see cref="DynamicProperty"/> instances will throw an 
     /// <see cref="InvalidOperationException"/> when beeing accessed: Don't forget to assign a 
     /// <see cref="CsvRecord"/> instance before accessing the dynamic properties!</value>
+    [DisallowNull]
     public CsvRecord? Record
     {
         get => _record;

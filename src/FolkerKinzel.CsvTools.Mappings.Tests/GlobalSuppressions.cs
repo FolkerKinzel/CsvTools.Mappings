@@ -10,5 +10,5 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>", Scope = "type", Target = "~T:FolkerKinzel.CsvTools.Mappings.Converters.Tests.DateTimeOffsetConverterTests")]
 [assembly: SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>", Scope = "type", Target = "~T:FolkerKinzel.CsvTools.Mappings.Converters.Tests.GuidConverterTests")]
 [assembly: SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>", Scope = "type", Target = "~T:FolkerKinzel.CsvTools.Mappings.Converters.Tests.TimeSpanConverterTests")]
-[assembly: SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>", Scope = "type", Target = "~T:FolkerKinzel.CsvTools.Mappings.Tests.MappingPropertyTests")]
+[assembly: SuppressMessage("Maintainability", "CA1515:Consider making public types internal", Justification = "<Pending>", Scope = "type", Target = "~T:FolkerKinzel.CsvTools.Mappings.Tests.DynamicPropertyTests")]
 [assembly: SuppressMessage("Performance", "CA1810:Initialize reference type static fields inline", Justification = "<Pending>", Scope = "member", Target = "~M:FolkerKinzel.CsvTools.Mappings.Tests.TestFiles.#cctor")]

@@ -8,13 +8,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
 [TestClass()]
-public class CsvRecordMappingTests
+public class MappingTests
 {
     [TestMethod()]
-    public void CsvRecordWrapperTest()
+    public void CreateTest1()
     {
-        var wrapper = Mapping.Create();
-        Assert.IsInstanceOfType<Mapping>(wrapper);
+        var mapping = Mapping.Create();
+        Assert.IsInstanceOfType<Mapping>(mapping);
     }
 
     //[TestMethod()]

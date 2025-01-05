@@ -4,7 +4,7 @@ using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
 [TestClass]
-public class MappingPropertyExtensionTests
+public class DynamicPropertyExtensionTests
 {
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
