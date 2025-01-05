@@ -1,7 +1,7 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// Interface for converting between CSV data and .NET data types.
+/// Interface for classes that provide conversions between CSV data and .NET data types.
 /// </summary>
 /// <typeparam name="T">The .NET data type the converter can convert.</typeparam>
 public interface ITypeConverter<T>

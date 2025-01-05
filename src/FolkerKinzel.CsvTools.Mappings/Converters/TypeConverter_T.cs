@@ -3,8 +3,8 @@
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// Abstract base class for implementing type converters that convert 
-/// between CSV data and .NET data types.
+/// Abstract base class for type converters that convert 
+/// between the content of a single field of CSV data and .NET data types.
 /// </summary>
 /// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
 /// <param name="throwing">Sets the value of the 

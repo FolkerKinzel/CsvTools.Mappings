@@ -28,8 +28,8 @@ public static class UriConverter
     /// parsed from an empty <see cref="string"/>.</returns>
     /// <remarks>
     /// <note type="tip">
-    /// It's recommended to use <see cref="CreateNullable(bool)"/> instead if you plan to call 
-    /// <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> on the return value.
+    /// If you plan to call <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> 
+    /// on the return value, it's recommended to use <see cref="CreateNullable(bool)"/> instead .
     /// </note>
     /// </remarks>
     public static TypeConverter<Uri> CreateNonNullable(bool throwing = true)

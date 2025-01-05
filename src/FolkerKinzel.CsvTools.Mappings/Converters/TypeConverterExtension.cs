@@ -11,9 +11,10 @@ public static class TypeConverterExtension
     /// <summary>
     /// Returns a <see cref="TypeConverter{T}">TypeConverter&lt;<see cref="object"/>&gt;</see>
     /// instance
-    /// that converts and accepts <typeparamref name="T"/> as well as <see cref="DBNull.Value"/>.
-    /// <see cref="DBNull.Value"/> is the <see cref="TypeConverter{T}.FallbackValue"/> of this
-    /// <see cref="TypeConverter{T}"/> instance.
+    /// that converts and accepts <typeparamref name="T"/> as well as 
+    /// <see cref="DBNull.Value">DBNull.Value</see>.
+    /// <see cref="DBNull.Value">DBNull.Value</see> is the 
+    /// <see cref="TypeConverter{T}.FallbackValue"/> of this <see cref="TypeConverter{T}"/> instance.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="converter"></param>
@@ -72,7 +73,7 @@ public static class TypeConverterExtension
     /// <remarks>
     /// The converter the method creates uses a simple string split and join operation. For nested CSV better use a
     /// simple <see cref="StringConverter"/> and initialize a separate <see cref="CsvReader"/>, <see cref="CsvWriter"/>,
-    /// and <see cref="CsvRecordMapping"/> to handle the nested items.
+    /// and <see cref="Mapping"/> to handle the nested items.
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>

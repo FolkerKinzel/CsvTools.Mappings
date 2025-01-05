@@ -14,12 +14,19 @@ public interface ITypedProperty<T>
     /// without having to use a dynamic property.
     /// </summary>
     /// <remarks>
+    /// <para>
     /// This property supports high performance scenarios: boxing and unboxing of 
     /// value types can be omitted in this way.
+    /// </para>
+    /// <para>
+    /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// to cast a <see cref="DynamicProperty"/> instance to an <see cref="ITypedProperty{T}"/>
+    /// instance.
+    /// </para>
     /// </remarks>
     /// <exception cref="InvalidOperationException"><see cref="DynamicProperty.Record"/>
     /// is <c>null</c>. Assign a <see cref="CsvRecord"/> instance to 
-    /// <see cref="CsvRecordMapping.Record"/> before accessing this property.</exception>
+    /// <see cref="Mapping.Record"/> before accessing this property.</exception>
     /// <exception cref="InvalidCastException">
     /// When setting the value,
     /// <paramref name="value"/> is <c>null</c> and 

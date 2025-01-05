@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
-/// Abstract base class for classes representing a dynamic property of <see cref="CsvRecordMapping"/> 
+/// Abstract base class for classes representing a dynamic property of <see cref="Mapping"/> 
 /// whose data comes from multiple columns of the CSV file.
 /// </summary>
 /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
@@ -19,7 +19,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
 /// for C# identifiers (only ASCII characters).</exception>
 /// <exception cref="RegexMatchTimeoutException">
-/// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+/// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
 /// </exception>
 internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTypeConverter<T> converter)
     : DynamicProperty(propertyName), ITypedProperty<T>

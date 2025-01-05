@@ -57,7 +57,7 @@ internal static class DeserializingClassesFromCsv
         // the CSV-Columns and converts it to the right data type.
         // Aliases with wildcards can be used to match the column-headers
         // of the CSV file.
-        CsvRecordMapping mapping = CsvRecordMapping
+        Mapping mapping = Mapping
             .Create()
             .AddProperty("Name", ["*name"], stringConverter)
             .AddProperty("Subject", ["*subject", "*fach"], stringConverter)

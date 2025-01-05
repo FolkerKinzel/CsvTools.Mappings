@@ -23,8 +23,8 @@ public static class StringConverter
     /// </returns>
     /// <remarks>
     /// <note type="tip">
-    /// It's recommended to use <see cref="CreateNullable()"/> instead if you plan to call 
-    /// <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> on the return value.
+    /// If you plan to call <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> 
+    /// on the return value, it's recommended to use <see cref="CreateNullable()"/> instead.
     /// </note>
     /// </remarks>
     public static TypeConverter<string> CreateNonNullable() => new StringConverterIntl("")!;

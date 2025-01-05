@@ -28,8 +28,8 @@ public static class VersionConverter
     /// instance that is created with <see cref="Version()"/>.</returns>
     /// <remarks>
     /// <note type="tip">
-    /// It's recommended to use <see cref="CreateNullable(bool)"/> instead if you plan to call 
-    /// <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> on the return value.
+    /// If you plan to call <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/>
+    /// on the return value, it's recommended to use <see cref="CreateNullable(bool)"/> instead. 
     /// </note>
     /// </remarks>
     public static TypeConverter<Version> CreateNonNullable(bool throwing = true)

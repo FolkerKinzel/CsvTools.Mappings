@@ -1,43 +1,43 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
-using FolkerKinzel.CsvTools.Mappings.Resources;
-using System;
+﻿using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
 /// <summary>
-/// Abstract base class for serializing and deserializing objects whose data is distributed 
-/// across multiple columns of a CSV file.
+/// Abstract base class for type converters that provides conversions between
+/// .NET data types and CSV data that is distributed across multiple columns of a CSV file.
 /// </summary>
 /// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
 /// 
-/// <param name="mapping">The <see cref="CsvRecordMapping"/> to use to access those columns 
+/// <param name="mapping">The <see cref="Mappings.Mapping"/> to use to access those columns 
 /// of the CSV file that are required for the <see cref="Type"/> conversion.</param>
-/// <param name="throwing">Sets the value of the 
-/// <see cref="Throwing"/> property.</param>
+/// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
 /// <param name="fallbackValue">
 /// The <see cref="FallbackValue"/> to return when a parsing error occurs and
 /// the <see cref="Throwing"/> property is <c>false</c>.
 /// </param>
 /// <remarks>
+/// <para>
+/// A ready-to-use implementation of this class can't be provided because their structure depends 
+/// on the CSV file to be processed. Fortunately, writing a derived class is easy:
+/// </para>
 /// <note type="implement">
-/// Writing a derived class is easy: Pass a <see cref="CsvRecordMapping"/> instance that 
+/// Pass a <see cref="Mappings.Mapping"/> instance that 
 /// targets the required columns of the CSV file to the constructor, and override the abstract 
 /// members.
 /// </note>
 /// </remarks>
-/// <seealso cref="MultiColumnProperty{T}"/>
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
-public abstract class MultiColumnTypeConverter<T>(CsvRecordMapping mapping,
+public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
                                                   T? fallbackValue,
                                                   bool throwing) : ITypeConverter<T>
 {
     /// <summary>
-    /// The <see cref="CsvRecordMapping"/> to use to access those columns 
+    /// The <see cref="Mappings.Mapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.
     /// </summary>
-    public CsvRecordMapping Mapping { get; } = mapping ?? throw new ArgumentNullException(nameof(mapping));
+    public Mapping Mapping { get; } = mapping ?? throw new ArgumentNullException(nameof(mapping));
 
     /// <inheritdoc/>
     public abstract bool AllowsNull { get; }

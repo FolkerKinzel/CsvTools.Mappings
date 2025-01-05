@@ -6,7 +6,7 @@ using FolkerKinzel.CsvTools.Mappings.Resources;
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>.
+/// Abstract base class for classes that represent a dynamic property of <see cref="Mapping"/>.
 /// </summary>
 public abstract partial class DynamicProperty
 {
@@ -23,7 +23,7 @@ public abstract partial class DynamicProperty
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
     protected DynamicProperty(string propertyName)
     {
@@ -50,11 +50,23 @@ public abstract partial class DynamicProperty
     /// Gets or sets the value of the dynamic property.
     /// </summary>
     /// <remarks>
-    /// If the containing <see cref="CsvRecordMapping"/> instance is assigned to a <c>dynamic</c> 
+    /// <para>
+    /// If the containing <see cref="Mapping"/> instance is assigned to a <c>dynamic</c> 
     /// variable, the runtime will do all the required casting operations automatically.
+    /// </para>
+    /// <para>
+    /// For high-performance scenarios you can do without the convenience of dynamic properties 
+    /// and perform the type cast yourself with 
+    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>. (This allows you
+    /// to process value types without boxing and unboxing.)
+    /// </para>
     /// </remarks>
-    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to <see cref="CsvRecordMapping.Record"/> first before accessing this property.</exception>
+    /// <seealso cref="Mapping.Record"/>
+    /// <seealso cref="ITypedProperty{T}.Value"/>
+    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// 
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/>
+    /// instance to the containing <see cref="Mapping"/> before accessing this property.</exception>
     /// <exception cref="InvalidCastException">
     /// <para>
     /// When setting the value,
@@ -85,6 +97,10 @@ public abstract partial class DynamicProperty
     /// <summary>
     /// The <see cref="CsvRecord"/> object used to access the CSV file.
     /// </summary>
+    /// <remarks>
+    /// <see cref="DynamicProperty"/> gets this instance from the containing 
+    /// <see cref="Mapping"/> instance.
+    /// </remarks>
     protected internal abstract CsvRecord? Record { get; internal set; }
 
     /// <summary>
@@ -92,7 +108,7 @@ public abstract partial class DynamicProperty
     /// </summary>
     /// <returns>The value.</returns>
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// to the containing <see cref="Mapping"/> before calling this method.</exception>
     /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
     protected internal abstract object? GetValue();
 
@@ -101,7 +117,7 @@ public abstract partial class DynamicProperty
     /// </summary>
     /// <param name="value">The value to set.</param>
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// to the containing <see cref="Mapping"/> before calling this method.</exception>
     /// <exception cref="InvalidCastException">
     /// <para>
     /// <paramref name="value"/> is <c>null</c> and 
@@ -116,10 +132,10 @@ public abstract partial class DynamicProperty
     protected internal abstract void SetValue(object? value);
 
 #if NET8_0_OR_GREATER
-    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, CsvRecordMapping.MaxRegexTimeout)]
+    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, Mapping.MaxRegexTimeout)]
     private static partial Regex PropertyNameRegex();
 #else
     private static Regex PropertyNameRegex { get; } 
-        = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(CsvRecordMapping.MaxRegexTimeout));
+        = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(Mapping.MaxRegexTimeout));
 #endif
 }

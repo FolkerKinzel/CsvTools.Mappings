@@ -2,7 +2,7 @@
 
 /// <summary>
 /// Generic interface that allows implementing instances of <see cref="TypeConverter{T}"/>
-/// to change their behavior to enable hexadecimal conversion.
+/// to create a modified version of themself that provides hexadecimal conversion.
 /// </summary>
 /// <typeparam name="T">Generic type parameter.</typeparam>
 public interface IHexConverter<T> : ICloneable

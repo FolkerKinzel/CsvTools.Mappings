@@ -13,8 +13,8 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void CsvRecordWrapperTest()
     {
-        var wrapper = CsvRecordMapping.Create();
-        Assert.IsInstanceOfType<CsvRecordMapping>(wrapper);
+        var wrapper = Mapping.Create();
+        Assert.IsInstanceOfType<Mapping>(wrapper);
     }
 
     //[TestMethod()]
@@ -343,7 +343,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TrySetMemberTest()
     {
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
 
         const string prop1Name = "Prop1";
 
@@ -363,7 +363,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TryGetMemberTest()
     {
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
 
         const string prop1Name = "Prop1";
 
@@ -384,7 +384,7 @@ public class CsvRecordMappingTests
     {
         var rec = new CsvRecord(["Hallo1", "Blabla"], false, true, true);
 
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
         wrapper.Record = rec;
 
         const string prop1Name = "Prop1";
@@ -424,7 +424,7 @@ public class CsvRecordMappingTests
     {
         var rec = new CsvRecord(3);
 
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
         wrapper.Record = rec;
 
         const string prop1Name = "Prop1";
@@ -487,8 +487,8 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void ContainsTest()
     {
-        CsvRecordMapping wrapper =
-            CsvRecordMapping.Create().AddProperty("Hallo", StringConverter.CreateNullable());
+        Mapping wrapper =
+            Mapping.Create().AddProperty("Hallo", StringConverter.CreateNullable());
 
         Assert.IsTrue(wrapper.Contains("Hallo"));
         Assert.IsFalse(wrapper.Contains("Wolli"));
@@ -499,7 +499,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void AddPropertyTest1()
     {
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
 
         Assert.AreEqual(0, wrapper.Count);
 
@@ -516,7 +516,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(ArgumentException))]
     public void AddPropertyTest3()
     {
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
 
         TypeConverter<string?> conv = StringConverter.CreateNullable();
 
@@ -619,7 +619,7 @@ public class CsvRecordMappingTests
         record.Values[0] = "42".AsMemory();
         record.Values[1] = "43".AsMemory();
 
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
 
         var intConverter = new Int32Converter();
 
@@ -655,7 +655,7 @@ public class CsvRecordMappingTests
     {
         var rec = new CsvRecord(3);
 
-        var wrapper = CsvRecordMapping.Create();
+        var wrapper = Mapping.Create();
 
         string s = wrapper.ToString();
         Assert.IsNotNull(s);

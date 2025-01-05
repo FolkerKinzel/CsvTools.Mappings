@@ -20,7 +20,7 @@ internal static class CsvToDataTable
     {
         using DataTable dataTable = InitDataTable();
 
-        CsvRecordMapping mapping = InitCsvRecordWrapper();
+        Mapping mapping = InitCsvRecordWrapper();
 
         // Write the CSV file:
         // (We can sort the columns of the CSV file differently than those 
@@ -89,14 +89,14 @@ internal static class CsvToDataTable
     }
 
 
-    private static CsvRecordMapping InitCsvRecordWrapper()
+    private static Mapping InitCsvRecordWrapper()
     {
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
         TypeConverter<object> stringConverter
             = StringConverter.CreateNonNullable().ToDBNullConverter();
 
-        return CsvRecordMapping
+        return Mapping
             .Create()
             .AddProperty(PUPILS_NAME, stringConverter)
             .AddProperty(SUBJECT, stringConverter)

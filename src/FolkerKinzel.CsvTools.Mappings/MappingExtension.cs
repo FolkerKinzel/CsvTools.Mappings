@@ -6,16 +6,17 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Extension methods for <see cref="CsvRecordMapping"/>.
+/// Extension methods for <see cref="Mapping"/>.
 /// </summary>
-public static class CsvRecordMappingExtension
+public static class MappingExtension
 {
     /// <summary>
-    /// Removes all <see cref="DynamicProperty"/> instances from the <see cref="CsvRecordMapping"/>.
+    /// Removes all <see cref="DynamicProperty"/> instances from the <see cref="Mapping"/>.
     /// </summary>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> whose content has to be removed.</param>
-    /// <returns><paramref name="mapping"/> after its content heas been removed.</returns>
-    public static CsvRecordMapping Clear(this CsvRecordMapping mapping)
+    /// <param name="mapping">The <see cref="Mapping"/> whose content has to be removed.</param>
+    /// <returns><paramref name="mapping"/> after all its <see cref="DynamicProperty"/> instances have 
+    /// been removed (to chain calls).</returns>
+    public static Mapping Clear(this Mapping mapping)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         mapping.Clear();
@@ -23,16 +24,16 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses 
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="Mapping"/>, which accesses 
     /// a single column of the CSV file with its index.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="DynamicProperty"/> to.</param>
+    /// <param name="mapping">The <see cref="Mapping"/> to add the <see cref="DynamicProperty"/> to.</param>
     /// <param name="propertyName">The identifier of the dynamic .NET property. It must follow the 
     /// rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
-    /// If this index doesn't exist, the <see cref="IndexProperty{T}"/> is ignored 
+    /// If this index doesn't exist, the <see cref="DynamicProperty"/> is ignored 
     /// when writing. When reading, in this case, <see cref="TypeConverter{T}.FallbackValue"/> is returned.</param>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
@@ -53,13 +54,13 @@ public static class CsvRecordMappingExtension
     /// <para>- or -</para>
     /// <para>
     /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
-    /// Check this beforehand with <see cref="CsvRecordMapping.Contains(string)"/>!
+    /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
+    public static Mapping AddProperty<T>(this Mapping mapping,
                                                   string propertyName,
                                                   int csvIndex,
                                                   TypeConverter<T> converter)
@@ -71,11 +72,11 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses a 
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="Mapping"/>, which accesses a 
     /// single column of a CSV file with header with a collection of column name aliases.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="DynamicProperty"/> to.</param>
+    /// <param name="mapping">The <see cref="Mapping"/> to add the <see cref="DynamicProperty"/> to.</param>
     /// <param name="propertyName">The identifier under which the property is addressed. It must follow the 
     /// rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
@@ -118,13 +119,13 @@ public static class CsvRecordMappingExtension
     /// <para>- or -</para>
     /// <para>
     /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
-    /// Check this beforehand with <see cref="CsvRecordMapping.Contains(string)"/>!
+    /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
+    public static Mapping AddProperty<T>(this Mapping mapping,
                                                   string propertyName,
                                                   IEnumerable<string?> columnNameAliases,
                                                   TypeConverter<T> converter)
@@ -136,12 +137,12 @@ public static class CsvRecordMappingExtension
     }
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses a single 
-    /// column of a CSV file with header with its column name.
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="Mapping"/>, which accesses a single 
+    /// column of a CSV file with header with the column name.
     /// 
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="DynamicProperty"/> to.</param>
+    /// <param name="mapping">The <see cref="Mapping"/> to add the <see cref="DynamicProperty"/> to.</param>
     /// <param name="propertyName">The identifier of the dynamic .NET property and the corresponding column of the 
     /// CSV file. The value of the argument must follow the rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
@@ -166,23 +167,23 @@ public static class CsvRecordMappingExtension
     /// <para>- or -</para>
     /// <para>
     /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
-    /// Check this beforehand with <see cref="CsvRecordMapping.Contains(string)"/>!
+    /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
+    public static Mapping AddProperty<T>(this Mapping mapping,
                                                               string propertyName,
                                                               TypeConverter<T> converter)
         => AddProperty(mapping, propertyName, [propertyName], converter);
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="CsvRecordMapping"/>, which accesses 
+    /// Adds a new <see cref="DynamicProperty"/> instance to the <see cref="Mapping"/>, which accesses 
     /// several columns of a CSV file.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to add the <see cref="DynamicProperty"/> to.</param>
+    /// <param name="mapping">The <see cref="Mapping"/> to add the <see cref="DynamicProperty"/> to.</param>
     /// <param name="propertyName">The identifier of the dynamic .NET property. It must follow the 
     /// rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
@@ -206,15 +207,15 @@ public static class CsvRecordMappingExtension
     /// <para>- or -</para>
     /// <para>
     /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
-    /// Check this beforehand with <see cref="CsvRecordMapping.Contains(string)"/>!
+    /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
-    public static CsvRecordMapping AddProperty<T>(this CsvRecordMapping mapping,
-                                                              string propertyName,
-                                                              MultiColumnTypeConverter<T> converter)
+    public static Mapping AddProperty<T>(this Mapping mapping,
+                                                  string propertyName,
+                                                  MultiColumnTypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
