@@ -33,7 +33,7 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
 #endif
-                         string? format = null,
+                         string? format = "G",
                          NumberStyles styles = NumberStyles.Any,
                          bool throwing = true) 
         : base(default, throwing)

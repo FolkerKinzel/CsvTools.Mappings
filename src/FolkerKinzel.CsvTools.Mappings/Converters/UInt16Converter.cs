@@ -34,7 +34,7 @@ public sealed class UInt16Converter : TypeConverter<ushort>, IHexConverter<ushor
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
 #endif
-                         string? format = null,
+                         string? format = "G",
                          NumberStyles styles = NumberStyles.Any,
                          bool throwing = true) 
         : base(default, throwing)

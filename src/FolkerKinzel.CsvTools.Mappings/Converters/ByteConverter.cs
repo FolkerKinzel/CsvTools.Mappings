@@ -32,7 +32,7 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
 #endif
-                         string? format = null,
+                         string? format = "G",
                          NumberStyles styles = NumberStyles.Any,
                          bool throwing = true)
         : base(default, throwing)
