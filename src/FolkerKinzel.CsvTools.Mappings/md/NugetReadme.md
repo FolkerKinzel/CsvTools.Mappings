@@ -1,6 +1,6 @@
 [![GitHub](https://img.shields.io/github/license/FolkerKinzel/CsvTools.Mappings)](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/LICENSE)
 
-## .NET library that provides Mappings and type conversions for FolkerKinzel.CsvTools
+## .NET library that provides mappings and type conversions for FolkerKinzel.CsvTools
 You don't need to install `FolkerKinzel.CsvTools` separately. It comes with the dependencies.
 
 [FolkerKinzel.CsvTools](https://www.nuget.org/packages/FolkerKinzel.CsvTools/)
