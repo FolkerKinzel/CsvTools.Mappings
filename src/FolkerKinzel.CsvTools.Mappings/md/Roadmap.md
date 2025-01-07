@@ -2,7 +2,7 @@
 ## Roadmap
 
 ### 1.0.0.beta.1
-- [ ] Add .NET 9.0 version of the package
+- [x] Add .NET 9.0 version of the package
 - [ ] Write tests
 - [ ] Write benchmarks
 - [ ] Write examples
