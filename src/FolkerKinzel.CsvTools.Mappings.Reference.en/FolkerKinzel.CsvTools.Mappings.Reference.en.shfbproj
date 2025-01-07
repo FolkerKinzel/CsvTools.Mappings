@@ -31,6 +31,7 @@
       <Argument Key="maxVersionParts" Value="" xmlns="" />
     </TransformComponentArguments>
     <DocumentationSources>
+      <DocumentationSource sourceFile="..\..\..\FolkerKinzel.CsvTools\src\FolkerKinzel.CsvTools\FolkerKinzel.CsvTools.csproj" />
       <DocumentationSource sourceFile="..\FolkerKinzel.CsvTools.Mappings\FolkerKinzel.CsvTools.Mappings.csproj" />
     </DocumentationSources>
     <HelpFileFormat>HtmlHelp1</HelpFileFormat>
@@ -43,9 +44,10 @@
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings" isDocumented="True" xmlns="">Mappings and type conversions for FolkerKinzel.CsvTools</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.Converters" isDocumented="True" xmlns="">Type converters for FolkerKinzel.CsvTools.Mappings</NamespaceSummaryItem>
-    </NamespaceSummaries>
+      <NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings" isDocumented="True">Mappings and type conversions for FolkerKinzel.CsvTools</NamespaceSummaryItem>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.Converters" isDocumented="True">Type converters for parsing and writing CSV files</NamespaceSummaryItem>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools" isDocumented="True">Classes for reading and writing CSV files (RFC 4180)</NamespaceSummaryItem>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.Converters.Interfaces" isDocumented="True">Interfaces for FolkerKinzel.CsvTools.Mappings.Converters</NamespaceSummaryItem></NamespaceSummaries>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform

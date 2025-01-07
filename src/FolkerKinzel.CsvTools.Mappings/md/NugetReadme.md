@@ -1,4 +1,4 @@
-[![GitHub](https://img.shields.io/github/license/FolkerKinzel/CsvTools.TypeConversions)](https://github.com/FolkerKinzel/CsvTools.TypeConversions/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/FolkerKinzel/CsvTools.Mappings)](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/LICENSE)
 
 ## .NET library that provides Mappings and type conversions for FolkerKinzel.CsvTools
 [FolkerKinzel.CsvTools](https://www.nuget.org/packages/FolkerKinzel.CsvTools/)

@@ -9,7 +9,7 @@
     <PackageId>FolkerKinzel.CsvTools.Mappings</PackageId>
     <Product>FolkerKinzel.CsvTools.Mappings</Product>
     <Version>1.0.0-alpha.1</Version>
-    <FileVersion>1.0.0.45</FileVersion>
+    <FileVersion>1.0.0.49</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-alpha.1</PackageReleaseNotes>
     <PackageTags>.NET CSV C#</PackageTags>
@@ -72,6 +72,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FolkerKinzel.CsvTools" Version="2.0.0-alpha.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -83,9 +84,6 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' Or '$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net462'">
     <PackageReference Include="Portable.System.DateTimeOnly" Version="8.0.2" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\FolkerKinzel.CsvTools\src\FolkerKinzel.CsvTools\FolkerKinzel.CsvTools.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Res.Designer.cs">
