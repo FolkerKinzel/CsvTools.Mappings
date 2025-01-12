@@ -8,8 +8,9 @@
 - [ ] Write examples
 
 ### 1.0.0-alpha.2
-- [ ] Add an abstract `IReadOnlyList<int> DynamicProperty.AccessedCsvColumnIndexes()` method.
-- [ ] Add an abstract `IReadOnlyList<string> DynamicProperty.AccessedCsvColumnNames()` method.
+- [x] Dependency update
+- [x] Add an abstract `IEnumerable<int> DynamicProperty.AccessedCsvColumnIndexes { get; }` property.
+- [x] Add an abstract `IEnumerable<string> DynamicProperty.AccessedCsvColumnNames { get; }` property.
 
 ### 1.0.0-alpha.1
 - [x] Add a DateOnlyConverter.

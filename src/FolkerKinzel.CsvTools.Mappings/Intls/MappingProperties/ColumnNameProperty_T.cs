@@ -22,6 +22,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     /// </summary>
     private int _csvRecordIdentifier;
     private readonly TimeSpan _wildcardTimeout;
+    private int? _csvIndex;
 
     /// <summary>
     /// Initializes a new <see cref="ColumnNameProperty{T}"/> instance.
@@ -86,15 +87,19 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
     public IReadOnlyList<string> ColumnNameAliases { get; }
 
     /// <inheritdoc/>
-    protected override void UpdateCsvIndex()
+    internal protected override int? GetCsvIndex()
     {
-        Debug.Assert(Record is not null);
-
-        if (_csvRecordIdentifier != Record.Identifier)
+        if (Record is null) 
+        { 
+            _csvIndex = null;
+        }
+        else if (_csvRecordIdentifier != Record.Identifier)
         {
             _csvRecordIdentifier = Record.Identifier;
-            CsvIndex = GetReferredIndex();
+            _csvIndex = GetReferredIndex();
         }
+
+        return _csvIndex;
     }
 
     #region private

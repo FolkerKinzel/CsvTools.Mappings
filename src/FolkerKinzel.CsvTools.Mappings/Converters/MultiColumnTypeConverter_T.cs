@@ -10,8 +10,15 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </summary>
 /// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
 /// 
-/// <param name="mapping">The <see cref="Mappings.Mapping"/> to use to access those columns 
-/// of the CSV file that are required for the <see cref="Type"/> conversion.</param>
+/// <param name="mapping">
+/// <para>
+/// The <see cref="Mappings.Mapping"/> to use to access those columns 
+/// of the CSV file that are required for the <see cref="Type"/> conversion.
+/// </para>
+/// <note type="tip">
+/// It's easier to debug if a separate <see cref="Mappings.Mapping"/> is used here.
+/// </note>
+/// </param>
 /// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
 /// <param name="fallbackValue">
 /// The <see cref="FallbackValue"/> to return when a parsing error occurs and

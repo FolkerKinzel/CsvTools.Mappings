@@ -107,6 +107,24 @@ public abstract partial class DynamicProperty
     protected internal abstract CsvRecord? Record { get; internal set; }
 
     /// <summary>
+    /// Gets the column indexes of the CSV file that the <see cref="DynamicProperty"/>
+    /// accesses.
+    /// </summary>
+    public abstract IEnumerable<int> AccessedCsvColumnIndexes { get; }
+
+    /// <summary>
+    /// Gets the column names of the columns of the CSV file that the <see cref="DynamicProperty"/>
+    /// accesses.
+    /// </summary>
+    /// <remarks>
+    /// If the CSV file has no header row, the property gets the automatically created
+    /// column names.
+    /// </remarks>
+    public IEnumerable<string> AccessedCsvColumnNames 
+        // If an index in the CSV file is accessed, Record is not null:
+        => AccessedCsvColumnIndexes.Select(x => Record!.ColumnNames[x]);
+
+    /// <summary>
     /// Gets the value of the dynamic property.
     /// </summary>
     /// <returns>The value.</returns>

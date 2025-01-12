@@ -34,7 +34,7 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.RegexTimeout"/>.
     /// </exception>
-    public IndexProperty(
+    internal IndexProperty(
         string propertyName, int csvIndex, TypeConverter<T> converter) : base(propertyName, converter)
     {
         _ArgumentOutOfRangeException.ThrowIfNegative(csvIndex, nameof(csvIndex));
@@ -45,12 +45,9 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// The zero-based index of the column in the CSV file that <see cref="IndexProperty{T}"/>
     /// would like to access.
     /// </summary>
-    public int Index { get; }
+    internal int Index { get; }
 
     /// <inheritdoc/>
-    protected override void UpdateCsvIndex()
-    {
-        Debug.Assert(Record is not null);
-        CsvIndex = Index < Record.Count ? Index : null;
-    }
+    protected internal override int? GetCsvIndex()
+        => Record is null || Index >= Record.Count ? null : Index;
 }

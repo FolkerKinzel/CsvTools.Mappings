@@ -36,11 +36,20 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     }
 
     /// <summary>
-    /// The index of the column in the CSV file that <see cref="DynamicProperty"/> actually accesses, 
-    /// or <c>null</c> if <see cref="DynamicProperty"/> does not find a target in the CSV file.
+    /// Returns the index of the column in the CSV file that <see cref="SingleColumnProperty{T}"/> actually accesses, 
+    /// or <c>null</c> if <see cref="SingleColumnProperty{T}"/> does not find a target in the CSV file.
     /// </summary>
-    /// <remarks>The property is updated on each read or write access.</remarks>
-    public int? CsvIndex { get; protected set; }
+    protected internal abstract int? GetCsvIndex();
+
+    /// <inheritdoc/>
+    public override IEnumerable<int> AccessedCsvColumnIndexes
+    {
+        get
+        {
+            int? csvIndex = GetCsvIndex();
+            return csvIndex.HasValue ? Enumerable.Repeat(csvIndex.Value, 1) : [];
+        }
+    }
 
     /// <summary>
     /// An object that does the <see cref="Type"/> conversion.
@@ -49,14 +58,6 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record { get; internal set; }
-
-    /// <summary>
-    /// Updates <see cref="CsvIndex"/>.
-    /// </summary>
-    /// <remarks>
-    /// The method is called on each read or write access to check if <see cref="CsvIndex"/> is still up to date.
-    /// </remarks>
-    protected abstract void UpdateCsvIndex();
 
     /// <inheritdoc/>
     protected internal override object? GetValue() => GetTypedValue();
@@ -88,10 +89,10 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
         }
 
-        UpdateCsvIndex();
+        int? csvIndex = GetCsvIndex();
 
-        return CsvIndex.HasValue
-            ? Converter.Parse(Record.Values[CsvIndex.Value].Span)
+        return csvIndex.HasValue
+            ? Converter.Parse(Record.Values[csvIndex.Value].Span)
             : Converter.FallbackValue;
     }
 
@@ -112,14 +113,16 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
         }
 
         string? val = value is null
-                ? Converter.AllowsNull ? null : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
+                ? Converter.AllowsNull
+                    ? null
+                    : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
                 : Converter.ConvertToString(value);
 
-        UpdateCsvIndex();
+        int? csvIndex = GetCsvIndex();
 
-        if (CsvIndex.HasValue)
+        if (csvIndex.HasValue)
         {
-            Record.Values[CsvIndex.Value]
+            Record.Values[csvIndex.Value]
                 = val.AsMemory();
         }
     }

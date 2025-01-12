@@ -8,6 +8,7 @@ internal sealed class Program
     private static void Main()
     {
         // CsvToDataTable.TestCsvToDataTable();
-        DeserializingClassesFromCsv.TestDeserializingClassesFromCsv();
+        //DeserializingClassesFromCsv.TestDeserializingClassesFromCsv();
+        MultiColumnConverterExample.ParseDataFromSeveralColumns();
     }
 }
