@@ -44,9 +44,9 @@ internal sealed class MultiColumnProperty<T>(string propertyName, MultiColumnTyp
     }
 
     /// <inheritdoc/>
-    public override IEnumerable<int> AccessedCsvColumnIndexes
+    public override IEnumerable<int> CsvColumnIndexes
                                         // break circular references:
-        => Converter.Mapping.Select(x => object.ReferenceEquals(this, x) ? [] : x.AccessedCsvColumnIndexes)
+        => Converter.Mapping.Select(x => object.ReferenceEquals(this, x) ? [] : x.CsvColumnIndexes)
                             .SelectMany(x => x)
                             .Distinct();
 

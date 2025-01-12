@@ -9,8 +9,8 @@
 
 ### 1.0.0-alpha.2
 - [x] Dependency update
-- [x] Add an abstract `IEnumerable<int> DynamicProperty.AccessedCsvColumnIndexes { get; }` property.
-- [x] Add an abstract `IEnumerable<string> DynamicProperty.AccessedCsvColumnNames { get; }` property.
+- [x] Add an abstract `IEnumerable<int> DynamicProperty.CsvColumnIndexes { get; }` property.
+- [x] Add an abstract `IEnumerable<string> DynamicProperty.CsvColumnNames { get; }` property.
 
 ### 1.0.0-alpha.1
 - [x] Add a DateOnlyConverter.

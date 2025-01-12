@@ -42,7 +42,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     protected internal abstract int? GetCsvIndex();
 
     /// <inheritdoc/>
-    public override IEnumerable<int> AccessedCsvColumnIndexes
+    public override IEnumerable<int> CsvColumnIndexes
     {
         get
         {
