@@ -42,13 +42,6 @@ internal static class MultiColumnConverterExample
 
     internal static void ParseDataFromSeveralColumns()
     {
-        const string csv = """
-            Name,A,R,G,B
-            CornflowerBlue,FF,64,95,ED
-            LawnGreen,FF,7C,FC,00
-            Salmon,FF,FA,80,72
-            """;
-
         TypeConverter<byte> byteConverter = new ByteConverter().ToHexConverter();
         Mapping colorMapping = Mapping.Create()
                                       .AddProperty("A", byteConverter)
@@ -62,18 +55,45 @@ internal static class MultiColumnConverterExample
             .AddProperty("ColorName", ["Name"], StringConverter.CreateNullable())
             .AddProperty("Color", colorConverter);
 
-        DirectoryInfo htmlDirectory = Directory.CreateTempSubdirectory();
-        string htmlPath = Path.Combine(htmlDirectory.FullName, "colors.htm");
+        DirectoryInfo tmpDirectory = Directory.CreateTempSubdirectory();
+        string csvPath = Path.Combine(tmpDirectory.FullName, "Colors.csv");
 
-        CreateHtmlFile(htmlPath, mapping, csv);
-        Console.WriteLine(File.ReadAllText(htmlPath));
-        _ = Process.Start(new ProcessStartInfo { FileName = htmlPath, UseShellExecute = true });
+        CreateCsvFile(csvPath, mapping);
 
-        Thread.Sleep(2000);
-        htmlDirectory.Delete(true);
+        Console.WriteLine(File.ReadAllText(csvPath));
+        ShowCsvContentInBrowser(mapping, csvPath);
+
+        Thread.Sleep(5000);
+        tmpDirectory.Delete(true);
+    }
+    
+    private static void CreateCsvFile(string csvPath, Mapping mapping)
+    {
+        using CsvWriter writer = Csv.OpenWrite(csvPath, ["Name", "A", "R", "G", "B"]);
+        dynamic map = mapping;
+        map.Record = writer.Record;
+
+        map.ColorName = nameof(Color.CornflowerBlue);
+        map.Color = Color.CornflowerBlue;
+        writer.WriteRecord();
+
+        map.ColorName = nameof(Color.LawnGreen);
+        map.Color = Color.LawnGreen;
+        writer.WriteRecord();
+
+        map.ColorName = nameof(Color.Salmon);
+        map.Color = Color.Salmon;
+        writer.WriteRecord();
     }
 
-    private static void CreateHtmlFile(string htmlPath, Mapping mapping, string csv)
+    private static void ShowCsvContentInBrowser(Mapping mapping, string csvPath)
+    {
+        string htmlPath = Path.Combine(Path.GetDirectoryName(csvPath) ?? "", "colors.htm");
+        CreateHtmlFile(htmlPath, csvPath, mapping);
+        _ = Process.Start(new ProcessStartInfo { FileName = htmlPath, UseShellExecute = true });
+    }
+
+    private static void CreateHtmlFile(string htmlPath, string csvPath, Mapping mapping)
     {
         var htmlFile = new FileInfo(htmlPath);
         using StreamWriter writer = htmlFile.AppendText();
@@ -91,8 +111,7 @@ internal static class MultiColumnConverterExample
             <tbody>
             """);
 
-        using var stringReader = new StringReader(csv);
-        using CsvReader csvReader = Csv.OpenRead(stringReader);
+        using CsvReader csvReader = Csv.OpenRead(csvPath);
         dynamic map = mapping;
 
         foreach (CsvRecord record in csvReader)
@@ -115,3 +134,13 @@ internal static class MultiColumnConverterExample
             """);
     }
 }
+
+/*
+ Console Output:
+
+Name,A,R,G,B
+CornflowerBlue,FF,64,95,ED
+LawnGreen,FF,7C,FC,0
+Salmon,FF,FA,80,72
+
+*/
