@@ -1,0 +1,1 @@
+Copy the images directory to reference/html after each build!
