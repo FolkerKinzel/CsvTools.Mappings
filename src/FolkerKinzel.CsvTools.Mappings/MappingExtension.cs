@@ -203,7 +203,7 @@ public static class MappingExtension
     /// <para>
     /// (For the sake of easier readability exception handling has been omitted.)
     /// </para>
-    /// <img src="\images\MultiColumnConverter.png"/>
+    /// <img src="images\MultiColumnConverter.png"/>
     /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
     /// </example>
     /// 
