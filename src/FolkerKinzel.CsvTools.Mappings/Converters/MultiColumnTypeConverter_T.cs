@@ -36,6 +36,18 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </note>
 /// </remarks>
 /// 
+/// <example>
+/// <para>
+/// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+/// </para>
+/// <para>
+/// (For the sake of easier readability exception handling has been omitted.)
+/// </para>
+/// <img src="\images\MultiColumnConverter.png"/>
+/// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+/// </example>
+/// 
+/// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
 public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
                                                   T? fallbackValue,

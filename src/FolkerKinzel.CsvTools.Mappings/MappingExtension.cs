@@ -61,9 +61,9 @@ public static class MappingExtension
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
-                                                  string propertyName,
-                                                  int csvIndex,
-                                                  TypeConverter<T> converter)
+                                         string propertyName,
+                                         int csvIndex,
+                                         TypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
@@ -126,9 +126,9 @@ public static class MappingExtension
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
-                                                  string propertyName,
-                                                  IEnumerable<string?> columnNameAliases,
-                                                  TypeConverter<T> converter)
+                                         string propertyName,
+                                         IEnumerable<string?> columnNameAliases,
+                                         TypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
@@ -174,8 +174,8 @@ public static class MappingExtension
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
-                                                              string propertyName,
-                                                              TypeConverter<T> converter)
+                                         string propertyName,
+                                         TypeConverter<T> converter)
         => AddProperty(mapping, propertyName, [propertyName], converter);
 
     /// <summary>
@@ -196,6 +196,17 @@ public static class MappingExtension
     /// Use this method if the dynamic property is based on several columns of the CSV file.
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="\images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="mapping"/>, 
     /// or <paramref name="propertyName"/>, or <paramref name="converter"/> is <c>null</c>.</exception>
     /// 
@@ -214,8 +225,8 @@ public static class MappingExtension
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
-                                                  string propertyName,
-                                                  MultiColumnTypeConverter<T> converter)
+                                         string propertyName,
+                                         MultiColumnTypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 

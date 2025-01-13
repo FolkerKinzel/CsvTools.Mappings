@@ -59,30 +59,29 @@ internal static class MultiColumnConverterExample
         string csvPath = Path.Combine(tmpDirectory.FullName, "Colors.csv");
 
         CreateCsvFile(csvPath, mapping);
-
         Console.WriteLine(File.ReadAllText(csvPath));
+
         ShowCsvContentInBrowser(mapping, csvPath);
 
         Thread.Sleep(5000);
         tmpDirectory.Delete(true);
     }
     
-    private static void CreateCsvFile(string csvPath, Mapping mapping)
+    private static void CreateCsvFile(string csvPath, dynamic mapping)
     {
         using CsvWriter writer = Csv.OpenWrite(csvPath, ["Name", "A", "R", "G", "B"]);
-        dynamic map = mapping;
-        map.Record = writer.Record;
+        mapping.Record = writer.Record;
 
-        map.ColorName = nameof(Color.CornflowerBlue);
-        map.Color = Color.CornflowerBlue;
+        mapping.ColorName = nameof(Color.CornflowerBlue);
+        mapping.Color = Color.CornflowerBlue;
         writer.WriteRecord();
 
-        map.ColorName = nameof(Color.LawnGreen);
-        map.Color = Color.LawnGreen;
+        mapping.ColorName = nameof(Color.LawnGreen);
+        mapping.Color = Color.LawnGreen;
         writer.WriteRecord();
 
-        map.ColorName = nameof(Color.Salmon);
-        map.Color = Color.Salmon;
+        mapping.ColorName = nameof(Color.Salmon);
+        mapping.Color = Color.Salmon;
         writer.WriteRecord();
     }
 
@@ -93,7 +92,7 @@ internal static class MultiColumnConverterExample
         _ = Process.Start(new ProcessStartInfo { FileName = htmlPath, UseShellExecute = true });
     }
 
-    private static void CreateHtmlFile(string htmlPath, string csvPath, Mapping mapping)
+    private static void CreateHtmlFile(string htmlPath, string csvPath, dynamic mapping)
     {
         var htmlFile = new FileInfo(htmlPath);
         using StreamWriter writer = htmlFile.AppendText();
@@ -102,9 +101,13 @@ internal static class MultiColumnConverterExample
             <html>
             <head>
             <title>Colors From CSV</title>
+            <style>
+            table { font-size: 200%; }
+            th, td { padding: 30px; }
+            </style>
             </head>
             <body>
-            <table style="font-size: 200%;">
+            <table>
             <thead>
             <tr><th>Name</th><th>Color</th></tr>
             </thead>
@@ -112,16 +115,15 @@ internal static class MultiColumnConverterExample
             """);
 
         using CsvReader csvReader = Csv.OpenRead(csvPath);
-        dynamic map = mapping;
 
         foreach (CsvRecord record in csvReader)
         {
-            map.Record = record;
+            mapping.Record = record;
             writer.Write("<tr><td>");
-            writer.Write(map.ColorName);
+            writer.Write(mapping.ColorName);
             writer.Write("</td>");
             writer.Write("<td style=\"background-color: #");
-            writer.Write((map.Color.ToArgb() & 0xFFFFFF).ToString("x"));
+            writer.Write((mapping.Color.ToArgb() & 0xFFFFFF).ToString("x"));
             writer.Write(";\" />");
             writer.WriteLine("</td></tr>");
         }
