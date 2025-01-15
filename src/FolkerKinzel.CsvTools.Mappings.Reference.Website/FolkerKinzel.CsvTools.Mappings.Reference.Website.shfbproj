@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\Help.png" />
+    <None Include="PicturesReadme.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\MultiColumnConverter.png">
