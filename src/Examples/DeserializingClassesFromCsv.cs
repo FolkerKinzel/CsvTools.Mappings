@@ -63,8 +63,8 @@ internal static class DeserializingClassesFromCsv
         // for proper reading, and read it:
         using CsvReader reader = Csv.OpenReadAnalyzed(csvFileName);
 
-        Pupil[] pupils = reader
-            .Read(mapping)
+        Pupil[] pupils = FolkerKinzel.CsvTools.Mappings.CsvReaderExtension.Read(reader
+, mapping)
             .Select(static mapping =>
                 {
                     // Using a dynamic variable allows to assign
