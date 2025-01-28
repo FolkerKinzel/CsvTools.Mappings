@@ -42,7 +42,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// property. For writing CSV it is sufficient to assign the <see cref="CsvRecord"/> instance to the <see cref="Mapping"/> object only 
 /// once, because the same <see cref="CsvRecord"/> instance is always used and refilled. For reading the current <see cref="CsvRecord"/> instance
 /// normally has to be assigned with every iteration. An exception is, when a CSV file is read with the <see cref="CsvOpts.DisableCaching"/> flag: 
-/// then the <see cref="CsvRecord"/> object is the same for each iteration.
+/// then the <see cref="CsvRecord"/> object is the same for each iteration. As a convenient alternative, use the
+/// <see cref="MappingExtension.Read(FolkerKinzel.CsvTools.Mappings.Mapping, FolkerKinzel.CsvTools.CsvReader)"/> extension method.
 /// </para>
 /// <para>
 /// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances can be accessed directly without

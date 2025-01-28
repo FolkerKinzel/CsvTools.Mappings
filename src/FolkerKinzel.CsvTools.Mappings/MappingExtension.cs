@@ -1,6 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
+using System.Data;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
@@ -233,4 +234,48 @@ public static class MappingExtension
         mapping.Add(new MultiColumnProperty<T>(propertyName, converter));
         return mapping;
     }
+
+
+    public static IEnumerable<Mapping> Read(this CsvReader reader, Mapping mapping)
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
+
+        return DoReadMapping(mapping, reader);
+
+        static IEnumerable<Mapping> DoReadMapping(Mapping mapping, CsvReader reader)
+        {
+            foreach (CsvRecord record in reader)
+            {
+                mapping.Record = record;
+                yield return mapping;
+            }
+        }
+    }
+
+    public static void FillWith(this Mapping mapping, IEnumerable<object?> record)
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(record, nameof(record));
+
+        int i = 0;
+
+        foreach (object? item in record)
+        {
+            mapping[i++].Value = item;
+        }
+    }
+
+    public static void FillWith(this Mapping mapping, DataRow dataRow)
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(dataRow, nameof(dataRow));
+
+        for (int i = 0; i < dataRow.Table.Columns.Count; i++)
+        {
+            mapping[i].Value = dataRow[i];
+        }
+    }
+
+
 }

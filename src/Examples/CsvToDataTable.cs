@@ -20,7 +20,7 @@ internal static class CsvToDataTable
     {
         using DataTable dataTable = InitDataTable();
 
-        Mapping mapping = InitCsvRecordWrapper();
+        Mapping mapping = InitMapping();
 
         // Write the CSV file:
         // (We can sort the columns of the CSV file differently than those 
@@ -33,20 +33,13 @@ internal static class CsvToDataTable
             // (CsvWriter reuses the same record.)
             mapping.Record = writer.Record;
 
-            foreach (DataRow? obj in dataTable.Rows)
+            foreach (DataRow dataRow in dataTable.Rows)
             {
-                if (obj is DataRow dataRow)
-                {
-                    // The properties of the CsvRecordWrapper match the columns
-                    // of the DataTable in data type and order (but not the 
-                    // columns of the CSV file).
-                    for (int i = 0; i < mapping.Count; i++)
-                    {
-                        mapping[i].Value = dataRow[i];
-                    }
-
-                    writer.WriteRecord();
-                }
+                // The properties of the CsvRecordWrapper match the columns
+                // of the DataTable in data type and order (but not the 
+                // columns of the CSV file).
+                mapping.FillWith(dataRow);
+                writer.WriteRecord();
             }
         }
 
@@ -89,7 +82,7 @@ internal static class CsvToDataTable
     }
 
 
-    private static Mapping InitCsvRecordWrapper()
+    private static Mapping InitMapping()
     {
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
