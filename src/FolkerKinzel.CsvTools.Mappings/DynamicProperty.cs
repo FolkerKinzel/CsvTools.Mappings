@@ -76,7 +76,7 @@ public abstract partial class DynamicProperty : ICloneable
     /// </remarks>
     /// <seealso cref="Mapping.Record"/>
     /// <seealso cref="ITypedProperty{T}.Value"/>
-    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// <seealso cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
     /// 
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a 
     /// <see cref="CsvRecord"/> instance to the containing <see cref="Mapping"/> before accessing 

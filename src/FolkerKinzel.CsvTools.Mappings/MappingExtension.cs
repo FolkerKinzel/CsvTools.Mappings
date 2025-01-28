@@ -249,6 +249,23 @@ public static class MappingExtension
     /// For performance reasons this parameter can be set to <c>false</c> when writing CSV because 
     /// <see cref="CsvWriter.WriteRecord"/> resets all fields in <paramref name="mapping"/>.
     /// </param>
+    /// 
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="mapping"/> or <paramref name="data"/>
+    /// is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="data"/> has more items than the
+    /// number of <see cref="DynamicProperty"/> instances in <paramref name="mapping"/>.</exception>
+    /// <exception cref="InvalidOperationException"> The <see cref="Mapping.Record"/> property of
+    /// <paramref name="mapping"/> is <c>null</c>. Assign a 
+    /// <see cref="CsvRecord"/> instance to <paramref name="mapping"/> before calling 
+    /// this method.
+    /// </exception>
+    /// <exception cref="InvalidCastException">
+    /// An item in <paramref name="data"/> does not match the expected data type.
+    /// </exception>
+    /// <exception cref="FormatException">
+    /// One of the <see cref="TypeConverter{T}"/> instances uses an invalid format string.
+    /// </exception>
     public static void FillWith(this Mapping mapping,
                                 IEnumerable<object?> data,
                                 bool resetExcess = true)
@@ -260,6 +277,11 @@ public static class MappingExtension
 
         foreach (object? item in data)
         {
+            if(i >= mapping.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(data));
+            }
+
             mapping[i++].Value = item;
         }
 
@@ -281,18 +303,42 @@ public static class MappingExtension
     /// <param name="dataRow">The <see cref="DataRow"/> whose content is used to fill 
     /// <paramref name="mapping"/>.</param>
     /// <param name="resetExcess">
-    /// If <paramref name="dataRow"/> has fewer items than <paramref name="mapping"/> has
-    /// <see cref="DynamicProperty"/> instances and this parameter is <c>true</c>, the surplus 
+    /// If <paramref name="dataRow"/> has fewer <see cref="DataColumn"/>s than <paramref name="mapping"/>
+    /// has <see cref="DynamicProperty"/> instances and this parameter is <c>true</c>, the surplus 
     /// properties in record will be reset to their <see cref="DynamicProperty.DefaultValue"/>. 
     /// For performance reasons this parameter can be set to <c>false</c> when writing CSV because 
     /// <see cref="CsvWriter.WriteRecord"/> resets all fields in <paramref name="mapping"/>.
     /// </param>
+    /// 
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="mapping"/> or <paramref name="dataRow"/>
+    /// is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="dataRow"/> has more 
+    /// <see cref="DataColumn"/>s than the number of <see cref="DynamicProperty"/> instances 
+    /// in <paramref name="mapping"/>.</exception>
+    /// <exception cref="InvalidOperationException"> The <see cref="Mapping.Record"/> property of
+    /// <paramref name="mapping"/> is <c>null</c>. Assign a 
+    /// <see cref="CsvRecord"/> instance to <paramref name="mapping"/> before calling 
+    /// this method.
+    /// </exception>
+    /// <exception cref="InvalidCastException">
+    /// A value in <paramref name="dataRow"/> does not match the expected data type.
+    /// </exception>
+    /// <exception cref="FormatException">
+    /// One of the <see cref="TypeConverter{T}"/> instances uses an invalid format string.
+    /// </exception>
     public static void FillWith(this Mapping mapping, DataRow dataRow, bool resetExcess = true)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(dataRow, nameof(dataRow));
 
+        if(dataRow.Table.Columns.Count > mapping.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(dataRow));
+        }
+
         int i = 0;
+
         for (; i < dataRow.Table.Columns.Count; i++)
         {
             mapping[i].Value = dataRow[i];
