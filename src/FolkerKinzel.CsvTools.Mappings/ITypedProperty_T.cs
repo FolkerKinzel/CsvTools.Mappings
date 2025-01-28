@@ -47,4 +47,10 @@ public interface ITypedProperty<T>
 
     // Value can't be T? here: If it were, this property could never return
     // a non-nullable reference type.
+
+    /// <summary>
+    /// Gets the value that the <see cref="ITypedProperty{T}"/> returns if parsing 
+    /// fails.
+    /// </summary>
+    T? DefaultValue { get; }
 }

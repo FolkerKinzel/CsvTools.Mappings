@@ -3,14 +3,14 @@
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="char"/>.
 /// </summary>
-/// <param name="fallbackValue">
-/// The <see cref="TypeConverter{T}.FallbackValue"/> to return when a parsing error occurs and
+/// <param name="defaultValue">
+/// The <see cref="TypeConverter{T}.DefaultValue"/> to return when a parsing error occurs and
 /// the <see cref="TypeConverter{T}.Throwing"/> property is <c>false</c>.
 /// </param>
 /// <param name="throwing">Sets the value of the 
 /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-public sealed class CharConverter(char fallbackValue = default, bool throwing = true)
-    : TypeConverter<char>(fallbackValue, throwing)
+public sealed class CharConverter(char defaultValue = default, bool throwing = true)
+    : TypeConverter<char>(defaultValue, throwing)
 {
     /// <inheritdoc/>
     public override bool AllowsNull => false;
@@ -29,7 +29,7 @@ public sealed class CharConverter(char fallbackValue = default, bool throwing = 
             return true;
         }
 
-        result = FallbackValue;
+        result = DefaultValue;
         return false;
     }
 }

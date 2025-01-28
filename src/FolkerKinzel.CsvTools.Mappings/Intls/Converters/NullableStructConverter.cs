@@ -26,7 +26,7 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
     {
         if (value.IsWhiteSpace())
         {
-            result = FallbackValue;
+            result = DefaultValue;
             return true;
         }
 
@@ -36,7 +36,7 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
             return true;
         }
 
-        result = FallbackValue;
+        result = DefaultValue;
         return false;
     }
 }

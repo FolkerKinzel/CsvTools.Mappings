@@ -1,6 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Resources;
+using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -10,22 +11,36 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 /// Abstract base class for classes that represent a dynamic property of <see cref="Mapping"/>
 /// whose data comes from a single column of the CSV file.
 /// </summary>
-///  <param name="propertyName">
-/// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
-/// Only ASCII characters are accepted.</param>
-/// 
-/// <param name="converter">An object that performs the type conversion.</param>
-/// 
-/// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.
-/// </exception>
-/// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
-/// for C# identifiers (only ASCII characters).</exception>
-/// <exception cref="RegexMatchTimeoutException">
-/// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
-/// </exception>
-internal abstract class SingleColumnProperty<T>(string propertyName, TypeConverter<T> converter)
-    : DynamicProperty(propertyName), ITypedProperty<T>
+internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedProperty<T>, ICloneable
 {
+    /// <summary>Initializes a new <see cref="SingleColumnProperty{T}"/> instance.</summary>
+    /// <param name="propertyName">
+    /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
+    /// Only ASCII characters are accepted.</param>
+    /// 
+    /// <param name="converter">An object that performs the type conversion.</param>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
+    /// for C# identifiers (only ASCII characters).</exception>
+    /// <exception cref="RegexMatchTimeoutException">
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// </exception>
+    public SingleColumnProperty(string propertyName, TypeConverter<T> converter) : base(propertyName)
+    {
+        Converter = converter ?? throw new ArgumentNullException(nameof(converter));
+    }
+
+    /// <summary>
+    /// Copy constructor.
+    /// </summary>
+    /// <param name="other">The <see cref="DynamicProperty"/> instance to clone.</param>
+    protected SingleColumnProperty(SingleColumnProperty<T> other) : base(other)
+    {
+        Converter = other.Converter;
+    }
+
     /// <inheritdoc/>
     public new T Value
     {
@@ -34,6 +49,9 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
         get => GetTypedValue()!;
         set => SetTypedValue(value);
     }
+
+    /// <inheritdoc/>
+    public new T? DefaultValue => Converter.DefaultValue;
 
     /// <summary>
     /// Returns the index of the column in the CSV file that <see cref="SingleColumnProperty{T}"/> actually accesses, 
@@ -54,13 +72,18 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
     /// <summary>
     /// An object that does the <see cref="Type"/> conversion.
     /// </summary>
-    public TypeConverter<T> Converter { get; } = converter ?? throw new ArgumentNullException(nameof(converter));
+    public TypeConverter<T> Converter { get; }
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record { get; internal set; }
 
+    
+
     /// <inheritdoc/>
     protected internal override object? GetValue() => GetTypedValue();
+
+    /// <inheritdoc/>
+    protected override object? GetDefaultValue() => DefaultValue;
 
     /// <inheritdoc/>
     protected internal override void SetValue(object? value)
@@ -93,7 +116,7 @@ internal abstract class SingleColumnProperty<T>(string propertyName, TypeConvert
 
         return csvIndex.HasValue
             ? Converter.Parse(Record.Values[csvIndex.Value].Span)
-            : Converter.FallbackValue;
+            : Converter.DefaultValue;
     }
 
     /// <summary>

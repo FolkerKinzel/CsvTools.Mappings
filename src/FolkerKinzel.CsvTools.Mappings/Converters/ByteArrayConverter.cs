@@ -14,7 +14,7 @@ public static class ByteArrayConverter
     /// </summary>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>"/>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;byte[]?&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be <c>null</c>. </returns>
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>. </returns>
     public static TypeConverter<byte[]?> CreateNullable(bool throwing = true)
         => new ByteArrayConverterIntl(throwing, null);
 
@@ -23,7 +23,7 @@ public static class ByteArrayConverter
     /// </summary>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>"/>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;byte[]?&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be an empty <see cref="byte"/>
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be an empty <see cref="byte"/>
     /// array.</returns>
     /// <remarks>
     /// <note type="tip">

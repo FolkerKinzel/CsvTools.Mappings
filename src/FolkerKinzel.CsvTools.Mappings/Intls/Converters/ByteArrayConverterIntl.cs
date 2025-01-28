@@ -11,9 +11,9 @@ internal sealed class ByteArrayConverterIntl : TypeConverter<byte[]?>
     /// <summary>Initializes a new <see cref="ByteArrayConverter"/> instance.</summary>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="fallbackValue">The value of <see cref="TypeConverter{T}.FallbackValue"/>.</param>
-    internal ByteArrayConverterIntl(bool throwing, byte[]? fallbackValue)
-        : base(fallbackValue, throwing) { }
+    /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
+    internal ByteArrayConverterIntl(bool throwing, byte[]? defaultValue)
+        : base(defaultValue, throwing) { }
 
     /// <inheritdoc/>
     public override bool AllowsNull => true;
@@ -29,7 +29,7 @@ internal sealed class ByteArrayConverterIntl : TypeConverter<byte[]?>
     {
         if (value.IsWhiteSpace())
         {
-            result = FallbackValue;
+            result = DefaultValue;
             return true;
         }
 

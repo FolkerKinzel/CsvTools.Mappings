@@ -2,6 +2,7 @@
 using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
+using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -43,7 +44,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// once, because the same <see cref="CsvRecord"/> instance is always used and refilled. For reading the current <see cref="CsvRecord"/> instance
 /// normally has to be assigned with every iteration. An exception is, when a CSV file is read with the <see cref="CsvOpts.DisableCaching"/> flag: 
 /// then the <see cref="CsvRecord"/> object is the same for each iteration. As a convenient alternative, use the
-/// <see cref="MappingExtension.Read(FolkerKinzel.CsvTools.Mappings.Mapping, FolkerKinzel.CsvTools.CsvReader)"/> extension method.
+/// <see cref="CsvReaderExtension.Read(CsvReader, Mapping, bool)"/> extension method.
 /// </para>
 /// <para>
 /// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances can be accessed directly without
@@ -76,7 +77,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <para>Deserializing any objects from CSV files:</para>
 /// <code language="cs" source="..\Examples\DeserializingClassesFromCsv.cs"/>
 /// </example>
-public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>
+public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, ICloneable
 {
     private class PropertyCollection : KeyedCollection<string, DynamicProperty>
     {
@@ -99,6 +100,19 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>
     /// </note>
     /// </remarks>
     private Mapping() { }
+
+    private Mapping(Mapping other)
+    {
+        foreach (DynamicProperty prop in other)
+        {
+            _dynProps.Add((DynamicProperty)prop.Clone());
+        }
+
+        Record = other.Record!;
+    }
+
+    /// <inheritdoc/>
+    public object Clone() => new Mapping(this);
 
     /// <summary>
     /// Creates a new <see cref="Mapping"/> instance. 

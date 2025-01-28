@@ -10,14 +10,14 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
 /// <param name="throwing">Sets the value of the 
 /// <see cref="Throwing"/> property.</param>
-/// <param name="fallbackValue">
-/// The <see cref="FallbackValue"/> to return when a parsing error occurs and
+/// <param name="defaultValue">
+/// The <see cref="DefaultValue"/> to return when a parsing error occurs and
 /// the <see cref="Throwing"/> property is <c>false</c>. The value MUST NOT be 
 /// <c>null</c> for value types (except <see cref="Nullable{T}"/>). It should 
 /// not be <c>null</c> for non-nullable reference types, except <paramref name="throwing"/>
 /// is <c>true</c>.
 /// </param>
-public abstract class TypeConverter<T>(T? fallbackValue,
+public abstract class TypeConverter<T>(T defaultValue,
                                        bool throwing) : ITypeConverter<T>
 {
     /// <inheritdoc/>
@@ -28,12 +28,12 @@ public abstract class TypeConverter<T>(T? fallbackValue,
     /// <list type="number">
     /// <item><see cref="Throwing"/> MUST be <c>true</c> in this case, and</item>
     /// <item><see cref="TryParseValue(ReadOnlySpan{char}, out T?)"/> MUST
-    /// return <c>false</c> if its result is <see cref="FallbackValue"/> 
+    /// return <c>false</c> if its result is <see cref="DefaultValue"/> 
     /// (respectively <c>null</c>).</item>
     /// </list>
     /// </note>
     /// </remarks>
-    public T? FallbackValue { get; } = fallbackValue;
+    public T DefaultValue { get; } = defaultValue;
 
     ///<inheritdoc/>
     public bool Throwing { get; } = throwing;
@@ -73,7 +73,7 @@ public abstract class TypeConverter<T>(T? fallbackValue,
     /// the corresponding .NET object.
     /// </summary>
     /// <param name="value">The span to parse.</param>
-    /// <returns>An object of the desired type or <see cref="FallbackValue"/>.</returns>
+    /// <returns>An object of the desired type or <see cref="DefaultValue"/>.</returns>
     /// <remarks>
     /// <note type="implement">
     /// Override <see cref="TryParseValue(ReadOnlySpan{char}, out T?)"/> to define the behavior 
@@ -91,7 +91,7 @@ public abstract class TypeConverter<T>(T? fallbackValue,
                      string.Format(CultureInfo.CurrentCulture, "Cannot convert {0} to {1}.",
                      value.Length > 40 ? nameof(value) : $"\"{value.ToString()}\"",
                      typeof(T).FullName))
-                 : FallbackValue;
+                 : DefaultValue;
 
     /// <summary>
     /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.

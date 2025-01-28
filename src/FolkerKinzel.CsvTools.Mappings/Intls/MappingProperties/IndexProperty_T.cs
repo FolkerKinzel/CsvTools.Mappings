@@ -22,7 +22,7 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
     /// If this index doesn't exist, the <see cref="IndexProperty{T}"/> is ignored 
-    /// when writing. When reading, in this case, <see cref="TypeConverter{T}.FallbackValue"/> is returned.</param>
+    /// when writing. When reading, in this case, <see cref="TypeConverter{T}.DefaultValue"/> is returned.</param>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
     /// 
@@ -40,6 +40,14 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
         _ArgumentOutOfRangeException.ThrowIfNegative(csvIndex, nameof(csvIndex));
         Index = csvIndex;
     }
+
+    private IndexProperty(IndexProperty<T> other) : base(other)
+    {
+        Index = other.Index;
+    }
+
+    /// <inheritdoc/>
+    public override object Clone() => new IndexProperty<T>(this);
 
     /// <summary>
     /// The zero-based index of the column in the CSV file that <see cref="IndexProperty{T}"/>

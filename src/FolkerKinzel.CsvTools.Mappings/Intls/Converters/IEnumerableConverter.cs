@@ -17,9 +17,9 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
     /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance that converts the items.</param>
     /// <param name="separator">A <see cref="string"/> that separates the items in field of the CSV file. When parsing
     /// the CSV, <paramref name="separator"/> will not be part of the results.</param>    
-    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.FallbackValue"/>
+    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.DefaultValue"/>
     /// to <c>null</c>; <c>false</c> to have <see cref="Enumerable.Empty{TResult}"/> as 
-    /// <see cref="TypeConverter{T}.FallbackValue"/>.
+    /// <see cref="TypeConverter{T}.DefaultValue"/>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>
     /// is <c>null</c>.</exception>

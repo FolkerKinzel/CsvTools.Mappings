@@ -15,7 +15,7 @@ public static class VersionConverter
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>"/>
     /// 
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;Version?&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be <c>null</c>.</returns>
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>.</returns>
     public static TypeConverter<Version?> CreateNullable(bool throwing = true)
         => new VersionConverterIntl(throwing, null);
 
@@ -25,7 +25,7 @@ public static class VersionConverter
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.
     /// </param>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;Version&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be a <see cref="Version"/> 
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be a <see cref="Version"/> 
     /// instance that is created with <see cref="Version()"/>.</returns>
     /// <remarks>
     /// <note type="tip">

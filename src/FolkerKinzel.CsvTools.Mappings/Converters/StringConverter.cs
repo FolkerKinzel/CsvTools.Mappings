@@ -13,14 +13,14 @@ public static class StringConverter
     /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;String?&gt;</see> instance.
     /// </summary>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;String?&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be <c>null</c>.</returns>
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>.</returns>
     public static TypeConverter<string?> CreateNullable() => new StringConverterIntl(null);
 
     /// <summary>
     /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see> instance.
     /// </summary>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be <see cref="string.Empty"/>.
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <see cref="string.Empty"/>.
     /// </returns>
     /// <remarks>
     /// <note type="tip">

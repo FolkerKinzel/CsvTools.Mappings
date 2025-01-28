@@ -35,7 +35,7 @@ public static class MappingExtension
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
     /// If this index doesn't exist, the <see cref="DynamicProperty"/> is ignored 
-    /// when writing. When reading, in this case, <see cref="TypeConverter{T}.FallbackValue"/> is returned.</param>
+    /// when writing. When reading, in this case, <see cref="TypeConverter{T}.DefaultValue"/> is returned.</param>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
     /// <returns><paramref name="mapping"/> with the added <see cref="DynamicProperty"/> to chain calls.</returns>
@@ -235,29 +235,76 @@ public static class MappingExtension
         return mapping;
     }
 
-    public static void FillWith(this Mapping mapping, IEnumerable<object?> record)
+    /// <summary>
+    /// Fills <paramref name="mapping"/> with the items of 
+    /// a collection. 
+    /// </summary>
+    /// <param name="mapping">The <see cref="Mapping"/> to fill.</param>
+    /// <param name="data">The collection whose content is used to fill 
+    /// <paramref name="mapping"/>.</param>
+    /// <param name="resetExcess">
+    /// If <paramref name="data"/> has fewer items than <paramref name="mapping"/> has
+    /// <see cref="DynamicProperty"/> instances and this parameter is <c>true</c>, the surplus 
+    /// properties in record will be reset to their <see cref="DynamicProperty.DefaultValue"/>. 
+    /// For performance reasons this parameter can be set to <c>false</c> when writing CSV because 
+    /// <see cref="CsvWriter.WriteRecord"/> resets all fields in <paramref name="mapping"/>.
+    /// </param>
+    public static void FillWith(this Mapping mapping,
+                                IEnumerable<object?> data,
+                                bool resetExcess = true)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        _ArgumentNullException.ThrowIfNull(record, nameof(record));
+        _ArgumentNullException.ThrowIfNull(data, nameof(data));
 
         int i = 0;
 
-        foreach (object? item in record)
+        foreach (object? item in data)
         {
             mapping[i++].Value = item;
         }
+
+        if(resetExcess)
+        {
+            for (; i < mapping.Count; i++)
+            {
+                DynamicProperty prop = mapping[i];
+                prop.Value = prop.DefaultValue;
+            }
+        }
     }
 
-    public static void FillWith(this Mapping mapping, DataRow dataRow)
+    /// <summary>
+    /// Fills <paramref name="mapping"/> with the fields of 
+    /// a <see cref="DataRow"/>.
+    /// </summary>
+    /// <param name="mapping">The <see cref="Mapping"/> to fill.</param>
+    /// <param name="dataRow">The <see cref="DataRow"/> whose content is used to fill 
+    /// <paramref name="mapping"/>.</param>
+    /// <param name="resetExcess">
+    /// If <paramref name="dataRow"/> has fewer items than <paramref name="mapping"/> has
+    /// <see cref="DynamicProperty"/> instances and this parameter is <c>true</c>, the surplus 
+    /// properties in record will be reset to their <see cref="DynamicProperty.DefaultValue"/>. 
+    /// For performance reasons this parameter can be set to <c>false</c> when writing CSV because 
+    /// <see cref="CsvWriter.WriteRecord"/> resets all fields in <paramref name="mapping"/>.
+    /// </param>
+    public static void FillWith(this Mapping mapping, DataRow dataRow, bool resetExcess = true)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(dataRow, nameof(dataRow));
 
-        for (int i = 0; i < dataRow.Table.Columns.Count; i++)
+        int i = 0;
+        for (; i < dataRow.Table.Columns.Count; i++)
         {
             mapping[i].Value = dataRow[i];
         }
+
+        if (resetExcess)
+        {
+            for (; i < mapping.Count; i++)
+            {
+                DynamicProperty prop = mapping[i];
+                prop.Value = prop.DefaultValue;
+            }
+        }
     }
-
-
 }

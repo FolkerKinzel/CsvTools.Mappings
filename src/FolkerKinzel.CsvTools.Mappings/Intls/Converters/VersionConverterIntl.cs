@@ -10,9 +10,9 @@ internal sealed class VersionConverterIntl : TypeConverter<Version?>
     /// <summary>Initializes a new <see cref="VersionConverterIntl"/> instance.</summary>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="fallbackValue">The value of <see cref="TypeConverter{T}.FallbackValue"/>.</param>
-    internal VersionConverterIntl(bool throwing, Version? fallbackValue)
-        : base(fallbackValue, throwing) { }
+    /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
+    internal VersionConverterIntl(bool throwing, Version? defaultValue)
+        : base(defaultValue, throwing) { }
 
     /// <inheritdoc/>
     public override bool AllowsNull => true;
@@ -25,7 +25,7 @@ internal sealed class VersionConverterIntl : TypeConverter<Version?>
     {
         if (value.IsWhiteSpace())
         {
-            result = FallbackValue;
+            result = DefaultValue;
             return true;
         }
 
@@ -36,7 +36,7 @@ internal sealed class VersionConverterIntl : TypeConverter<Version?>
         }
         catch
         {
-            result = FallbackValue;
+            result = DefaultValue;
             return false;
         }
     }

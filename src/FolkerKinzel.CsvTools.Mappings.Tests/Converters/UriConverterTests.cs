@@ -13,7 +13,7 @@ public class UriConverterTests
 
         Uri? uri = conv.Parse("   ".AsSpan());
         Assert.IsNotNull(uri);
-        Assert.AreSame(conv.FallbackValue, uri);
+        Assert.AreSame(conv.DefaultValue, uri);
 
         uri = conv.Parse(uriString.AsSpan());
         Assert.IsNotNull(uri);

@@ -8,7 +8,7 @@ namespace Examples;
 
 internal static class MultiColumnConverterExample
 {
-    private class ColorConverter(Mapping mapping) 
+    private sealed class ColorConverter(Mapping mapping) 
         : MultiColumnTypeConverter<Color>(mapping, Color.Transparent, true)
     {
         public override bool AllowsNull => false;
@@ -34,7 +34,7 @@ internal static class MultiColumnConverterExample
             }
             catch(FormatException)
             {
-                result = FallbackValue;
+                result = DefaultValue;
                 return false;
             }
         }

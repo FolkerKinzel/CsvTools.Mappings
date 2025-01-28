@@ -10,9 +10,9 @@ internal sealed class UriConverterIntl : TypeConverter<Uri?>
     /// <summary>Initializes a new <see cref="UriConverter"/> instance.</summary>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="fallbackValue">The value of <see cref="TypeConverter{T}.FallbackValue"/>.</param>
-    internal UriConverterIntl(bool throwing, Uri? fallbackValue)
-        : base(fallbackValue, throwing) { }
+    /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
+    internal UriConverterIntl(bool throwing, Uri? defaultValue)
+        : base(defaultValue, throwing) { }
 
     /// <inheritdoc/>
     public override bool AllowsNull => true;
@@ -30,7 +30,7 @@ internal sealed class UriConverterIntl : TypeConverter<Uri?>
     {
         if (value.IsWhiteSpace())
         {
-            result = FallbackValue;
+            result = DefaultValue;
             return true;
         }
 

@@ -14,7 +14,7 @@ public static class TypeConverterExtension
     /// that converts and accepts <typeparamref name="T"/> as well as 
     /// <see cref="DBNull.Value">DBNull.Value</see>.
     /// <see cref="DBNull.Value">DBNull.Value</see> is the 
-    /// <see cref="TypeConverter{T}.FallbackValue"/> of this <see cref="TypeConverter{T}"/> instance.
+    /// <see cref="TypeConverter{T}.DefaultValue"/> of this <see cref="TypeConverter{T}"/> instance.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="converter"></param>
@@ -22,7 +22,7 @@ public static class TypeConverterExtension
     /// A <see cref="TypeConverter{T}">TypeConverter&lt;<see cref="object"/>&gt;</see>
     /// instance
     /// that converts and accepts <typeparamref name="T"/> as well as <see cref="DBNull.Value"/>.
-    /// <see cref="DBNull.Value"/> is the <see cref="TypeConverter{T}.FallbackValue"/> of this new
+    /// <see cref="DBNull.Value"/> is the <see cref="TypeConverter{T}.DefaultValue"/> of this new
     /// <see cref="TypeConverter{T}"/> instance.
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
@@ -34,7 +34,7 @@ public static class TypeConverterExtension
     public static TypeConverter<object> ToDBNullConverter<T>(this TypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
-        return converter is TypeConverter<object> result && Convert.IsDBNull(result.FallbackValue)
+        return converter is TypeConverter<object> result && Convert.IsDBNull(result.DefaultValue)
             ? result
             : new DBNullConverter<T>(converter);
     }
@@ -61,9 +61,9 @@ public static class TypeConverterExtension
     /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance that converts the items.</param>
     /// <param name="separator">A <see cref="string"/> that separates the items in field of the CSV file. When parsing
     /// the CSV, <paramref name="separator"/> will not be part of the results.</param>    
-    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.FallbackValue"/>
+    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.DefaultValue"/>
     /// to <c>null</c>; <c>false</c> to have <see cref="Enumerable.Empty{TResult}"/> as 
-    /// <see cref="TypeConverter{T}.FallbackValue"/>.
+    /// <see cref="TypeConverter{T}.DefaultValue"/>.
     /// </param>
     /// <returns>
     /// A new <see cref="TypeConverter{T}"/> instance that converts <see cref="IEnumerable{T}"/>. The value of its 

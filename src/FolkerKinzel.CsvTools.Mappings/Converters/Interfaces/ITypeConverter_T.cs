@@ -10,11 +10,11 @@ public interface ITypeConverter<T>
     /// Gets a value indicating whether the converter throws a
     /// <see cref="FormatException"/> 
     /// when a parsing error occurs, or if it returns 
-    /// <see cref="FallbackValue"/> value instead.
+    /// <see cref="DefaultValue"/> value instead.
     /// </summary>
     /// <value><c>true</c> if the converter throws a 
     /// <see cref="FormatException"/> on parsing errors,
-    /// <c>false</c> to return <see cref="FallbackValue"/>
+    /// <c>false</c> to return <see cref="DefaultValue"/>
     /// in this case.</value>
     bool Throwing { get; }
 
@@ -22,7 +22,13 @@ public interface ITypeConverter<T>
     /// Gets the value to return if parsing fails and
     /// the <see cref="Throwing"/> property is <c>false</c>.
     /// </summary>
-    T? FallbackValue { get; }
+    /// <remarks>
+    /// <note type="implement">
+    /// In any case, the <see cref="ITypeConverter{T}"/> MUST
+    /// accept this value as input.
+    /// </note>
+    /// </remarks>
+    T DefaultValue { get; }
 
     /// <summary>
     /// Gets a value indicating whether the converter allows 

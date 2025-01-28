@@ -9,7 +9,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Abstract base class for classes that represent a dynamic property of <see cref="Mapping"/>.
 /// </summary>
-public abstract partial class DynamicProperty
+public abstract partial class DynamicProperty : ICloneable
 {
     /// <summary>
     /// Initializes a new <see cref="DynamicProperty"/> instance.
@@ -41,6 +41,18 @@ public abstract partial class DynamicProperty
 
         this.PropertyName = propertyName;
     }
+
+    /// <summary>
+    /// Copy constructor.
+    /// </summary>
+    /// <param name="other">The <see cref="DynamicProperty"/> instance to clone.</param>
+    protected DynamicProperty(DynamicProperty other)
+    {
+        this.PropertyName = other.PropertyName;
+    }
+
+    /// <inheritdoc/>
+    public abstract object Clone();
 
     /// <summary>
     /// Identifier of the dynamic property.
@@ -96,6 +108,22 @@ public abstract partial class DynamicProperty
         get => GetValue();
         set => SetValue(value);
     }
+
+    /// <summary>
+    /// Gets the value that the <see cref="DynamicProperty"/> returns if parsing 
+    /// fails.
+    /// </summary>
+    public object? DefaultValue => GetDefaultValue();
+
+    
+
+    /// <summary>
+    /// Returns the value that the <see cref="DynamicProperty"/> returns if parsing
+    /// fails.
+    /// </summary>
+    /// <returns>The value that the <see cref="DynamicProperty"/> returns if parsing
+    /// fails.</returns>
+    protected abstract object? GetDefaultValue();
 
     /// <summary>
     /// The <see cref="CsvRecord"/> object used to access the CSV file.

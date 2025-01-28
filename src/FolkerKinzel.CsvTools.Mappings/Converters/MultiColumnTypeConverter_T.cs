@@ -20,8 +20,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </note>
 /// </param>
 /// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
-/// <param name="fallbackValue">
-/// The <see cref="FallbackValue"/> to return when a parsing error occurs and
+/// <param name="defaultValue">
+/// The <see cref="DefaultValue"/> to return when a parsing error occurs and
 /// the <see cref="Throwing"/> property is <c>false</c>.
 /// </param>
 /// <remarks>
@@ -50,7 +50,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
 public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
-                                                  T? fallbackValue,
+                                                  T defaultValue,
                                                   bool throwing) : ITypeConverter<T>
 {
     /// <summary>
@@ -68,17 +68,17 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// <inheritdoc/>
     /// <remarks>
     /// <note type="implement">
-    /// The value can be <c>null</c> for non-nullable reference types
+    /// The value may be <c>null</c> for non-nullable reference types
     /// if two conditions are met at the same time:
     /// <list type="number">
     /// <item><see cref="Throwing"/> MUST be <c>true</c> in this case, and</item>
     /// <item><see cref="TryParse(out T?)"/> MUST
-    /// return <c>false</c> if its result is <see cref="FallbackValue"/> 
+    /// return <c>false</c> if its result is <see cref="DefaultValue"/> 
     /// (respectively <c>null</c>).</item>
     /// </list>
     /// </note>
     /// </remarks>
-    public T? FallbackValue { get; } = fallbackValue;
+    public T DefaultValue { get; } = defaultValue;
 
     /// <inheritdoc/>
     public Type DataType => typeof(T);
@@ -110,7 +110,7 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// <summary>
     /// Converts the content of <see cref="Mapping"/> to <typeparamref name="T"/>.
     /// </summary>
-    /// <returns>An instance of <typeparamref name="T"/> or <see cref="FallbackValue"/>.</returns>
+    /// <returns>An instance of <typeparamref name="T"/> or <see cref="DefaultValue"/>.</returns>
     /// <exception cref="FormatException">The conversion fails and <see cref="Throwing"/> is <c>true</c>.
     /// </exception>
     /// <remarks>
@@ -123,7 +123,7 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
              ? result
              : Throwing
                  ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, Res.CannotParseCsv, typeof(T).FullName))
-                 : FallbackValue;
+                 : DefaultValue;
 
     /// <summary>
     /// Writes a <typeparamref name="T"/> value to several properties of <see cref="Mapping"/>.

@@ -15,7 +15,7 @@ public static class UriConverter
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>"/>
     /// 
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;Uri?&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be <c>null</c>.</returns>
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>.</returns>
     public static TypeConverter<Uri?> CreateNullable(bool throwing = true)
         => new UriConverterIntl(throwing, null);
 
@@ -25,7 +25,7 @@ public static class UriConverter
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.
     /// </param>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;Uri&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.FallbackValue"/> will be a relative <see cref="Uri"/>,
+    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be a relative <see cref="Uri"/>,
     /// parsed from an empty <see cref="string"/>.</returns>
     /// <remarks>
     /// <note type="tip">

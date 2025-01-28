@@ -20,17 +20,17 @@ internal sealed class DBNullConverter<T> : TypeConverter<object>
     {
         if(value.IsEmpty)
         {
-            result = FallbackValue;
+            result = DefaultValue;
             return true;
         }
 
         if (_valueConverter.TryParseValue(value, out T? tmp))
         {
-            result = tmp ?? FallbackValue;
+            result = tmp ?? DefaultValue;
             return true;
         }
 
-        result = FallbackValue;
+        result = DefaultValue;
         return false;
     }
 }

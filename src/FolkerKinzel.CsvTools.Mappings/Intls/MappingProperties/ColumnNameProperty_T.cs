@@ -13,7 +13,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 /// encapsulates information about access and type conversion, which <see cref="Mapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its CSV column name.
 /// </remarks>
-internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
+internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneable
 {
     /// <summary>
     /// Ein Hashcode, der für alle <see cref="CsvRecord"/>-Objekte, die zum selben Lese- oder Schreibvorgang
@@ -69,6 +69,17 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>
                             : TimeSpan.FromMilliseconds(wildcardTimeout);
         }
     }
+
+    private ColumnNameProperty(ColumnNameProperty<T> source) : base(source)
+    {
+        _csvRecordIdentifier = source._csvRecordIdentifier;
+        _wildcardTimeout = source._wildcardTimeout;
+        _csvIndex = source._csvIndex;
+        ColumnNameAliases = source.ColumnNameAliases;
+    }
+
+    /// <inheritdoc/>
+    public override object Clone() => new ColumnNameProperty<T>(this);
 
     /// <summary>
     /// Collection of alternative column names of the CSV file, which is used by <see cref="Mapping"/> to access

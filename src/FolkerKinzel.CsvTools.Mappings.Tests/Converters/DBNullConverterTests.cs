@@ -13,7 +13,7 @@ public class DBNullConverterTests
         Assert.AreNotSame<object>(conv1, conv2);
 
         Assert.AreEqual(conv2.DataType, typeof(object));
-        Assert.IsTrue(Convert.IsDBNull(conv2.FallbackValue));
+        Assert.IsTrue(Convert.IsDBNull(conv2.DefaultValue));
 
         Assert.AreSame(conv2, conv2.ToDBNullConverter());
     }
