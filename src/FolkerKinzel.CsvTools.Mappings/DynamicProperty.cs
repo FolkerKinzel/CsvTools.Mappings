@@ -49,6 +49,7 @@ public abstract partial class DynamicProperty : ICloneable
     protected DynamicProperty(DynamicProperty other)
     {
         this.PropertyName = other.PropertyName;
+        this.Record = other.Record;
     }
 
     /// <inheritdoc/>
@@ -114,8 +115,6 @@ public abstract partial class DynamicProperty : ICloneable
     /// fails.
     /// </summary>
     public object? DefaultValue => GetDefaultValue();
-
-    
 
     /// <summary>
     /// Returns the value that the <see cref="DynamicProperty"/> returns if parsing
