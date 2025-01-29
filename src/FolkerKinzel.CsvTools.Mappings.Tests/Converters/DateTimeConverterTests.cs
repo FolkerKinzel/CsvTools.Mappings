@@ -9,59 +9,29 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 [TestClass()]
 public class DateTimeConverterTests
 {
+    private readonly DateTimeConverter _conv = new();
+
     [TestMethod()]
     public void DateTimeConverterTest1()
     {
-        var conv = new DateTimeConverter();
-        Assert.IsNotNull(conv);
-    }
-
-    //[TestMethod()]
-    //public void DateTimeConverterTest2()
-    //{
-    //    var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
-    //    Assert.IsNotNull(conv);
-    //}
-
-    [TestMethod()]
-    public void DateTimeConverterTest3()
-    {
-        var conv = new DateTimeConverter(format: "");
-        Assert.IsNotNull(conv);
-    }
-
-    //[TestMethod()]
-    //[ExpectedException(typeof(ArgumentException))]
-    //public void DateTimeConverterTest4() => _ = new DateTimeConverter(format: "");
-
-    //[TestMethod()]
-    //[ExpectedException(typeof(ArgumentException))]
-    //public void DateTimeConverterTest5()
-    //    => _ = new DateTimeConverter(format: "Ä");
-
-    [TestMethod()]
-    public void DateTimeConverterTest6()
-    {
-        var conv = new DateTimeConverter(format: "D");
-        Assert.IsNotNull(conv);
+        Assert.IsNotNull(_conv);
+        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.ParseExact);
     }
 
     [TestMethod]
-    public void DateTimeConverterTest7() => _ = new DateTimeConverter(format: null!);
+    public void DateTimeConverterTest7() => _ = new DateTimeConverter(format: null);
 
     [TestMethod()]
     public void Roundtrip1()
     {
         var now = new DateTime(2021, 3, 1, 17, 25, 38, DateTimeKind.Unspecified);
 
-        var conv = new DateTimeConverter();
-
-        string? tmp = conv.ConvertToString(now);
+        string? tmp = _conv.ConvertToString(now);
 
         Assert.IsNotNull(tmp);
 
-        var now2 = (DateTime?)conv.Parse(tmp.AsSpan());
-
+        var now2 = (DateTime?)_conv.Parse(tmp.AsSpan());
 
         Assert.AreEqual(now, now2);
     }
@@ -94,31 +64,5 @@ public class DateTimeConverterTests
         object? dt = conv.Parse(s.AsSpan());
 
         Assert.AreEqual(new DateTime(1974, 02, 16), dt);
-    }
-
-    //[TestMethod()]
-    //public void ConvertToStringTest1()
-    //{
-    //    var dt = new DateTime(1985, 11, 17);
-    //    var conv = DateTimeConverter.CreateDateConverter(formatProvider: CultureInfo.InvariantCulture);
-
-    //    //dt = dt.ToLocalTime();
-
-    //    string? s = conv.ConvertToString(dt);
-
-    //    Assert.IsNotNull(s);
-    //}
-
-    [TestMethod()]
-    public void ConvertToStringTest2()
-    {
-        var dt = new DateTime(2001, 03, 31);
-        var conv = new DateTimeConverter();
-
-        //dt = dt.ToLocalTime();
-
-        string? s = conv.ConvertToString(dt);
-
-        Assert.IsNotNull(s);
     }
 }

@@ -1,9 +1,11 @@
-﻿namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
 [TestClass]
-public class Int32ConverterTests
+public class Int16ConverterTests
 {
-    private readonly Int32Converter _conv = new();
+    private readonly Int16Converter _conv = new();
 
     [DataTestMethod]
     [DataRow("")]
@@ -21,6 +23,6 @@ public class Int32ConverterTests
     public void ConvertToStringTest1(int input)
     {
         Assert.IsFalse(_conv.AllowsNull);
-        Assert.IsNotNull(_conv.ConvertToString(input));
+        Assert.IsNotNull(_conv.ConvertToString((short)input));
     }
 }

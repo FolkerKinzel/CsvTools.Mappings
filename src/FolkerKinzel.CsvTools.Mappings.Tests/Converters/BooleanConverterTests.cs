@@ -6,12 +6,32 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 [TestClass]
 public class BooleanConverterTests
 {
+    private readonly BooleanConverter _conv = new();
+
     [TestMethod]
-    public void BooleanConverterTest1()
+    public void TryParseValueTest1()
     {
         string blString = true.ToString(CultureInfo.CreateSpecificCulture("de-DE"));
-        var conv = new BooleanConverter();
-        Assert.IsTrue(conv.TryParseValue(blString.AsSpan(), out bool result));
+        Assert.IsTrue(_conv.TryParseValue(blString.AsSpan(), out bool result));
         Assert.IsTrue(result);
+    }
+
+    [DataTestMethod]
+    [DataRow("")]
+    [DataRow("   ")]
+    [DataRow("bla")]
+    public void TryParseValueTest2(string input)
+    {
+        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
+    }
+
+    [DataTestMethod]
+    [DataRow(true)]
+    [DataRow(false)]
+    public void ConvertToStringTest1(bool input)
+    {
+        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsNotNull(_conv.ConvertToString(input));
     }
 }

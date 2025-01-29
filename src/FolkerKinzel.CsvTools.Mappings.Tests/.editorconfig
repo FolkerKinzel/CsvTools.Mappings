@@ -121,7 +121,7 @@ csharp_style_prefer_readonly_struct = true
 csharp_style_prefer_readonly_struct_member = true
 
 # Code-block preferences
-csharp_prefer_braces = true:silent
+csharp_prefer_braces = true:suggestion
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_system_threading_lock = true:suggestion
 csharp_style_namespace_declarations = file_scoped:silent
@@ -283,6 +283,9 @@ dotnet_diagnostic.CA1515.severity = none
 
 # CA1707: Identifiers should not contain underscores
 dotnet_diagnostic.CA1707.severity = none
+
+# IDE0011: Add braces
+dotnet_diagnostic.IDE0011.severity = suggestion
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line

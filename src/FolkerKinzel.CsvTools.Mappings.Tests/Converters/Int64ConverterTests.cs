@@ -1,9 +1,9 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
 [TestClass]
-public class Int32ConverterTests
+public class Int64ConverterTests
 {
-    private readonly Int32Converter _conv = new();
+    private readonly Int64Converter _conv = new();
 
     [DataTestMethod]
     [DataRow("")]

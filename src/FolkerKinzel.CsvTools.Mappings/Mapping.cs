@@ -108,9 +108,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
             _dynProps.Add((DynamicProperty)prop.Clone());
         }
 
-        // Don't use the property setter here because the cloned
-        // DynamicProperties already have the CsvRecord instance.
-        _record = other.Record;
+        Record = other.Record!;
     }
 
     /// <inheritdoc/>

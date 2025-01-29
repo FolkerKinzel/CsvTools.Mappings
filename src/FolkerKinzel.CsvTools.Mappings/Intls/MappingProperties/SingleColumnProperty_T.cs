@@ -39,6 +39,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     protected SingleColumnProperty(SingleColumnProperty<T> other) : base(other)
     {
         Converter = other.Converter;
+        Record = other.Record;
     }
 
     /// <inheritdoc/>

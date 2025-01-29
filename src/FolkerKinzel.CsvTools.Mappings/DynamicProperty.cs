@@ -49,7 +49,8 @@ public abstract partial class DynamicProperty : ICloneable
     protected DynamicProperty(DynamicProperty other)
     {
         this.PropertyName = other.PropertyName;
-        this.Record = other.Record;
+        // Record can not be set here because some requirements
+        // in derived classes are not given at that point
     }
 
     /// <inheritdoc/>

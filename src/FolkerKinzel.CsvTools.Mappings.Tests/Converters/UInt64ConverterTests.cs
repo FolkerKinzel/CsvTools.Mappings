@@ -1,9 +1,9 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
 [TestClass]
-public class Int32ConverterTests
+public class UInt64ConverterTests
 {
-    private readonly Int32Converter _conv = new();
+    private readonly UInt64Converter _conv = new();
 
     [DataTestMethod]
     [DataRow("")]
@@ -15,12 +15,10 @@ public class Int32ConverterTests
         Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
     }
 
-    [DataTestMethod]
-    [DataRow(4)]
-    [DataRow(-3)]
-    public void ConvertToStringTest1(int input)
+    [TestMethod]
+    public void ConvertToStringTest1()
     {
         Assert.IsFalse(_conv.AllowsNull);
-        Assert.IsNotNull(_conv.ConvertToString(input));
+        Assert.IsNotNull(_conv.ConvertToString(42));
     }
 }

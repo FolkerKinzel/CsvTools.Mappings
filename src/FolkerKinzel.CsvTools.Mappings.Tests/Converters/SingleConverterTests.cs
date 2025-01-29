@@ -1,9 +1,9 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
 [TestClass]
-public class Int32ConverterTests
+public class SingleConverterTests
 {
-    private readonly Int32Converter _conv = new();
+    private readonly SingleConverter _conv = new();
 
     [DataTestMethod]
     [DataRow("")]
@@ -16,9 +16,9 @@ public class Int32ConverterTests
     }
 
     [DataTestMethod]
-    [DataRow(4)]
-    [DataRow(-3)]
-    public void ConvertToStringTest1(int input)
+    [DataRow(1.5f)]
+    [DataRow(-3.8f)]
+    public void ConvertToStringTest1(float input)
     {
         Assert.IsFalse(_conv.AllowsNull);
         Assert.IsNotNull(_conv.ConvertToString(input));

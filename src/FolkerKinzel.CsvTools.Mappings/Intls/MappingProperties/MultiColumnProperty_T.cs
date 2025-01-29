@@ -32,6 +32,8 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     private MultiColumnProperty(MultiColumnProperty<T> other) : base(other)
     {
         Converter = other.Converter;
+        // Don't change the order: Converter needs to be initialized first!
+        Record = other.Record;
     }
 
     /// <inheritdoc/>
