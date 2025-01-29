@@ -25,19 +25,11 @@ public static class CsvReaderExtension
     /// </returns>
     public static IEnumerable<Mapping> Read(this CsvReader reader, Mapping mapping, bool disableCaching = false)
     {
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
-
-        return DoReadMapping(mapping, reader, disableCaching);
-
-        static IEnumerable<Mapping> DoReadMapping(Mapping mapping, CsvReader reader, bool disallowCaching)
+        foreach (CsvRecord record in reader)
         {
-            foreach (CsvRecord record in reader)
-            {
-                Mapping clone = disallowCaching ? mapping : (Mapping)mapping.Clone();
-                clone.Record = record;
-                yield return clone;
-            }
+            Mapping clone = disableCaching ? mapping : (Mapping)mapping.Clone();
+            clone.Record = record;
+            yield return clone;
         }
     }
 }

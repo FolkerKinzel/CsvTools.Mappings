@@ -2,6 +2,7 @@
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 using System.Data;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
@@ -277,7 +278,7 @@ public static class MappingExtension
 
         foreach (object? item in data)
         {
-            if(i >= mapping.Count)
+            if (i >= mapping.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(data));
             }
@@ -285,7 +286,7 @@ public static class MappingExtension
             mapping[i++].Value = item;
         }
 
-        if(resetExcess)
+        if (resetExcess)
         {
             for (; i < mapping.Count; i++)
             {
@@ -332,7 +333,7 @@ public static class MappingExtension
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(dataRow, nameof(dataRow));
 
-        if(dataRow.Table.Columns.Count > mapping.Count)
+        if (dataRow.Table.Columns.Count > mapping.Count)
         {
             throw new ArgumentOutOfRangeException(nameof(dataRow));
         }
@@ -352,5 +353,90 @@ public static class MappingExtension
                 prop.Value = prop.DefaultValue;
             }
         }
+    }
+
+    public static TResult[] Parse<TResult>(this Mapping mapping,
+                                           string csv,
+                                           Func<dynamic, TResult> converter,
+                                           bool isHeaderPresent = true,
+                                           CsvOpts options = CsvOpts.Default,
+                                           char delimiter = ',')
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+        _ArgumentNullException.ThrowIfNull(csv, nameof(csv));
+
+        using var stringReader = new StringReader(csv);
+        using var csvReader = new CsvReader(stringReader, isHeaderPresent, options, delimiter);
+
+        return csvReader.Read(mapping, options.HasFlag(CsvOpts.DisableCaching))
+                        .Select(m => converter(m))
+                        .ToArray();
+    }
+
+    public static TResult[] ParseAnalyzed<TResult>(this Mapping mapping,
+                                                   string csv,
+                                                   Func<dynamic, TResult> converter,
+                                                   Header header = Header.ProbablyPresent,
+                                                   int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount,
+                                                   bool disableCaching = false)
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+
+        CsvAnalyzerResult result = CsvAnalyzer.AnalyzeString(csv, header, analyzedLines);
+
+        using var stringReader = new StringReader(csv);
+        using var csvReader = new CsvReader(stringReader,
+                                            result.IsHeaderPresent,
+                                            disableCaching ? result.Options | CsvOpts.DisableCaching : result.Options,
+                                            result.Delimiter);
+
+        return csvReader.Read(mapping, disableCaching)
+                        .Select(m => converter(m))
+                        .ToArray();
+    }
+
+    public static TResult[] Read<TResult>(this Mapping mapping,
+                                          string filePath,
+                                          Func<dynamic, TResult> converter,
+                                          bool isHeaderPresent = true,
+                                          CsvOpts options = CsvOpts.Default,
+                                          char delimiter = ',',
+                                          Encoding? textEncoding = null)
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+        _ArgumentNullException.ThrowIfNull(filePath, nameof(filePath));
+
+        using var csvReader = new CsvReader(filePath, isHeaderPresent, options, delimiter, textEncoding);
+
+        return csvReader.Read(mapping, options.HasFlag(CsvOpts.DisableCaching))
+                        .Select(m => converter(m))
+                        .ToArray();
+    }
+
+    public static TResult[] ReadAnalyzed<TResult>(this Mapping mapping,
+                                                  string filePath,
+                                                  Func<dynamic, TResult> converter,
+                                                  Header header = Header.ProbablyPresent,
+                                                  Encoding? textEncoding = null,
+                                                  int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount,
+                                                  bool disableCaching = false)
+    {
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+
+        (CsvAnalyzerResult analyzerResult, Encoding enc) = Csv.AnalyzeFile(filePath, header, textEncoding, analyzedLines);
+
+        using CsvReader csvReader = Csv.OpenRead(filePath,
+                                                 analyzerResult.IsHeaderPresent,
+                                                 disableCaching ? analyzerResult.Options | CsvOpts.DisableCaching : analyzerResult.Options,
+                                                 analyzerResult.Delimiter,
+                                                 textEncoding);
+
+        return csvReader.Read(mapping, disableCaching)
+                        .Select(m => converter(m))
+                        .ToArray();
     }
 }
