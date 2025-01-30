@@ -420,7 +420,7 @@ public static class MappingExtension
     }
 
     /// <summary>Analyzes the specified CSV-<see cref="string"/>
-    /// first and then parses it content to an array of a specified 
+    /// first and then parses its content to an array of a specified 
     /// <see cref="Type"/>.
     /// </summary>
     ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
