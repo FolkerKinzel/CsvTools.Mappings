@@ -57,7 +57,7 @@ public class MultiColumnPropertyTests
             .AddProperty("Sum", new SumConverter(subMapping));
 
         using var stringWriter = new StringWriter();
-        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, ["A", "B"]);
+        using CsvWriter csvWriter = CsvMapping.OpenWrite(stringWriter, ["A", "B"]);
         mappping.Record = csvWriter.Record;
 
         int?[] sums = [3, 0, -7, null];
@@ -74,7 +74,7 @@ public class MultiColumnPropertyTests
         string csv = stringWriter.ToString();
 
         using var stringReader = new StringReader(csv);
-        using CsvReader reader = Csv.OpenRead(stringReader);
+        using CsvReader reader = CsvMapping.OpenRead(stringReader);
 
         int?[] results = reader.Read(mappping).Select<Mapping, int?>(m => { dynamic dyn = m; return dyn.Sum; }).ToArray();
 

@@ -56,16 +56,19 @@ internal static class DeserializingClassesFromCsv
             .AddProperty("LessonDay", ["*day", "*tag"], new EnumConverter<DayOfWeek>().ToNullableConverter())
             .AddProperty("LessonBegin", ["*begin?"], new TimeSpanConverter().ToNullableConverter());
 
-        Pupil[] pupils =
-            mapping.ReadAnalyzed(csvFileName,
-                                  static dyn => new Pupil
-                                  {
-                                      Name = dyn.Name,
-                                      LessonBegin = dyn.LessonBegin,
-                                      LessonDay = dyn.LessonDay,
-                                      Subject = dyn.Subject
-                                  }
-                                );
+         using CsvReader<Pupil> reader = 
+            CsvMapping.OpenReadAnalyzed<Pupil>( csvFileName,
+                                         mapping,
+                                         static dyn => new Pupil
+                                         {
+                                             Name = dyn.Name,
+                                             LessonBegin = dyn.LessonBegin,
+                                             LessonDay = dyn.LessonDay,
+                                             Subject = dyn.Subject
+                                         }
+                                       );
+
+        Pupil[] pupils = [.. reader];
 
         // Write the results to the Console:
         foreach (Pupil pupil in pupils)
