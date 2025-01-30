@@ -318,7 +318,8 @@ public static class CsvMapping
     /// </para>
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"> <paramref name="csv" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"> <paramref name="filePath"/>, or <paramref name="mapping"/>, 
+    /// or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">
     /// <para><paramref name="header"/> is not a defined value of 
     /// the <see cref="Header"/> enum.</para>
