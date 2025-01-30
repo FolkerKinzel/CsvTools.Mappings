@@ -17,13 +17,13 @@ public sealed class CsvMappingReader<TResult> : IEnumerable<TResult>, IEnumerato
     }
 
     /// <inheritdoc/>
-    public TResult Current => _current!;
+    TResult IEnumerator<TResult>.Current => _current!;
 
     /// <inheritdoc/>
     object? IEnumerator.Current => ((IEnumerator<TResult>)this).Current;
 
     /// <inheritdoc/>
-    public bool MoveNext()
+    bool IEnumerator.MoveNext()
     {
         throw new NotImplementedException();
     }
@@ -32,7 +32,7 @@ public sealed class CsvMappingReader<TResult> : IEnumerable<TResult>, IEnumerato
     /// Throws a <see cref="NotSupportedException"/>.
     /// </summary>
     /// <exception cref="NotSupportedException">The method has been called.</exception>
-    public void Reset() => throw new NotSupportedException();
+    void IEnumerator.Reset() => throw new NotSupportedException();
 
     /// <inheritdoc/>
     public void Dispose()
