@@ -1,12 +1,11 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 
-namespace FolkerKinzel.CsvTools.Mappings;
-
+namespace FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 
 /// <summary>
 /// Extension methods for the <see cref="CsvReader"/> class.
 /// </summary>
-public static class CsvReaderExtension
+internal static class CsvReaderExtension
 {
     /// <summary>
     /// Returns an <see cref="IEnumerable{T}"/> of <see cref="Mapping"/> objects that allows to
@@ -23,7 +22,7 @@ public static class CsvReaderExtension
     /// <returns>
     /// An <see cref="IEnumerable{T}"/> of <see cref="Mapping"/> objects.
     /// </returns>
-    public static IEnumerable<Mapping> Read(this CsvReader reader, Mapping mapping, bool disableCaching = false)
+    internal static IEnumerable<Mapping> Read(this CsvReader reader, Mapping mapping, bool disableCaching = false)
     {
         foreach (CsvRecord record in reader)
         {

@@ -1,5 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Intls;
+using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 using System.Data;
 using System.Text;
@@ -355,6 +356,46 @@ public static class MappingExtension
         }
     }
 
+    /// <summary>Parses the specified CSV-<see cref="string"/> to an array of a specified 
+    /// <see cref="Type"/>.</summary>
+    /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items in the array that the method returns.</typeparam>
+    /// <param name="csv">The CSV-<see cref="string"/> to parse.</param>
+    /// <param name="converter">
+    /// <para>
+    /// A function that converts the content of <paramref name="mapping"/>
+    /// to an instance of <typeparamref name="TResult"/>. 
+    /// </para>
+    /// <para>
+    /// The function is called for each row in 
+    /// <paramref name="csv"/> and gets the <see cref="Mapping"/> as argument, filled with the 
+    /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
+    /// function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// <see cref="DynamicProperty"/> instances can be used like 
+    /// regular .NET properties, but without IntelliSense ("late binding").
+    /// </para>
+    /// </param>
+    /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
+    /// otherwise <c>false</c>.</param>
+    /// <param name="options">Parsing options.</param>
+    /// <param name="delimiter">The field separator character used in <paramref name="csv"/>.</param>
+    /// 
+    /// <returns>An array of <typeparamref name="TResult"/> instances, initialized from the parsed 
+    /// <paramref name="csv"/>.</returns>
+    /// 
+    /// <remarks>
+    /// <note type="tip">
+    /// The optimal parameters can be determined automatically with <see cref="Csv.AnalyzeString(string, Header, int)"/> - 
+    /// or use <see cref="ParseAnalyzed{TResult}(Mapping, string, Func{dynamic, TResult}, Header, int, bool)"/>.
+    /// </note>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"> <paramref name="csv" /> is <c>null</c>.</exception>
+    /// <exception cref="CsvFormatException">Invalid CSV. The interpretation depends
+    /// on <paramref name="options"/>.</exception>
+    /// <exception cref="FormatException">
+    /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
+    /// </exception>
     public static TResult[] Parse<TResult>(this Mapping mapping,
                                            string csv,
                                            Func<dynamic, TResult> converter,
@@ -366,6 +407,10 @@ public static class MappingExtension
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         _ArgumentNullException.ThrowIfNull(csv, nameof(csv));
 
+        options = DetermineDisableCaching<TResult>() 
+            ? options | CsvOpts.DisableCaching 
+            : options.Unset(CsvOpts.DisableCaching);
+
         using var stringReader = new StringReader(csv);
         using var csvReader = new CsvReader(stringReader, isHeaderPresent, options, delimiter);
 
@@ -374,29 +419,88 @@ public static class MappingExtension
                         .ToArray();
     }
 
+    /// <summary>Analyzes the specified CSV-<see cref="string"/>
+    /// first and then parses it content to an array of a specified 
+    /// <see cref="Type"/>.
+    /// </summary>
+    ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items in the array that the method returns.</typeparam>
+    /// <param name="csv">The CSV-<see cref="string"/> to parse.</param>
+    /// <param name="converter">
+    /// <para>
+    /// A function that converts the content of <paramref name="mapping"/>
+    /// to an instance of <typeparamref name="TResult"/>. 
+    /// </para>
+    /// <para>
+    /// The function is called for each row in 
+    /// <paramref name="csv"/> and gets the <see cref="Mapping"/> as argument, filled with the 
+    /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
+    /// function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// <see cref="DynamicProperty"/> instances can be used like 
+    /// regular .NET properties, but without IntelliSense ("late binding").
+    /// </para>
+    /// </param>
+    /// <param name="header">A supposition that is made about the presence of a header row.</param>
+    /// 
+    /// <param name="analyzedLines">Maximum number of lines to analyze in <paramref name="csv"/>. The minimum 
+    /// value is <see cref="CsvAnalyzer.AnalyzedLinesMinCount" />. If <paramref name="csv"/> has fewer lines than 
+    /// <paramref name="analyzedLines" />, it will be analyzed completely. (You can specify 
+    /// <see cref="int.MaxValue">Int32.MaxValue</see> to analyze the entire <see cref="string"/> in any case.)</param>
+    /// 
+    /// <returns>An array of <typeparamref name="TResult"/> instances, initialized from the parsed 
+    /// <paramref name="csv"/>.</returns>
+    /// 
+    /// <remarks>
+    /// <para>
+    /// <see cref="CsvAnalyzer" /> performs a statistical analysis on <paramref name="csv"/>. The result 
+    /// of the analysis is therefore always only an estimate, 
+    /// the accuracy of which increases with the number of lines analyzed.
+    /// </para>
+    /// <para>
+    /// The field delimiters COMMA (<c>','</c>, %x2C), SEMICOLON  (<c>';'</c>, %x3B), HASH (<c>'#'</c>, %x23),
+    /// TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are recognized automatically.
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"> <paramref name="csv" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <para><paramref name="header"/> is not a defined value of 
+    /// the <see cref="Header"/> enum.</para>
+    /// <para> - or -</para>
+    /// <para><paramref name="header"/> is a combination of <see cref="Header"/> values.</para>
+    /// </exception>
+    /// <exception cref="CsvFormatException">Invalid CSV file. Try to increase the value of 
+    /// <paramref name="analyzedLines"/> to get a better analyzer result!</exception>
+    /// <exception cref="FormatException">
+    /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
+    /// </exception>
     public static TResult[] ParseAnalyzed<TResult>(this Mapping mapping,
                                                    string csv,
                                                    Func<dynamic, TResult> converter,
                                                    Header header = Header.ProbablyPresent,
-                                                   int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount,
-                                                   bool disableCaching = false)
+                                                   int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
 
-        CsvAnalyzerResult result = CsvAnalyzer.AnalyzeString(csv, header, analyzedLines);
+        CsvAnalyzerResult analyzerResult = CsvAnalyzer.AnalyzeString(csv, header, analyzedLines);
+        bool disableCaching = DetermineDisableCaching<TResult>();
+        CsvOpts options = disableCaching
+            ? analyzerResult.Options | CsvOpts.DisableCaching
+            : analyzerResult.Options.Unset(CsvOpts.DisableCaching);
 
         using var stringReader = new StringReader(csv);
-        using var csvReader = new CsvReader(stringReader,
-                                            result.IsHeaderPresent,
-                                            disableCaching ? result.Options | CsvOpts.DisableCaching : result.Options,
-                                            result.Delimiter);
+        using var csvReader =
+            new CsvReader(stringReader,
+                          analyzerResult.IsHeaderPresent,
+                          options,
+                          analyzerResult.Delimiter);
 
         return csvReader.Read(mapping, disableCaching)
                         .Select(m => converter(m))
                         .ToArray();
     }
-
+    
     public static TResult[] Read<TResult>(this Mapping mapping,
                                           string filePath,
                                           Func<dynamic, TResult> converter,
@@ -409,9 +513,15 @@ public static class MappingExtension
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         _ArgumentNullException.ThrowIfNull(filePath, nameof(filePath));
 
-        using var csvReader = new CsvReader(filePath, isHeaderPresent, options, delimiter, textEncoding);
+        bool disableCaching = DetermineDisableCaching<TResult>();
+        options = disableCaching
+            ? options | CsvOpts.DisableCaching
+            : options.Unset(CsvOpts.DisableCaching);
 
-        return csvReader.Read(mapping, options.HasFlag(CsvOpts.DisableCaching))
+        using var csvReader = 
+            new CsvReader(filePath, isHeaderPresent, options, delimiter, textEncoding);
+
+        return csvReader.Read(mapping, disableCaching)
                         .Select(m => converter(m))
                         .ToArray();
     }
@@ -421,22 +531,32 @@ public static class MappingExtension
                                                   Func<dynamic, TResult> converter,
                                                   Header header = Header.ProbablyPresent,
                                                   Encoding? textEncoding = null,
-                                                  int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount,
-                                                  bool disableCaching = false)
+                                                  int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
 
         (CsvAnalyzerResult analyzerResult, Encoding enc) = Csv.AnalyzeFile(filePath, header, textEncoding, analyzedLines);
+        bool disableCaching = DetermineDisableCaching<TResult>();
+        CsvOpts options = disableCaching
+            ? analyzerResult.Options | CsvOpts.DisableCaching
+            : analyzerResult.Options.Unset(CsvOpts.DisableCaching);
 
         using CsvReader csvReader = Csv.OpenRead(filePath,
                                                  analyzerResult.IsHeaderPresent,
-                                                 disableCaching ? analyzerResult.Options | CsvOpts.DisableCaching : analyzerResult.Options,
+                                                 options,
                                                  analyzerResult.Delimiter,
                                                  textEncoding);
 
         return csvReader.Read(mapping, disableCaching)
                         .Select(m => converter(m))
                         .ToArray();
+    }
+
+    private static bool DetermineDisableCaching<TResult>()
+    {
+        string resultType = typeof(TResult).Name;
+        StringComparer comp = StringComparer.Ordinal;
+        return !(comp.Equals(resultType, nameof(Mapping)) || comp.Equals(resultType, nameof(CsvRecord)));
     }
 }
