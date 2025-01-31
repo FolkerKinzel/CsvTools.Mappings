@@ -8,36 +8,47 @@ namespace Examples;
 
 internal static class CsvToDataTable
 {
-    private const string PUPILS_NAME = "Name";
-    private const string SUBJECT = "Subject";
-    private const string LESSON_DAY = "Day";
-    private const string LESSON_BEGIN = "Begin";
     private const string FILE_NAME = "DataTable.csv";
 
     public static void TestCsvToDataTable()
     {
-        using DataTable dataTable = InitDataTable();
+        using var dataTable = new DataTable();
+
+        dataTable.Columns.Add(new DataColumn("not_used", typeof(int)));
+        dataTable.Columns.Add(new DataColumn("name"));
+        dataTable.Columns.Add(new DataColumn("subject"));
+        dataTable.Columns.Add(new DataColumn("day", typeof(DayOfWeek)));
+        dataTable.Columns.Add(new DataColumn("begin", typeof(TimeOnly)));
+
+        _ = dataTable.Rows.Add(
+            [4711, "Susi Meyer", "Piano", DayOfWeek.Wednesday, new TimeOnly(14, 30, 0)]);
+        _ = dataTable.Rows.Add(
+            [0, "Carl Czerny", "Piano", DayOfWeek.Thursday, new TimeOnly(15, 15, 0)]);
+        _ = dataTable.Rows.Add(
+            [111, "Frederic Chopin", "Piano"]);
 
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
         TypeConverter<object> stringConverter
             = StringConverter.CreateNonNullable().ToDBNullConverter();
 
-        // The properties of the Mapping have to match the columns
-        // of the DataTable in data type and order (but not the 
-        // columns of the CSV file):
+        // All properties of the Mapping have to have a corresponding column
+        // in the DataTable (corresponding in the case-insensitive ColumnName
+        // and the accepted data type). They dont't need to correspond in their
+        // order and they don't need to match neither the columns of the CSV file
+        // nor all DataColumns of the DataTable:
         Mapping mapping = Mapping
             .Create()
-            .AddProperty(PUPILS_NAME, stringConverter)
-            .AddProperty(SUBJECT, stringConverter)
-            .AddProperty(LESSON_DAY, new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
-            .AddProperty(LESSON_BEGIN, new TimeOnlyConverter().ToDBNullConverter());
+            .AddProperty("Name", stringConverter)
+            .AddProperty("Subject", stringConverter)
+            .AddProperty("Day", new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
+            .AddProperty("Begin", ["begin", "*start"], new TimeOnlyConverter().ToDBNullConverter());
 
         // Write the CSV file:
-        // (We can sort the columns of the CSV file differently than those 
-        // of the DataTable - CsvRecordWrapper will reorder that.)
+        // (The column names provided when initalizing the CsvWriter determine
+        // which DataColumns will be part of the CSV and their order in the CSV file.)
         string[] columns =
-            [SUBJECT, LESSON_BEGIN, PUPILS_NAME, LESSON_DAY];
+            ["Subject", "Lesson Start", "Name", "Day"];
 
         using (CsvWriter writer = Csv.OpenWrite(FILE_NAME, columns))
         {
@@ -53,41 +64,22 @@ internal static class CsvToDataTable
         WriteConsole(dataTable);
 
         /* 
-        
+
         Console output:
 
         Csv file:
 
-        Subject,Begin,Name,Day
+        Subject,Lesson Start,Name,Day
         Piano,14:30:00,Susi Meyer,Wednesday
         Piano,15:15:00,Carl Czerny,Thursday
         Piano,,Frederic Chopin,
 
         Content of the refilled DataTable:
-        Susi Meyer      Piano           3               14:30
-        Carl Czerny     Piano           4               15:15
-        Frederic Chopin Piano           <DBNull>        <DBNull>
+        <DBNull>        Susi Meyer      Piano           3               14:30
+        <DBNull>        Carl Czerny     Piano           4               15:15
+        <DBNull>        Frederic Chopin Piano           <DBNull>        <DBNull>
 
         */
-    }
-
-    private static DataTable InitDataTable()
-    {
-        var dataTable = new DataTable();
-
-        dataTable.Columns.Add(new DataColumn(PUPILS_NAME));
-        dataTable.Columns.Add(new DataColumn(SUBJECT));
-        dataTable.Columns.Add(new DataColumn(LESSON_DAY, typeof(DayOfWeek)));
-        dataTable.Columns.Add(new DataColumn(LESSON_BEGIN, typeof(TimeOnly)));
-
-        _ = dataTable.Rows.Add(
-            ["Susi Meyer", "Piano", DayOfWeek.Wednesday, new TimeOnly(14, 30, 0)]);
-        _ = dataTable.Rows.Add(
-            ["Carl Czerny", "Piano", DayOfWeek.Thursday, new TimeOnly(15, 15, 0)]);
-        _ = dataTable.Rows.Add(
-            ["Frederic Chopin", "Piano"]);
-
-        return dataTable;
     }
 
     private static void WriteConsole(DataTable dataTable)

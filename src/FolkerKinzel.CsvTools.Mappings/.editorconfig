@@ -121,7 +121,7 @@ csharp_style_prefer_readonly_struct = true:suggestion
 csharp_style_prefer_readonly_struct_member = true:suggestion
 
 # Code-block preferences
-csharp_prefer_braces = true:silent
+csharp_prefer_braces = true:suggestion
 csharp_prefer_simple_using_statement = true:suggestion
 csharp_prefer_system_threading_lock = true:suggestion
 csharp_style_namespace_declarations = file_scoped:silent
@@ -276,6 +276,9 @@ dotnet_naming_style.upper_case.required_prefix =
 dotnet_naming_style.upper_case.required_suffix = 
 dotnet_naming_style.upper_case.word_separator = _
 dotnet_naming_style.upper_case.capitalization = all_upper
+
+# IDE0011: Add braces
+dotnet_diagnostic.IDE0011.severity = suggestion
 
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line

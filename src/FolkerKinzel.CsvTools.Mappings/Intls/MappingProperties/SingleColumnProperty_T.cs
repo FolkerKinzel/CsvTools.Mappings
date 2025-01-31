@@ -78,8 +78,6 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// <inheritdoc/>
     protected internal override CsvRecord? Record { get; internal set; }
 
-    
-
     /// <inheritdoc/>
     protected internal override object? GetValue() => GetTypedValue();
 
