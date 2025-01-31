@@ -8,7 +8,7 @@ namespace Examples;
 
 internal static class MultiColumnConverterExample
 {
-    private sealed class ColorConverter(Mapping mapping) 
+    private sealed class ColorConverter(Mapping mapping)
         : MultiColumnTypeConverter<Color>(mapping, Color.Transparent, true)
     {
         public override bool AllowsNull => false;
@@ -17,7 +17,7 @@ internal static class MultiColumnConverterExample
         {
             dynamic mapping = Mapping;
 
-            mapping.A = value.A; 
+            mapping.A = value.A;
             mapping.R = value.R;
             mapping.G = value.G;
             mapping.B = value.B;
@@ -32,7 +32,7 @@ internal static class MultiColumnConverterExample
                 result = Color.FromArgb(mapping.A, mapping.R, mapping.G, mapping.B);
                 return true;
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 result = DefaultValue;
                 return false;
@@ -66,7 +66,7 @@ internal static class MultiColumnConverterExample
         Thread.Sleep(5000);
         tmpDirectory.Delete(true);
     }
-    
+
     private static void CreateCsvFile(string csvPath, dynamic mapping)
     {
         using CsvWriter writer = Csv.OpenWrite(csvPath, ["Name", "A", "R", "G", "B"]);

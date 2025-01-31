@@ -9,10 +9,14 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// CSV will be converted.
 /// </typeparam>
 /// <remarks>
-/// The class implements <see cref="IEnumerable{T}">. A 
+/// <para>
+/// The class implements <see cref="IEnumerable{T}"/>. A 
 /// <see cref="CsvReader{TResult}"/> instance can be iterated with <c>foreach</c> or queried using 
 /// Linq methods. Note that an instance can only be iterated once; if an attempt is made to
 /// iterate it twice, an <see cref="ObjectDisposedException"/> is thrown.
+/// </para>
+/// <para>
+/// Use the methods of <see cref="CsvMapping"/> to create an instance!
 /// </para>
 /// </remarks>
 public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResult>
@@ -25,7 +29,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     private bool _disposed;
 
     /// <summary>
-    /// 
+    /// Initializes a new <see cref="CsvReader{TResult}"/> instance.
     /// </summary>
     /// <param name="reader">A <see cref="CsvReader"/> instance.</param>
     /// <param name="mapping">The <see cref="Mapping"/> used to convert the CSV data.</param>
@@ -37,25 +41,23 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// <para>
     /// The function is called for each row in the CSV data and gets the specified <see cref="Mapping"/> 
     /// as argument, filled with the current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> 
-    /// is passed to the function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// is passed to the function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
-    /// <remarks>
-    /// If <typeparamref name="TResult"/> is neither <see cref="Mapping"/> nor <see cref="Record"/>,
-    /// the <see cref="CsvOpts.DisableCaching"/> flag of <paramref name="reader"/> should be set to 
-    /// gain performance.
-    /// </remarks>
-    /// <exception cref="ArgumentNullException"><paramref name="reader"/>, or <paramref name="mapping"/>, 
-    /// or <paramref name="conversion"/> is <c>null</c>.</exception>
-    public CsvReader(CsvReader reader,
-                     Mapping mapping,
-                     Func<dynamic, TResult> conversion)
+    /// 
+    internal CsvReader(CsvReader reader,
+                       Mapping mapping,
+                       Func<dynamic, TResult> conversion)
     {
-        _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        _ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
+        //_ArgumentNullException.ThrowIfNull(reader, nameof(reader));
+        //_ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        //_ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
+        Debug.Assert(reader is not null);
+        Debug.Assert(mapping is not null);
+        Debug.Assert(conversion is not null);
+
         _reader = reader;
         _mapping = mapping;
         _conversion = conversion;
@@ -129,6 +131,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
 
         if(record is null)
         {
+            Dispose();
             result = default!;
             return false;
         }

@@ -1,5 +1,7 @@
-﻿using FolkerKinzel.CsvTools.Mappings;
+﻿using FolkerKinzel.CsvTools;
+using FolkerKinzel.CsvTools.Mappings;
 using FolkerKinzel.CsvTools.Mappings.Converters;
+using System.Xml.Linq;
 
 namespace Examples;
 
@@ -58,15 +60,15 @@ internal static class DeserializingClassesFromCsv
 
          using CsvReader<Pupil> reader = 
             CsvMapping.OpenReadAnalyzed<Pupil>( csvFileName,
-                                         mapping,
-                                         static dyn => new Pupil
-                                         {
-                                             Name = dyn.Name,
-                                             LessonBegin = dyn.LessonBegin,
-                                             LessonDay = dyn.LessonDay,
-                                             Subject = dyn.Subject
-                                         }
-                                       );
+                                                mapping,
+                                                static dyn => new Pupil
+                                                {
+                                                    Name = dyn.Name,
+                                                    LessonBegin = dyn.LessonBegin,
+                                                    LessonDay = dyn.LessonDay,
+                                                    Subject = dyn.Subject
+                                                }
+                                              );
 
         Pupil[] pupils = [.. reader];
 
@@ -76,6 +78,26 @@ internal static class DeserializingClassesFromCsv
             Console.WriteLine(pupil);
             Console.WriteLine();
         }
+
+        using (CsvWriter csvWriter = Csv.OpenWrite(csvFileName, ["Name", "Subject", "Weekday", "Begin"]))
+        using (CsvWriter<Pupil> writer
+            = CsvMapping.OpenWrite<Pupil>(csvWriter,
+                                          mapping,
+                                          static (pupil, dyn) =>
+                                          {
+                                              dyn.Name = pupil.Name;
+                                              dyn.LessonBegin = pupil.LessonBegin;
+                                              dyn.LessonDay = pupil.LessonDay;
+                                              dyn.Subject = pupil.Subject;
+                                          }))
+        {
+            foreach (Pupil pupil in pupils)
+            {
+                writer.Write(pupil);
+            }
+        }
+
+        Console.WriteLine(File.ReadAllText(csvFileName));
     }
 }
 
@@ -96,4 +118,9 @@ Name:        Frederic Chopin
 Subject:     <null>
 LessonDay:   <null>
 LessonBegin: <null>
+
+Name,Subject,Weekday,Begin
+Susi,Piano,3,
+Carl Czerny,Piano,4,
+Frederic Chopin,,,
 */

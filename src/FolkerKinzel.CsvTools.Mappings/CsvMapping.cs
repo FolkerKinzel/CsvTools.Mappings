@@ -10,152 +10,42 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <see cref="Mapping"/>s and type conversions.</summary>
 public static class CsvMapping
 {
-    /// <summary>Creates a new CSV file with header row and initializes a <see cref="CsvWriter"/> instance
-    /// to write data to it. If the target file already exists, it is truncated and overwritten.</summary>
-    /// <param name="filePath">The file path of the CSV file to be written.</param>
-    /// <param name="columnNames">A collection of column names for the header to be written.
-    /// The collection will be copied. If the collection contains <c>null</c> values, these 
-    /// are replaced by automatically generated column names. Column names cannot appear twice. 
-    /// With <paramref name="caseSensitive"/> can be chosen whether the comparison is case-sensitive or not.</param>
-    ///  <param name="caseSensitive">If <c>true</c>, column names that differ only in 
-    /// upper and lower case are also accepted, otherwise <c>false</c>.</param>
-    /// <param name="textEncoding">The text encoding to be used or <c>null</c> for <see
-    /// cref="Encoding.UTF8" />.</param>
-    /// 
-    /// <returns>A <see cref="CsvWriter"/> instance that allows you to write data as a CSV file.</returns>
-    /// 
-    /// <remarks>
-    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the constructor of
-    /// <see cref="CsvWriter"/> directly.
-    /// </remarks>
-    /// 
-    /// <exception cref="ArgumentNullException"> <paramref name="filePath" /> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException">
-    /// <para>
-    /// <paramref name="filePath" /> is not a valid file path
-    /// </para>
-    /// <para>
-    /// - or -
-    /// </para>
-    /// <para>
-    /// a column name in <paramref name="columnNames" /> occurs twice. With <paramref name="caseSensitive"/>
-    /// can be chosen whether the comparison is case-sensitive or not.
-    /// </para>
-    /// </exception>
-    /// <exception cref="IOException">I/O error.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvWriter OpenWrite(string filePath,
-                                      IEnumerable<string?> columnNames,
-                                      bool caseSensitive = false,
-                                      Encoding? textEncoding = null)
-        => new(filePath, columnNames, caseSensitive, textEncoding);
-
     /// <summary>
-    /// Initializes a new <see cref="CsvWriter" /> object with the column names
-    /// for the header row to be written.</summary>
-    /// <param name="writer">The <see cref="TextWriter" /> used for writing.</param>
-    /// <param name="columnNames">A collection of column names for the header to be written.
-    /// The collection will be copied. If the collection contains <c>null</c> values, these 
-    /// are replaced with automatically
-    /// generated column names. Column names cannot appear twice. With <paramref name="caseSensitive"/>
-    /// can be chosen whether the comparison is case-sensitive or not.</param>
-    /// <param name="caseSensitive">If <c>true</c>, column names that differ only in 
-    /// upper and lower case are also accepted, otherwise <c>false</c>.</param>
-    /// 
-    /// <returns>A <see cref="CsvWriter" /> instance that allows you to write CSV data with
-    /// <paramref name="writer"/>.</returns>
-    /// 
-    /// <remarks>
-    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the constructor of
-    /// <see cref="CsvWriter"/> directly.
-    /// </remarks>
-    /// 
-    /// <exception cref="ArgumentNullException"> <paramref name="writer" /> or <paramref
-    /// name="columnNames" /> is <c>null.</c></exception>
-    /// <exception cref="ArgumentException">A column name in <paramref name="columnNames"
-    /// /> occurs twice. With <paramref name="caseSensitive"/> can be chosen whether 
-    /// the comparison is case-sensitive or not.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvWriter OpenWrite(TextWriter writer,
-                                      IEnumerable<string?> columnNames,
-                                      bool caseSensitive = false)
-        => new(writer, columnNames, caseSensitive);
-
-    /// <summary>Creates a new CSV file without a header row and initializes a <see cref="CsvWriter"/> 
-    /// instance to write data to it. If the target file already exists, it is truncated and overwritten.</summary>
-    /// <param name="filePath">The file path of the CSV file to be written.</param>
-    /// <param name="columnsCount">Number of columns in the CSV file.</param>
-    /// <param name="textEncoding">The text encoding to be used or <c>null</c> for <see
-    /// cref="Encoding.UTF8" />.</param>
-    /// 
-    /// <returns>A <see cref="CsvWriter"/> instance that allows you to write data as a CSV file.</returns>
-    /// 
-    /// <remarks>
-    /// <para>Creates a new CSV file. If the target file already exists, it is 
-    /// truncated and overwritten.
+    /// Initializes a new <see cref="CsvWriter{TData}" /> instance.
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type that the newly initialized <see cref="CsvWriter{TData}"/> 
+    /// can write as CSV row.
+    /// </typeparam>
+    /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
+    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <param name="conversion">
+    /// <para>
+    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
-    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the constructor of
-    /// <see cref="CsvWriter"/> directly.
-    /// </para>
-    /// </remarks>
-    /// 
-    /// <exception cref="ArgumentNullException"> <paramref name="filePath" /> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException"> <paramref name="filePath" /> is not a valid
-    /// file path.</exception>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.</exception>
-    /// <exception cref="IOException">I/O error.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvWriter OpenWrite(string filePath,
-                                      int columnsCount,
-                                      Encoding? textEncoding = null)
-        => new(filePath, columnsCount, textEncoding);
-
-    /// <summary>Initializes a new <see cref="CsvWriter" /> object to write CSV data
-    /// without a header row.</summary>
-    /// <param name="writer">The <see cref="TextWriter" /> used for writing.</param>
-    /// <param name="columnsCount">Number of columns in the CSV.</param>
-    /// 
-    /// <returns>A <see cref="CsvWriter" /> instance that allows you to write CSV data with
-    /// the <see cref="TextWriter"/>.</returns>
-    /// 
-    /// <remarks>
-    /// <para>Creates a new CSV file. If the target file already exists, it is 
-    /// truncated and overwritten.
+    /// <paramref name="conversion"/> is called with each CSV row to be written and it
+    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// arguments. The <see cref="Mapping"/>
+    /// is passed to the method as <c>dynamic</c> argument: Inside the method the registered 
+    /// <see cref="DynamicProperty"/> instances can be used like 
+    /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// <para>
-    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the constructor of
-    /// <see cref="CsvWriter"/> directly.
+    /// With each call all <see cref="DynamicProperty"/> instances in
+    /// <paramref name="mapping"/> have been reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
-    /// </remarks>
+    /// </param>
+    /// <returns>A <see cref="CsvWriter{TData}"/> instance that allows you to write <typeparamref name="TData"/>
+    /// instances as CSV rows.</returns>
     /// 
-    /// <exception cref="ArgumentNullException"> <paramref name="writer" /> is <c>null.</c></exception>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="writer"/>, or <paramref name="mapping"/>, 
+    /// or <paramref name="conversion"/> is <c>null</c>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvWriter OpenWrite(TextWriter writer, int columnsCount)
-        => new(writer, columnsCount);
-
-
-    ///// <summary>
-    ///// Converts the contents of <paramref name="data"/> to a comma-separated values <see cref="string"/> 
-    ///// (CSV, RFC 4180).
-    ///// </summary>
-    ///// <param name="data">The data to convert.</param>
-    ///// <returns>A CSV-<see cref="string"/> containing the contents of <paramref name="data"/>.</returns>
-    ///// 
-    ///// <remarks>
-    ///// <see cref="object.ToString()"/> is used to serialize the contents of <paramref name="data"/>.
-    ///// </remarks>
-    ///// 
-    ///// <exception cref="ArgumentNullException"> <paramref name="data" /> is <c>null</c>.</exception>
-    //public static string AsString(IEnumerable<IEnumerable<object?>?> data)
-    //    => CsvTools.Csv.AsString(data);
-
-
+    public static CsvWriter<TData> OpenWrite<TData>(CsvWriter writer, Mapping mapping, Action<TData, dynamic> conversion)
+        => new(writer, mapping, conversion);
 
     /// <summary>Initializes a <see cref="CsvReader{TResult}"/> instance to read data 
     /// that is in the CSV format as a collection of <typeparamref name="TResult"/> instances.</summary>
@@ -175,7 +65,7 @@ public static class CsvMapping
     /// The function is called for each row in 
     /// the CSV data and gets the <see cref="Mapping"/> as argument, filled with the 
     /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
-    /// function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
@@ -193,7 +83,6 @@ public static class CsvMapping
     /// or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="delimiter"/> is either 
     /// the double quotes <c>"</c> or a line break character ('\r' or  '\n').</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static CsvReader<TResult> OpenRead<TResult>(TextReader reader,
                                                        Mapping mapping,
                                                        Func<dynamic, TResult> conversion,
@@ -203,12 +92,12 @@ public static class CsvMapping
     {
         options = DetermineDisableCaching<TResult>(options);
 
-        using var csvReader = new CsvReader(reader,
-                                            isHeaderPresent,
-                                            options,
-                                            delimiter);
-
-        return new CsvReader<TResult>(csvReader, mapping, conversion);
+        return new CsvReader<TResult>(new CsvReader(reader,
+                                                    isHeaderPresent,
+                                                    options,
+                                                    delimiter), 
+                                        mapping,
+                                        conversion);
     }
 
     /// <summary>Opens the CSV file referenced with <paramref name="filePath"/> for reading its
@@ -228,7 +117,7 @@ public static class CsvMapping
     /// The function is called for each row in 
     /// the CSV file and gets the <see cref="Mapping"/> as argument, filled with the 
     /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
-    /// function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
@@ -290,7 +179,7 @@ public static class CsvMapping
     /// The function is called for each row in 
     /// the CSV file and gets the <see cref="Mapping"/> as argument, filled with the 
     /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
-    /// function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
@@ -364,7 +253,7 @@ public static class CsvMapping
     /// The function is called for each row in 
     /// <paramref name="csv"/> and gets the <see cref="Mapping"/> as argument, filled with the 
     /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
-    /// function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
@@ -424,7 +313,7 @@ public static class CsvMapping
     /// The function is called for each row in 
     /// <paramref name="csv"/> and gets the <see cref="Mapping"/> as argument, filled with the 
     /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
-    /// function as a <c>dynamic</c> argument: Inside the function the registered 
+    /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>

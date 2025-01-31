@@ -9,7 +9,7 @@
     <PackageId>FolkerKinzel.CsvTools.Mappings</PackageId>
     <Product>FolkerKinzel.CsvTools.Mappings</Product>
     <Version>1.0.0-alpha.2</Version>
-    <FileVersion>1.0.0.87</FileVersion>
+    <FileVersion>1.0.0.89</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-alpha.2</PackageReleaseNotes>
     <PackageTags>.NET CSV C#</PackageTags>
@@ -59,7 +59,7 @@
   </ItemGroup>
   <!-- 👇 disable the nullable warnings when compiling for .NET Framework 4.0 -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net462'">
-    <NoWarn>$(NoWarn);8600;8601;8602;8603;8604</NoWarn>
+    <NoWarn>$(NoWarn);8600;8601;8602;8603;8604;8618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\..\..\..\Nuget-Logo\Logo.png">

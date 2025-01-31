@@ -39,16 +39,11 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <see cref="DynamicProperty.PropertyName"/> is already added.
 /// </para>
 /// <para>
-/// Before accessing the dynamic properties, a <see cref="CsvRecord"/> instance must be assigned to the <see cref="Mapping.Record"/>
-/// property. For writing CSV it is sufficient to assign the <see cref="CsvRecord"/> instance to the <see cref="Mapping"/> object only 
-/// once, because the same <see cref="CsvRecord"/> instance is always used and refilled. For reading the current <see cref="CsvRecord"/> instance
-/// normally has to be assigned with every iteration. An exception is, when a CSV file is read with the <see cref="CsvOpts.DisableCaching"/> flag: 
-/// then the <see cref="CsvRecord"/> object is the same for each iteration. As a convenient alternative, use the extension methods from the
-/// <see cref="MappingExtension"/> class.
+/// Use the methods of the <see cref="CsvMapping"/> class to perform read and write operations with the <see cref="Mapping"/>.
 /// </para>
 /// <para>
-/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances can be accessed directly without
-/// having to use dynamic .NET properties:
+/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances alternatively can be accessed directly 
+/// without having to use dynamic .NET properties:
 /// </para>
 /// <list type="bullet">
 /// <item>Use the indexers <see cref="this[int]"/> or <see cref="this[string]"/> to get a 
