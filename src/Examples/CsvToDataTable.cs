@@ -48,7 +48,7 @@ internal static class CsvToDataTable
         // (The column names provided when initalizing the CsvWriter determine
         // which DataColumns will be part of the CSV and their order in the CSV file.)
         string[] columns =
-            ["Subject", "Lesson Start", "Name", "Day"];
+            ["Subject", "Lesson Start", "Name", "Day", "Reserved"];
 
         using (CsvWriter writer = Csv.OpenWrite(FILE_NAME, columns))
         {
@@ -63,23 +63,22 @@ internal static class CsvToDataTable
 
         WriteConsole(dataTable);
 
-        /* 
+/* 
+Console output:
 
-        Console output:
+Csv file:
 
-        Csv file:
+Subject,Lesson Start,Name,Day,Reserved
+Piano,14:30:00,Susi Meyer,Wednesday,
+Piano,15:15:00,Carl Czerny,Thursday,
+Piano,,Frederic Chopin,,
 
-        Subject,Lesson Start,Name,Day
-        Piano,14:30:00,Susi Meyer,Wednesday
-        Piano,15:15:00,Carl Czerny,Thursday
-        Piano,,Frederic Chopin,
+Content of the refilled DataTable:
+<DBNull>        Susi Meyer      Piano           3               14:30
+<DBNull>        Carl Czerny     Piano           4               15:15
+<DBNull>        Frederic Chopin Piano           <DBNull>        <DBNull>
 
-        Content of the refilled DataTable:
-        <DBNull>        Susi Meyer      Piano           3               14:30
-        <DBNull>        Carl Czerny     Piano           4               15:15
-        <DBNull>        Frederic Chopin Piano           <DBNull>        <DBNull>
-
-        */
+*/
     }
 
     private static void WriteConsole(DataTable dataTable)
