@@ -5,6 +5,6 @@ You don't need to install `FolkerKinzel.CsvTools` separately. It comes with the 
 
 [FolkerKinzel.CsvTools](https://www.nuget.org/packages/FolkerKinzel.CsvTools/)
 
-[Project Reference and Release Notes](https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-alpha.2)
+[Project Reference and Release Notes](https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-alpha.3)
 
 [See code examples on GitHub](https://github.com/FolkerKinzel/CsvTools.Mappings)

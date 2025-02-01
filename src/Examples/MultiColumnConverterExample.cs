@@ -40,7 +40,7 @@ internal static class MultiColumnConverterExample
         }
     }
 
-    internal static void ParseDataFromSeveralColumns()
+    internal static void ParseDataFromSeveralCsvColumns()
     {
         TypeConverter<byte> byteConverter = new ByteConverter().ToHexConverter();
         Mapping colorMapping = Mapping.Create()

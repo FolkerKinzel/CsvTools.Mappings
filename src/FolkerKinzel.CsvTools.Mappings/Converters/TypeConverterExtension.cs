@@ -1,5 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+using System.Data;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters;
 
@@ -18,18 +19,28 @@ public static class TypeConverterExtension
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="converter"></param>
+    /// 
     /// <returns>
-    /// A <see cref="TypeConverter{T}">TypeConverter&lt;<see cref="object"/>&gt;</see>
-    /// instance
+    /// A <see cref="TypeConverter{T}">TypeConverter&lt;<see cref="object"/>&gt;</see> instance
     /// that converts and accepts <typeparamref name="T"/> as well as <see cref="DBNull.Value"/>.
     /// <see cref="DBNull.Value"/> is the <see cref="TypeConverter{T}.DefaultValue"/> of this new
     /// <see cref="TypeConverter{T}"/> instance.
     /// </returns>
-    /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
+    /// 
     /// <remarks>
     /// The method does not always initialize a new instance: if <paramref name="converter"/> already 
     /// meets the requirements, it returns <paramref name="converter"/>.
     /// </remarks>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>
+    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
+    /// <see cref="DataTable"/>: </para>
+    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+    /// </example>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TypeConverter<object> ToDBNullConverter<T>(this TypeConverter<T> converter)
     {
@@ -43,7 +54,7 @@ public static class TypeConverterExtension
     /// Creates a new <see cref="Nullable{T}"/> converter instance that's based on <paramref name="converter"/>.
     /// </summary>
     /// <typeparam name="T">The data type that <paramref name="converter"/> can convert. 
-    /// <typeparamref name="T"/> must be a <see cref="ValueType"/>.</typeparam>
+    /// <typeparamref name="T"/> must be a <see cref="System.ValueType"/>.</typeparam>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> instance that is used as template.</param>
     /// <returns>The newly created <see cref="TypeConverter{T}"/> instance that converts <see cref="Nullable{T}"/>
     /// instead of <typeparamref name="T"/>.</returns>

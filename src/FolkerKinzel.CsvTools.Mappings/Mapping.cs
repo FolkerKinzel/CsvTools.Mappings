@@ -68,9 +68,9 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <para>
 /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
 /// <see cref="DataTable"/>: </para>
-/// <code language="cs" source="..\Examples\CsvToDataTable.cs"/>
-/// <para>Deserializing any objects from CSV files:</para>
-/// <code language="cs" source="..\Examples\DeserializingClassesFromCsv.cs"/>
+/// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+/// <para>Object serialization with CSV:</para>
+/// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
 /// </example>
 public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, ICloneable
 {
@@ -119,6 +119,16 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// has to be assigned to <see cref="Record"/>.
     /// </note>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>
+    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
+    /// <see cref="DataTable"/>: </para>
+    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+    /// </example>
     public static Mapping Create() => [];
 
     /// <summary>

@@ -8,6 +8,17 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="byte"/>.
 /// </summary>
+/// 
+/// <example>
+/// <para>
+/// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+/// </para>
+/// <para>
+/// (For the sake of easier readability exception handling has been omitted.)
+/// </para>
+/// <img src="images\MultiColumnConverter.png"/>
+/// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+/// </example>
 public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="ByteConverter"/> instance.</summary>
@@ -25,6 +36,18 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "R" or "r".
     /// </exception>
@@ -53,6 +76,17 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     public NumberStyles Styles { get; private set; }
 
     /// <inheritdoc/>
+    /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
     public TypeConverter<byte> ToHexConverter()
     {
         if(HexConverterValidator.IsHexConverter(this))

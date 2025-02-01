@@ -113,6 +113,16 @@ public static class MappingExtension
     /// </para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>
+    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
+    /// <see cref="DataTable"/>: </para>
+    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="mapping"/>, 
     /// or <paramref name="propertyName"/>, or <paramref name="columnNameAliases"/>, or <paramref name="converter"/>
     /// is <c>null</c>.</exception>
@@ -162,6 +172,14 @@ public static class MappingExtension
     /// <see cref="CsvRecord.HasCaseSensitiveColumnNames"/> property to determine whether the comparison is 
     /// case-sensitive.
     /// </remarks>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>
+    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
+    /// <see cref="DataTable"/>: </para>
+    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+    /// </example>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="mapping"/>, 
     /// or <paramref name="propertyName"/>, or <paramref name="converter"/> is <c>null</c>.</exception>

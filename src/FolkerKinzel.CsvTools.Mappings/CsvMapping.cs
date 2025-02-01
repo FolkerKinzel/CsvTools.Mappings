@@ -38,8 +38,15 @@ public static class CsvMapping
     /// <paramref name="mapping"/> have been reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// 
     /// <returns>A <see cref="CsvWriter{TData}"/> instance that allows you to write <typeparamref name="TData"/>
     /// instances as CSV rows.</returns>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+    /// </example>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="writer"/>, or <paramref name="mapping"/>, 
     /// or <paramref name="conversion"/> is <c>null</c>.</exception>
@@ -206,6 +213,12 @@ public static class CsvMapping
     /// TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are recognized automatically.
     /// </para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+    /// </example>
     /// 
     /// <exception cref="ArgumentNullException"> <paramref name="filePath"/>, or <paramref name="mapping"/>, 
     /// or <paramref name="conversion"/> is <c>null</c>.</exception>

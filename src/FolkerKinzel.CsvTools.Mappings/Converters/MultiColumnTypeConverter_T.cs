@@ -47,7 +47,6 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
 /// </example>
 /// 
-/// 
 /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
 public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
                                                   T defaultValue,

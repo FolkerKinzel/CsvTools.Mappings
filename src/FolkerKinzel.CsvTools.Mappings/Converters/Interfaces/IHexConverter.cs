@@ -15,6 +15,17 @@ public interface IHexConverter<T> : ICloneable
     /// </summary>
     /// <returns>A new instance of <see cref="IHexConverter{T}"/> 
     /// that can convert hexadecimal string values.</returns>
+    /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
     TypeConverter<T> ToHexConverter();
 
     /// <summary>
