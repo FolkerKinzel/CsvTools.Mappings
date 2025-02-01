@@ -1,4 +1,4 @@
-Since version FolkerKinzel.CsvTools 2.0.0 the `CsvRecordMapping` and the type converters 
+Since version 2.0.0 of `FolkerKinzel.CsvTools`  the `Mapping` and the type converters 
 are in this separate package.
 
 This version is a prerelease version. Don't use it in production. (Everything can still change 
