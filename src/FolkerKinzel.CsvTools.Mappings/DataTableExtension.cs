@@ -27,7 +27,7 @@ public static class DataTableExtension
     /// </para>
     /// <para>
     /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// neither all columns of the <see cref="DataTable"/> nor all columns of the CSV file (neither in
+    /// all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither in
     /// number nor in order).
     /// </para>
     /// </remarks>
@@ -41,6 +41,10 @@ public static class DataTableExtension
     /// in <see cref="dataTable"/>.
     /// </exception>
     /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
+    /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't match the schema of
+    /// the <paramref name="dataTable"/>.</exception>
+    /// <exception cref="ConstraintException">The parsed CSV data does not match the schema of
+    /// the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static void ReadCsv(this DataTable dataTable, CsvReader reader, Mapping mapping)
@@ -53,17 +57,15 @@ public static class DataTableExtension
         {
             mapping.Record = record;
             DataRow dataRow = dataTable.NewRow();
-            dataRow.BeginEdit();
-            dataTable.Rows.Add(dataRow);
             
             for (int i = 0; i < mapping.Count; i++)
             {
                 DynamicProperty prop = mapping[i];
                 dataRow[prop.PropertyName] = prop.Value;
             }
-        }
 
-        //dataTable.AcceptChanges();
+            dataTable.Rows.Add(dataRow);
+        }
     }
 
     /// <summary>
@@ -87,7 +89,7 @@ public static class DataTableExtension
     /// </para>
     /// <para>
     /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// neither all columns of the <see cref="DataTable"/> nor all columns of the CSV file (neither in
+    /// all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither in
     /// number nor in order).
     /// </para>
     /// </remarks>

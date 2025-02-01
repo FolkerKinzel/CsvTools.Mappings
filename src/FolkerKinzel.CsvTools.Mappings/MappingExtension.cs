@@ -403,7 +403,7 @@ public static class MappingExtension
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Mapping.Record)));
             }
 
-            mapping.Record.Clear() ;
+            mapping.Record.Clear();
             return;
         }
 
