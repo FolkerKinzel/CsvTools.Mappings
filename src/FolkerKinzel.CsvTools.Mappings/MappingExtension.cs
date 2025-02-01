@@ -330,7 +330,7 @@ public static class MappingExtension
     /// <exception cref="ArgumentException">
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
     /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <see cref="dataRow"/>.
+    /// in <paramref name="dataRow"/>.
     /// </exception>
     /// <exception cref="InvalidCastException">
     /// A value in <paramref name="dataRow"/> does not match the expected data type in 
@@ -380,7 +380,7 @@ public static class MappingExtension
     /// <exception cref="ArgumentException">
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
     /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <see cref="dataRow"/>.
+    /// in <paramref name="dataRow"/>.
     /// </exception>
     /// <exception cref="InvalidCastException">
     /// A value in <paramref name="dataRow"/> does not match the expected data type in 

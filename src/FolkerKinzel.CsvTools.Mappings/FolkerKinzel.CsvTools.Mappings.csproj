@@ -9,7 +9,7 @@
     <PackageId>FolkerKinzel.CsvTools.Mappings</PackageId>
     <Product>FolkerKinzel.CsvTools.Mappings</Product>
     <Version>1.0.0-alpha.2</Version>
-    <FileVersion>1.0.0.89</FileVersion>
+    <FileVersion>1.0.0.91</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-alpha.2</PackageReleaseNotes>
     <PackageTags>.NET CSV C#</PackageTags>

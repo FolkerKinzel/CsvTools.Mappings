@@ -7,7 +7,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Tests;
 [TestClass]
 public class MultiColumnPropertyTests
 {
-    private class SumConverter(Mapping mapping)
+    private sealed class SumConverter(Mapping mapping)
         : MultiColumnTypeConverter<int?>(mapping, null, false)
     {
         public override bool AllowsNull => true;
@@ -57,7 +57,7 @@ public class MultiColumnPropertyTests
             .AddProperty("Sum", new SumConverter(subMapping));
 
         using var stringWriter = new StringWriter();
-        using CsvWriter csvWriter = CsvMapping.OpenWrite(stringWriter, ["A", "B"]);
+        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, ["A", "B"]);
         mappping.Record = csvWriter.Record;
 
         int?[] sums = [3, 0, -7, null];
@@ -73,11 +73,7 @@ public class MultiColumnPropertyTests
 
         string csv = stringWriter.ToString();
 
-        using var stringReader = new StringReader(csv);
-        using CsvReader reader = CsvMapping.OpenRead(stringReader);
-
-        int?[] results = reader.Read(mappping).Select<Mapping, int?>(m => { dynamic dyn = m; return dyn.Sum; }).ToArray();
-
+        int?[] results = CsvMapping.Parse<int?>(csv, mappping, dyn => dyn.Sum);
         CollectionAssert.AreEqual(sums, results);
     }
 }

@@ -1,14 +1,19 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Data;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
+/// <summary>
+/// Extension methods for the <see cref="DataTable"/> class.
+/// </summary>
 public static class DataTableExtension
 {
     /// <summary>
     /// Adds CSV content as <see cref="DataRow"/>s to a <see cref="DataTable"/>.
     /// </summary>
-    /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRows"/>
+    /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
     /// <param name="reader">The <see cref="CsvReader"/> to use.</param>
     /// <param name="mapping">The <see cref="Mapping"/> to be used.</param>
@@ -32,13 +37,13 @@ public static class DataTableExtension
     /// </para>
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="writer"/>,
+    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="reader"/>,
     /// or <paramref name="mapping"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="ArgumentException">
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
     /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <see cref="dataTable"/>.
+    /// in <paramref name="dataTable"/>.
     /// </exception>
     /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
     /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't match the schema of
@@ -99,7 +104,7 @@ public static class DataTableExtension
     /// <exception cref="ArgumentException">
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
     /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <see cref="dataTable"/>.
+    /// in <paramref name="dataTable"/>.
     /// </exception>
     /// <exception cref="InvalidCastException">
     /// A value in <paramref name="dataTable"/> does not match the expected data type in 
