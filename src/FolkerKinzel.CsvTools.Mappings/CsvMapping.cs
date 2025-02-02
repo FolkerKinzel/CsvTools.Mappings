@@ -1,7 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Intls;
-using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
-using System.Data;
 using System.Text;
 
 namespace FolkerKinzel.CsvTools.Mappings;
@@ -102,7 +100,7 @@ public static class CsvMapping
         return new CsvReader<TResult>(new CsvReader(reader,
                                                     isHeaderPresent,
                                                     options,
-                                                    delimiter), 
+                                                    delimiter),
                                         mapping,
                                         conversion);
     }
@@ -389,7 +387,7 @@ public static class CsvMapping
     {
         string resultType = typeof(TResult).Name;
         StringComparer comp = StringComparer.Ordinal;
-        return !options.HasFlag(CsvOpts.DisableCaching) 
+        return !options.HasFlag(CsvOpts.DisableCaching)
                && !(comp.Equals(resultType, nameof(Mapping)) || comp.Equals(resultType, nameof(CsvRecord)))
                         ? options | CsvOpts.DisableCaching
                         : options;

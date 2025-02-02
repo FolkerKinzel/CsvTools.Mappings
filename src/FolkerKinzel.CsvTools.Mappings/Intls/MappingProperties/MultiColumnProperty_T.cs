@@ -1,7 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Resources;
-using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -50,14 +49,16 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     }
 
     /// <inheritdoc/>
-    public override object? Value 
+    public override object? Value
     {
-        get => GetTypedValue(); 
-        set => SetValue(value); 
+        get => GetTypedValue();
+        set => SetValue(value);
     }
 
     /// <inheritdoc/>
-    public new T? DefaultValue => _converter.DefaultValue;
+    T? ITypedProperty<T>.DefaultValue => _converter.DefaultValue;
+
+    public override object? DefaultValue => _converter.DefaultValue;
 
     /// <inheritdoc/>
     public ITypeConverter<T> Converter => _converter;
@@ -75,9 +76,6 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
         => _converter.Mapping.Select(x => object.ReferenceEquals(this, x) ? [] : x.CsvColumnIndexes)
                              .SelectMany(x => x)
                              .Distinct();
-
-    /// <inheritdoc/>
-    protected override object? GetDefaultValue() => DefaultValue;
 
     private T? GetTypedValue()
     {

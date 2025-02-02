@@ -1,5 +1,4 @@
-﻿
-namespace FolkerKinzel.CsvTools.Mappings;
+﻿namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
 /// Interface of <see cref="DynamicProperty"/> and derived classes.

@@ -1,5 +1,4 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
@@ -78,7 +77,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
         ColumnNameAliases = source.ColumnNameAliases;
     }
 
-    
+
 
     /// <inheritdoc/>
     public override object Clone() => new ColumnNameProperty<T>(this);
@@ -98,13 +97,13 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
     /// </para>
     /// </remarks>
     public IReadOnlyList<string> ColumnNameAliases { get; }
-    
+
 
     /// <inheritdoc/>
     internal protected override int? GetCsvIndex()
     {
-        if (Record is null) 
-        { 
+        if (Record is null)
+        {
             _csvIndex = null;
         }
         else if (_csvRecordIdentifier != Record.Identifier)

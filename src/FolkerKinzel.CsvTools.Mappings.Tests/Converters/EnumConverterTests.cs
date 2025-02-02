@@ -1,6 +1,4 @@
-﻿using System;
-using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
@@ -38,7 +36,7 @@ public class EnumConverterTests
 
     [TestMethod()]
     [ExpectedException(typeof(InvalidCastException))]
-    public void EnumConverterTest5() 
+    public void EnumConverterTest5()
         => new ColumnNameProperty<DayOfWeek>("prop", ["column"], new EnumConverter<DayOfWeek>()).Value = null;
 
     [TestMethod]
@@ -141,7 +139,7 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        TypeConverter<TypeCode?> conv 
+        TypeConverter<TypeCode?> conv
             = new EnumConverter<TypeCode>(format: "F", ignoreCase: ignoreCase, throwing: throwOnParseErrors)
              .ToNullableConverter();
 
@@ -160,7 +158,7 @@ public class EnumConverterTests
     {
         TypeCode? val = null;
 
-        TypeConverter<TypeCode?> conv 
+        TypeConverter<TypeCode?> conv
             = new EnumConverter<TypeCode>(throwing: throwOnParseErrors, ignoreCase: ignoreCase)
               .ToNullableConverter();
 

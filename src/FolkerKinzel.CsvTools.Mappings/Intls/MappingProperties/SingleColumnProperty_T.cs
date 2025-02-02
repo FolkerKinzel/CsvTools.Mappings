@@ -1,7 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Resources;
-using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -57,7 +56,10 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     public override object? Value { get => GetTypedValue(); set => SetValue(value); }
 
     /// <inheritdoc/>
-    public new T? DefaultValue => _converter.DefaultValue;
+    T? ITypedProperty<T>.DefaultValue => _converter.DefaultValue;
+
+    /// <inheritdoc/>
+    public override object? DefaultValue { get => _converter.DefaultValue; }
 
     /// <summary>
     /// Returns the index of the column in the CSV file that <see cref="SingleColumnProperty{T}"/> actually accesses, 
@@ -80,9 +82,6 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
 
     /// <inheritdoc/>
     public override CsvRecord? Record { get; protected internal set; }
-
-    /// <inheritdoc/>
-    protected override object? GetDefaultValue() => DefaultValue;
 
     /// <summary>
     /// Sets the value of the dynamic property.

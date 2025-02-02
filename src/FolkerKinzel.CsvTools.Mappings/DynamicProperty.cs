@@ -1,8 +1,8 @@
-﻿using System.Text.RegularExpressions;
-using FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters;
 using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Resources;
+using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -52,7 +52,7 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
         // Record can not be set here because some requirements
         // in derived classes are not given at that point
     }
-    
+
     /// <inheritdoc/>
     public string PropertyName { get; }
 
@@ -100,13 +100,13 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// When setting the value, the converter uses an invalid format string.
     /// </para>
     /// </exception>
-    public abstract object? Value  { get; set; }
+    public abstract object? Value { get; set; }
 
     /// <summary>
     /// Gets the value that the <see cref="DynamicProperty"/> returns if parsing 
     /// fails.
     /// </summary>
-    public abstract object? DefaultValue { get; protected set; }
+    public abstract object? DefaultValue { get; }
 
     /// <inheritdoc/>
     /// <remarks>
@@ -125,14 +125,6 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
 
     /// <inheritdoc/>
     public abstract object Clone();
-
-    /// <summary>
-    /// Returns the value that the <see cref="DynamicProperty"/> returns if parsing
-    /// fails.
-    /// </summary>
-    /// <returns>The value that the <see cref="DynamicProperty"/> returns if parsing
-    /// fails.</returns>
-    protected abstract object? GetDefaultValue();
 
 #if NET8_0_OR_GREATER
     [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, Mapping.MaxRegexTimeout)]
