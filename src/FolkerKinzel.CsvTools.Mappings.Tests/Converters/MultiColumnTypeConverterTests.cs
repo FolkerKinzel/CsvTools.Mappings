@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
 [TestClass]
@@ -25,5 +27,11 @@ public class MultiColumnTypeConverterTests
         }
     }
 
-
+    [TestMethod]
+    [ExpectedException(typeof(InvalidCastException))]
+    public void ConvertToCsv()
+    {
+        var conv = new MultiIntConverter(new Mapping());
+        conv.ConvertToCsv(null);
+    }
 }

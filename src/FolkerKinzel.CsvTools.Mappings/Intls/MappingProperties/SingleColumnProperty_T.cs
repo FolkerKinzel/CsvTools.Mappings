@@ -149,18 +149,12 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
         }
 
-        string? val = value is null
-                ? _converter.AcceptsNull
-                    ? null
-                    : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
-                : _converter.ConvertToString(value);
-
         int? csvIndex = GetCsvIndex();
 
         if (csvIndex.HasValue)
         {
-            Record.Values[csvIndex.Value]
-                = val.AsMemory();
+            string? val = value is null ? null : _converter.ConvertToString(value);
+            Record.Values[csvIndex.Value] = val.AsMemory();
         }
     }
 }

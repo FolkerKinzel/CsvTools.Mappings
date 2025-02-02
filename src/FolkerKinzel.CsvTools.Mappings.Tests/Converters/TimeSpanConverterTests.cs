@@ -7,11 +7,17 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 [TestClass()]
 public class TimeSpanConverterTests
 {
+    private readonly TimeSpanConverter _conv = new ();
+
     [TestMethod()]
     public void TimeSpanConverterTest1()
     {
-        var conv = new TimeSpanConverter();
-        Assert.IsNotNull(conv);
+        Assert.IsNotNull(_conv);
+        Assert.IsFalse(_conv.AcceptsNull);
+        Assert.IsFalse(_conv.ParseExact);
+        Assert.AreEqual(_conv.FormatProvider, CultureInfo.InvariantCulture);
+        Assert.AreEqual("g", _conv.Format);
+        Assert.AreEqual(TimeSpanStyles.None, _conv.Styles);
     }
 
     [TestMethod()]
@@ -21,37 +27,35 @@ public class TimeSpanConverterTests
         Assert.IsNotNull(conv);
     }
 
-    //[TestMethod()]
-    //[ExpectedException(typeof(ArgumentException))]
-    //public void TimeSpanConverterTest3() => _ = new TimeSpanConverter(format: "", parseExact: true);
-
-    //[TestMethod()]
-    //[ExpectedException(typeof(ArgumentException))]
-    //public void TimeSpanConverterTest4() => _ = new TimeSpanConverter(format: "bla");
-
     [TestMethod()]
     public void TimeSpanConverterTest5()
     {
         var conv = new TimeSpanConverter(format: "G");
         Assert.IsNotNull(conv);
+        Assert.AreEqual("G", conv.Format);
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
     public void TimeSpanConverterTest6() => _ = new TimeSpanConverter(format: null!, parseExact: true);
 
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentOutOfRangeException))]
+    public void TimeSpanConverterTest7() => _ = new TimeSpanConverter(parseExact: true, styles: (TimeSpanStyles)4711);
+
+    [TestMethod]
+    public void TimeSpanConverterTest8() => _ = new TimeSpanConverter(parseExact: true, styles: TimeSpanStyles.AssumeNegative);
+
     [TestMethod()]
     public void Roundtrip1()
     {
         TimeSpan now = DateTime.UtcNow.TimeOfDay;
 
-        var conv = new TimeSpanConverter();
-
-        string? tmp = conv.ConvertToString(now);
+        string? tmp = _conv.ConvertToString(now);
 
         Assert.IsNotNull(tmp);
 
-        TimeSpan now2 = conv.Parse(tmp.AsSpan());
+        TimeSpan now2 = _conv.Parse(tmp.AsSpan());
 
         Assert.AreEqual(now, now2);
     }

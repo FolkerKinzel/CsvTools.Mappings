@@ -101,7 +101,7 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>, ILocalizable
 
     private static void ValidateStyles(TimeSpanStyles styles)
     {
-        if (styles is not TimeSpanStyles.None and not TimeSpanStyles.AssumeNegative)
+        if ((styles & ~TimeSpanStyles.AssumeNegative) != TimeSpanStyles.None)
         {
             throw new ArgumentOutOfRangeException(nameof(styles));
         }

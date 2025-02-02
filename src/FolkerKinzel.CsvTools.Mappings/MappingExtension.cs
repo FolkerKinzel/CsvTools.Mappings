@@ -24,7 +24,7 @@ public static class MappingExtension
     public static Mapping Clear(this Mapping mapping)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        mapping.Clear();
+        mapping.ClearIntl();
         return mapping;
     }
 

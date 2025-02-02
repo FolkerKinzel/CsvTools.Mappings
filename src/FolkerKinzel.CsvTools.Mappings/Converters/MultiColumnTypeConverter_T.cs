@@ -150,18 +150,8 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// </note>
     /// </remarks>
     /// 
-    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AcceptsNull"/>
-    /// is <c>false</c>.</exception>
-    /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
-    public void ConvertToCsv(T? value)
-    {
-        if (value is null && !AcceptsNull)
-        {
-            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
-        }
-
-        DoConvertToCsv(value);
-    }
+    /// <exception cref="FormatException">One of the subsequent converters uses an invalid format string.</exception>
+    public void ConvertToCsv(T? value) => DoConvertToCsv(value);
 
     /// <summary>
     /// Writes <paramref name="value"/> to the selected fields of <see cref="DynamicProperty.Record"/> 
@@ -176,7 +166,7 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// </remarks>
     /// 
     /// <exception cref="InvalidCastException"><paramref name="value"/> has an incompatible data type.</exception>
-    /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
+    /// <exception cref="FormatException">One of the subsequent converters uses an invalid format string.</exception>
     public void ConvertToCsv(object? value)
     {
         if (value is null && !AcceptsNull)

@@ -114,6 +114,10 @@ public class MultiColumnPropertyTests
 
         Assert.AreEqual(44, mapping["A"].Value);
         Assert.AreEqual(-2, mapping["B"].Value);
+
+        Assert.AreEqual(3, mapping.Count);
+        Assert.IsInstanceOfType<Mapping>(mapping.Clear());
+        Assert.AreEqual(0, mapping.Count);
     }
 
     [TestMethod]
@@ -175,5 +179,25 @@ public class MultiColumnPropertyTests
         var conv = new SumConverter(mapping);
         mapping.AddProperty("Prop", conv);
         object? o = mapping["Prop"].Value;
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void ValueTest2()
+    {
+        var mapping = Mapping.Create();
+        var conv = new SumConverter(mapping);
+        mapping.AddProperty("Prop", conv);
+        mapping["Prop"].Value = 7;
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void ValueTest3()
+    {
+        var mapping = Mapping.Create();
+        var conv = new SumConverter(mapping);
+        mapping.AddProperty("Prop", conv);
+        mapping["Prop"].AsITypedProperty<int?>().Value = 7;
     }
 }

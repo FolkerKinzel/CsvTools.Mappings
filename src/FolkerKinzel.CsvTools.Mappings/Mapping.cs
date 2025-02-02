@@ -232,119 +232,9 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     }
 
     /// <summary>
-    /// Removes all <see cref="DynamicProperty"/> instances from the <see cref="Mapping"/>.
+    /// Removes all <see cref="DynamicProperty"/> instances.
     /// </summary>
-    internal void Clear() => _dynProps.Clear(); // Must be internal to make the extension method usable!
-
-    ///// <summary>
-    ///// Removes the <see cref="MappingProperty"/> with the specified <see cref="MappingProperty.PropertyName"/>
-    ///// from the list of registered properties.
-    ///// </summary>
-    ///// <param name="propertyName">
-    ///// The <see cref="MappingProperty.PropertyName"/> of the <see cref="MappingProperty"/> to remove.
-    ///// </param>
-    ///// <returns>
-    ///// <c>true</c> if the searched <see cref="MappingProperty"/> was among the registered properties and could 
-    ///// be removed.
-    ///// </returns>
-    ///// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
-    //public bool RemoveProperty(string propertyName) => _dynProps.Remove(propertyName);
-
-    ///// <summary>
-    ///// Removes the <see cref="MappingProperty"/> on the specified <paramref name="index"/> from the list of 
-    ///// registered properties.
-    ///// </summary>
-    ///// <param name="index">
-    ///// The zero-based index at which the <see cref="MappingProperty"/> should be removed.
-    ///// </param>
-    ///// <exception cref="ArgumentOutOfRangeException"> <paramref name="index"/> index is less than zero or greater than or 
-    ///// equal to <see cref="Count"/>.</exception>
-    //public void RemovePropertyAt(int index) => _dynProps.RemoveAt(index);
-
-    ///// <summary>
-    ///// Inserts <paramref name="property"/> at <paramref name="index"/> in the list of the registered properties.
-    ///// </summary>
-    ///// <param name="index">
-    ///// The zero-based index at which to insert <paramref name="property"/>.</param>
-    ///// <param name="property">The <see cref="MappingProperty"/> to insert.</param>
-    ///// 
-    ///// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
-    ///// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> index is less than zero or greater than or equal
-    ///// to <see cref="Count"/>.</exception>
-    ///// 
-    ///// <exception cref="ArgumentException">
-    ///// There is already a <see cref="MappingProperty"/> with the same <see cref="MappingProperty.PropertyName"/> registered. 
-    ///// Check this beforehand with <see cref="Contains(string?)"/>!
-    ///// </exception>
-    //public void InsertProperty(int index, MappingProperty property)
-    //{
-    //    _ArgumentNullException.ThrowIfNull(property, nameof(property));
-
-    //    _dynProps.Insert(index, property);
-    //    property.Record = Record;
-    //}
-
-    ///// <summary>
-    ///// Replaces the <see cref="MappingProperty"/> at the specified index of the list of registered properties 
-    ///// with <paramref name="property"/>.
-    ///// </summary>
-    ///// <param name="index">
-    ///// The zero-based index at which the registered <see cref="MappingProperty"/> instance is replaced with 
-    ///// <paramref name="property"/>.</param>
-    ///// <param name="property">A <see cref="MappingProperty"/> instance.</param>
-    ///// 
-    ///// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
-    ///// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> index is less than zero or 
-    ///// greater than or equal to <see cref="Count"/>.</exception>
-    ///// <exception cref="ArgumentException">
-    ///// There is already a <see cref="MappingProperty"/> with the same <see cref="MappingProperty.PropertyName"/> 
-    ///// registered. 
-    ///// Check this beforehand with <see cref="Contains(string?)"/>!
-    ///// </exception>
-    //public void ReplacePropertyAt(int index, MappingProperty property)
-    //{
-    //    _ArgumentNullException.ThrowIfNull(property, nameof(property));
-    //    _dynProps[index] = property;
-    //}
-
-    ///// <summary>
-    ///// Replaces the registered <see cref="MappingProperty"/> instance whose <see cref="MappingProperty.PropertyName"/>
-    ///// property equals <paramref name="propertyName"/> with <paramref name="property"/>.
-    ///// </summary>
-    ///// <param name="propertyName">Identifier of the registered <see cref="MappingProperty"/> instance to be replaced. 
-    ///// (See <see cref="MappingProperty.PropertyName"/>.)</param>
-    ///// <param name="property">The <see cref="MappingProperty"/> instance object to be used for replacement.</param>
-    /////
-    ///// <exception cref="ArgumentNullException"><paramref name="propertyName"/>, or <paramref name="property"/>
-    ///// is <c>null</c>.</exception>
-    ///// 
-    ///// <exception cref="ArgumentException">
-    ///// <para>
-    ///// There is no registered <see cref="MappingProperty"/> whose <see cref="MappingProperty.PropertyName"/> property 
-    ///// matches <paramref name="propertyName"/>,
-    ///// </para>
-    ///// <para>- or -</para>
-    ///// <para>
-    ///// there is already a registered <see cref="MappingProperty"/> instance whose <see cref="MappingProperty.PropertyName"/> 
-    ///// property is identical with which of <paramref name="property"/>.
-    ///// Check this beforehand with <see cref="Contains(string?)"/>!
-    ///// </para>
-    ///// </exception>
-    //public void ReplaceProperty(string propertyName, MappingProperty property)
-    //{
-    //    _ArgumentNullException.ThrowIfNull(propertyName, nameof(propertyName));
-    //    _ArgumentNullException.ThrowIfNull(property, nameof(property));
-
-    //    try
-    //    {
-    //        int index = _dynProps.IndexOf(_dynProps[propertyName]);
-    //        _dynProps[index] = property;
-    //    }
-    //    catch (KeyNotFoundException e)
-    //    {
-    //        throw new ArgumentException(string.Format(Res.PropertyNotFound, nameof(propertyName)), nameof(propertyName), e);
-    //    }
-    //}
+    internal void ClearIntl() => _dynProps.Clear();
 
     /// <summary>
     /// Examines whether a <see cref="DynamicProperty"/> instance is already registered in the <see cref="Mapping"/>
@@ -357,16 +247,6 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
     public bool Contains(string propertyName) => _dynProps.Contains(propertyName);
-    
-    ///// <summary>
-    ///// Gets the index of the <see cref="MappingProperty"/> whose <see cref="MappingProperty.PropertyName"/> equals
-    ///// <paramref name="propertyName"/>, or -1 if no such property has been found.
-    ///// </summary>
-    ///// <param name="propertyName">Der Eigenschaftsname der zu suchenden <see cref="MappingProperty"/>.</param>
-    ///// <returns>The index of the <see cref="MappingProperty"/> whose <see cref="MappingProperty.PropertyName"/> equals
-    ///// <paramref name="propertyName"/>, or -1 if no such property has been found.</returns>
-    ///// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.</exception>
-    //public int IndexOf(string propertyName) => _dynProps.Contains(propertyName) ? _dynProps.IndexOf(_dynProps[propertyName]) : -1;
 
     /// <inheritdoc/>
     public IEnumerator<DynamicProperty> GetEnumerator() => ((IEnumerable<DynamicProperty>)_dynProps).GetEnumerator();
