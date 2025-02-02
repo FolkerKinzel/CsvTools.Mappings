@@ -53,4 +53,10 @@ public interface ITypedProperty<T>
     /// fails.
     /// </summary>
     T? DefaultValue { get; }
+
+
+    /// <summary>
+    /// An object implementing <see cref="ITypeConverter{T}"/> that performs the type conversion.
+    /// </summary>
+    ITypeConverter<T> Converter { get; }
 }

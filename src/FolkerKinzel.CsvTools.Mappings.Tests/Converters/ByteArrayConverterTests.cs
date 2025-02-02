@@ -64,6 +64,22 @@ public class ByteArrayConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(InvalidCastException))]
-    public void MyTestMethod() => new IndexProperty<byte[]?>("prop", 0, ByteArrayConverter.CreateNullable()).SetValue(4711);
+    public void InvalidCastTest() => new IndexProperty<byte[]?>("prop", 0, ByteArrayConverter.CreateNullable()).SetValue(4711);
+
+    [TestMethod]
+    public void CreateNonNullableTest1()
+    {
+        TypeConverter<byte[]> conv = ByteArrayConverter.CreateNonNullable();
+        Assert.IsNotNull(conv);
+        Assert.IsInstanceOfType<byte[]>(conv.DefaultValue);
+    }
+
+    [TestMethod]
+    public void CreateNullableTest2()
+    {
+        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
+        Assert.IsNotNull(conv);
+        Assert.IsNull(conv.DefaultValue);
+    }
 
 }

@@ -287,6 +287,9 @@ dotnet_diagnostic.CA1707.severity = none
 # IDE0011: Add braces
 dotnet_diagnostic.IDE0011.severity = suggestion
 
+# CA1861: Avoid constant arrays as arguments
+dotnet_diagnostic.CA1861.severity = none
+
 [*.{cs,vb}]
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 tab_width = 4

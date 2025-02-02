@@ -45,7 +45,7 @@ public class DynamicPropertyTests
 
         Assert.IsNotNull(prop);
         Assert.AreEqual(prop.PropertyName, propertyName);
-        Assert.IsInstanceOfType<StringConverterIntl>(prop.Converter);
+        Assert.IsInstanceOfType<StringConverterIntl>(((ITypedProperty<string?>)prop).Converter);
     }
 
     [TestMethod()]

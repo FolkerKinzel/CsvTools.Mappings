@@ -60,10 +60,10 @@ public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>,
     /// <inheritdoc/>
     public TypeConverter<sbyte> ToHexConverter()
     {
-        if (HexConverterValidator.IsHexConverter(this))
-        {
-            return this;
-        }
+        //if (HexConverterValidator.IsHexConverter(this))
+        //{
+        //    return this;
+        //}
 
         var clone = (SByteConverter)Clone();
         clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;

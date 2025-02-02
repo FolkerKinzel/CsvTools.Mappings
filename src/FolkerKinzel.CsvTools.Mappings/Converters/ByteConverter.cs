@@ -89,10 +89,10 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     /// </example>
     public TypeConverter<byte> ToHexConverter()
     {
-        if(HexConverterValidator.IsHexConverter(this))
-        {
-            return this;
-        }
+        //if(HexConverterValidator.IsHexConverter(this))
+        //{
+        //    return this;
+        //}
 
         var clone = (ByteConverter)Clone();
         clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;

@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using System;
 using System.Globalization;
@@ -13,6 +14,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
 internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T>, ICloneable
 {
+    private readonly MultiColumnTypeConverter<T> _converter;
+
     /// <summary> Initializes a new <see cref="MultiColumnProperty{T}"/> instance.</summary>
     /// <param name="propertyName">The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
     /// Only ASCII characters are accepted.</param>
@@ -26,12 +29,12 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     /// </exception>
     public MultiColumnProperty(string propertyName, MultiColumnTypeConverter<T> converter) : base(propertyName)
     {
-        Converter = converter ?? throw new ArgumentNullException(nameof(converter));
+        _converter = converter ?? throw new ArgumentNullException(nameof(converter));
     }
 
     private MultiColumnProperty(MultiColumnProperty<T> other) : base(other)
     {
-        Converter = other.Converter;
+        _converter = other._converter;
         // Don't change the order: Converter needs to be initialized first!
         Record = other.Record;
     }
@@ -47,26 +50,26 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     }
 
     /// <inheritdoc/>
-    public new T? DefaultValue => Converter.DefaultValue;
+    public new T? DefaultValue => _converter.DefaultValue;
 
-    /// <summary>
-    /// An object derived from <see cref="MultiColumnTypeConverter{T}"/> that performs the type conversion.
-    /// </summary>
-    public MultiColumnTypeConverter<T> Converter { get; }
+    /// <inheritdoc/>
+    public ITypeConverter<T> Converter => _converter;
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record
     {
-        get => Converter.Mapping.Record;
-        internal set => Converter.Mapping.Record = value!; // This is called internal only
+        get => _converter.Mapping.Record;
+        internal set => _converter.Mapping.Record = value!; // This is called internal only
     }
 
     /// <inheritdoc/>
     public override IEnumerable<int> CsvColumnIndexes
         // break circular references:
-        => Converter.Mapping.Select(x => object.ReferenceEquals(this, x) ? [] : x.CsvColumnIndexes)
+        => _converter.Mapping.Select(x => object.ReferenceEquals(this, x) ? [] : x.CsvColumnIndexes)
                             .SelectMany(x => x)
                             .Distinct();
+
+    
 
     /// <inheritdoc/>
     protected internal override object? GetValue() => GetTypedValue();
@@ -78,7 +81,7 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     {
         return Record is null
             ? throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)))
-            : Converter.Parse();
+            : _converter.Parse();
     }
 
     /// <inheritdoc/>
@@ -89,7 +92,7 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
         }
 
-        Converter.ConvertToCsv(value);
+        _converter.ConvertToCsv(value);
     }
 
     private void SetTypedValue(T? value)
@@ -99,6 +102,6 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
             throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Record)));
         }
 
-        Converter.ConvertToCsv(value);
+        _converter.ConvertToCsv(value);
     }
 }

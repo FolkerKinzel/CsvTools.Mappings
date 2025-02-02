@@ -23,4 +23,16 @@ public class Int64ConverterTests
         Assert.IsFalse(_conv.AllowsNull);
         Assert.IsNotNull(_conv.ConvertToString(input));
     }
+
+    [TestMethod]
+    public void ToHexConverterTest()
+    {
+        var conv = new Int64Converter().ToHexConverter();
+        Assert.AreEqual("2A", conv.ConvertToString(42));
+        Assert.AreEqual(42, conv.Parse("2A".AsSpan()));
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException))]
+    public void ValidateFormatTest() => new Int64Converter(format: "R");
 }

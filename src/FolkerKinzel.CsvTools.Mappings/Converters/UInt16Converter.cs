@@ -60,10 +60,10 @@ public sealed class UInt16Converter : TypeConverter<ushort>, IHexConverter<ushor
     /// <inheritdoc/>
     public TypeConverter<ushort> ToHexConverter()
     {
-        if (HexConverterValidator.IsHexConverter(this))
-        {
-            return this;
-        }
+        //if (HexConverterValidator.IsHexConverter(this))
+        //{
+        //    return this;
+        //}
 
         var clone = (UInt16Converter)Clone();
         clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;

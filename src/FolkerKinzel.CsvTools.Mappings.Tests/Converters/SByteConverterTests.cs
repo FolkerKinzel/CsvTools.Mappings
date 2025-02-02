@@ -23,4 +23,16 @@ public class SByteConverterTests
         Assert.IsFalse(_conv.AllowsNull);
         Assert.IsNotNull(_conv.ConvertToString((sbyte)input));
     }
+
+    [TestMethod]
+    public void ToHexConverterTest()
+    {
+        var conv = new SByteConverter().ToHexConverter();
+        Assert.AreEqual("2A", conv.ConvertToString(42));
+        Assert.AreEqual(42, conv.Parse("2A".AsSpan()));
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException))]
+    public void ValidateFormatTest() => new SByteConverter(format: "R");
 }

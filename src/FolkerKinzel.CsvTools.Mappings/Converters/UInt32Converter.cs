@@ -60,10 +60,10 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     /// <inheritdoc/>
     public TypeConverter<uint> ToHexConverter()
     {
-        if (HexConverterValidator.IsHexConverter(this))
-        {
-            return this;
-        }
+        //if (HexConverterValidator.IsHexConverter(this))
+        //{
+        //    return this;
+        //}
 
         var clone = (UInt32Converter)Clone();
         clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;

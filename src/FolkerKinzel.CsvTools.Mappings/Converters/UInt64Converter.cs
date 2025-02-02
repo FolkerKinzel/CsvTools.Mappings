@@ -60,10 +60,10 @@ public sealed class UInt64Converter : TypeConverter<ulong>, IHexConverter<ulong>
     /// <inheritdoc/>
     public TypeConverter<ulong> ToHexConverter()
     {
-        if (HexConverterValidator.IsHexConverter(this))
-        {
-            return this;
-        }
+        //if (HexConverterValidator.IsHexConverter(this))
+        //{
+        //    return this;
+        //}
 
         var clone = (UInt64Converter)Clone();
         clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;

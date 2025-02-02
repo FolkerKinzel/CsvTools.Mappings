@@ -13,6 +13,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 /// </summary>
 internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedProperty<T>, ICloneable
 {
+    private readonly TypeConverter<T> _converter;
+
     /// <summary>Initializes a new <see cref="SingleColumnProperty{T}"/> instance.</summary>
     /// <param name="propertyName">
     /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
@@ -29,7 +31,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// </exception>
     public SingleColumnProperty(string propertyName, TypeConverter<T> converter) : base(propertyName)
     {
-        Converter = converter ?? throw new ArgumentNullException(nameof(converter));
+        _converter = converter ?? throw new ArgumentNullException(nameof(converter));
     }
 
     /// <summary>
@@ -38,7 +40,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// <param name="other">The <see cref="DynamicProperty"/> instance to clone.</param>
     protected SingleColumnProperty(SingleColumnProperty<T> other) : base(other)
     {
-        Converter = other.Converter;
+        _converter = other._converter;
         Record = other.Record;
     }
 
@@ -52,7 +54,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     }
 
     /// <inheritdoc/>
-    public new T? DefaultValue => Converter.DefaultValue;
+    public new T? DefaultValue => _converter.DefaultValue;
 
     /// <summary>
     /// Returns the index of the column in the CSV file that <see cref="SingleColumnProperty{T}"/> actually accesses, 
@@ -70,10 +72,8 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
         }
     }
 
-    /// <summary>
-    /// An object that does the <see cref="Type"/> conversion.
-    /// </summary>
-    public TypeConverter<T> Converter { get; }
+    /// <inheritdoc/>
+    public ITypeConverter<T> Converter => _converter;
 
     /// <inheritdoc/>
     protected internal override CsvRecord? Record { get; internal set; }
@@ -87,7 +87,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// <inheritdoc/>
     protected internal override void SetValue(object? value)
     {
-        if (value is null && !Converter.AllowsNull)
+        if (value is null && !_converter.AllowsNull)
         {
             throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
@@ -114,8 +114,8 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
         int? csvIndex = GetCsvIndex();
 
         return csvIndex.HasValue
-            ? Converter.Parse(Record.Values[csvIndex.Value].Span)
-            : Converter.DefaultValue;
+            ? _converter.Parse(Record.Values[csvIndex.Value].Span)
+            : _converter.DefaultValue;
     }
 
     /// <summary>
@@ -135,10 +135,10 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
         }
 
         string? val = value is null
-                ? Converter.AllowsNull
+                ? _converter.AllowsNull
                     ? null
                     : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
-                : Converter.ConvertToString(value);
+                : _converter.ConvertToString(value);
 
         int? csvIndex = GetCsvIndex();
 

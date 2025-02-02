@@ -59,10 +59,10 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     /// <inheritdoc/>
     public TypeConverter<int> ToHexConverter()
     {
-        if (HexConverterValidator.IsHexConverter(this))
-        {
-            return this;
-        }
+        //if (HexConverterValidator.IsHexConverter(this))
+        //{
+        //    return this;
+        //}
 
         var clone = (Int32Converter)Clone();
         clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;

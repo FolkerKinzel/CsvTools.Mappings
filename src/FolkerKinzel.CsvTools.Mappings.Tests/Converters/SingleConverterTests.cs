@@ -23,4 +23,11 @@ public class SingleConverterTests
         Assert.IsFalse(_conv.AllowsNull);
         Assert.IsNotNull(_conv.ConvertToString(input));
     }
+
+    [DataTestMethod]
+    [DataRow("D")]
+    //[DataRow("R")]
+    [DataRow("X")]
+    [ExpectedException(typeof(ArgumentException))]
+    public void ValidateFormatTest(string? format) => new SingleConverter(format: format);
 }

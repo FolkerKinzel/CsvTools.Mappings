@@ -59,10 +59,10 @@ public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>,
     /// <inheritdoc/>
     public TypeConverter<short> ToHexConverter()
     {
-        if (HexConverterValidator.IsHexConverter(this))
-        {
-            return this;
-        }
+        //if (HexConverterValidator.IsHexConverter(this))
+        //{
+        //    return this;
+        //}
 
         var clone = (Int16Converter)Clone();
         clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;

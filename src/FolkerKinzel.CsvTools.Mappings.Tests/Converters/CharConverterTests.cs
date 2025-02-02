@@ -1,9 +1,9 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
 [TestClass]
-public class Int32ConverterTests
+public class CharConverterTests
 {
-    private readonly Int32Converter _conv = new();
+    private readonly CharConverter _conv = new();
 
     [DataTestMethod]
     [DataRow("")]
@@ -15,24 +15,31 @@ public class Int32ConverterTests
         Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
     }
 
-    [DataTestMethod]
-    [DataRow(4)]
-    [DataRow(-3)]
-    public void ConvertToStringTest1(int input)
+    [TestMethod]
+    public void ConvertToStringTest1()
     {
         Assert.IsFalse(_conv.AllowsNull);
-        Assert.IsNotNull(_conv.ConvertToString(input));
+        Assert.IsNotNull(_conv.ConvertToString('a'));
     }
 
     [TestMethod]
-    public void ToHexConverterTest()
+    public void RoundtripTest1()
     {
-        var conv = new Int32Converter().ToHexConverter();
+        const char a = 'a';
+        string? csv = _conv.ConvertToString(a);
+        Assert.AreEqual(a, _conv.Parse(csv.AsSpan()));
+    }
+
+    [TestMethod]
+    public void ToHexConverterTest1()
+    {
+        var conv = new ByteConverter().ToHexConverter();
         Assert.AreEqual("2A", conv.ConvertToString(42));
         Assert.AreEqual(42, conv.Parse("2A".AsSpan()));
     }
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentException))]
-    public void ValidateFormatTest() => new Int32Converter(format: "R");
+    public void ValidateFormatTest() => new ByteConverter(format: "R");
+    
 }

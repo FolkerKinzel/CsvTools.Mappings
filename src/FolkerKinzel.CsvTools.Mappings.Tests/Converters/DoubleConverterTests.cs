@@ -37,4 +37,11 @@ public class DoubleConverterTests
         double? d2 = (double?)conv.Parse(s.AsSpan());
         Assert.AreEqual(d, d2);
     }
+
+    [DataTestMethod]
+    [DataRow("D")]
+    //[DataRow("R")]
+    [DataRow("X")]
+    [ExpectedException(typeof(ArgumentException))]
+    public void ValidateFormatTest(string? format) => new DoubleConverter(format: format);
 }

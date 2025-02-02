@@ -26,4 +26,11 @@ public class DecimalConverterTests
         Assert.IsFalse(_conv.AllowsNull);
         Assert.IsNotNull(_conv.ConvertToString((Decimal)input));
     }
+
+    [DataTestMethod]
+    [DataRow("D")]
+    [DataRow("R")]
+    [DataRow("X")]
+    [ExpectedException(typeof(ArgumentException))]
+    public void ValidateFormatTest(string? format) => new DecimalConverter(format: format);
 }
