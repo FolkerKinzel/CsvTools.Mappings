@@ -31,7 +31,7 @@ public interface ITypedProperty<T> : IDynamicProperty
     /// <exception cref="InvalidCastException">
     /// When setting the value,
     /// <paramref name="value"/> is <c>null</c> and 
-    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>.
+    /// <see cref="ITypeConverter{T}.AcceptsNull"/> is <c>false</c>.
     /// </exception>
     /// <exception cref="FormatException">
     /// <para>

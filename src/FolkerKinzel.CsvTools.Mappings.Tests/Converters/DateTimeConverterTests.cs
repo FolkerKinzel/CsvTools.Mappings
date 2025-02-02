@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 
@@ -15,7 +16,7 @@ public class DateTimeConverterTests
     public void DateTimeConverterTest1()
     {
         Assert.IsNotNull(_conv);
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsFalse(_conv.ParseExact);
     }
 
@@ -64,5 +65,34 @@ public class DateTimeConverterTests
         object? dt = conv.Parse(s.AsSpan());
 
         Assert.AreEqual(new DateTime(1974, 02, 16), dt);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void FormatNullTest1() => new DateTimeConverter(format: null, parseExact: true);
+
+    [TestMethod]
+    public void ParseExactTest1()
+    {
+        var conv = new DateTimeConverter(parseExact: true);
+        Assert.IsTrue(conv.ParseExact);
+        var dateTime = DateTime.Now;
+        string? csv = conv.ConvertToString(dateTime);
+        Assert.IsNotNull(csv);
+        Assert.IsTrue(conv.TryParseValue(csv.AsSpan(), out DateTime parsed));
+        var culture = CultureInfo.InvariantCulture;
+        Assert.AreEqual(dateTime.ToString(culture), parsed.ToString(culture));
+    }
+
+    [TestMethod]
+    public void ParseTest1()
+    {
+        Assert.IsFalse(_conv.ParseExact);
+        var dateTime = DateTime.Now;
+        string? csv = _conv.ConvertToString(dateTime);
+        Assert.IsNotNull(csv);
+        Assert.IsTrue(_conv.TryParseValue(csv.AsSpan(), out DateTime parsed));
+        var culture = CultureInfo.InvariantCulture;
+        Assert.AreEqual(dateTime.ToString(culture), parsed.ToString(culture));
     }
 }

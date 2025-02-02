@@ -397,7 +397,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// <exception cref="InvalidCastException">
     /// <para>
     /// <paramref name="value"/> is <c>null</c> and 
-    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
+    /// <see cref="ITypeConverter{T}.AcceptsNull"/> is <c>false</c>,
     /// </para>
     /// <para>- or -</para>
     /// <para>

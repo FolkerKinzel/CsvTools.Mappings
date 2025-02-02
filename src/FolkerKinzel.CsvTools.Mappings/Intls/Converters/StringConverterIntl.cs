@@ -13,7 +13,7 @@ internal sealed class StringConverterIntl : TypeConverter<string?>
         : base(defaultValue, false) { }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => true;
+    public override bool AcceptsNull => true;
 
     /// <inheritdoc/>
     public override string? ConvertToString(string? value) => value;

@@ -59,7 +59,7 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     public Mapping Mapping { get; } = mapping ?? throw new ArgumentNullException(nameof(mapping));
 
     /// <inheritdoc/>
-    public abstract bool AllowsNull { get; }
+    public abstract bool AcceptsNull { get; }
 
     /// <inheritdoc/>
     public bool Throwing { get; } = throwing;
@@ -150,12 +150,12 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// </note>
     /// </remarks>
     /// 
-    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AllowsNull"/>
+    /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and <see cref="AcceptsNull"/>
     /// is <c>false</c>.</exception>
     /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
     public void ConvertToCsv(T? value)
     {
-        if (value is null && !AllowsNull)
+        if (value is null && !AcceptsNull)
         {
             throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
@@ -179,7 +179,7 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
     public void ConvertToCsv(object? value)
     {
-        if (value is null && !AllowsNull)
+        if (value is null && !AcceptsNull)
         {
             throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }

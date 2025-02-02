@@ -45,7 +45,7 @@ public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>,
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }

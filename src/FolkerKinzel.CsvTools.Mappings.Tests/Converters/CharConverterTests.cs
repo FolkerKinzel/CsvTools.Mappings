@@ -11,14 +11,14 @@ public class CharConverterTests
     [DataRow("bla")]
     public void TryParseValueTest2(string input)
     {
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
     }
 
     [TestMethod]
     public void ConvertToStringTest1()
     {
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsNotNull(_conv.ConvertToString('a'));
     }
 

@@ -104,7 +104,7 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     public object Clone() => new ByteConverter(FormatProvider, Format, Styles, Throwing);
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(byte value)

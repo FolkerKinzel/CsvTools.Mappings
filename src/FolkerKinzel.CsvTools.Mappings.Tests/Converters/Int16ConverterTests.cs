@@ -13,7 +13,7 @@ public class Int16ConverterTests
     [DataRow("bla")]
     public void TryParseValueTest2(string input)
     {
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
     }
 
@@ -22,7 +22,7 @@ public class Int16ConverterTests
     [DataRow(-3)]
     public void ConvertToStringTest1(int input)
     {
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsNotNull(_conv.ConvertToString((short)input));
     }
 

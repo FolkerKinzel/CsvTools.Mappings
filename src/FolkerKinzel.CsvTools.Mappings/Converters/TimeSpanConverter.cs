@@ -58,7 +58,7 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>, ILocalizable
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }

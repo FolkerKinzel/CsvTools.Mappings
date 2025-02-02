@@ -43,7 +43,7 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }

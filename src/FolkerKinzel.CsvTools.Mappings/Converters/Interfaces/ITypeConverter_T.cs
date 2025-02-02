@@ -31,8 +31,8 @@ public interface ITypeConverter<T>
     T DefaultValue { get; }
 
     /// <summary>
-    /// Gets a value indicating whether the converter allows 
-    /// <c>null</c> values as input.
+    /// Gets a value indicating whether the converter accepts 
+    /// <c>null</c> references as input.
     /// </summary>
     /// <value><c>true</c> if the converter allows <c>null</c> values as input,
     /// otherwise <c>false</c>.</value>
@@ -43,12 +43,12 @@ public interface ITypeConverter<T>
     /// <para>
     /// The behavior is equivalent to the behavior of the AllowNullAttribute:
     /// Even if the converters <see cref="DataType"/> doesn't allow <c>null</c> values, 
-    /// <c>null</c> will be accepted as input if the <see cref="AllowsNull"/> property 
+    /// <c>null</c> will be accepted as input if the <see cref="AcceptsNull"/> property 
     /// is <c>true</c>.
     /// </para>
     /// </remarks>
     /// </remarks>
-    bool AllowsNull { get; }
+    bool AcceptsNull { get; }
 
     /// <summary>
     /// The data type the converter converts.

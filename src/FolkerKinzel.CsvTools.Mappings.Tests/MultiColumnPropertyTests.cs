@@ -10,7 +10,7 @@ public class MultiColumnPropertyTests
     private sealed class SumConverter(Mapping mapping)
         : MultiColumnTypeConverter<int?>(mapping, null, false)
     {
-        public override bool AllowsNull => true;
+        public override bool AcceptsNull => true;
 
         protected override void DoConvertToCsv(int? value)
         {

@@ -74,7 +74,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>, ILocalizable
     public bool ParseExact { get; }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     /// <exception cref="FormatException">

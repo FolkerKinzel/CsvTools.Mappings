@@ -33,7 +33,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <summary>
     /// The format string to use.

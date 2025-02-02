@@ -22,7 +22,7 @@ public class BooleanConverterTests
     [DataRow("bla")]
     public void TryParseValueTest2(string input)
     {
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
     }
 
@@ -31,7 +31,7 @@ public class BooleanConverterTests
     [DataRow(false)]
     public void ConvertToStringTest1(bool input)
     {
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsNotNull(_conv.ConvertToString(input));
     }
 }

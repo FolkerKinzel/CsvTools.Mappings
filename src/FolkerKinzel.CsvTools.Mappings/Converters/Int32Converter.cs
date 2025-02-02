@@ -45,7 +45,7 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }

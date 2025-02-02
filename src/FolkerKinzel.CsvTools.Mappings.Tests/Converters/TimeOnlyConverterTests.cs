@@ -9,7 +9,7 @@ public class TimeOnlyConverterTests
     public void TimeOnlyConverterTest1()
     {
         Assert.IsNotNull(_conv);
-        Assert.IsFalse(_conv.AllowsNull);
+        Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsFalse(_conv.ParseExact);
     }
 

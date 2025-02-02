@@ -50,7 +50,7 @@ public abstract class TypeConverter<T>(T defaultValue,
     public bool Throwing { get; } = throwing;
 
     /// <inheritdoc/>
-    public abstract bool AllowsNull { get; }
+    public abstract bool AcceptsNull { get; }
 
     /// <inheritdoc/>
     public Type DataType => typeof(T);

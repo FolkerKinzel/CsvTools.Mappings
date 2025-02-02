@@ -83,7 +83,7 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// <para>
     /// When setting the value,
     /// <paramref name="value"/> is <c>null</c> and 
-    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
+    /// <see cref="ITypeConverter{T}.AcceptsNull"/> is <c>false</c>,
     /// </para>
     /// <para>- or -</para>
     /// <para>

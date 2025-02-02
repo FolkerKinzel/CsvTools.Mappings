@@ -16,7 +16,7 @@ internal sealed class ByteArrayConverterIntl : TypeConverter<byte[]?>
         : base(defaultValue, throwing) { }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => true;
+    public override bool AcceptsNull => true;
 
     /// <inheritdoc/>
     public override string? ConvertToString(byte[]? value)

@@ -13,7 +13,7 @@ public sealed class BooleanConverter(bool defaultValue = default, bool throwing 
     : TypeConverter<bool>(defaultValue, throwing)
 {
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(bool value) // There's an overload that uses IFormatProvider

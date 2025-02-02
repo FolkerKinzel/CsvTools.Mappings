@@ -7,20 +7,21 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 [TestClass()]
 public class DateTimeOffsetConverterTests
 {
+    private readonly DateTimeOffsetConverter _conv = new();
+
     [TestMethod()]
     public void DateTimeOffsetConverterTest0()
     {
-        var conv = new DateTimeOffsetConverter();
-
-        Assert.IsNotNull(conv);
+        Assert.IsNotNull(_conv);
+        Assert.IsFalse(_conv.AcceptsNull);
 
         var dt = new DateTime(1975, 07, 14);
 
-        string? s = conv.ConvertToString(new DateTimeOffset(dt));
+        string? s = _conv.ConvertToString(new DateTimeOffset(dt));
 
         Assert.IsNotNull(s);
 
-        var dto = (DateTimeOffset)conv.Parse(s.AsSpan())!;
+        var dto = (DateTimeOffset)_conv.Parse(s.AsSpan())!;
 
         Assert.AreEqual(dt, dto.DateTime);
     }
@@ -51,8 +52,22 @@ public class DateTimeOffsetConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void DateTimeOffsetConverterTest7() => _ = new DateTimeOffsetConverter(format: null!, parseExact: true);
+    public void DateTimeOffsetConverterTest7() => _ = new DateTimeOffsetConverter(format: null, parseExact: true);
 
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentOutOfRangeException))]
+    public void DateTimeOffsetConverterTest8() => _ = new DateTimeOffsetConverter(styles: DateTimeStyles.NoCurrentDateDefault);
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentOutOfRangeException))]
+    public void DateTimeOffsetConverterTest9() => _ = new DateTimeOffsetConverter(styles: DateTimeStyles.AssumeUniversal | DateTimeStyles.AssumeLocal);
+
+    [TestMethod]
+    public void DateTimeOffsetConverterTest10() => _ = new DateTimeOffsetConverter(styles: DateTimeStyles.AssumeUniversal);
+
+    [TestMethod]
+    public void DateTimeOffsetConverterTest11() => _ = new DateTimeOffsetConverter(styles: DateTimeStyles.AssumeLocal);
 
     [TestMethod()]
     public void Roundtrip1()
@@ -87,5 +102,33 @@ public class DateTimeOffsetConverterTests
         var now2 = (DateTimeOffset?)conv.Parse(tmp1.AsSpan());
 
         Assert.AreEqual(now, now2);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void FormatNullTest1() => new DateTimeOffsetConverter(format: null, parseExact: true);
+
+    
+    [TestMethod]
+    public void ParseExactTest1()
+    {
+        var conv = new DateTimeOffsetConverter(parseExact: true);
+        Assert.IsTrue(conv.ParseExact);
+        var dateTime = DateTimeOffset.Now;
+        string? csv = conv.ConvertToString(dateTime);
+        Assert.IsNotNull(csv);
+        Assert.IsTrue(conv.TryParseValue(csv.AsSpan(), out DateTimeOffset parsed));
+        Assert.AreEqual(dateTime, parsed);
+    }
+
+    [TestMethod]
+    public void ParseTest1()
+    {
+        Assert.IsFalse(_conv.ParseExact);
+        var dateTime = DateTimeOffset.Now;
+        string? csv = _conv.ConvertToString(dateTime);
+        Assert.IsNotNull(csv);
+        Assert.IsTrue(_conv.TryParseValue(csv.AsSpan(), out DateTimeOffset parsed));
+        Assert.AreEqual(dateTime, parsed);
     }
 }

@@ -11,7 +11,7 @@ internal static class MultiColumnConverterExample
     private sealed class ColorConverter(Mapping mapping)
         : MultiColumnTypeConverter<Color>(mapping, Color.Transparent, true)
     {
-        public override bool AllowsNull => false;
+        public override bool AcceptsNull => false;
 
         protected override void DoConvertToCsv(Color value)
         {

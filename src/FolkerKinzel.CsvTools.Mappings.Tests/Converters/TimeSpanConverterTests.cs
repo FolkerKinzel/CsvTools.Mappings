@@ -71,4 +71,15 @@ public class TimeSpanConverterTests
 
         Assert.AreEqual(now, now2);
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void FormatNullTest1() => new TimeSpanConverter(format: null, parseExact: true);
+
+    [TestMethod]
+    public void ParseExactTest1()
+    {
+        var conv = new TimeSpanConverter(parseExact: true);
+        Assert.IsTrue(conv.ParseExact);
+    }
 }

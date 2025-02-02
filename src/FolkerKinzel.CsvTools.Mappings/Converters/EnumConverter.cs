@@ -60,7 +60,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
     public string? Format { get; }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(TEnum value) => value.ToString(Format);

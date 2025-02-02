@@ -9,7 +9,7 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
     private readonly string _separator;
     private readonly TypeConverter<TItem?> _itemsConverter;
 
-    public override bool AllowsNull => true;
+    public override bool AcceptsNull => true;
 
     /// <summary>
     /// Initializes a new <see cref="IEnumerableConverter{TItem}"/> instance.

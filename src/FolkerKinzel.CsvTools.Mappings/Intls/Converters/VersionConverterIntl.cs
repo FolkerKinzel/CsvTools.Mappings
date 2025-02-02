@@ -15,7 +15,7 @@ internal sealed class VersionConverterIntl : TypeConverter<Version?>
         : base(defaultValue, throwing) { }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => true;
+    public override bool AcceptsNull => true;
 
     /// <inheritdoc/>
     public override string? ConvertToString(Version? value) => value?.ToString();

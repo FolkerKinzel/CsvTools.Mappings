@@ -92,7 +92,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// <exception cref="InvalidCastException">
     /// <para>
     /// <paramref name="value"/> is <c>null</c> and 
-    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
+    /// <see cref="ITypeConverter{T}.AcceptsNull"/> is <c>false</c>,
     /// </para>
     /// <para>- or -</para>
     /// <para>
@@ -102,7 +102,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// <exception cref="FormatException">The converter uses an invalid format string.</exception>
     private void SetValue(object? value)
     {
-        if (value is null && !_converter.AllowsNull)
+        if (value is null && !_converter.AcceptsNull)
         {
             throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
         }
@@ -140,7 +140,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
     /// to <see cref="Mapping.Record"/> first before calling this method.</exception>
     /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and 
-    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>.</exception>
+    /// <see cref="ITypeConverter{T}.AcceptsNull"/> is <c>false</c>.</exception>
     /// <exception cref="FormatException">The converter uses an invalid format string.</exception>
     private void SetTypedValue(T? value)
     {
@@ -150,7 +150,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
         }
 
         string? val = value is null
-                ? _converter.AllowsNull
+                ? _converter.AcceptsNull
                     ? null
                     : throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName))
                 : _converter.ConvertToString(value);

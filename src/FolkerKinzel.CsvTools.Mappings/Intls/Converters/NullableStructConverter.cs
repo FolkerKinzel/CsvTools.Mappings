@@ -7,7 +7,7 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
 {
     private readonly TypeConverter<T> _typeConverter;
 
-    public override bool AllowsNull => true;
+    public override bool AcceptsNull => true;
 
     /// <summary>
     /// Initializes a new <see cref="NullableStructConverter{T}"/> instance.

@@ -45,7 +45,7 @@ public sealed class Int64Converter : TypeConverter<long>, IHexConverter<long>, I
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }

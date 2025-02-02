@@ -6,11 +6,13 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 [TestClass()]
 public class GuidConverterTests
 {
+    private readonly GuidConverter _conv = new();
+
     [TestMethod()]
     public void GuidConverterTest1()
     {
-        var conv = new GuidConverter();
-        Assert.IsNotNull(conv);
+        Assert.IsNotNull(_conv);
+        Assert.IsFalse(_conv.AcceptsNull);
     }
 
     [DataTestMethod()]
@@ -39,13 +41,11 @@ public class GuidConverterTests
     {
         var guid = Guid.NewGuid();
 
-        var conv = new GuidConverter();
-
-        string? tmp = conv.ConvertToString(guid);
+        string? tmp = _conv.ConvertToString(guid);
 
         Assert.IsNotNull(tmp);
 
-        var now2 = (Guid?)conv.Parse(tmp.AsSpan());
+        var now2 = (Guid?)_conv.Parse(tmp.AsSpan());
 
         Assert.AreEqual(guid, now2);
     }

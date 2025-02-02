@@ -37,7 +37,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILo
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.DateTimeFormat)]
 #endif
-        string format = "O",
+        string? format = "O",
         DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind,
         bool parseExact = false,
         bool throwing = true) : base(default, throwing)
@@ -55,7 +55,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILo
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
@@ -63,7 +63,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILo
     /// <summary>
     /// The format string to use.
     /// </summary>
-    public string Format { get; }
+    public string? Format { get; }
 
     /// <summary>
     /// Gets a combined value of the <see cref="DateTimeStyles"/> enum that provides additional information for parsing.
@@ -112,14 +112,12 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILo
 
     private static void ValidateStyles(DateTimeStyles styles)
     {
-        const DateTimeStyles InvalidDateTimeStyles = ~(DateTimeStyles.AllowLeadingWhite | DateTimeStyles.AllowTrailingWhite
-                                                     | DateTimeStyles.AllowInnerWhite | DateTimeStyles.NoCurrentDateDefault
+        const DateTimeStyles InvalidDateTimeStyles = ~(DateTimeStyles.AllowWhiteSpaces
                                                      | DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeLocal
                                                      | DateTimeStyles.AssumeUniversal | DateTimeStyles.RoundtripKind);
 
         if ((styles & InvalidDateTimeStyles) != 0
-          || styles.HasFlag(DateTimeStyles.AssumeLocal | DateTimeStyles.AssumeUniversal)
-          || styles.HasFlag(DateTimeStyles.NoCurrentDateDefault))
+          || styles.HasFlag(DateTimeStyles.AssumeLocal | DateTimeStyles.AssumeUniversal))
         {
             throw new ArgumentOutOfRangeException(nameof(styles));
         }

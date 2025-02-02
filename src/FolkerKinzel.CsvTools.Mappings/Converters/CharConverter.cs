@@ -13,7 +13,7 @@ public sealed class CharConverter(char defaultValue = default, bool throwing = t
     : TypeConverter<char>(defaultValue, throwing)
 {
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public override string? ConvertToString(char value) 

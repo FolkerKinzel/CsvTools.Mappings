@@ -44,7 +44,7 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     }
 
     /// <inheritdoc/>
-    public override bool AllowsNull => false;
+    public override bool AcceptsNull => false;
 
     /// <inheritdoc/>
     public IFormatProvider FormatProvider { get; }
