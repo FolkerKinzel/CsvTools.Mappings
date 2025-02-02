@@ -132,11 +132,6 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     public static Mapping Create() => [];
 
     /// <summary>
-    /// Maximum time (in milliseconds) that can be used to resolve a <see cref="Regex"/>.
-    /// </summary>
-    public const int MaxRegexTimeout = 100;
-
-    /// <summary>
     /// Maximum time (in milliseconds) that can be used to resolve a CSV column 
     /// name alias. 
     /// </summary>
@@ -149,7 +144,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     public static int RegexTimeout
     {
         get => _regexTimeout;
-        set => _regexTimeout = TimeoutHelper.NormalizeRegexTimeout(value, nameof(value));
+        set => _regexTimeout = TimeoutHelper.ValidateRegexTimeout(value, nameof(value));
     }
 
     /// <summary>
@@ -373,6 +368,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     public override bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object? result) => base.TryGetIndex(binder, indexes, out result);
 
     /// <inheritdoc/>
+    [ExcludeFromCodeCoverage]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryInvoke(InvokeBinder binder, object?[]? args, out object? result) => base.TryInvoke(binder, args, out result);
 
@@ -396,7 +392,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     {
         if (Record is null || Count == 0)
         {
-            return base.ToString() ?? string.Empty;
+            return this.GetType().Name;
         }
 
         var sb = new StringBuilder();

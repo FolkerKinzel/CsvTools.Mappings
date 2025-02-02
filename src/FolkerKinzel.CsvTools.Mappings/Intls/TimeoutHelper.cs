@@ -10,17 +10,9 @@ internal static class TimeoutHelper
     /// <returns>The normalized value.</returns>
     /// <event cref="ArgumentOutOfRangeException">The value of <paramref name="timeOut"/> 
     /// is negative or zero and not <see cref="Timeout.Infinite"/>.</event>"
-    internal static int NormalizeRegexTimeout(int timeOut, string paramName)
-    {
-        if (timeOut > Mapping.RegexTimeout)
-        {
-            return Mapping.RegexTimeout;
-        }
-        else if (timeOut != Timeout.Infinite)
-        {
-            _ArgumentOutOfRangeException.ThrowIfNegativeOrZero(timeOut, paramName);
-        }
-
-        return timeOut;
-    }
+    internal static int ValidateRegexTimeout(int timeOut, string paramName)
+        => timeOut is < 1 and not Timeout.Infinite 
+                ? throw new ArgumentOutOfRangeException(paramName) 
+                : timeOut;
+    
 }

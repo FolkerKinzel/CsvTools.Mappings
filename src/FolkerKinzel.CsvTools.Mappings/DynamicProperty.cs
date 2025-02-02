@@ -127,10 +127,10 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     public abstract object Clone();
 
 #if NET8_0_OR_GREATER
-    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, Mapping.MaxRegexTimeout)]
+    [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, 100)]
     private static partial Regex PropertyNameRegex();
 #else
     private static Regex PropertyNameRegex { get; } 
-        = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(Mapping.MaxRegexTimeout));
+        = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
 #endif
 }

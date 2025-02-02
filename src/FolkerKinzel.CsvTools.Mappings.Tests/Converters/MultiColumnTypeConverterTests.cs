@@ -6,13 +6,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 [TestClass]
 public class MultiColumnTypeConverterTests
 {
-    private class MultiIntConverter : MultiColumnTypeConverter<int>
+    private sealed class MultiIntConverter(Mapping mapping) : MultiColumnTypeConverter<int>(mapping, 0, true)
     {
-        public MultiIntConverter(Mapping mapping) 
-            : base(mapping, 0, true)
-        {
-        }
-
         public override bool AcceptsNull => false;
 
         protected override void DoConvertToCsv(int value)
