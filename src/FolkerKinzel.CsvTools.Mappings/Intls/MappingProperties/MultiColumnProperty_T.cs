@@ -26,7 +26,7 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
     /// </exception>
-    public MultiColumnProperty(string propertyName, MultiColumnTypeConverter<T> converter) : base(propertyName)
+    internal MultiColumnProperty(string propertyName, MultiColumnTypeConverter<T> converter) : base(propertyName)
     {
         _converter = converter ?? throw new ArgumentNullException(nameof(converter));
     }

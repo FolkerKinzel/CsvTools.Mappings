@@ -38,7 +38,7 @@ public class IEnumerableConverterTests
 
         var wrapper = Mapping.Create();
         var prop = new IndexProperty<IEnumerable<int>?>("TestProp", 0, conv);
-        wrapper.Add(prop);
+        wrapper.AddProperty(prop);
 
         using var writer = new StringWriter();
         using var csvWriter = new CsvWriter(writer, 1);

@@ -72,7 +72,7 @@ public static class MappingExtension
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
-        mapping.Add(new IndexProperty<T>(propertyName, csvIndex, converter));
+        mapping.AddProperty(new IndexProperty<T>(propertyName, csvIndex, converter));
         return mapping;
     }
 
@@ -147,7 +147,7 @@ public static class MappingExtension
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
-        mapping.Add(new ColumnNameProperty<T>(propertyName, columnNameAliases, converter));
+        mapping.AddProperty(new ColumnNameProperty<T>(propertyName, columnNameAliases, converter));
         return mapping;
     }
 
@@ -253,7 +253,7 @@ public static class MappingExtension
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
-        mapping.Add(new MultiColumnProperty<T>(propertyName, converter));
+        mapping.AddProperty(new MultiColumnProperty<T>(propertyName, converter));
         return mapping;
     }
 

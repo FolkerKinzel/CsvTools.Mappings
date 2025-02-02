@@ -43,7 +43,7 @@ public class MultiColumnPropertyTests
     }
 
     [TestMethod]
-    public void MulticolumnTest1()
+    public void MulticolumnPropertyTest1()
     {
         TypeConverter<int?> nullableIntConverter = new Int32Converter().ToNullableConverter();
 
@@ -78,6 +78,11 @@ public class MultiColumnPropertyTests
         int?[] results = CsvMapping.Parse<int?>(csv, mappping, dyn => dyn.Sum);
         CollectionAssert.AreEqual(sums, results);
     }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void MultiColumnPropertyTest2()
+        => _ = Mapping.Create().AddProperty("PropName", (MultiColumnTypeConverter<int>)null!);
 
     [TestMethod]
     public void SumConverterTest1()
@@ -160,5 +165,15 @@ public class MultiColumnPropertyTests
         ITypedProperty<int?> sumProp2 = mapping2["Sum"].AsITypedProperty<int?>();
         Assert.AreSame(sumProp.Converter, sumProp2.Converter);
         Assert.AreSame(sumProp.Record, sumProp2.Record);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(InvalidOperationException))]
+    public void ValueTest1()
+    {
+        var mapping = Mapping.Create();
+        var conv = new SumConverter(mapping);
+        mapping.AddProperty("Prop", conv);
+        object? o = mapping["Prop"].Value;
     }
 }

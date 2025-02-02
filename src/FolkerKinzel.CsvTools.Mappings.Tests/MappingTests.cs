@@ -351,7 +351,7 @@ public class MappingTests
             new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
             new Int32Converter().ToNullableConverter());
 
-        wrapper.Add(prop1);
+        wrapper.AddProperty(prop1);
 
         dynamic dyn = wrapper;
 
@@ -371,7 +371,7 @@ public class MappingTests
             new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
             new Int32Converter().ToNullableConverter());
 
-        wrapper.Add(prop1);
+        wrapper.AddProperty(prop1);
 
         dynamic dyn = wrapper;
 
@@ -394,13 +394,13 @@ public class MappingTests
             new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
             new Int32Converter().ToNullableConverter());
 
-        wrapper.Add(prop1);
+        wrapper.AddProperty(prop1);
 
         var prop2 =
             new ColumnNameProperty<string?>(prop2Name, ["Blub", null!, "Bla*"],
             StringConverter.CreateNullable());
 
-        wrapper.Add(prop2);
+        wrapper.AddProperty(prop2);
 
         dynamic dyn = wrapper;
 
@@ -442,9 +442,9 @@ public class MappingTests
         var prop3 =
             new IndexProperty<int?>(prop3Name, 2, conv);
 
-        wrapper.Add(prop1);
-        wrapper.Add(prop2);
-        wrapper.Add(prop3);
+        wrapper.AddProperty(prop1);
+        wrapper.AddProperty(prop2);
+        wrapper.AddProperty(prop3);
 
         dynamic dyn = wrapper;
 
@@ -507,7 +507,7 @@ public class MappingTests
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
             StringConverter.CreateNullable());
 
-        wrapper.Add(prop);
+        wrapper.AddProperty(prop);
 
         Assert.AreEqual(1, wrapper.Count);
     }
@@ -528,8 +528,8 @@ public class MappingTests
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
             conv);
 
-        wrapper.Add(prop1);
-        wrapper.Add(prop2);
+        wrapper.AddProperty(prop1);
+        wrapper.AddProperty(prop2);
     }
 
     //[TestMethod()]
@@ -623,8 +623,8 @@ public class MappingTests
 
         var intConverter = new Int32Converter();
 
-        wrapper.Add(new ColumnNameProperty<int>(record.ColumnNames[0], [record.ColumnNames[0]], intConverter));
-        wrapper.Add(new ColumnNameProperty<int>(record.ColumnNames[1], [record.ColumnNames[1]], intConverter));
+        wrapper.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[0], [record.ColumnNames[0]], intConverter));
+        wrapper.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[1], [record.ColumnNames[1]], intConverter));
 
         wrapper.Record = record;
 
@@ -682,9 +682,9 @@ public class MappingTests
         var prop3 =
             new IndexProperty<int?>(prop3Name, 2, conv);
 
-        wrapper.Add(prop1);
-        wrapper.Add(prop2);
-        wrapper.Add(prop3);
+        wrapper.AddProperty(prop1);
+        wrapper.AddProperty(prop2);
+        wrapper.AddProperty(prop3);
 
         s = wrapper.ToString();
         Assert.IsNotNull(s);

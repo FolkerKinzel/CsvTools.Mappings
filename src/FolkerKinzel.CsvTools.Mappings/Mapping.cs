@@ -94,7 +94,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// has to be assigned to <see cref="Record"/>.
     /// </note>
     /// </remarks>
-    private Mapping() { }
+    public Mapping() { }
 
     private Mapping(Mapping other)
     {
@@ -225,7 +225,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// A <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
     /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
     /// </exception>
-    internal void Add(DynamicProperty property)
+    internal void AddProperty(DynamicProperty property)
     {    
         this._dynProps.Add(property);
         property.Record = Record;
