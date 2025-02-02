@@ -38,7 +38,8 @@ public class EnumConverterTests
 
     [TestMethod()]
     [ExpectedException(typeof(InvalidCastException))]
-    public void EnumConverterTest5() => new ColumnNameProperty<DayOfWeek>("prop", ["column"], new EnumConverter<DayOfWeek>()).SetValue(null);
+    public void EnumConverterTest5() 
+        => new ColumnNameProperty<DayOfWeek>("prop", ["column"], new EnumConverter<DayOfWeek>()).Value = null;
 
     [TestMethod]
     public void RoundtripTest1()

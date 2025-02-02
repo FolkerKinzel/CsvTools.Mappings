@@ -78,6 +78,8 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
         ColumnNameAliases = source.ColumnNameAliases;
     }
 
+    
+
     /// <inheritdoc/>
     public override object Clone() => new ColumnNameProperty<T>(this);
 
@@ -96,6 +98,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
     /// </para>
     /// </remarks>
     public IReadOnlyList<string> ColumnNameAliases { get; }
+    
 
     /// <inheritdoc/>
     internal protected override int? GetCsvIndex()

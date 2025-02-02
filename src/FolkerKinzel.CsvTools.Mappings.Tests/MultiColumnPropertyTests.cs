@@ -85,7 +85,7 @@ public class MultiColumnPropertyTests
         TypeConverter<int?> nullableIntConverter = new Int32Converter().ToNullableConverter();
 
         using var stringWriter = new StringWriter();
-        using var writer = Csv.OpenWrite(stringWriter, ["A", "B"]);
+        using CsvWriter writer = Csv.OpenWrite(stringWriter, ["A", "B"]);
         Mapping mapping = Mapping
             .Create()
             .AddProperty("A", nullableIntConverter)

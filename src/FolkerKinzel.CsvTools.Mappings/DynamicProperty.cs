@@ -52,10 +52,6 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
         // Record can not be set here because some requirements
         // in derived classes are not given at that point
     }
-
-    /// <inheritdoc/>
-    public abstract object Clone();
-
     
     /// <inheritdoc/>
     public string PropertyName { get; }
@@ -104,25 +100,13 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// When setting the value, the converter uses an invalid format string.
     /// </para>
     /// </exception>
-    public object? Value //{ get; set; }
-    {
-        get => GetValue();
-    set => SetValue(value);
-    }
+    public abstract object? Value  { get; set; }
 
     /// <summary>
     /// Gets the value that the <see cref="DynamicProperty"/> returns if parsing 
     /// fails.
     /// </summary>
-    public object? DefaultValue => GetDefaultValue();
-
-    /// <summary>
-    /// Returns the value that the <see cref="DynamicProperty"/> returns if parsing
-    /// fails.
-    /// </summary>
-    /// <returns>The value that the <see cref="DynamicProperty"/> returns if parsing
-    /// fails.</returns>
-    protected abstract object? GetDefaultValue();
+    public abstract object? DefaultValue { get; protected set; }
 
     /// <inheritdoc/>
     /// <remarks>
@@ -131,43 +115,24 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// </remarks>
     public abstract CsvRecord? Record { get; protected internal set; }
 
-    
     /// <inheritdoc />
     public abstract IEnumerable<int> CsvColumnIndexes { get; }
 
-    
     /// <inheritdoc />
     public IEnumerable<string> CsvColumnNames
         // If an index in the CSV file is accessed, Record is not null:
         => CsvColumnIndexes.Select(x => Record!.ColumnNames[x]);
 
-    /// <summary>
-    /// Gets the value of the dynamic property.
-    /// </summary>
-    /// <returns>The value.</returns>
-    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to the containing <see cref="Mapping"/> before calling this method.</exception>
-    /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
-    protected internal abstract object? GetValue();
+    /// <inheritdoc/>
+    public abstract object Clone();
 
     /// <summary>
-    /// Sets the value of the dynamic property.
+    /// Returns the value that the <see cref="DynamicProperty"/> returns if parsing
+    /// fails.
     /// </summary>
-    /// <param name="value">The value to set.</param>
-    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to the containing <see cref="Mapping"/> before calling this method.</exception>
-    /// <exception cref="InvalidCastException">
-    /// <para>
-    /// <paramref name="value"/> is <c>null</c> and 
-    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
-    /// </para>
-    /// <para>- or -</para>
-    /// <para>
-    /// <paramref name="value"/> does not match the expected data type.
-    /// </para>
-    /// </exception>
-    /// <exception cref="FormatException">The converter uses an invalid format string.</exception>
-    protected internal abstract void SetValue(object? value);
+    /// <returns>The value that the <see cref="DynamicProperty"/> returns if parsing
+    /// fails.</returns>
+    protected abstract object? GetDefaultValue();
 
 #if NET8_0_OR_GREATER
     [GeneratedRegex("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.CultureInvariant, Mapping.MaxRegexTimeout)]

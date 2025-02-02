@@ -43,10 +43,17 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     public override object Clone() => new MultiColumnProperty<T>(this);
 
     /// <inheritdoc/>
-    public new T Value
+    T ITypedProperty<T>.Value
     {
         get => GetTypedValue()!;
         set => SetTypedValue(value);
+    }
+
+    /// <inheritdoc/>
+    public override object? Value 
+    {
+        get => GetTypedValue(); 
+        set => SetValue(value); 
     }
 
     /// <inheritdoc/>
@@ -70,9 +77,6 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
                              .Distinct();
 
     /// <inheritdoc/>
-    protected internal override object? GetValue() => GetTypedValue();
-
-    /// <inheritdoc/>
     protected override object? GetDefaultValue() => DefaultValue;
 
     private T? GetTypedValue()
@@ -83,7 +87,7 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     }
 
     /// <inheritdoc/>
-    protected internal override void SetValue(object? value)
+    private void SetValue(object? value)
     {
         if (Record is null)
         {

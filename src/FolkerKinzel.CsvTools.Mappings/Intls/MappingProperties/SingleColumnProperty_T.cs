@@ -45,13 +45,16 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     }
 
     /// <inheritdoc/>
-    public new T Value
+    T ITypedProperty<T>.Value
     {
         // The Type can't be T?. If it were, this property could never return
         // a non-nullable reference type.
         get => GetTypedValue()!;
         set => SetTypedValue(value);
     }
+
+    /// <inheritdoc/>
+    public override object? Value { get => GetTypedValue(); set => SetValue(value); }
 
     /// <inheritdoc/>
     public new T? DefaultValue => _converter.DefaultValue;
@@ -79,13 +82,26 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     public override CsvRecord? Record { get; protected internal set; }
 
     /// <inheritdoc/>
-    protected internal override object? GetValue() => GetTypedValue();
-
-    /// <inheritdoc/>
     protected override object? GetDefaultValue() => DefaultValue;
 
-    /// <inheritdoc/>
-    protected internal override void SetValue(object? value)
+    /// <summary>
+    /// Sets the value of the dynamic property.
+    /// </summary>
+    /// <param name="value">The value to set.</param>
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
+    /// to the containing <see cref="Mapping"/> before calling this method.</exception>
+    /// <exception cref="InvalidCastException">
+    /// <para>
+    /// <paramref name="value"/> is <c>null</c> and 
+    /// <see cref="ITypeConverter{T}.AllowsNull"/> is <c>false</c>,
+    /// </para>
+    /// <para>- or -</para>
+    /// <para>
+    /// <paramref name="value"/> does not match the expected data type.
+    /// </para>
+    /// </exception>
+    /// <exception cref="FormatException">The converter uses an invalid format string.</exception>
+    private void SetValue(object? value)
     {
         if (value is null && !_converter.AllowsNull)
         {

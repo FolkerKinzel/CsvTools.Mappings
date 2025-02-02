@@ -54,12 +54,12 @@ public class StringConverterTests
     {
         TypeConverter<string> conv = StringConverter.CreateNonNullable();
 
-        new IndexProperty<string>("prop", 0,  conv).SetValue(4711);
+        new IndexProperty<string>("prop", 0,  conv).Value = 4711;
     }
 
 
     [ExpectedException(typeof(InvalidCastException))]
     [TestMethod()]
     public void ConvertToStringTest_ThrowOnDBNull()
-        => new IndexProperty<string?>("prop",0, StringConverter.CreateNullable()).SetValue(DBNull.Value);
+        => new IndexProperty<string?>("prop",0, StringConverter.CreateNullable()).Value = DBNull.Value;
 }
