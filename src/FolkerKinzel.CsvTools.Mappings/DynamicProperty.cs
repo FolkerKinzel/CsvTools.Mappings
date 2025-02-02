@@ -9,7 +9,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Abstract base class for classes that represent a dynamic property of <see cref="Mapping"/>.
 /// </summary>
-public abstract partial class DynamicProperty : ICloneable
+public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
 {
     /// <summary>
     /// Initializes a new <see cref="DynamicProperty"/> instance.
@@ -56,9 +56,8 @@ public abstract partial class DynamicProperty : ICloneable
     /// <inheritdoc/>
     public abstract object Clone();
 
-    /// <summary>
-    /// Identifier of the dynamic property.
-    /// </summary>
+    
+    /// <inheritdoc/>
     public string PropertyName { get; }
 
     /// <summary>
@@ -105,10 +104,10 @@ public abstract partial class DynamicProperty : ICloneable
     /// When setting the value, the converter uses an invalid format string.
     /// </para>
     /// </exception>
-    public object? Value
-    { 
+    public object? Value //{ get; set; }
+    {
         get => GetValue();
-        set => SetValue(value);
+    set => SetValue(value);
     }
 
     /// <summary>
@@ -125,30 +124,20 @@ public abstract partial class DynamicProperty : ICloneable
     /// fails.</returns>
     protected abstract object? GetDefaultValue();
 
-    /// <summary>
-    /// The <see cref="CsvRecord"/> object used to access the CSV file.
-    /// </summary>
+    /// <inheritdoc/>
     /// <remarks>
     /// <see cref="DynamicProperty"/> gets this instance from the containing 
     /// <see cref="Mapping"/> instance.
     /// </remarks>
-    protected internal abstract CsvRecord? Record { get; internal set; }
+    public abstract CsvRecord? Record { get; protected internal set; }
 
-    /// <summary>
-    /// Gets the column indexes of the CSV file that the <see cref="DynamicProperty"/>
-    /// accesses.
-    /// </summary>
+    
+    /// <inheritdoc />
     public abstract IEnumerable<int> CsvColumnIndexes { get; }
 
-    /// <summary>
-    /// Gets the column names of the columns of the CSV file that the <see cref="DynamicProperty"/>
-    /// accesses.
-    /// </summary>
-    /// <remarks>
-    /// If the CSV file has no header row, gets the automatically created
-    /// column names.
-    /// </remarks>
-    public IEnumerable<string> CsvColumnNames 
+    
+    /// <inheritdoc />
+    public IEnumerable<string> CsvColumnNames
         // If an index in the CSV file is accessed, Record is not null:
         => CsvColumnIndexes.Select(x => Record!.ColumnNames[x]);
 

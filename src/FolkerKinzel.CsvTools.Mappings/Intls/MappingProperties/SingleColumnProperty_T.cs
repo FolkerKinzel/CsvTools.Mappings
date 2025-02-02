@@ -76,7 +76,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     public ITypeConverter<T> Converter => _converter;
 
     /// <inheritdoc/>
-    protected internal override CsvRecord? Record { get; internal set; }
+    public override CsvRecord? Record { get; protected internal set; }
 
     /// <inheritdoc/>
     protected internal override object? GetValue() => GetTypedValue();

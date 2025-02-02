@@ -8,7 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// instances.
 /// </summary>
 /// <typeparam name="T">The type of the dynamic properties value.</typeparam>
-public interface ITypedProperty<T>
+public interface ITypedProperty<T> : IDynamicProperty
 {
     /// <summary>
     /// Allows to get and set the value of the referenced field in the CSV file
@@ -53,7 +53,6 @@ public interface ITypedProperty<T>
     /// fails.
     /// </summary>
     T? DefaultValue { get; }
-
 
     /// <summary>
     /// An object implementing <see cref="ITypeConverter{T}"/> that performs the type conversion.

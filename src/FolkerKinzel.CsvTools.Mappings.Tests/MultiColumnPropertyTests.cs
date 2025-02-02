@@ -152,12 +152,13 @@ public class MultiColumnPropertyTests
         Assert.AreEqual(-2, bProp.Value);
         Assert.AreEqual(42, sumProp.Value);
 
-        Mapping mapping2 = (Mapping)mapping.Clone();
+        var mapping2 = (Mapping)mapping.Clone();
         Assert.IsNotNull(mapping2);
         Assert.AreNotSame(mapping, mapping2);
-        DynamicProperty sumProp2 = mapping2["Sum"];
-        Assert.AreNotSame<DynamicProperty>(mapping["Sum"], sumProp2);
-        Assert.AreSame(sumProp.Converter, sumProp2.AsITypedProperty<int?>().Converter);
-        Assert.AreSame(mapping["Sum"].Record, sumProp2.Record);
+        Assert.AreNotSame(mapping["Sum"], mapping2["Sum"]);
+
+        ITypedProperty<int?> sumProp2 = mapping2["Sum"].AsITypedProperty<int?>();
+        Assert.AreSame(sumProp.Converter, sumProp2.Converter);
+        Assert.AreSame(sumProp.Record, sumProp2.Record);
     }
 }

@@ -56,20 +56,18 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     public ITypeConverter<T> Converter => _converter;
 
     /// <inheritdoc/>
-    protected internal override CsvRecord? Record
+    public override CsvRecord? Record
     {
         get => _converter.Mapping.Record;
-        internal set => _converter.Mapping.Record = value!; // This is called internal only
+        protected internal set => _converter.Mapping.Record = value!;
     }
 
     /// <inheritdoc/>
     public override IEnumerable<int> CsvColumnIndexes
         // break circular references:
         => _converter.Mapping.Select(x => object.ReferenceEquals(this, x) ? [] : x.CsvColumnIndexes)
-                            .SelectMany(x => x)
-                            .Distinct();
-
-    
+                             .SelectMany(x => x)
+                             .Distinct();
 
     /// <inheritdoc/>
     protected internal override object? GetValue() => GetTypedValue();
