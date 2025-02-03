@@ -9,7 +9,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="int"/>.
 /// </summary>
-public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILocalizable
+public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILocalizable, ICreateHexConverter
 {
     /// <summary> Initializes a new <see cref="Int32Converter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -58,16 +58,12 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
 
     /// <inheritdoc/>
     public TypeConverter<int> ToHexConverter()
-    {
-        //if (HexConverterValidator.IsHexConverter(this))
-        //{
-        //    return this;
-        //}
+        => HexConverter.CreateHexConverter<int, Int32Converter>(this);
 
-        var clone = (Int32Converter)Clone();
-        clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
-        clone.Format = "X";
-        return clone;
+    void ICreateHexConverter.AsHexConverter()
+    {
+        Styles = HexConverter.ToHexStyle(Styles);
+        Format = HexConverter.HexFormat;
     }
 
     /// <inheritdoc/>

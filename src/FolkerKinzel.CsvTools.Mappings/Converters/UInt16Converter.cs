@@ -10,7 +10,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="ushort"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class UInt16Converter : TypeConverter<ushort>, IHexConverter<ushort>, ILocalizable
+public sealed class UInt16Converter : TypeConverter<ushort>, IHexConverter<ushort>, ILocalizable, ICreateHexConverter
 {
     /// <summary> Initializes a new <see cref="UInt16Converter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -59,16 +59,12 @@ public sealed class UInt16Converter : TypeConverter<ushort>, IHexConverter<ushor
 
     /// <inheritdoc/>
     public TypeConverter<ushort> ToHexConverter()
-    {
-        //if (HexConverterValidator.IsHexConverter(this))
-        //{
-        //    return this;
-        //}
+        => HexConverter.CreateHexConverter<ushort, UInt16Converter>(this);
 
-        var clone = (UInt16Converter)Clone();
-        clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
-        clone.Format = "X";
-        return clone;
+    void ICreateHexConverter.AsHexConverter()
+    {
+        Styles = HexConverter.ToHexStyle(Styles);
+        Format = HexConverter.HexFormat;
     }
 
     /// <inheritdoc/>

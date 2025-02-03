@@ -5,16 +5,16 @@ using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
-internal static class HexConverterValidator
+internal static class HexConverter
 {
-
-    internal static bool IsHexConverter<T>(IHexConverter<T> converter)
+    private static bool IsHexConverter<T>(IHexConverter<T> converter)
         => converter.Styles.HasFlag(NumberStyles.AllowHexSpecifier)
        && (converter.Styles & NumberStyles.HexNumber) == converter.Styles
        && StringComparer.OrdinalIgnoreCase.Equals(converter.Format, "X");
 
 
-    internal static TypeConverter<T> ICreateHexConverter<T, TInput>(TInput converter) where TInput: TypeConverter<T>, IHexConverter<T>, ICreateHexConverter
+    internal static TypeConverter<T> CreateHexConverter<T, TInput>(TInput converter)
+        where TInput: TypeConverter<T>, IHexConverter<T>, ICreateHexConverter
     {
         if(IsHexConverter(converter))
         {
@@ -22,8 +22,11 @@ internal static class HexConverterValidator
         }
 
         var clone =  (ICreateHexConverter)converter.Clone();
-        clone.Styles = (clone.Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
-        clone.Format = "X";
+        clone.AsHexConverter();
         return (TypeConverter<T>)clone;
     }
+
+    internal static NumberStyles ToHexStyle(NumberStyles styles) => (styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
+
+    internal const string HexFormat = "X";
 }

@@ -10,7 +10,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="ulong"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class UInt64Converter : TypeConverter<ulong>, IHexConverter<ulong>, ILocalizable
+public sealed class UInt64Converter : TypeConverter<ulong>, IHexConverter<ulong>, ILocalizable, ICreateHexConverter
 {
     /// <summary> Initializes a new <see cref="UInt64Converter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -59,16 +59,12 @@ public sealed class UInt64Converter : TypeConverter<ulong>, IHexConverter<ulong>
 
     /// <inheritdoc/>
     public TypeConverter<ulong> ToHexConverter()
-    {
-        //if (HexConverterValidator.IsHexConverter(this))
-        //{
-        //    return this;
-        //}
+        => HexConverter.CreateHexConverter<ulong, UInt64Converter>(this);
 
-        var clone = (UInt64Converter)Clone();
-        clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
-        clone.Format = "X";
-        return clone;
+    void ICreateHexConverter.AsHexConverter()
+    {
+        Styles = HexConverter.ToHexStyle(Styles);
+        Format = HexConverter.HexFormat;
     }
 
     /// <inheritdoc/>

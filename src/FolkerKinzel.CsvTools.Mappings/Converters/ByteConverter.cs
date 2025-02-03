@@ -21,7 +21,6 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// </example>
 public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, ICreateHexConverter
 {
-
     /// <summary>Initializes a new <see cref="ByteConverter"/> instance.</summary>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting 
@@ -71,12 +70,10 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     public IFormatProvider FormatProvider { get; }
 
     /// <inheritdoc/>
-    public string? Format { get; }
+    public string? Format { get; private set; }
 
     /// <inheritdoc/>
-    public NumberStyles Styles { get; }
-
-
+    public NumberStyles Styles { get; private set; }
 
     /// <inheritdoc/>
     /// 
@@ -90,17 +87,13 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     /// <img src="images\MultiColumnConverter.png"/>
     /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
     /// </example>
-    public TypeConverter<byte> ToHexConverter()
-    {
-        //if(HexConverterValidator.IsHexConverter(this))
-        //{
-        //    return this;
-        //}
+    public TypeConverter<byte> ToHexConverter() 
+        => HexConverter.CreateHexConverter<byte, ByteConverter>(this);
 
-        var clone = (ByteConverter)Clone();
-        clone.Styles = (Styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
-        clone.Format = "X";
-        return clone;
+    void ICreateHexConverter.AsHexConverter()
+    {
+        Styles = HexConverter.ToHexStyle(Styles);
+        Format = HexConverter.HexFormat;
     }
 
     /// <inheritdoc/>
@@ -108,8 +101,6 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
-
-   
 
     /// <inheritdoc/>
     public override string? ConvertToString(byte value)
