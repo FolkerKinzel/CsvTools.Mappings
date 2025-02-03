@@ -19,7 +19,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <img src="images\MultiColumnConverter.png"/>
 /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
 /// </example>
-public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, ICreateHexConverter
+public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, IAsHexConverter
 {
     /// <summary>Initializes a new <see cref="ByteConverter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -90,14 +90,14 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     public TypeConverter<byte> ToHexConverter() 
         => HexConverter.CreateHexConverter<byte, ByteConverter>(this);
 
-    void ICreateHexConverter.AsHexConverter()
+    void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
         Format = HexConverter.HexFormat;
     }
 
     /// <inheritdoc/>
-    public object Clone() => new ByteConverter(FormatProvider, Format, Styles, Throwing);
+    public object Clone() => MemberwiseClone();
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

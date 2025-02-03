@@ -10,7 +10,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="uint"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, ILocalizable, ICreateHexConverter
+public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, ILocalizable, IAsHexConverter
 {
     /// <summary> Initializes a new <see cref="UInt32Converter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -61,14 +61,14 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     public TypeConverter<uint> ToHexConverter()
         => HexConverter.CreateHexConverter<uint, UInt32Converter>(this);
 
-    void ICreateHexConverter.AsHexConverter()
+    void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
         Format = HexConverter.HexFormat;
     }
 
     /// <inheritdoc/>
-    public object Clone() => new UInt32Converter(FormatProvider, Format, Styles, Throwing);
+    public object Clone() => MemberwiseClone();
 
     /// <inheritdoc/>
     public override string? ConvertToString(uint value) => value.ToString(Format, FormatProvider);

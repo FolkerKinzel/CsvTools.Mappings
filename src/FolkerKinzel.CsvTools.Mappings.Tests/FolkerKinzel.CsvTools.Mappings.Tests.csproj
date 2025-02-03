@@ -18,6 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Converters\HexConverterTests.cs" />
 	  <Compile Remove="Converters\NumberConverterTests.cs" />
 	</ItemGroup>
 

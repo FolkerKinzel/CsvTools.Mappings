@@ -10,7 +10,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="sbyte"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>, ILocalizable, ICreateHexConverter
+public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>, ILocalizable, IAsHexConverter
 {
     /// <summary> Initializes a new <see cref="SByteConverter"/> instance.</summary>
     /// <param name="formatProvider">
@@ -61,14 +61,14 @@ public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>,
     public TypeConverter<sbyte> ToHexConverter()
         => HexConverter.CreateHexConverter<sbyte, SByteConverter>(this);
 
-    void ICreateHexConverter.AsHexConverter()
+    void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
         Format = HexConverter.HexFormat;
     }
 
     /// <inheritdoc/>
-    public object Clone() => new SByteConverter(FormatProvider, Format, Styles, Throwing);
+    public object Clone() => MemberwiseClone();
 
     /// <inheritdoc/>
     public override string? ConvertToString(sbyte value) => value.ToString(Format, FormatProvider);

@@ -14,14 +14,14 @@ internal static class HexConverter
 
 
     internal static TypeConverter<T> CreateHexConverter<T, TInput>(TInput converter)
-        where TInput: TypeConverter<T>, IHexConverter<T>, ICreateHexConverter
+        where TInput: TypeConverter<T>, IHexConverter<T>, IAsHexConverter
     {
         if(IsHexConverter(converter))
         {
             return converter;
         }
 
-        var clone =  (ICreateHexConverter)converter.Clone();
+        var clone =  (IAsHexConverter)converter.Clone();
         clone.AsHexConverter();
         return (TypeConverter<T>)clone;
     }

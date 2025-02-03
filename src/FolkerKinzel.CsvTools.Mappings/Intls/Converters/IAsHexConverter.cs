@@ -2,7 +2,7 @@
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
-internal interface ICreateHexConverter
+internal interface IAsHexConverter
 {
 
     void AsHexConverter();
