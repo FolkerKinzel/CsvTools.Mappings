@@ -48,7 +48,6 @@
     <Compile Remove="Converters\UInt16Converter_old.cs" />
     <Compile Remove="Converters\UInt32Converter_old.cs" />
     <Compile Remove="Converters\UInt64Converter_old.cs" />
-    <Compile Remove="Intls\Converters\HexConverterValidator.cs" />
     <Compile Remove="Intls\Extensions\CsvReaderExtension.cs" />
   </ItemGroup>
   <ItemGroup>

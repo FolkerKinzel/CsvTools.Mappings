@@ -19,8 +19,9 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <img src="images\MultiColumnConverter.png"/>
 /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
 /// </example>
-public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, ILocalizable
+public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, ICreateHexConverter
 {
+
     /// <summary>Initializes a new <see cref="ByteConverter"/> instance.</summary>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting 
@@ -70,10 +71,12 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     public IFormatProvider FormatProvider { get; }
 
     /// <inheritdoc/>
-    public string? Format { get; private set; }
+    public string? Format { get; }
 
     /// <inheritdoc/>
-    public NumberStyles Styles { get; private set; }
+    public NumberStyles Styles { get; }
+
+
 
     /// <inheritdoc/>
     /// 
@@ -105,6 +108,8 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
 
     /// <inheritdoc/>
     public override bool AcceptsNull => false;
+
+   
 
     /// <inheritdoc/>
     public override string? ConvertToString(byte value)
