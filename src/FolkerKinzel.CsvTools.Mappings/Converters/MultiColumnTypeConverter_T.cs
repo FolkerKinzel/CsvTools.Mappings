@@ -20,8 +20,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <note type="implement">
 /// Pass a <see cref="Mappings.Mapping"/> instance that 
 /// targets the required columns of the CSV file to the constructor, and override the abstract 
-/// members. For overriding <see cref="ICloneable.Clone"/> using the copy constructor 
-/// (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) is required!
+/// members. (For overriding <see cref="ICloneable.Clone"/> using the copy constructor 
+/// (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) is required!)
 /// </note>
 /// </remarks>
 /// 
@@ -78,7 +78,18 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
         DefaultValue = other.DefaultValue;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Creates a deep copy of the <see cref="MultiColumnTypeConverter{T}"/>
+    /// instance.
+    /// </summary>
+    /// <returns>An <see cref="object"/> that is a deep copy of the 
+    /// executing instance.</returns>
+    /// <remarks>
+    /// <note type="important">
+    /// Use the copy constructor (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) 
+    /// for the implementation to ensure that <see cref="Mapping"/> is cloned too!
+    /// </note>
+    /// </remarks>
     public abstract object Clone();
 
     /// <summary>

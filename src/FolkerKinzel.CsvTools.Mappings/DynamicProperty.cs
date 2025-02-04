@@ -24,7 +24,7 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     protected DynamicProperty(string propertyName)
     {

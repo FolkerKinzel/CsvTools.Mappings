@@ -8,6 +8,9 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <see cref="Mapping"/>s and type conversions.</summary>
 public static class CsvMapping
 {
+    private static readonly Type _mappingType = typeof(Mapping);
+    private static readonly Type _recordType = typeof(CsvRecord);
+
     /// <summary>
     /// Initializes a new <see cref="CsvWriter{TData}" /> instance.
     /// </summary>
@@ -95,14 +98,15 @@ public static class CsvMapping
                                                        CsvOpts options = CsvOpts.Default,
                                                        char delimiter = ',')
     {
-        options = DetermineDisableCaching<TResult>(options);
+        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         return new CsvReader<TResult>(new CsvReader(reader,
                                                     isHeaderPresent,
                                                     options,
                                                     delimiter),
                                         mapping,
-                                        conversion);
+                                        conversion, 
+                                        cloneMapping);
     }
 
     /// <summary>Opens the CSV file referenced with <paramref name="filePath"/> for reading its
@@ -159,10 +163,11 @@ public static class CsvMapping
                                                        char delimiter = ',',
                                                        Encoding? textEncoding = null)
     {
-        options = DetermineDisableCaching<TResult>(options);
+        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
         return new CsvReader<TResult>(new CsvReader(filePath, isHeaderPresent, options, delimiter, textEncoding),
                                       mapping,
-                                      conversion);
+                                      conversion, 
+                                      cloneMapping);
     }
 
     /// <summary>Analyzes the CSV file referenced with <paramref name="filePath"/>
@@ -236,7 +241,8 @@ public static class CsvMapping
                                                                int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
     {
         (CsvAnalyzerResult analyzerResult, Encoding enc) = CsvTools.Csv.AnalyzeFile(filePath, header, textEncoding, analyzedLines);
-        CsvOpts options = DetermineDisableCaching<TResult>(analyzerResult.Options);
+        CsvOpts options = analyzerResult.Options;
+        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         return new CsvReader<TResult>(new CsvReader(filePath,
                                                     analyzerResult.IsHeaderPresent,
@@ -244,7 +250,8 @@ public static class CsvMapping
                                                     analyzerResult.Delimiter,
                                                     textEncoding),
                                       mapping,
-                                      conversion);
+                                      conversion,
+                                      cloneMapping);
     }
 
     /// <summary>Parses the specified CSV-<see cref="string"/> to an array of a specified 
@@ -299,11 +306,11 @@ public static class CsvMapping
     {
         _ArgumentNullException.ThrowIfNull(csv, nameof(csv));
 
-        options = DetermineDisableCaching<TResult>(options);
+        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         using var stringReader = new StringReader(csv);
         using var csvReader = new CsvReader(stringReader, isHeaderPresent, options, delimiter);
-        using var typedReader = new CsvReader<TResult>(csvReader, mapping, conversion);
+        using var typedReader = new CsvReader<TResult>(csvReader, mapping, conversion, cloneMapping);
         return [.. typedReader];
     }
 
@@ -370,7 +377,8 @@ public static class CsvMapping
                                                    int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
     {
         CsvAnalyzerResult analyzerResult = CsvAnalyzer.AnalyzeString(csv, header, analyzedLines);
-        CsvOpts options = DetermineDisableCaching<TResult>(analyzerResult.Options);
+        CsvOpts options = analyzerResult.Options;
+        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         using var stringReader = new StringReader(csv);
         using var csvReader =
@@ -378,18 +386,30 @@ public static class CsvMapping
                           analyzerResult.IsHeaderPresent,
                           options,
                           analyzerResult.Delimiter);
-        using var typeReader = new CsvReader<TResult>(csvReader, mapping, conversion);
+        using var typeReader = new CsvReader<TResult>(csvReader, mapping, conversion, cloneMapping);
 
         return [.. typeReader];
     }
 
-    private static CsvOpts DetermineDisableCaching<TResult>(CsvOpts options)
+    private static bool DetermineDisableCaching<TResult>(ref CsvOpts options)
     {
-        string resultType = typeof(TResult).Name;
-        StringComparer comp = StringComparer.Ordinal;
-        return !options.HasFlag(CsvOpts.DisableCaching)
-               && !(comp.Equals(resultType, nameof(Mapping)) || comp.Equals(resultType, nameof(CsvRecord)))
-                        ? options | CsvOpts.DisableCaching
-                        : options;
+        if(options.HasFlag(CsvOpts.DisableCaching))
+        { 
+            return false;
+        }  
+        
+        Type resultType = typeof(TResult);
+
+        if(resultType == _mappingType)
+        {
+            return true;
+        }
+
+        if(resultType != _recordType)
+        {
+            options |= CsvOpts.DisableCaching;
+        }
+        
+        return false;
     }
 }

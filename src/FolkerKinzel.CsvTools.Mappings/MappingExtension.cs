@@ -63,7 +63,7 @@ public static class MappingExtension
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
                                          string propertyName,
@@ -138,7 +138,7 @@ public static class MappingExtension
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
                                          string propertyName,
@@ -194,7 +194,7 @@ public static class MappingExtension
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
                                          string propertyName,
@@ -245,7 +245,7 @@ public static class MappingExtension
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public static Mapping AddProperty<T>(this Mapping mapping,
                                          string propertyName,

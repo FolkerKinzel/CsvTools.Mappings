@@ -49,7 +49,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# 
     /// identifiers (only ASCII characters).</exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public ColumnNameProperty(string propertyName,
                               IEnumerable<string?> columnNameAliases,

@@ -24,7 +24,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     private readonly CsvReader _reader;
     private readonly Mapping _mapping;
     private readonly Func<dynamic, TResult> _conversion;
-    private readonly bool _disableCaching;
+    private readonly bool _cloneMappings;
     private TResult? _current;
     private bool _disposed;
 
@@ -46,22 +46,25 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
+    /// <param name="cloneMappings"><c>true</c> to clone <paramref name="mapping"/> each time before passing
+    /// it to <paramref name="conversion"/>, or <c>false</c> to use always the same <see cref="Mapping"/> 
+    /// instance. (Cloning is required if <typeparamref name="TResult"/> is <see cref="Mapping"/> and the
+    /// results need to be cached.</param>
     /// 
     internal CsvReader(CsvReader reader,
                        Mapping mapping,
-                       Func<dynamic, TResult> conversion)
+                       Func<dynamic, TResult> conversion,
+                       bool cloneMappings)
     {
         //_ArgumentNullException.ThrowIfNull(reader, nameof(reader));
-        //_ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        //_ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
         Debug.Assert(reader is not null);
-        Debug.Assert(mapping is not null);
-        Debug.Assert(conversion is not null);
-
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
+        
         _reader = reader;
         _mapping = mapping;
         _conversion = conversion;
-        _disableCaching = _reader.Options.HasFlag(CsvOpts.DisableCaching);
+        _cloneMappings = cloneMappings;
     }
 
     /// <inheritdoc/>
@@ -136,7 +139,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
             return false;
         }
 
-        Mapping clone = _disableCaching ? _mapping : (Mapping)_mapping.Clone();
+        Mapping clone = _cloneMappings ? (Mapping)_mapping.Clone() : _mapping;
         clone.Record = record;
         result = _conversion(clone);
         return true;

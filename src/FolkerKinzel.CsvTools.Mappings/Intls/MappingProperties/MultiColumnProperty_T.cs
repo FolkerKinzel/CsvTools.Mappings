@@ -24,20 +24,16 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
     /// for C# identifiers (only ASCII characters).</exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
-    internal MultiColumnProperty(string propertyName, MultiColumnTypeConverter<T> converter) : base(propertyName)
+    internal MultiColumnProperty(string propertyName, MultiColumnTypeConverter<T> converter) 
+        : base(propertyName)
     {
         _converter = converter ?? throw new ArgumentNullException(nameof(converter));
     }
 
     private MultiColumnProperty(MultiColumnProperty<T> other) : base(other)
     {
-        //if(other._converter.Mapping.Contains(this))
-        //{
-
-        //}
-
         _converter = (MultiColumnTypeConverter<T>) other._converter.Clone();
         // Don't change the order: Converter needs to be initialized first!
         Record = other.Record!;
