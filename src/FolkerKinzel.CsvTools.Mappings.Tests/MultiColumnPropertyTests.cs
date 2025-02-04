@@ -205,4 +205,25 @@ public class MultiColumnPropertyTests
         mapping.AddProperty("Prop", conv);
         mapping["Prop"].AsITypedProperty<int?>().Value = 7;
     }
+
+
+    [TestMethod]
+    public void ParseMappings()
+    {
+        const string csv = """
+            A,B,Sum
+            2,3,5
+            -1,4,3
+            """;
+
+        TypeConverter<int?> intConverter = new Int32Converter().ToNullableConverter();
+        Mapping mapping = Mapping
+            .Create()
+            .AddProperty("A", intConverter)
+            .AddProperty("B", intConverter);
+            
+        mapping.AddProperty("Sum", new SumConverter(mapping));
+
+        dynamic[] result = CsvMapping.Parse(csv, mapping, dyn => dyn);
+    }
 }

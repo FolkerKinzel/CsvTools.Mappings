@@ -10,6 +10,8 @@ public static class CsvMapping
 {
     private static readonly Type _mappingType = typeof(Mapping);
     private static readonly Type _recordType = typeof(CsvRecord);
+    private static readonly Type _dynamicType = typeof(object);
+
 
     /// <summary>
     /// Initializes a new <see cref="CsvWriter{TData}" /> instance.
@@ -400,7 +402,7 @@ public static class CsvMapping
         
         Type resultType = typeof(TResult);
 
-        if(resultType == _mappingType)
+        if (resultType == _mappingType || resultType == _dynamicType)
         {
             return true;
         }
