@@ -33,9 +33,14 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
 
     private MultiColumnProperty(MultiColumnProperty<T> other) : base(other)
     {
-        _converter = other._converter;
+        //if(other._converter.Mapping.Contains(this))
+        //{
+
+        //}
+
+        _converter = (MultiColumnTypeConverter<T>) other._converter.Clone();
         // Don't change the order: Converter needs to be initialized first!
-        Record = other.Record;
+        Record = other.Record!;
     }
 
     /// <inheritdoc/>
@@ -64,10 +69,11 @@ internal sealed class MultiColumnProperty<T> : DynamicProperty, ITypedProperty<T
     public ITypeConverter<T> Converter => _converter;
 
     /// <inheritdoc/>
+    [DisallowNull]
     public override CsvRecord? Record
     {
         get => _converter.Mapping.Record;
-        protected internal set => _converter.Mapping.Record = value!;
+        protected internal set => _converter.Mapping.Record = value;
     }
 
     /// <inheritdoc/>

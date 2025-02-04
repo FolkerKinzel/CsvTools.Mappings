@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
 
@@ -8,22 +9,9 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// Abstract base class for type converters that provides conversions between
 /// .NET data types and CSV data that is distributed across multiple columns of a CSV file.
 /// </summary>
-/// <typeparam name="T">The <see cref="Type"/> to convert.</typeparam>
 /// 
-/// <param name="mapping">
-/// <para>
-/// The <see cref="Mappings.Mapping"/> to use to access those columns 
-/// of the CSV file that are required for the <see cref="Type"/> conversion.
-/// </para>
-/// <note type="tip">
-/// It's easier to debug if a separate <see cref="Mappings.Mapping"/> is used here.
-/// </note>
-/// </param>
-/// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
-/// <param name="defaultValue">
-/// The <see cref="DefaultValue"/> to return when a parsing error occurs and
-/// the <see cref="Throwing"/> property is <c>false</c>.
-/// </param>
+/// <typeparam name="T">The data <see cref="Type"/> that the <see cref="MultiColumnTypeConverter{T}"/> converts.</typeparam>
+/// 
 /// <remarks>
 /// <para>
 /// A ready-to-use implementation of this class can't be provided because their structure depends 
@@ -32,7 +20,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <note type="implement">
 /// Pass a <see cref="Mappings.Mapping"/> instance that 
 /// targets the required columns of the CSV file to the constructor, and override the abstract 
-/// members.
+/// members. For overriding <see cref="ICloneable.Clone"/> using the copy constructor 
+/// (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) is required!
 /// </note>
 /// </remarks>
 /// 
@@ -46,23 +35,63 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters;
 /// <img src="images\MultiColumnConverter.png"/>
 /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
 /// </example>
-/// 
-/// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
-public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
-                                                  T defaultValue,
-                                                  bool throwing) : ITypeConverter<T>
+public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneable
 {
+    /// <summary>
+    /// Constructor used by derived classes.
+    /// </summary>
+    /// <param name="mapping">
+    /// <para>
+    /// The <see cref="Mappings.Mapping"/> to use to access those columns 
+    /// of the CSV file that are required for the <see cref="Type"/> conversion.
+    /// </para>
+    /// <note type="tip">
+    /// It's easier to debug if a separate <see cref="Mappings.Mapping"/> is used here.
+    /// </note>
+    /// </param>
+    /// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
+    /// <param name="defaultValue">
+    /// The <see cref="DefaultValue"/> to return when a parsing error occurs and
+    /// the <see cref="Throwing"/> property is <c>false</c>.
+    /// </param>
+    /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
+    protected MultiColumnTypeConverter(Mapping mapping,
+                                       T defaultValue,
+                                       bool throwing)
+    {
+        Mapping = mapping ?? throw new ArgumentNullException(nameof(mapping));
+        Throwing = throwing;
+        DefaultValue = defaultValue;
+    }
+
+    /// <summary>
+    /// Copy constructor used by derived classes to implement <see cref="ICloneable"/>.
+    /// </summary>
+    /// <param name="other">The <see cref="MultiColumnTypeConverter{T}"/> instance to clone.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="other"/> is <c>null</c>.</exception>
+    protected MultiColumnTypeConverter(MultiColumnTypeConverter<T> other)
+    {
+        _ArgumentNullException.ThrowIfNull(other, nameof(other));
+
+        Mapping = (Mapping)other.Mapping.Clone();
+        Throwing = other.Throwing;
+        DefaultValue = other.DefaultValue;
+    }
+
+    /// <inheritdoc/>
+    public abstract object Clone();
+
     /// <summary>
     /// The <see cref="Mappings.Mapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.
     /// </summary>
-    public Mapping Mapping { get; } = mapping ?? throw new ArgumentNullException(nameof(mapping));
+    public Mapping Mapping { get; }
 
     /// <inheritdoc/>
     public abstract bool AcceptsNull { get; }
 
     /// <inheritdoc/>
-    public bool Throwing { get; } = throwing;
+    public bool Throwing { get; }
 
     /// <inheritdoc/>
     /// <remarks>
@@ -77,11 +106,11 @@ public abstract class MultiColumnTypeConverter<T>(Mapping mapping,
     /// </list>
     /// </note>
     /// </remarks>
-    public T DefaultValue { get; } = defaultValue;
+    public T DefaultValue { get; }
 
     /// <inheritdoc/>
     public Type DataType => typeof(T);
-
+    
     /// <summary>
     /// Tries to convert the content of <see cref="Mapping"/> to <typeparamref name="T"/>.
     /// </summary>

@@ -8,10 +8,17 @@ namespace Examples;
 
 internal static class MultiColumnConverterExample
 {
-    private sealed class ColorConverter(Mapping mapping)
-        : MultiColumnTypeConverter<Color>(mapping, Color.Transparent, true)
+    private sealed class ColorConverter : MultiColumnTypeConverter<Color>
     {
         public override bool AcceptsNull => false;
+
+        public ColorConverter(Mapping mapping) : base(mapping, Color.Transparent, true) { }
+        
+        // Copy ctor
+        private ColorConverter(ColorConverter other) : base(other) { }
+
+        // Using the copy ctor for cloning is required
+        public override object Clone() => new ColorConverter(this);
 
         protected override void DoConvertToCsv(Color value)
         {
@@ -138,11 +145,10 @@ internal static class MultiColumnConverterExample
 }
 
 /*
- Console Output:
+Console Output:
 
 Name,A,R,G,B
 CornflowerBlue,FF,64,95,ED
 LawnGreen,FF,7C,FC,0
 Salmon,FF,FA,80,72
-
 */

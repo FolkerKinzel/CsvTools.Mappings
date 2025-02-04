@@ -6,9 +6,15 @@ namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
 [TestClass]
 public class MultiColumnTypeConverterTests
 {
-    private sealed class MultiIntConverter(Mapping mapping) : MultiColumnTypeConverter<int>(mapping, 0, true)
+    private sealed class MultiIntConverter : MultiColumnTypeConverter<int>
     {
         public override bool AcceptsNull => false;
+
+        public MultiIntConverter(Mapping mapping) : base(mapping, 0, true) { }
+        
+        public MultiIntConverter(MultiIntConverter other) : base(other) { }
+
+        public override object Clone() => new MultiIntConverter(this);
 
         protected override void DoConvertToCsv(int value)
         {
@@ -20,6 +26,8 @@ public class MultiColumnTypeConverterTests
             result = default;
             return false;
         }
+
+       
     }
 
     [TestMethod]

@@ -113,6 +113,7 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// <see cref="DynamicProperty"/> gets this instance from the containing 
     /// <see cref="Mapping"/> instance.
     /// </remarks>
+    [DisallowNull]
     public abstract CsvRecord? Record { get; protected internal set; }
 
     /// <inheritdoc />

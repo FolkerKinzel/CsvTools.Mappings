@@ -7,11 +7,16 @@ namespace FolkerKinzel.CsvTools.Mappings.Tests;
 [TestClass]
 public class MultiColumnPropertyTests
 {
-    private sealed class SumConverter(Mapping mapping)
-        : MultiColumnTypeConverter<int?>(mapping, null, false)
+    private sealed class SumConverter : MultiColumnTypeConverter<int?>
     {
         public override bool AcceptsNull => true;
 
+        public SumConverter(Mapping mapping) : base(mapping, null, false) { }
+        
+        private SumConverter(SumConverter other) : base(other) { }
+
+        public override object Clone() => new SumConverter(this);
+        
         protected override void DoConvertToCsv(int? value)
         {
             if (!value.HasValue)

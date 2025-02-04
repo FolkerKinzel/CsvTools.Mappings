@@ -69,18 +69,16 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
         }
     }
 
-    private ColumnNameProperty(ColumnNameProperty<T> source) : base(source)
-    {
-        _csvRecordIdentifier = source._csvRecordIdentifier;
-        _wildcardTimeout = source._wildcardTimeout;
-        _csvIndex = source._csvIndex;
-        ColumnNameAliases = source.ColumnNameAliases;
-    }
-
-
+    //private ColumnNameProperty(ColumnNameProperty<T> source) : base(source)
+    //{
+    //    _csvRecordIdentifier = source._csvRecordIdentifier;
+    //    _wildcardTimeout = source._wildcardTimeout;
+    //    _csvIndex = source._csvIndex;
+    //    ColumnNameAliases = source.ColumnNameAliases;
+    //}
 
     /// <inheritdoc/>
-    public override object Clone() => new ColumnNameProperty<T>(this);
+    public override object Clone() => MemberwiseClone();
 
     /// <summary>
     /// Collection of alternative column names of the CSV file, which is used by <see cref="Mapping"/> to access

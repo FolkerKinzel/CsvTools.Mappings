@@ -41,13 +41,13 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
         Index = csvIndex;
     }
 
-    private IndexProperty(IndexProperty<T> other) : base(other)
-    {
-        Index = other.Index;
-    }
+    //private IndexProperty(IndexProperty<T> other) : base(other)
+    //{
+    //    Index = other.Index;
+    //}
 
     /// <inheritdoc/>
-    public override object Clone() => new IndexProperty<T>(this);
+    public override object Clone() => MemberwiseClone();
 
     /// <summary>
     /// The zero-based index of the column in the CSV file that <see cref="IndexProperty{T}"/>

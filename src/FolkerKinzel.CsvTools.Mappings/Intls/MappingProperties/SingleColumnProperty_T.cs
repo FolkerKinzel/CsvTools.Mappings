@@ -26,7 +26,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
     /// for C# identifiers (only ASCII characters).</exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.MaxRegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public SingleColumnProperty(string propertyName, TypeConverter<T> converter) : base(propertyName)
     {
@@ -40,7 +40,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     protected SingleColumnProperty(SingleColumnProperty<T> other) : base(other)
     {
         _converter = other._converter;
-        Record = other.Record;
+        Record = other.Record!;
     }
 
     /// <inheritdoc/>
@@ -81,6 +81,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     public ITypeConverter<T> Converter => _converter;
 
     /// <inheritdoc/>
+    [DisallowNull]
     public override CsvRecord? Record { get; protected internal set; }
 
     /// <summary>

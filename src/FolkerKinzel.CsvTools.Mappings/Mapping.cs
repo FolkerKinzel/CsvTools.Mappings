@@ -2,17 +2,13 @@
 using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
-using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
-using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Dynamic;
-using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -135,8 +131,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// Maximum time (in milliseconds) that can be used to resolve a CSV column 
     /// name alias. 
     /// </summary>
-    /// <value>If the value is greater than <see cref="MaxRegexTimeout"/>, 
-    /// <see cref="MaxRegexTimeout"/> is used instead. The default value is 10.
+    /// <value>The default value is 10.
     /// Set this value to <see cref="Timeout.Infinite"/> to disable the timeout.</value>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Value is less than 1 and not <see cref="Timeout.Infinite"/>.
@@ -221,7 +216,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
     /// </exception>
     internal void AddProperty(DynamicProperty property)
-    {    
+    {
         this._dynProps.Add(property);
         property.Record = Record;
     }
@@ -283,7 +278,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     public override bool TrySetMember(SetMemberBinder binder, object? value)
     {
         _ArgumentNullException.ThrowIfNull(binder, nameof(binder));
-        
+
         if (this._dynProps.TryGetValue(binder.Name, out DynamicProperty? prop))
         {
             prop.Value = value;
@@ -403,10 +398,10 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
 
             try
             {
-                object?  value = prop.Value;
-                _ = value is null ? sb.Append("<null>") 
-                                  : value is DBNull 
-                                    ? sb.Append("<DBNull>") 
+                object? value = prop.Value;
+                _ = value is null ? sb.Append("<null>")
+                                  : value is DBNull
+                                    ? sb.Append("<DBNull>")
                                     : sb.Append(value);
             }
             catch
