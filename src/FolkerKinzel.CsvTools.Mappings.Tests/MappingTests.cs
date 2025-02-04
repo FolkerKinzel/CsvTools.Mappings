@@ -72,27 +72,19 @@ public class MappingTests
     [TestMethod]
     public void DynPropTest()
     {
-        var rec = new CsvRecord(["Hallo1", "Blabla"], false, true, true);
-
-        Mapping wrapper = MappingBuilder.Create().Build();
-        wrapper.Record = rec;
-
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
 
-        var prop1 =
-            new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
-            new Int32Converter().ToNullableConverter());
+        var rec = new CsvRecord(["Hallo1", "Blabla"], false, true, true);
 
-        wrapper.AddProperty(prop1);
+        Mapping mapping = MappingBuilder
+            .Create()
+            .AddProperty(prop1Name, ["Hallo1"], new Int32Converter().ToNullableConverter())
+            .AddProperty(prop2Name, ["Blub", null!, "Bla*"], StringConverter.CreateNullable())
+            .Build();
+        mapping.Record = rec;
 
-        var prop2 =
-            new ColumnNameProperty<string?>(prop2Name, ["Blub", null!, "Bla*"],
-            StringConverter.CreateNullable());
-
-        wrapper.AddProperty(prop2);
-
-        dynamic dyn = wrapper;
+        dynamic dyn = mapping;
 
         const int val = 42;
 
@@ -114,7 +106,6 @@ public class MappingTests
         var rec = new CsvRecord(3);
 
         Mapping wrapper = MappingBuilder.Create().Build();
-        wrapper.Record = rec;
 
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
@@ -134,6 +125,8 @@ public class MappingTests
         wrapper.AddProperty(prop1);
         wrapper.AddProperty(prop2);
         wrapper.AddProperty(prop3);
+
+        wrapper.Record = rec;
 
         dynamic dyn = wrapper;
 
@@ -256,7 +249,6 @@ public class MappingTests
         Assert.IsNotNull(s);
         Assert.AreNotEqual(0, s.Length);
 
-        wrapper.Record = rec;
 
         s = wrapper.ToString();
         Assert.IsNotNull(s);
@@ -280,6 +272,8 @@ public class MappingTests
         wrapper.AddProperty(prop1);
         wrapper.AddProperty(prop2);
         wrapper.AddProperty(prop3);
+
+        wrapper.Record = rec;
 
         s = wrapper.ToString();
         Assert.IsNotNull(s);

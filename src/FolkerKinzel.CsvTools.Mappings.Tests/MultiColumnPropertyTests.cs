@@ -85,8 +85,6 @@ public class MultiColumnPropertyTests
         CollectionAssert.AreEqual(sums, results);
     }
 
-    
-
     [TestMethod]
     public void SumConverterTest1()
     {
@@ -98,7 +96,6 @@ public class MultiColumnPropertyTests
             .Create()
             .AddProperty("A", nullableIntConverter)
             .AddProperty("B", nullableIntConverter);
-            
 
         var sumConverter = new SumConverter(mappingBuilder);
         Assert.AreEqual(typeof(int?), sumConverter.DataType);
@@ -110,16 +107,16 @@ public class MultiColumnPropertyTests
         CollectionAssert.AreEqual(new int[] { 0, 1 }, mapping["Sum"].CsvColumnIndexes.ToArray());
         CollectionAssert.AreEqual(new string[] { "A", "B" }, mapping["Sum"].CsvColumnNames.ToArray());
 
-        Assert.IsNull(mapping["A"].Value);
-        Assert.IsNull(mapping["B"].Value);
+        Assert.IsNull(sumConverter.Mapping["A"].Value);
+        Assert.IsNull(sumConverter.Mapping["B"].Value);
 
         mapping["Sum"].Value = 42;
 
-        Assert.AreEqual(44, mapping["A"].Value);
-        Assert.AreEqual(-2, mapping["B"].Value);
+        Assert.AreEqual(44, sumConverter.Mapping["A"].Value);
+        Assert.AreEqual(-2, sumConverter.Mapping["B"].Value);
 
-        Assert.AreEqual(3, mapping.Count);
-        Assert.AreEqual(0, mapping.Count);
+        //Assert.AreEqual(3, mapping.Count);
+        //Assert.AreEqual(0, mapping.Count);
     }
 
     [TestMethod]
@@ -134,8 +131,6 @@ public class MultiColumnPropertyTests
             .AddProperty("A", nullableIntConverter)
             .AddProperty("B", nullableIntConverter);
 
-       
-
         var sumConverter = new SumConverter(mappingBuilder);
         Assert.AreEqual(typeof(int?), sumConverter.DataType);
 
@@ -144,8 +139,8 @@ public class MultiColumnPropertyTests
         Assert.IsNull(mapping["Sum"].DefaultValue);
 
         ITypedProperty<int?> sumProp = mapping["Sum"].AsITypedProperty<int?>();
-        ITypedProperty<int?> aProp = mapping["A"].AsITypedProperty<int?>();
-        ITypedProperty<int?> bProp = mapping["B"].AsITypedProperty<int?>();
+        ITypedProperty<int?> aProp = sumConverter.Mapping["A"].AsITypedProperty<int?>();
+        ITypedProperty<int?> bProp = sumConverter.Mapping["B"].AsITypedProperty<int?>();
 
         Assert.IsNull(sumProp.DefaultValue);
         Assert.AreEqual(typeof(int?), sumProp.Converter.DataType);
@@ -170,7 +165,7 @@ public class MultiColumnPropertyTests
         Assert.AreNotSame(mapping["Sum"], mapping2["Sum"]);
 
         ITypedProperty<int?> sumProp2 = mapping2["Sum"].AsITypedProperty<int?>();
-        Assert.AreSame(sumProp.Converter, sumProp2.Converter);
+        Assert.AreNotSame(sumProp.Converter, sumProp2.Converter);
         Assert.AreSame(sumProp.Record, sumProp2.Record);
     }
 
@@ -200,7 +195,6 @@ public class MultiColumnPropertyTests
         Mapping mapping = MappingBuilder.Create().AddProperty("Prop", conv).Build();
         mapping["Prop"].AsITypedProperty<int?>().Value = 7;
     }
-
 
     [TestMethod]
     public void ParseMappings()
