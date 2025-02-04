@@ -33,7 +33,7 @@ public class CharConverterTests
     [TestMethod]
     public void ToHexConverterTest1()
     {
-        var conv = new ByteConverter().ToHexConverter();
+        TypeConverter<byte> conv = new ByteConverter().ToHexConverter();
         Assert.AreEqual("2A", conv.ConvertToString(42));
         Assert.AreEqual(42, conv.Parse("2A".AsSpan()));
     }

@@ -40,26 +40,33 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// <summary>
     /// Constructor used by derived classes.
     /// </summary>
-    /// <param name="mapping">
+    /// <param name="mappingBuilder">
     /// <para>
-    /// The <see cref="Mappings.Mapping"/> to use to access those columns 
+    /// A <see cref="MappingBuilder"/> that builds the
+    /// <see cref="Mappings.Mapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.
     /// </para>
-    /// <note type="tip">
-    /// It's easier to debug if a separate <see cref="Mappings.Mapping"/> is used here.
-    /// </note>
+    /// <para>Add all required properties to <paramref name="mappingBuilder"/> before
+    /// passing it as argument. (The <see cref="MappingBuilder.Build"/> method is called
+    /// from the constructor.)
+    /// </para>
     /// </param>
+    /// 
+    /// <remarks>
+    /// The builder pattern is needed to avoid circular references.
+    /// </remarks>
+    /// 
     /// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
     /// <param name="defaultValue">
     /// The <see cref="DefaultValue"/> to return when a parsing error occurs and
     /// the <see cref="Throwing"/> property is <c>false</c>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="mapping"/> is <c>null</c>.</exception>
-    protected MultiColumnTypeConverter(Mapping mapping,
+    /// <exception cref="ArgumentNullException"><paramref name="mappingBuilder"/> is <c>null</c>.</exception>
+    protected MultiColumnTypeConverter(MappingBuilder mappingBuilder,
                                        T defaultValue,
                                        bool throwing)
     {
-        Mapping = mapping ?? throw new ArgumentNullException(nameof(mapping));
+        Mapping = mappingBuilder?.Build() ?? throw new ArgumentNullException(nameof(mappingBuilder));
         Throwing = throwing;
         DefaultValue = defaultValue;
     }

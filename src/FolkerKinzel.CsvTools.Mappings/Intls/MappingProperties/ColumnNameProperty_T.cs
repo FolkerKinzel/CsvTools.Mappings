@@ -69,14 +69,6 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
         }
     }
 
-    //private ColumnNameProperty(ColumnNameProperty<T> source) : base(source)
-    //{
-    //    _csvRecordIdentifier = source._csvRecordIdentifier;
-    //    _wildcardTimeout = source._wildcardTimeout;
-    //    _csvIndex = source._csvIndex;
-    //    ColumnNameAliases = source.ColumnNameAliases;
-    //}
-
     /// <inheritdoc/>
     public override object Clone() => MemberwiseClone();
 

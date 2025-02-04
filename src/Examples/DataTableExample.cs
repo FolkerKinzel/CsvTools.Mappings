@@ -35,12 +35,13 @@ internal static class DataTableExample
         // and the accepted data type). They dont't need to correspond in their
         // order and they don't need to match neither the columns of the CSV file
         // nor all DataColumns of the DataTable:
-        Mapping mapping = Mapping
+        Mapping mapping = MappingBuilder
             .Create()
             .AddProperty("Name", stringConverter)
             .AddProperty("Subject", stringConverter)
             .AddProperty("Day", new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
-            .AddProperty("Begin", ["begin", "*start"], new TimeOnlyConverter().ToDBNullConverter());
+            .AddProperty("Begin", ["begin", "*start"], new TimeOnlyConverter().ToDBNullConverter())
+            .Build();
 
         // Write the CSV file:
         // (The column names provided when initalizing the CsvWriter determine

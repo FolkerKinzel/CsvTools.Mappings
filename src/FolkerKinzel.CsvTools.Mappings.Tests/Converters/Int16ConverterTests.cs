@@ -29,7 +29,7 @@ public class Int16ConverterTests
     [TestMethod]
     public void ToHexConverterTest()
     {
-        var conv = new Int16Converter().ToHexConverter();
+        TypeConverter<short> conv = new Int16Converter().ToHexConverter();
         Assert.AreEqual("2A", conv.ConvertToString(42));
         Assert.AreEqual(42, conv.Parse("2A".AsSpan()));
     }

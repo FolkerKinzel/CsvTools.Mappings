@@ -114,7 +114,7 @@ public class DateTimeOffsetConverterTests
     {
         var conv = new DateTimeOffsetConverter(parseExact: true);
         Assert.IsTrue(conv.ParseExact);
-        var dateTime = DateTimeOffset.Now;
+        DateTimeOffset dateTime = DateTimeOffset.Now;
         string? csv = conv.ConvertToString(dateTime);
         Assert.IsNotNull(csv);
         Assert.IsTrue(conv.TryParseValue(csv.AsSpan(), out DateTimeOffset parsed));
@@ -125,7 +125,7 @@ public class DateTimeOffsetConverterTests
     public void ParseTest1()
     {
         Assert.IsFalse(_conv.ParseExact);
-        var dateTime = DateTimeOffset.Now;
+        DateTimeOffset dateTime = DateTimeOffset.Now;
         string? csv = _conv.ConvertToString(dateTime);
         Assert.IsNotNull(csv);
         Assert.IsTrue(_conv.TryParseValue(csv.AsSpan(), out DateTimeOffset parsed));

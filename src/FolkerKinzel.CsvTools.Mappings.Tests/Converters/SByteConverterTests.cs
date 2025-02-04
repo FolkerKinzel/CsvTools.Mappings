@@ -27,7 +27,7 @@ public class SByteConverterTests
     [TestMethod]
     public void ToHexConverterTest()
     {
-        var conv = new SByteConverter().ToHexConverter();
+        TypeConverter<sbyte> conv = new SByteConverter().ToHexConverter();
         Assert.AreEqual("2A", conv.ConvertToString(42));
         Assert.AreEqual(42, conv.Parse("2A".AsSpan()));
     }

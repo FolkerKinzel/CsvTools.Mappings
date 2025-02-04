@@ -45,12 +45,13 @@ internal static class ObjectSerializationExample
         // the CSV-Columns and converts it to the right data type.
         // Aliases with wildcards can be used to match the column-headers
         // of the CSV file. 
-        Mapping mapping = Mapping
+        Mapping mapping = MappingBuilder
             .Create()
             .AddProperty("Name", ["*name"], stringConverter)
             .AddProperty("Subject", ["*subject", "*fach"], stringConverter)
             .AddProperty("LessonDay", ["*day", "*tag"], new EnumConverter<DayOfWeek>().ToNullableConverter())
-            .AddProperty("LessonBegin", ["*begin?"], new TimeSpanConverter().ToNullableConverter());
+            .AddProperty("LessonBegin", ["*begin?"], new TimeSpanConverter().ToNullableConverter())
+            .Build();
 
         using CsvReader<Pupil> pupilsReader =
            CsvMapping.OpenReadAnalyzed<Pupil>(filePath,

@@ -11,7 +11,7 @@ public class MultiColumnPropertyTests
     {
         public override bool AcceptsNull => true;
 
-        public SumConverter(Mapping mapping) : base(mapping, null, false) { }
+        public SumConverter(MappingBuilder mapping) : base(mapping, null, false) { }
         
         private SumConverter(SumConverter other) : base(other) { }
 
@@ -52,16 +52,17 @@ public class MultiColumnPropertyTests
     {
         TypeConverter<int?> nullableIntConverter = new Int32Converter().ToNullableConverter();
 
-        Mapping subMapping = Mapping
+        MappingBuilder subMapping = MappingBuilder
             .Create()
             .AddProperty("A", nullableIntConverter)
             .AddProperty("B", nullableIntConverter);
 
         var sumConverter = new SumConverter(subMapping);
 
-        Mapping mappping = Mapping
+        Mapping mappping = MappingBuilder
             .Create()
-            .AddProperty("Sum", sumConverter);
+            .AddProperty("Sum", sumConverter)
+            .Build();
 
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, ["A", "B"]);
@@ -84,10 +85,7 @@ public class MultiColumnPropertyTests
         CollectionAssert.AreEqual(sums, results);
     }
 
-    [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException))]
-    public void MultiColumnPropertyTest2()
-        => _ = Mapping.Create().AddProperty("PropName", (MultiColumnTypeConverter<int>)null!);
+    
 
     [TestMethod]
     public void SumConverterTest1()
@@ -96,17 +94,17 @@ public class MultiColumnPropertyTests
 
         using var stringWriter = new StringWriter();
         using CsvWriter writer = Csv.OpenWrite(stringWriter, ["A", "B"]);
-        Mapping mapping = Mapping
+        MappingBuilder mappingBuilder = MappingBuilder
             .Create()
             .AddProperty("A", nullableIntConverter)
             .AddProperty("B", nullableIntConverter);
             
-        mapping.Record = writer.Record;
 
-        var sumConverter = new SumConverter(mapping);
+        var sumConverter = new SumConverter(mappingBuilder);
         Assert.AreEqual(typeof(int?), sumConverter.DataType);
 
-        mapping.AddProperty("Sum", sumConverter);
+        Mapping mapping = MappingBuilder.Create().AddProperty("Sum", sumConverter).Build();
+        mapping.Record = writer.Record;
         mapping["Sum"].Value = null;
 
         CollectionAssert.AreEqual(new int[] { 0, 1 }, mapping["Sum"].CsvColumnIndexes.ToArray());
@@ -121,7 +119,6 @@ public class MultiColumnPropertyTests
         Assert.AreEqual(-2, mapping["B"].Value);
 
         Assert.AreEqual(3, mapping.Count);
-        Assert.IsInstanceOfType<Mapping>(mapping.Clear());
         Assert.AreEqual(0, mapping.Count);
     }
 
@@ -132,17 +129,18 @@ public class MultiColumnPropertyTests
 
         using var stringWriter = new StringWriter();
         using CsvWriter writer = Csv.OpenWrite(stringWriter, ["A", "B"]);
-        Mapping mapping = Mapping
+        MappingBuilder mappingBuilder = MappingBuilder
             .Create()
             .AddProperty("A", nullableIntConverter)
             .AddProperty("B", nullableIntConverter);
 
-        mapping.Record = writer.Record;
+       
 
-        var sumConverter = new SumConverter(mapping);
+        var sumConverter = new SumConverter(mappingBuilder);
         Assert.AreEqual(typeof(int?), sumConverter.DataType);
 
-        mapping.AddProperty("Sum", sumConverter);
+        Mapping mapping = MappingBuilder.Create().AddProperty("Sum", sumConverter).Build();
+        mapping.Record = writer.Record;
         Assert.IsNull(mapping["Sum"].DefaultValue);
 
         ITypedProperty<int?> sumProp = mapping["Sum"].AsITypedProperty<int?>();
@@ -180,19 +178,17 @@ public class MultiColumnPropertyTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void ValueTest1()
     {
-        var mapping = Mapping.Create();
-        var conv = new SumConverter(mapping);
-        mapping.AddProperty("Prop", conv);
-        object? o = mapping["Prop"].Value;
+        var conv = new SumConverter(MappingBuilder.Create());
+        Mapping mapping = MappingBuilder.Create().AddProperty("Prop", conv).Build();
+        _ = mapping["Prop"].Value;
     }
 
     [TestMethod]
     [ExpectedException(typeof(InvalidOperationException))]
     public void ValueTest2()
     {
-        var mapping = Mapping.Create();
-        var conv = new SumConverter(mapping);
-        mapping.AddProperty("Prop", conv);
+        var conv = new SumConverter(MappingBuilder.Create());
+        Mapping mapping = MappingBuilder.Create().AddProperty("Prop", conv).Build();
         mapping["Prop"].Value = 7;
     }
 
@@ -200,9 +196,8 @@ public class MultiColumnPropertyTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void ValueTest3()
     {
-        var mapping = Mapping.Create();
-        var conv = new SumConverter(mapping);
-        mapping.AddProperty("Prop", conv);
+        var conv = new SumConverter(MappingBuilder.Create());
+        Mapping mapping = MappingBuilder.Create().AddProperty("Prop", conv).Build();
         mapping["Prop"].AsITypedProperty<int?>().Value = 7;
     }
 
@@ -217,12 +212,12 @@ public class MultiColumnPropertyTests
             """;
 
         TypeConverter<int?> intConverter = new Int32Converter().ToNullableConverter();
-        Mapping mapping = Mapping
+        MappingBuilder mappingBuilder = MappingBuilder
             .Create()
             .AddProperty("A", intConverter)
             .AddProperty("B", intConverter);
             
-        mapping.AddProperty("Sum", new SumConverter(mapping));
+        Mapping mapping = MappingBuilder.Create().AddProperty("Sum", new SumConverter(mappingBuilder)).Build();
 
         dynamic[] result = CsvMapping.Parse(csv, mapping, dyn => dyn);
     }

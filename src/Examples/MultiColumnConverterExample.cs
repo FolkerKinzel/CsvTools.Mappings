@@ -12,7 +12,7 @@ internal static class MultiColumnConverterExample
     {
         public override bool AcceptsNull => false;
 
-        public ColorConverter(Mapping mapping) : base(mapping, Color.Transparent, true) { }
+        public ColorConverter(MappingBuilder mapping) : base(mapping, Color.Transparent, true) { }
         
         // Copy ctor
         private ColorConverter(ColorConverter other) : base(other) { }
@@ -50,17 +50,17 @@ internal static class MultiColumnConverterExample
     internal static void ParseDataFromSeveralCsvColumns()
     {
         TypeConverter<byte> byteConverter = new ByteConverter().ToHexConverter();
-        Mapping colorMapping = Mapping.Create()
-                                      .AddProperty("A", byteConverter)
-                                      .AddProperty("R", byteConverter)
-                                      .AddProperty("G", byteConverter)
-                                      .AddProperty("B", byteConverter);
-        var colorConverter = new ColorConverter(colorMapping);
+        var mappingBuilder = MappingBuilder.Create();
 
-        Mapping mapping = Mapping
-            .Create()
+        var colorConverter = new ColorConverter(mappingBuilder.AddProperty("A", byteConverter)
+                                                              .AddProperty("R", byteConverter)
+                                                              .AddProperty("G", byteConverter)
+                                                              .AddProperty("B", byteConverter));
+
+        Mapping mapping = mappingBuilder
             .AddProperty("ColorName", ["Name"], StringConverter.CreateNullable())
-            .AddProperty("Color", colorConverter);
+            .AddProperty("Color", colorConverter)
+            .Build();
 
         DirectoryInfo tmpDirectory = Directory.CreateTempSubdirectory();
         string csvPath = Path.Combine(tmpDirectory.FullName, "Colors.csv");

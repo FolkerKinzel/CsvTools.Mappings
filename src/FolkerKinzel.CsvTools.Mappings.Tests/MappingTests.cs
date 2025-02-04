@@ -11,18 +11,13 @@ namespace FolkerKinzel.CsvTools.Mappings.Tests;
 [TestClass()]
 public class MappingTests
 {
-    [TestMethod()]
-    public void CreateTest1()
-    {
-        var mapping = Mapping.Create();
-        Assert.IsInstanceOfType<Mapping>(mapping);
-    }
+    
 
     [TestMethod()]
     [ExpectedException(typeof(InvalidOperationException))]
     public void TrySetMemberTest1()
     {
-        var wrapper = Mapping.Create();
+        Mapping wrapper = MappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
 
@@ -50,7 +45,7 @@ public class MappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TryGetMemberTest()
     {
-        var wrapper = Mapping.Create();
+        Mapping wrapper = MappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
 
@@ -67,6 +62,7 @@ public class MappingTests
 
     [TestMethod]
     [ExpectedException(typeof(Microsoft.CSharp.RuntimeBinder.RuntimeBinderException))]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "<Pending>")]
     public void TryGetMemberTest2()
     {
         dynamic dyn = new Mapping();
@@ -78,7 +74,7 @@ public class MappingTests
     {
         var rec = new CsvRecord(["Hallo1", "Blabla"], false, true, true);
 
-        var wrapper = Mapping.Create();
+        Mapping wrapper = MappingBuilder.Create().Build();
         wrapper.Record = rec;
 
         const string prop1Name = "Prop1";
@@ -112,13 +108,12 @@ public class MappingTests
         Assert.AreEqual(prop2Value, s);
     }
 
-
     [TestMethod()]
     public void GetEnumeratorTest1()
     {
         var rec = new CsvRecord(3);
 
-        var wrapper = Mapping.Create();
+        Mapping wrapper = MappingBuilder.Create().Build();
         wrapper.Record = rec;
 
         const string prop1Name = "Prop1";
@@ -146,7 +141,6 @@ public class MappingTests
         dyn.Prop2 = 2;
         dyn.Prop3 = 3;
 
-
         foreach (DynamicProperty kvp in dyn)
         {
             switch (kvp.PropertyName)
@@ -170,35 +164,35 @@ public class MappingTests
     [TestMethod()]
     public void ContainsTest()
     {
-        Mapping wrapper =
-            Mapping.Create().AddProperty("Hallo", StringConverter.CreateNullable());
+        Mapping mapping =
+            MappingBuilder.Create().AddProperty("Hallo", StringConverter.CreateNullable()).Build();
 
-        Assert.IsTrue(wrapper.Contains("Hallo"));
-        Assert.IsFalse(wrapper.Contains("Wolli"));
-        Assert.IsFalse(wrapper.Contains(string.Empty));
+        Assert.IsTrue(mapping.Contains("Hallo"));
+        Assert.IsFalse(mapping.Contains("Wolli"));
+        Assert.IsFalse(mapping.Contains(string.Empty));
     }
 
     [TestMethod()]
     public void AddPropertyTest1()
     {
-        var wrapper = Mapping.Create();
+        Mapping mapping = MappingBuilder.Create().Build();
 
-        Assert.AreEqual(0, wrapper.Count);
+        Assert.AreEqual(0, mapping.Count);
 
         var prop =
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
             StringConverter.CreateNullable());
 
-        wrapper.AddProperty(prop);
+        mapping.AddProperty(prop);
 
-        Assert.AreEqual(1, wrapper.Count);
+        Assert.AreEqual(1, mapping.Count);
     }
 
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
     public void AddPropertyTest3()
     {
-        var wrapper = Mapping.Create();
+        Mapping mapping = MappingBuilder.Create().Build();
 
         TypeConverter<string?> conv = StringConverter.CreateNullable();
 
@@ -210,8 +204,8 @@ public class MappingTests
             new ColumnNameProperty<string?>("Hallo", ["Hallo"],
             conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
+        mapping.AddProperty(prop1);
+        mapping.AddProperty(prop2);
     }
 
     [TestMethod()]
@@ -221,20 +215,19 @@ public class MappingTests
         record.Values[0] = "42".AsMemory();
         record.Values[1] = "43".AsMemory();
 
-        var wrapper = Mapping.Create();
+        Mapping mapping = MappingBuilder.Create().Build();
 
         var intConverter = new Int32Converter();
 
-        wrapper.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[0], [record.ColumnNames[0]], intConverter));
-        wrapper.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[1], [record.ColumnNames[1]], intConverter));
+        mapping.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[0], [record.ColumnNames[0]], intConverter));
+        mapping.AddProperty(new ColumnNameProperty<int>(record.ColumnNames[1], [record.ColumnNames[1]], intConverter));
 
-        wrapper.Record = record;
+        mapping.Record = record;
 
-        Assert.AreEqual(42, wrapper[0].Value);
-        Assert.AreEqual(43, wrapper[1].Value);
+        Assert.AreEqual(42, mapping[0].Value);
+        Assert.AreEqual(43, mapping[1].Value);
 
-
-        dynamic dyn = wrapper;
+        dynamic dyn = mapping;
 
         Assert.AreEqual(42, dyn[0].Value);
         Assert.AreEqual(43, dyn[1].Value);
@@ -257,7 +250,7 @@ public class MappingTests
     {
         var rec = new CsvRecord(3);
 
-        var wrapper = Mapping.Create();
+        Mapping wrapper = MappingBuilder.Create().Build();
 
         string s = wrapper.ToString();
         Assert.IsNotNull(s);
@@ -324,7 +317,7 @@ public class MappingTests
     public void RegexTimeoutTest4() => Mapping.RegexTimeout = Timeout.Infinite;
 
     [TestMethod]
-    public void PropertyNamesTest1() => Assert.AreEqual(0, Mapping.Create().PropertyNames.Count());
+    public void PropertyNamesTest1() => Assert.AreEqual(0, MappingBuilder.Create().Build().PropertyNames.Count());
 
 
     

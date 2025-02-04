@@ -36,15 +36,15 @@ public class IEnumerableConverterTests
         IEnumerable<int> arr1 = [1, 2, 3];
         TypeConverter<IEnumerable<int>?> conv = new Int32Converter().ToIEnumerableConverter("::");
 
-        var wrapper = Mapping.Create();
+        Mapping mapping = MappingBuilder.Create().Build();
         var prop = new IndexProperty<IEnumerable<int>?>("TestProp", 0, conv);
-        wrapper.AddProperty(prop);
+        mapping.AddProperty(prop);
 
         using var writer = new StringWriter();
         using var csvWriter = new CsvWriter(writer, 1);
 
-        wrapper.Record = csvWriter.Record;
-        wrapper[0].Value = arr1;
+        mapping.Record = csvWriter.Record;
+        mapping[0].Value = arr1;
 
         csvWriter.WriteRecord();
 
@@ -53,24 +53,12 @@ public class IEnumerableConverterTests
         using var reader = new StringReader(csv);
         using var csvReader = new CsvReader(reader, false);
 
-        wrapper.Record = csvReader.First();
+        mapping.Record = csvReader.First();
 
-        dynamic dynWrapper = wrapper;
+        dynamic dynWrapper = mapping;
 
         IEnumerable<int> arr2 = dynWrapper.TestProp;
 
         CollectionAssert.AreEqual(arr1.ToArray(), arr2.ToArray());
     }
-
-    //[TestMethod()]
-    //public void ParseTest()
-    //{
-    //    Assert.Fail();
-    //}
-
-    //[TestMethod()]
-    //public void ConvertToStringTest()
-    //{
-    //    Assert.Fail();
-    //}
 }

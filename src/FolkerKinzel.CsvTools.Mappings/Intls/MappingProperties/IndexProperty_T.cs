@@ -41,11 +41,6 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
         Index = csvIndex;
     }
 
-    //private IndexProperty(IndexProperty<T> other) : base(other)
-    //{
-    //    Index = other.Index;
-    //}
-
     /// <inheritdoc/>
     public override object Clone() => MemberwiseClone();
 

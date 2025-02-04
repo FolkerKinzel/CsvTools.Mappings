@@ -25,7 +25,7 @@ public class UInt64ConverterTests
     [TestMethod]
     public void ToHexConverterTest()
     {
-        var conv = new UInt64Converter().ToHexConverter();
+        TypeConverter<ulong> conv = new UInt64Converter().ToHexConverter();
         Assert.AreEqual("2A", conv.ConvertToString(42));
         Assert.AreEqual(42u, conv.Parse("2A".AsSpan()));
     }

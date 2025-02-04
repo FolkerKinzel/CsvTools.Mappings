@@ -16,40 +16,28 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// Mapping for <see cref="CsvRecord"/> instances.
 /// </summary>
 /// <remarks>
+/// <para>Use <see cref="MappingBuilder"/> to create an instance.</para>
 /// <para>
 /// The class allows you to index the data of the <see cref="CsvRecord"/>
 /// object in a sequence of your choice, to access the data with .NET properties dynamically implemented at runtime ("late binding"), and to 
-/// perform type conversions automatically. In order to be able to use the dynamic properties of the <see cref="Mapping"/> class, the 
-/// instance of <see cref="Mapping"/> must be assigned to a variable that is declared with the keyword <c>dynamic</c>. Use <see cref="Create"/>
-/// to create a new instance.
-/// </para>
-/// <para>
-/// An instance of the <see cref="DynamicProperty"/> class represent a dynamic property of the <see cref="Mapping"/> object.
-/// The extension methods of the <see cref="MappingExtension"/> class can be used to create and add <see cref="DynamicProperty"/> instances. 
-/// The order, in which the <see cref="DynamicProperty"/> instances are added to a <see cref="Mapping"/> instance, determines their index in 
-/// that <see cref="Mapping"/> instance. These indexes may differ from the indexes of the columns of the CSV file that these 
-/// <see cref="DynamicProperty"/> instances access.
-/// </para>
-/// <para>
-/// With <see cref="Contains(string)"/> you can check whether a <see cref="DynamicProperty"/> instance with the specified 
-/// <see cref="DynamicProperty.PropertyName"/> is already added.
+/// perform type conversions automatically. In order to be able to use the dynamic properties of the <see cref="Mapping"/> class like regular .NET 
+/// properties, the <see cref="Mapping"/> instance has to be assigned to a variable that is declared with the keyword <c>dynamic</c>.
 /// </para>
 /// <para>
 /// Use the methods of the <see cref="CsvMapping"/> class to perform read and write operations with the <see cref="Mapping"/>.
 /// </para>
 /// <para>
-/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances alternatively can be accessed directly 
-/// without having to use dynamic .NET properties:
+/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances of the <see cref="Mapping"/> alternatively 
+/// can be accessed directly without having to use dynamic .NET properties:
 /// </para>
 /// <list type="bullet">
 /// <item>Use the indexers <see cref="this[int]"/> or <see cref="this[string]"/> to get a 
 /// <see cref="DynamicProperty"/> instance.</item>
 /// <item>Then cast it with <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
-/// and access its data directly with <see cref="ITypedProperty{T}.Value"/>. </item>
+/// and access its data directly with <see cref="ITypedProperty{T}.Value"/>.</item>
 /// </list>
 /// <para>
-/// With this approach boxing and unboxing of value types can 
-/// be avoided.
+/// With this approach boxing and unboxing of value types can be avoided.
 /// </para>
 /// <para>
 /// Unfortunately, for dynamic properties, the compiler does not monitor the nullability of reference types. With the 
@@ -90,7 +78,7 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// has to be assigned to <see cref="Record"/>.
     /// </note>
     /// </remarks>
-    public Mapping() { }
+    internal Mapping() { }
 
     private Mapping(Mapping other)
     {
@@ -104,28 +92,6 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
 
     /// <inheritdoc/>
     public object Clone() => new Mapping(this);
-
-    /// <summary>
-    /// Creates a new <see cref="Mapping"/> instance. 
-    /// </summary>
-    /// <returns>The newly created <see cref="Mapping"/> instance.</returns>
-    /// <remarks>
-    /// <note type="important">
-    /// Before accessing the dynamic properties a <see cref="CsvRecord"/> object 
-    /// has to be assigned to <see cref="Record"/>.
-    /// </note>
-    /// </remarks>
-    /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
-    /// <para>
-    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
-    /// <see cref="DataTable"/>: </para>
-    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-    /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
-    /// </example>
-    public static Mapping Create() => [];
 
     /// <summary>
     /// Maximum time (in milliseconds) that can be used to resolve a CSV column 
@@ -215,19 +181,10 @@ public sealed class Mapping : DynamicObject, IEnumerable<DynamicProperty>, IClon
     /// A <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
     /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
     /// </exception>
-    internal void AddProperty(DynamicProperty property)
-    {
-        this._dynProps.Add(property);
-        property.Record = Record;
-    }
+    internal void AddProperty(DynamicProperty property) => this._dynProps.Add(property);
 
     /// <summary>
-    /// Removes all <see cref="DynamicProperty"/> instances.
-    /// </summary>
-    internal void ClearIntl() => _dynProps.Clear();
-
-    /// <summary>
-    /// Examines whether a <see cref="DynamicProperty"/> instance is already registered in the <see cref="Mapping"/>
+    /// Examines whether a <see cref="DynamicProperty"/> instance is registered in the <see cref="Mapping"/>
     /// under the name that is specified with <paramref name="propertyName"/>.
     /// </summary>
     /// <param name="propertyName">The <see cref="DynamicProperty.PropertyName"/> of the <see cref="DynamicProperty"/> instance

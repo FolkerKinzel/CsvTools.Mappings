@@ -25,7 +25,7 @@ public class UInt16ConverterTests
     [TestMethod]
     public void ToHexConverterTest()
     {
-        var conv = new UInt16Converter().ToHexConverter();
+        TypeConverter<ushort> conv = new UInt16Converter().ToHexConverter();
         Assert.AreEqual("2A", conv.ConvertToString(42));
         Assert.AreEqual(42, conv.Parse("2A".AsSpan()));
     }

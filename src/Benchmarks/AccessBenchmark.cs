@@ -21,18 +21,20 @@ public class AccessBenchmark
     public AccessBenchmark()
     {
         _csv = Properties.Resources.Test1;
-        var conv = StringConverter.CreateNonNullable();
-        _indexWrapper = Mapping
+        TypeConverter<string> conv = StringConverter.CreateNonNullable();
+        _indexWrapper = MappingBuilder
             .Create()
             .AddProperty("Column0", 0, conv)
             .AddProperty("Column1", 1, conv)
-            .AddProperty("Column2", 2, conv);
+            .AddProperty("Column2", 2, conv)
+            .Build();
 
-        _nameWrapper = Mapping
+        _nameWrapper = MappingBuilder
             .Create()
             .AddProperty("Column0", conv)
             .AddProperty("Column1", conv)
-            .AddProperty("Column2", conv);
+            .AddProperty("Column2", conv)
+            .Build();
     }
 
     [Benchmark]
