@@ -28,6 +28,13 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </remarks>
 public sealed class MappingBuilder
 {
+    // The builder pattern allows to avoid circular references in the object tree
+    // of Mapping.
+    // All DynamicProperty instances are unique since they can only be
+    // instantiated and assigned with Mapping builder.
+    // As long as MultiColumnTypeConverter<T> takes a MappingBuilder as argument rather
+    // than a mapping, all Sub-Mappings in the object tree are unique.
+
     private Mapping? _mapping;
 
     private MappingBuilder() { }

@@ -26,19 +26,19 @@ public static class DynamicPropertyExtension
     /// This method exists in order to support high-performance scenarios. It allows you 
     /// to process value types without boxing and unboxing.
     /// </para>
+    /// <para>
+    /// The method is just syntactic sugar around a simple cast. When passing a <c>null</c>
+    /// reference as argument the compiler will give you a nullability warning but the return type 
+    /// will be <c>null</c>.
+    /// </para>
     /// <note type="caution">
     /// When using nullable reference types, take care to cast to the correct nullability:
-    /// The compiler won't warn you!
+    /// The compiler won't warn you when casting incorrectly!
     /// </note>
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="property"/> is <c>null</c>.</exception>
     /// <exception cref="InvalidCastException"><paramref name="property"/> is not of type 
     /// <see cref="ITypedProperty{T}"/>.</exception>"
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ITypedProperty<T> AsITypedProperty<T>(this DynamicProperty property)
-    {
-        _ArgumentNullException.ThrowIfNull(property, nameof(property));
-        return (ITypedProperty<T>)property;
-    }
+    public static ITypedProperty<T> AsITypedProperty<T>(this DynamicProperty property) => (ITypedProperty<T>)property;
 }

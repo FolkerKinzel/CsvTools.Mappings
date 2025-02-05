@@ -7,23 +7,22 @@ namespace FolkerKinzel.CsvTools.Mappings.Tests;
 public class DynamicPropertyExtensionTests
 {
     [TestMethod]
-    [ExpectedException(typeof(ArgumentNullException))]
-    public void AsTest1()
+    public void AsITypedPropertyTest1()
     {
         DynamicProperty? prop = null;
-        _ = prop!.AsITypedProperty<int>();
+        Assert.IsNull(prop!.AsITypedProperty<int>());
     }
 
     [TestMethod]
     [ExpectedException(typeof(InvalidCastException))]
-    public void AsTest2()
+    public void AsITypedPropertyTest2()
     {
         DynamicProperty prop = new IndexProperty<string?>("name", 0, StringConverter.CreateNullable());
         _ = prop.AsITypedProperty<int>();
     }
 
     [TestMethod]
-    public void AsTest3()
+    public void AsITypedPropertyTest3()
     {
         DynamicProperty? prop = new IndexProperty<string?>("name", 0, StringConverter.CreateNullable());
         ITypedProperty<string?> casted = prop.AsITypedProperty<string?>();
