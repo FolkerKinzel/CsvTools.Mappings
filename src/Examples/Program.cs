@@ -7,8 +7,8 @@ internal sealed class Program
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0022:Ausdruckskörper für Methoden verwenden", Justification = "<Ausstehend>")]
     private static void Main()
     {
-         DataTableExample.DataTableWriteReadCsv("DataTable.csv");
-         ObjectSerializationExample.CsvReadWritePupils("Objects.csv");
-        MultiColumnConverterExample.ParseDataFromSeveralCsvColumns();
+        //DataTableExample.DataTableWriteReadCsv("DataTable.csv");
+        ObjectSerializationExample.CsvReadWritePupils("Objects.csv");
+        //MultiColumnConverterExample.ParseDataFromSeveralCsvColumns();
     }
 }

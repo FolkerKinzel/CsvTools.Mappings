@@ -4,27 +4,7 @@ using FolkerKinzel.CsvTools.Mappings.Converters;
 
 namespace Examples;
 
-internal sealed class Pupil
-{
-    public string? Name { get; set; }
-    public string? Subject { get; set; }
-    public DayOfWeek? LessonDay { get; set; }
-    public TimeSpan? LessonBegin { get; set; }
-
-    public override string ToString()
-    {
-        const string NULL = "<null>";
-        string lessonDay = LessonDay.HasValue ? $"{nameof(DayOfWeek)}.{LessonDay}" : NULL;
-        string lessonBegin = LessonBegin.HasValue ? LessonBegin.Value.ToString() : NULL;
-
-        return $"""
-            Name:        {Name ?? NULL}
-            Subject:     {Subject ?? NULL}
-            LessonDay:   {lessonDay}
-            LessonBegin: {lessonBegin}
-            """;
-    }
-}
+internal record Pupil(string? Name, string? Subject, DayOfWeek? LessonDay, TimeSpan? LessonBegin);
 
 internal static class ObjectSerializationExample
 {
@@ -57,13 +37,10 @@ internal static class ObjectSerializationExample
            CsvMapping.OpenReadAnalyzed<Pupil>(filePath,
                                               mapping,
                                               // dyn is mapping as a dynamic variable ("late binding")
-                                              static dyn => new Pupil
-                                              {
-                                                  Name = dyn.Name,
-                                                  LessonBegin = dyn.LessonBegin,
-                                                  LessonDay = dyn.LessonDay,
-                                                  Subject = dyn.Subject
-                                              });
+                                              static dyn => new Pupil(dyn.Name,
+                                                                      dyn.Subject,
+                                                                      dyn.LessonDay,
+                                                                      dyn.LessonBegin));
 
         Pupil[] pupils = [.. pupilsReader];
 
@@ -71,7 +48,6 @@ internal static class ObjectSerializationExample
         foreach (Pupil pupil in pupils)
         {
             Console.WriteLine(pupil);
-            Console.WriteLine();
         }
 
         // Pass the column names of the newly created CSV file:
@@ -93,6 +69,7 @@ internal static class ObjectSerializationExample
             }
         }
 
+        Console.WriteLine();
         Console.WriteLine(File.ReadAllText(filePath));
     }
 }
@@ -100,20 +77,9 @@ internal static class ObjectSerializationExample
 /*
 Console output: 
 
-Name:        Susi
-Subject:     Piano
-LessonDay:   DayOfWeek.Wednesday
-LessonBegin: 14:30:00
-
-Name:        Carl Czerny
-Subject:     Piano
-LessonDay:   DayOfWeek.Thursday
-LessonBegin: 15:15:00
-
-Name:        Frederic Chopin
-Subject:     <null>
-LessonDay:   <null>
-LessonBegin: <null>
+Pupil { Name = Susi, Subject = Piano, LessonDay = Wednesday, LessonBegin = 14:30:00 }
+Pupil { Name = Carl Czerny, Subject = Piano, LessonDay = Thursday, LessonBegin = 15:15:00 }
+Pupil { Name = Frederic Chopin, Subject = , LessonDay = , LessonBegin =  }
 
 Name,Subject,Weekday,Begin
 Susi,Piano,3,
