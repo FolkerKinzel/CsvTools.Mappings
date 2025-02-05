@@ -51,23 +51,18 @@ internal static class ObjectSerializationExample
             Console.WriteLine(pupil);
         }
 
+        static void PupilToCsv(Pupil pupil, dynamic dyn)
+        {
+            dyn.Name = pupil.Name;
+            dyn.LessonBegin = pupil.LessonBegin;
+            dyn.LessonDay = pupil.LessonDay;
+            dyn.Subject = pupil.Subject;
+        }
+
         // Pass the column names of the newly created CSV file:
         using (CsvWriter csvWriter = Csv.OpenWrite(filePath, ["Name", "Subject", "Weekday", "Begin"]))
-        using (CsvWriter<Pupil> pupilsWriter =
-            CsvMapping.OpenWrite<Pupil>(csvWriter,
-                                        mapping,
-                                        static (pupil, dyn) =>
-                                        {
-                                            dyn.Name = pupil.Name;
-                                            dyn.LessonBegin = pupil.LessonBegin;
-                                            dyn.LessonDay = pupil.LessonDay;
-                                            dyn.Subject = pupil.Subject;
-                                        }))
         {
-            foreach (Pupil pupil in pupils)
-            {
-                pupilsWriter.Write(pupil);
-            }
+            CsvMapping.Write(pupils, csvWriter, mapping, PupilToCsv);
         }
 
         Console.WriteLine();

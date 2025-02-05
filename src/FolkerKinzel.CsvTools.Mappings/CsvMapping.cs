@@ -12,7 +12,6 @@ public static class CsvMapping
     private static readonly Type _recordType = typeof(CsvRecord);
     private static readonly Type _dynamicType = typeof(object);
 
-
     /// <summary>
     /// Initializes a new <see cref="CsvWriter{TData}" /> instance.
     /// </summary>
@@ -56,6 +55,63 @@ public static class CsvMapping
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static CsvWriter<TData> OpenWrite<TData>(CsvWriter writer, Mapping mapping, Action<TData, dynamic> conversion)
         => new(writer, mapping, conversion);
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data"></param>
+    /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
+    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <param name="conversion">
+    /// <para>
+    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// into the properties of <paramref name="mapping"/>. 
+    /// </para>
+    /// <para>
+    /// <paramref name="conversion"/> is called with each CSV row to be written and it
+    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// arguments. <paramref name="mapping"/>
+    /// is passed to the method as <c>dynamic</c> argument: Inside the <paramref name="conversion"/>
+    /// method the registered 
+    /// <see cref="DynamicProperty"/> instances can be used like 
+    /// regular .NET properties, but without IntelliSense ("late binding").
+    /// </para>
+    /// <para>
+    /// With each call of <paramref name="conversion"/> all <see cref="DynamicProperty"/> instances in
+    /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
+    /// </para>
+    /// </param>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling 
+    /// has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+    /// </example>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="writer"/>, or 
+    /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
+    /// <exception cref="IOException">I/O error.</exception>
+    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    public static void Write<TData>(IEnumerable<TData?> data,
+                                    CsvWriter writer,
+                                    Mapping mapping,
+                                    Action<TData, dynamic> conversion)
+    {
+        _ArgumentNullException.ThrowIfNull(data, nameof(data));
+
+        using var csvWriter = new CsvWriter<TData>(writer, mapping, conversion);
+
+        foreach (TData? item in data)
+        {
+            csvWriter.Write(item);
+        }
+    }
 
     /// <summary>Initializes a <see cref="CsvReader{TResult}"/> instance to read data 
     /// that is in the CSV format as a collection of <typeparamref name="TResult"/> instances.</summary>

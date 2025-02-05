@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+using System;
 using System.Collections;
 
 namespace FolkerKinzel.CsvTools.Mappings;
@@ -61,9 +62,17 @@ public sealed class CsvWriter<TData> : IDisposable
     /// <summary>
     /// Writes <paramref name="data"/> as a new CSV row.
     /// </summary>
-    /// <param name="data">The <typeparamref name="TData"/> instance to be written.</param>
-    public void Write(TData data)
+    /// <param name="data">The <typeparamref name="TData"/> instance to be written. If <paramref name="data"/> 
+    /// is <c>null</c>, nothing is written.</param>
+    /// <exception cref="IOException">I/O error.</exception>
+    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    public void Write(TData? data)
     {
+        if(data is null)
+        {
+            return;
+        }
+
         _conversion(data, _mapping);
         _writer.WriteRecord();
     }
