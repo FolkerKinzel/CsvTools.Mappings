@@ -1,6 +1,7 @@
 ﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
 using FolkerKinzel.CsvTools.Mappings.Converters;
+using System.Text;
 
 namespace Examples;
 
@@ -16,7 +17,7 @@ internal static class ObjectSerializationExample
                 Wednesday;14:30;Susi;Piano
                 Thursday;15:15;Carl Czerny;Piano;
                 ;;Frederic Chopin
-                """);
+                """, Encoding.Unicode);
 
         // Reuse a converter for more than one property:
         TypeConverter<string?> stringConverter = StringConverter.CreateNullable();

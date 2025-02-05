@@ -11,6 +11,24 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </summary>
 public static class MappingExtension
 {
+    ///// <summary>
+    ///// Resets all <see cref="DynamicProperty"/> instances in <paramref name="mapping"/>
+    ///// to their <see cref="DynamicProperty.DefaultValue"/>s.
+    ///// </summary>
+    ///// <param name="mapping">The <see cref="Mapping"/> instance whose values are being reset.</param>
+    ///// <returns><paramref name="mapping"/> to chain calls.</returns>
+    //public static Mapping Clear(this Mapping mapping)
+    //{
+    //    _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+
+    //    foreach (var prop in mapping)
+    //    {
+    //        prop.Value = prop.DefaultValue;
+    //    }
+
+    //    return mapping;
+    //}
+
     /// <summary>
     /// Fills <paramref name="mapping"/> with the items of 
     /// a collection. 
