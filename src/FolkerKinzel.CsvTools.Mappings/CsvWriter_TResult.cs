@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls;
+namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>Provides read-only forward access to the data of a CSV file.</summary>
 /// 
@@ -9,7 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls;
 /// Generic type parameter for the data type that the <see cref="CsvWriter{TData}"/> 
 /// can write as CSV row.
 /// </typeparam>
-internal sealed class CsvWriter<TData> : IDisposable
+public sealed class CsvWriter<TData> : IDisposable
 {
     private readonly CsvWriter _writer;
     private readonly Mapping _mapping;
@@ -44,9 +43,9 @@ internal sealed class CsvWriter<TData> : IDisposable
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="writer"/>, or <paramref name="mapping"/>, 
     /// or <paramref name="conversion"/> is <c>null</c>.</exception>
-    internal CsvWriter(CsvWriter writer,
-                       Mapping mapping,
-                       Action<TData, dynamic> conversion)
+    public CsvWriter(CsvWriter writer,
+                     Mapping mapping,
+                     Action<TData, dynamic> conversion)
     {
         _ArgumentNullException.ThrowIfNull(writer, nameof(writer));
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
@@ -65,7 +64,7 @@ internal sealed class CsvWriter<TData> : IDisposable
     /// will be ignored if it is <c>null</c>.</param>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    internal void Write(TData? data)
+    public void Write(TData? data)
     {
         if (data is null)
         {
@@ -79,7 +78,7 @@ internal sealed class CsvWriter<TData> : IDisposable
     /// <summary>
     /// Gets the field separator character.
     /// </summary>
-    internal char Delimiter => _writer.Delimiter;
+    public char Delimiter => _writer.Delimiter;
 
     /// <inheritdoc/>
     public void Dispose()
