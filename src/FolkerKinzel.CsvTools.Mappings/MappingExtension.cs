@@ -11,24 +11,6 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </summary>
 public static class MappingExtension
 {
-    ///// <summary>
-    ///// Resets all <see cref="DynamicProperty"/> instances in <paramref name="mapping"/>
-    ///// to their <see cref="DynamicProperty.DefaultValue"/>s.
-    ///// </summary>
-    ///// <param name="mapping">The <see cref="Mapping"/> instance whose values are being reset.</param>
-    ///// <returns><paramref name="mapping"/> to chain calls.</returns>
-    //public static Mapping Clear(this Mapping mapping)
-    //{
-    //    _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-
-    //    foreach (var prop in mapping)
-    //    {
-    //        prop.Value = prop.DefaultValue;
-    //    }
-
-    //    return mapping;
-    //}
-
     /// <summary>
     /// Fills <paramref name="mapping"/> with the items of 
     /// a collection. 
@@ -43,7 +25,6 @@ public static class MappingExtension
     /// For performance reasons this parameter can be set to <c>false</c> when writing CSV because 
     /// <see cref="CsvWriter.WriteRecord"/> resets all fields in <paramref name="mapping"/>.
     /// </param>
-    /// 
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="mapping"/> or <paramref name="data"/>
     /// is <c>null</c>.</exception>
@@ -99,19 +80,19 @@ public static class MappingExtension
     /// 
     /// <remarks>
     /// <para>
-    /// Each <see cref="DynamicProperty.PropertyName"/> in <paramref name="mapping"/>
-    /// MUST have a corresponding <see cref="DataColumn.ColumnName"/> in <paramref name="dataRow"/>.
-    /// The corresponding columns have to match in theír data type too.
+    /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
+    /// MUST have a corresponding <see cref="DataColumn"/> in <paramref name="dataRow"/>
+    /// - corresponding in the <see cref="DataColumn.Caption"/> property (case-insensitive)
+    /// and the accepted data type.
     /// </para>
     /// <para>
-    /// Since <see cref="Mapping"/> uses case-sensitiv property names and the column names in 
-    /// <paramref name="dataRow"/> are case-insensitive, effort must be taken that the 
-    /// <see cref="DynamicProperty.PropertyName"/>s in <paramref name="mapping"/> are unique, 
-    /// even when treated case-insensitive.
+    /// Effort must be taken that the <see cref="DynamicProperty.PropertyName"/>s in 
+    /// <paramref name="mapping"/> are unique, even when treated case-insensitive.
     /// </para>
     /// <para>
-    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// all columns in <paramref name="dataRow"/> (neither in number nor in order).
+    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to 
+    /// match all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither 
+    /// in number nor in order).
     /// </para>
     /// </remarks>
     /// 
@@ -138,7 +119,8 @@ public static class MappingExtension
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(dataRow, nameof(dataRow));
-        FillWithIntl(mapping, dataRow);
+
+        mapping.FillWithIntl(dataRow, DataTableHelper.CreateCaptionDictionary(dataRow.Table));
     }
 
     /// <summary>
@@ -148,22 +130,28 @@ public static class MappingExtension
     /// <param name="mapping">The <see cref="Mapping"/> to fill.</param>
     /// <param name="dataRow">The <see cref="DataRow"/> whose content is used to fill 
     /// <paramref name="mapping"/>.</param>
+    /// <param name="captionDictionary">
+    /// A <see cref="Dictionary{TKey, TValue}"/> that has the <see cref="DataColumn.Caption"/>
+    /// properties of the <paramref name="dataRow"/> as keys and the corresponding 
+    /// <see cref="DataColumn.ColumnName"/>s as values.
+    /// </param>
     /// 
     /// <remarks>
     /// <para>
-    /// Each <see cref="DynamicProperty.PropertyName"/> in <paramref name="mapping"/>
-    /// MUST have a corresponding <see cref="DataColumn.ColumnName"/> in <paramref name="dataRow"/>.
-    /// The corresponding columns have to match in theír data type too.
+    /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
+    /// MUST have a corresponding <see cref="DataColumn"/> in <paramref name="dataRow"/>
+    /// - corresponding in the <see cref="DataColumn.Caption"/> property (case-insensitive)
+    /// and the accepted data type.
     /// </para>
     /// <para>
-    /// Since <see cref="Mapping"/> uses case-sensitiv property names and the column names in 
-    /// <paramref name="dataRow"/> are case-insensitive, effort must be taken that the 
+    /// Effort must be taken that the 
     /// <see cref="DynamicProperty.PropertyName"/>s in <paramref name="mapping"/> are unique, 
     /// even when treated case-insensitive.
     /// </para>
     /// <para>
     /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// all columns in <paramref name="dataRow"/> (neither in number nor in order).
+    /// all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither in
+    /// number nor in order).
     /// </para>
     /// </remarks>
     /// 
@@ -184,7 +172,7 @@ public static class MappingExtension
     /// <exception cref="FormatException">
     /// One of the <see cref="TypeConverter{T}"/> instances uses an invalid format string.
     /// </exception>
-    internal static void FillWithIntl(this Mapping mapping, DataRow dataRow)
+    internal static void FillWithIntl(this Mapping mapping, DataRow dataRow, Dictionary<string, string> captionDictionary)
     {
         if (dataRow.RowState == DataRowState.Deleted)
         {
@@ -199,9 +187,16 @@ public static class MappingExtension
 
         int i = 0;
 
-        for (; i < mapping.Count; i++)
+        try
         {
-            mapping[i].Value = dataRow[mapping[i].PropertyName];
+            for (; i < mapping.Count; i++)
+            {
+                mapping[i].Value = dataRow[captionDictionary[mapping[i].PropertyName]];
+            }
+        } 
+        catch (KeyNotFoundException e)
+        {
+            throw new ArgumentException(e.Message, nameof(mapping), e);
         }
     }
 }

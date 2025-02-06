@@ -16,7 +16,13 @@ internal static class DataTableExample
         dataTable.Columns.Add(new DataColumn("name"));
         dataTable.Columns.Add(new DataColumn("subject"));
         dataTable.Columns.Add(new DataColumn("day", typeof(DayOfWeek)));
-        dataTable.Columns.Add(new DataColumn("begin", typeof(TimeOnly)));
+        dataTable.Columns.Add(new DataColumn("lesson start", typeof(TimeOnly)));
+
+        // The DataColumn.Caption property allows you to override the DataColumn.ColumnName property
+        // when the ColumnName does not meet C# identifier requirements. The values ​​of the
+        // DataColumn.Caption properties must be unique for CSV serialization (case-insensitive,
+        // like DataColumn.ColumnName).
+        dataTable.Columns["lesson start"]!.Caption = "begin";
 
         _ = dataTable.Rows.Add(
             [4711, "Susi Meyer", "Piano", DayOfWeek.Wednesday, new TimeOnly(14, 30, 0)]);
@@ -30,11 +36,11 @@ internal static class DataTableExample
         TypeConverter<object> stringConverter
             = StringConverter.CreateNullable().ToDBNullConverter();
 
-        // All properties of the Mapping have to have a corresponding column
-        // in the DataTable (corresponding in the case-insensitive ColumnName
-        // and the accepted data type). They dont't need to correspond in their
-        // order and they don't need to match neither the columns of the CSV file
-        // nor all DataColumns of the DataTable:
+        // Each dynamic property name of the Mapping has to have a corresponding column in
+        // the DataTable - corresponding in the DataColumn.Caption property (case-insensitive)
+        // and the accepted data type. Mapping properties and DataColumns don't need to
+        // correspond in their number and order and they don't need to match the columns of
+        // the CSV file:
         Mapping mapping = MappingBuilder
             .Create()
             .AddProperty("Name", stringConverter)

@@ -21,13 +21,13 @@ public static class DataTableExtension
     /// 
     /// <remarks>
     /// <para>
-    /// Each <see cref="DynamicProperty.PropertyName"/> in <paramref name="mapping"/>
-    /// MUST have a corresponding <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
-    /// The corresponding columns have to match in theír data type too.
+    /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
+    /// MUST have a corresponding <see cref="DataColumn"/> in <paramref name="dataTable"/>
+    /// - corresponding in the <see cref="DataColumn.Caption"/> property (case-insensitive)
+    /// and the accepted data type.
     /// </para>
     /// <para>
-    /// Since <see cref="Mapping"/> uses case-sensitiv property names and the column names in 
-    /// <paramref name="dataTable"/> are case-insensitive, effort must be taken that the 
+    /// Effort must be taken that the 
     /// <see cref="DynamicProperty.PropertyName"/>s in <paramref name="mapping"/> are unique, 
     /// even when treated case-insensitive.
     /// </para>
@@ -63,18 +63,27 @@ public static class DataTableExtension
         _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
-        foreach (CsvRecord record in reader)
-        {
-            mapping.Record = record;
-            DataRow dataRow = dataTable.NewRow();
-            
-            for (int i = 0; i < mapping.Count; i++)
-            {
-                DynamicProperty prop = mapping[i];
-                dataRow[prop.PropertyName] = prop.Value;
-            }
+        Dictionary<string, string> captionDictionary = DataTableHelper.CreateCaptionDictionary(dataTable);
 
-            dataTable.Rows.Add(dataRow);
+        try
+        {
+            foreach (CsvRecord record in reader)
+            {
+                mapping.Record = record;
+                DataRow dataRow = dataTable.NewRow();
+
+                for (int i = 0; i < mapping.Count; i++)
+                {
+                    DynamicProperty prop = mapping[i];
+                    dataRow[captionDictionary[prop.PropertyName]] = prop.Value;
+                }
+
+                dataTable.Rows.Add(dataRow);
+            }
+        }
+        catch (KeyNotFoundException e)
+        {
+            throw new ArgumentException(e.Message, nameof(mapping), e);
         }
     }
 
@@ -94,13 +103,13 @@ public static class DataTableExtension
     /// 
     /// <remarks>
     /// <para>
-    /// Each <see cref="DynamicProperty.PropertyName"/> in <paramref name="mapping"/>
-    /// MUST have a corresponding <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
-    /// The corresponding columns have to match in theír data type too.
+    /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
+    /// MUST have a corresponding <see cref="DataColumn"/> in <paramref name="dataTable"/>
+    /// - corresponding in the <see cref="DataColumn.Caption"/> property (case-insensitive)
+    /// and the accepted data type.
     /// </para>
     /// <para>
-    /// Since <see cref="Mapping"/> uses case-sensitiv property names and the column names in 
-    /// <paramref name="dataTable"/> are case-insensitive, effort must be taken that the 
+    /// Effort must be taken that the 
     /// <see cref="DynamicProperty.PropertyName"/>s in <paramref name="mapping"/> are unique, 
     /// even when treated case-insensitive.
     /// </para>
@@ -173,13 +182,13 @@ public static class DataTableExtension
     /// 
     /// <remarks>
     /// <para>
-    /// Each <see cref="DynamicProperty.PropertyName"/> in <paramref name="mapping"/>
-    /// MUST have a corresponding <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
-    /// The corresponding columns have to match in theír data type too.
+    /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
+    /// MUST have a corresponding <see cref="DataColumn"/> in <paramref name="dataTable"/>
+    /// - corresponding in the <see cref="DataColumn.Caption"/> property (case-insensitive)
+    /// and the accepted data type.
     /// </para>
     /// <para>
-    /// Since <see cref="Mapping"/> uses case-sensitiv property names and the column names in 
-    /// <paramref name="dataTable"/> are case-insensitive, effort must be taken that the 
+    /// Effort must be taken that the 
     /// <see cref="DynamicProperty.PropertyName"/>s in <paramref name="mapping"/> are unique, 
     /// even when treated case-insensitive.
     /// </para>
@@ -273,13 +282,13 @@ public static class DataTableExtension
     /// instead.
     /// </para>
     /// <para>
-    /// Each <see cref="DynamicProperty.PropertyName"/> in <paramref name="mapping"/>
-    /// MUST have a corresponding <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
-    /// The corresponding columns have to match in theír data type too.
+    /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
+    /// MUST have a corresponding <see cref="DataColumn"/> in <paramref name="dataTable"/>
+    /// - corresponding in the <see cref="DataColumn.Caption"/> property (case-insensitive)
+    /// and the accepted data type.
     /// </para>
     /// <para>
-    /// Since <see cref="Mapping"/> uses case-sensitiv property names and the column names in 
-    /// <paramref name="dataTable"/> are case-insensitive, effort must be taken that the 
+    /// Effort must be taken that the 
     /// <see cref="DynamicProperty.PropertyName"/>s in <paramref name="mapping"/> are unique, 
     /// even when treated case-insensitive.
     /// </para>
@@ -335,13 +344,13 @@ public static class DataTableExtension
     /// 
     /// <remarks>
     /// <para>
-    /// Each <see cref="DynamicProperty.PropertyName"/> in <paramref name="mapping"/>
-    /// MUST have a corresponding <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
-    /// The corresponding columns have to match in theír data type too.
+    /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
+    /// MUST have a corresponding <see cref="DataColumn"/> in <paramref name="dataTable"/>
+    /// - corresponding in the <see cref="DataColumn.Caption"/> property (case-insensitive)
+    /// and the accepted data type.
     /// </para>
     /// <para>
-    /// Since <see cref="Mapping"/> uses case-sensitiv property names and the column names in 
-    /// <paramref name="dataTable"/> are case-insensitive, effort must be taken that the 
+    /// Effort must be taken that the 
     /// <see cref="DynamicProperty.PropertyName"/>s in <paramref name="mapping"/> are unique, 
     /// even when treated case-insensitive.
     /// </para>
@@ -375,11 +384,14 @@ public static class DataTableExtension
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
         mapping.Record = writer.Record;
+
+        Dictionary<string, string> captionDictionary = DataTableHelper.CreateCaptionDictionary(dataTable);
+
         DataRowCollection rows = dataTable.Rows;
 
         for (int i = 0; i < rows.Count; i++)
         {
-            mapping.FillWithIntl(rows[i]);
+            mapping.FillWithIntl(rows[i], captionDictionary);
             writer.WriteRecord();
         }
     }
