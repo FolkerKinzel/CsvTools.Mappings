@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Examples;
 
-internal record Pupil(string? Name, string? Subject, DayOfWeek? LessonDay, TimeSpan? LessonBegin);
+internal sealed record Pupil(string? Name, string? Subject, DayOfWeek? LessonDay, TimeSpan? LessonBegin);
 
 internal static class ObjectSerializationExample
 {
