@@ -1,8 +1,7 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls;
-using System;
+﻿using System;
 using System.Collections;
 
-namespace FolkerKinzel.CsvTools.Mappings;
+namespace FolkerKinzel.CsvTools.Mappings.Intls;
 
 /// <summary>Provides read-only forward access to the data of a CSV file.</summary>
 /// 
@@ -10,12 +9,12 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// Generic type parameter for the data type that the <see cref="CsvWriter{TData}"/> 
 /// can write as CSV row.
 /// </typeparam>
-public sealed class CsvWriter<TData> : IDisposable
+internal sealed class CsvWriter<TData> : IDisposable
 {
     private readonly CsvWriter _writer;
     private readonly Mapping _mapping;
     private readonly Action<TData, dynamic> _conversion;
-  
+
     private bool _disposed;
 
     /// <summary>
@@ -45,7 +44,7 @@ public sealed class CsvWriter<TData> : IDisposable
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="writer"/>, or <paramref name="mapping"/>, 
     /// or <paramref name="conversion"/> is <c>null</c>.</exception>
-    public CsvWriter(CsvWriter writer,
+    internal CsvWriter(CsvWriter writer,
                        Mapping mapping,
                        Action<TData, dynamic> conversion)
     {
@@ -62,13 +61,13 @@ public sealed class CsvWriter<TData> : IDisposable
     /// <summary>
     /// Writes <paramref name="data"/> as a new CSV row.
     /// </summary>
-    /// <param name="data">The <typeparamref name="TData"/> instance to be written. If <paramref name="data"/> 
-    /// is <c>null</c>, nothing is written.</param>
+    /// <param name="data">The <typeparamref name="TData"/> instance to be written. <paramref name="data"/> 
+    /// will be ignored if it is <c>null</c>.</param>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    public void Write(TData? data)
+    internal void Write(TData? data)
     {
-        if(data is null)
+        if (data is null)
         {
             return;
         }
@@ -80,7 +79,7 @@ public sealed class CsvWriter<TData> : IDisposable
     /// <summary>
     /// Gets the field separator character.
     /// </summary>
-    public char Delimiter => _writer.Delimiter;
+    internal char Delimiter => _writer.Delimiter;
 
     /// <inheritdoc/>
     public void Dispose()

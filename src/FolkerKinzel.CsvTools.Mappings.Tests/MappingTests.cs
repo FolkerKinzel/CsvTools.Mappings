@@ -11,8 +11,6 @@ namespace FolkerKinzel.CsvTools.Mappings.Tests;
 [TestClass()]
 public class MappingTests
 {
-    
-
     [TestMethod()]
     [ExpectedException(typeof(InvalidOperationException))]
     public void TrySetMemberTest1()
@@ -39,7 +37,6 @@ public class MappingTests
         dynamic dyn = new Mapping();
         dyn.Property = 42;
     }
-
 
     [TestMethod()]
     [ExpectedException(typeof(InvalidOperationException))]
@@ -312,9 +309,4 @@ public class MappingTests
 
     [TestMethod]
     public void PropertyNamesTest1() => Assert.AreEqual(0, MappingBuilder.Create().Build().PropertyNames.Count());
-
-
-    
-    
-
 }

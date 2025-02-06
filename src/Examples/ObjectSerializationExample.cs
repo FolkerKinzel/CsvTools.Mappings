@@ -60,11 +60,8 @@ internal static class ObjectSerializationExample
         }
 
         // Pass the column names of the newly created CSV file:
-        using (CsvWriter csvWriter = Csv.OpenWrite(filePath, ["Name", "Subject", "Weekday", "Begin"]))
-        {
-            CsvMapping.Write(pupils, csvWriter, mapping, PupilToCsv);
-        }
-
+        pupils.SaveCsv(filePath, ["Name", "Subject", "Weekday", "Begin"], mapping, PupilToCsv);
+        
         Console.WriteLine();
         Console.WriteLine(File.ReadAllText(filePath));
     }

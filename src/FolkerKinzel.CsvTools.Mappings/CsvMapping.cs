@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
-/// <summary>Static class that provides methods for reading and writing CSV files with
+/// <summary>Static class that provides methods for reading and writing CSV with
 /// <see cref="Mapping"/>s and type conversions.</summary>
 public static class CsvMapping
 {
@@ -13,57 +13,13 @@ public static class CsvMapping
     private static readonly Type _dynamicType = typeof(object);
 
     /// <summary>
-    /// Initializes a new <see cref="CsvWriter{TData}" /> instance.
-    /// </summary>
-    /// <typeparam name="TData">
-    /// Generic type parameter for the data type that the newly initialized <see cref="CsvWriter{TData}"/> 
-    /// can write as CSV row.
-    /// </typeparam>
-    /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
-    /// <param name="conversion">
-    /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
-    /// into the properties of <paramref name="mapping"/>. 
-    /// </para>
-    /// <para>
-    /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
-    /// arguments. The <see cref="Mapping"/>
-    /// is passed to the method as <c>dynamic</c> argument: Inside the method the registered 
-    /// <see cref="DynamicProperty"/> instances can be used like 
-    /// regular .NET properties, but without IntelliSense ("late binding").
-    /// </para>
-    /// <para>
-    /// With each call all <see cref="DynamicProperty"/> instances in
-    /// <paramref name="mapping"/> have been reset to their <see cref="DynamicProperty.DefaultValue"/>.
-    /// </para>
-    /// </param>
-    /// 
-    /// <returns>A <see cref="CsvWriter{TData}"/> instance that allows you to write <typeparamref name="TData"/>
-    /// instances as CSV rows.</returns>
-    /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
-    /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
-    /// </example>
-    /// 
-    /// <exception cref="ArgumentNullException"><paramref name="writer"/>, or <paramref name="mapping"/>, 
-    /// or <paramref name="conversion"/> is <c>null</c>.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static CsvWriter<TData> OpenWrite<TData>(CsvWriter writer, Mapping mapping, Action<TData, dynamic> conversion)
-        => new(writer, mapping, conversion);
-
-
-    /// <summary>
-    /// 
+    /// Writes the content of a collection of <typeparamref name="TData"/> instances as CSV.
     /// </summary>
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data"></param>
+    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
+    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
     /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
     /// <param name="mapping">The <see cref="Mapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
@@ -87,13 +43,6 @@ public static class CsvMapping
     /// </para>
     /// </param>
     /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling 
-    /// has been omitted.</note>
-    /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
-    /// </example>
-    /// 
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="writer"/>, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
@@ -111,6 +60,136 @@ public static class CsvMapping
         {
             csvWriter.Write(item);
         }
+    }
+
+    /// <summary>
+    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// <see cref="string"/> with header row.
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
+    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
+    /// <param name="columnNames">
+    /// <para>
+    /// A collection of column names for the header to be written.
+    /// </para>
+    /// <para>
+    /// The collection determines the order in which the columns appear in the CSV <see cref="string"/>.
+    /// </para>
+    /// <para>
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty strings or white space, these 
+    /// are replaced by automatically generated column names. Column names cannot appear twice. By default the 
+    /// comparison is case-sensitive but it will be reset to a case-insensitive comparison if the column names are 
+    /// also unique when treated case-insensitive.
+    /// </para>
+    /// </param>
+    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <param name="conversion">
+    /// <para>
+    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// into the properties of <paramref name="mapping"/>. 
+    /// </para>
+    /// <para>
+    /// <paramref name="conversion"/> is called with each CSV row to be written and it
+    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// arguments. <paramref name="mapping"/>
+    /// is passed to the method as <c>dynamic</c> argument: Inside the <paramref name="conversion"/>
+    /// method the registered 
+    /// <see cref="DynamicProperty"/> instances can be used like 
+    /// regular .NET properties, but without IntelliSense ("late binding").
+    /// </para>
+    /// <para>
+    /// With each call of <paramref name="conversion"/> all <see cref="DynamicProperty"/> instances in
+    /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
+    /// </para>
+    /// </param>
+    /// 
+    /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
+    /// <paramref name="data"/>.</returns>
+    /// 
+    /// <remarks>
+    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="Write"/>
+    /// method instead.
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="columnNames"/>, or 
+    /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
+    /// <exception cref="IOException">I/O error.</exception>
+    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    public static string ToCsvString<TData>(IEnumerable<TData?> data,
+                                            IReadOnlyCollection<string?> columnNames,
+                                            Mapping mapping,
+                                            Action<TData, dynamic> conversion)
+    {
+        using var stringWriter = new StringWriter();
+        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnNames);
+
+        Write(data, csvWriter, mapping, conversion);
+
+        return stringWriter.ToString();
+    }
+
+    /// <summary>
+    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// <see cref="string"/> without a header row.
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
+    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
+    /// <param name="columnsCount">Number of columns in the CSV file.</param>
+    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <param name="conversion">
+    /// <para>
+    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// into the properties of <paramref name="mapping"/>. 
+    /// </para>
+    /// <para>
+    /// <paramref name="conversion"/> is called with each CSV row to be written and it
+    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// arguments. <paramref name="mapping"/>
+    /// is passed to the method as <c>dynamic</c> argument: Inside the <paramref name="conversion"/>
+    /// method the registered 
+    /// <see cref="DynamicProperty"/> instances can be used like 
+    /// regular .NET properties, but without IntelliSense ("late binding").
+    /// </para>
+    /// <para>
+    /// With each call of <paramref name="conversion"/> all <see cref="DynamicProperty"/> instances in
+    /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
+    /// </para>
+    /// </param>
+    /// 
+    /// <returns>A CSV <see cref="string"/> without header row that contains the contents of 
+    /// <paramref name="data"/>.</returns>
+    /// 
+    /// <remarks>
+    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="Write"/>
+    /// method instead.
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
+    /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.</exception>
+    /// <exception cref="IOException">I/O error.</exception>
+    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    public static string ToCsvString<TData>(IEnumerable<TData?> data,
+                                            int columnsCount,
+                                            Mapping mapping,
+                                            Action<TData, dynamic> conversion)
+    {
+        using var stringWriter = new StringWriter();
+        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnsCount);
+
+        Write(data, csvWriter, mapping, conversion);
+
+        return stringWriter.ToString();
     }
 
     /// <summary>Initializes a <see cref="CsvReader{TResult}"/> instance to read data 

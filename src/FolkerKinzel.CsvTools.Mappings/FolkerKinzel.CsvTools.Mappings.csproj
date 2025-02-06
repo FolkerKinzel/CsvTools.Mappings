@@ -9,7 +9,7 @@
     <PackageId>FolkerKinzel.CsvTools.Mappings</PackageId>
     <Product>FolkerKinzel.CsvTools.Mappings</Product>
     <Version>1.0.0-alpha.3</Version>
-    <FileVersion>1.0.0.111</FileVersion>
+    <FileVersion>1.0.0.112</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-alpha.3</PackageReleaseNotes>
     <PackageTags>.NET CSV C#</PackageTags>
@@ -73,7 +73,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FolkerKinzel.CsvTools" Version="2.0.0-beta.3" />
+    <PackageReference Include="FolkerKinzel.CsvTools" Version="2.0.0-beta.4" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

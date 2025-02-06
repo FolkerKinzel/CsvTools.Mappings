@@ -44,21 +44,16 @@ internal static class DataTableExample
             .Build();
 
         // Write the CSV file:
-        // (The column names provided when initalizing the CsvWriter determine
-        // which DataColumns will be part of the CSV and their order in the CSV file.)
-        string[] columns =
-            ["Subject", "Lesson Start", "Name", "Day", "Reserved"];
-
-        using (CsvWriter writer = Csv.OpenWrite(filePath, columns))
-        {
-            dataTable.WriteCsv(writer, mapping);
-        }
+        // (The column names determine which DataColumns will be part of the CSV
+        // and their order in the CSV file.)
+        dataTable.WriteCsv(filePath, 
+                           ["Subject", "Lesson Start", "Name", "Day", "Reserved"],
+                           mapping);
 
         dataTable.Clear();
 
         // Refill the DataTable from the CSV-file:
-        using CsvReader reader = Csv.OpenRead(filePath);
-        dataTable.ReadCsv(reader, mapping);
+        dataTable.ReadCsv(filePath, mapping);
 
         Console.WriteLine("Csv file:");
         Console.WriteLine();
@@ -99,19 +94,19 @@ internal static class DataTableExample
         }
     }
 
- /* 
-Console output:
+    /* 
+   Console output:
 
-Csv file:
+   Csv file:
 
-Subject,Lesson Start,Name,Day,Reserved
-Piano,14:30:00,Susi Meyer,Wednesday,
-Piano,15:15:00,Carl Czerny,Thursday,
-Piano,,Frederic Chopin,,
+   Subject,Lesson Start,Name,Day,Reserved
+   Piano,14:30:00,Susi Meyer,Wednesday,
+   Piano,15:15:00,Carl Czerny,Thursday,
+   Piano,,Frederic Chopin,,
 
-Content of the refilled DataTable:
-<DBNull>        Susi Meyer      Piano           3               14:30
-<DBNull>        Carl Czerny     Piano           4               15:15
-<DBNull>        Frederic Chopin Piano           <DBNull>        <DBNull>
-*/
+   Content of the refilled DataTable:
+   <DBNull>        Susi Meyer      Piano           3               14:30
+   <DBNull>        Carl Czerny     Piano           4               15:15
+   <DBNull>        Frederic Chopin Piano           <DBNull>        <DBNull>
+   */
 }
