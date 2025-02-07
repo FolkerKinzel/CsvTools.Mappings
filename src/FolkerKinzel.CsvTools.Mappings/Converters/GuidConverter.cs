@@ -47,8 +47,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
     public override bool TryParseValue(ReadOnlySpan<char> value, out Guid result)
     { 
 #if NET462 || NETSTANDARD2_0
-        result = default;
-        return !value.IsWhiteSpace() && Guid.TryParse(value.ToString(), out result);
+        return Guid.TryParse(value.ToString(), out result);
 #else
         return Guid.TryParse(value, out result);
 #endif

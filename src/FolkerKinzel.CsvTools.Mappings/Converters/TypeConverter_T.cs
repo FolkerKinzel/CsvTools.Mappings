@@ -95,14 +95,16 @@ public abstract class TypeConverter<T>(T defaultValue,
     /// The parsing failed and <see cref="Throwing"/> is <c>true</c>.
     /// </exception>
     public T? Parse(ReadOnlySpan<char> value)
-        => TryParseValue(value, out T? result)
-             ? result
-             : Throwing
-                 ? throw new FormatException(
-                     string.Format(CultureInfo.CurrentCulture, "Cannot convert {0} to {1}.",
-                     value.Length > 40 ? nameof(value) : $"\"{value.ToString()}\"",
-                     typeof(T).FullName))
-                 : DefaultValue;
+        => value.IsEmpty 
+            ? DefaultValue 
+            : TryParseValue(value, out T? result)
+                ? result
+                : Throwing
+                    ? throw new FormatException(
+                        string.Format(CultureInfo.CurrentCulture, "Cannot convert {0} to {1}.",
+                        value.Length > 40 ? nameof(value) : $"\"{value.ToString()}\"",
+                        typeof(T).FullName))
+                    : DefaultValue;
 
     /// <summary>
     /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.

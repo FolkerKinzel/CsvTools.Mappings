@@ -69,8 +69,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
     public override bool TryParseValue(ReadOnlySpan<char> value, out TEnum result)
     {
 #if NET462 || NETSTANDARD2_0 || NETSTANDARD2_1
-        result = default;
-        return !value.IsWhiteSpace() && Enum.TryParse<TEnum>(value.ToString(), IgnoreCase, out result);
+        return Enum.TryParse<TEnum>(value.ToString(), IgnoreCase, out result);
 #else
         return Enum.TryParse<TEnum>(value, IgnoreCase, out result);
 #endif

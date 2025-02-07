@@ -16,10 +16,12 @@ public interface ITypeConverter<T>
     /// <see cref="FormatException"/> on parsing errors,
     /// <c>false</c> to return <see cref="DefaultValue"/>
     /// in this case.</value>
+    /// <remarks>Empty fields are accepted in any case.</remarks>
     bool Throwing { get; }
 
     /// <summary>
-    /// Gets the value to return if parsing fails and
+    /// Gets the value to return if the parser finds no data in the CSV,
+    /// or if parsing fails and
     /// the <see cref="Throwing"/> property is <c>false</c>.
     /// </summary>
     /// <remarks>
