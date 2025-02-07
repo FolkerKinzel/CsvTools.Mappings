@@ -10,6 +10,8 @@ public class UriConverterTests
     {
         const string uriString = "http://www.example.com/";
         TypeConverter<Uri> conv = UriConverter.CreateNonNullable();
+        Assert.IsTrue(conv.AcceptsNull);
+        Assert.IsNotNull(conv.DefaultValue);
 
         Uri? uri = conv.Parse("   ".AsSpan());
         Assert.IsNotNull(uri);

@@ -112,7 +112,7 @@ public static class CsvMappingExtension
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(IEnumerable<TData?> data,
+    public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       int columnsCount,
                                       Mapping mapping,
                                       Action<TData, dynamic> conversion)
