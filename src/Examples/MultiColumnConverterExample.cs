@@ -1,6 +1,8 @@
 ﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
-using FolkerKinzel.CsvTools.Mappings.Converters;
+// A namespace alias helps to avoid potential name conflicts
+// with the converters from System.ComponentModel
+using Conv = FolkerKinzel.CsvTools.Mappings.Converters;
 using System.Diagnostics;
 using System.Drawing;
 
@@ -8,7 +10,7 @@ namespace Examples;
 
 internal static class MultiColumnConverterExample
 {
-    private sealed class ColorConverter : MultiColumnTypeConverter<Color>
+    private sealed class ColorConverter : Conv::MultiColumnTypeConverter<Color>
     {
         public override bool AcceptsNull => false;
 
@@ -49,7 +51,7 @@ internal static class MultiColumnConverterExample
 
     internal static void ParseDataFromSeveralCsvColumns()
     {
-        TypeConverter<byte> byteConverter = new ByteConverter().ToHexConverter();
+        Conv::TypeConverter<byte> byteConverter = new Conv::ByteConverter().ToHexConverter();
         var mappingBuilder = MappingBuilder.Create();
 
         var colorConverter = new ColorConverter(mappingBuilder.AddProperty("A", byteConverter)
@@ -58,7 +60,7 @@ internal static class MultiColumnConverterExample
                                                               .AddProperty("B", byteConverter));
 
         Mapping mapping = mappingBuilder
-            .AddProperty("ColorName", ["Name"], StringConverter.CreateNullable())
+            .AddProperty("ColorName", ["Name"], Conv::StringConverter.CreateNullable())
             .AddProperty("Color", colorConverter)
             .Build();
 

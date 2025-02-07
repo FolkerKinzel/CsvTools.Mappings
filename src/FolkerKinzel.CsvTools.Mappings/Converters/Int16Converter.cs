@@ -63,7 +63,7 @@ public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>,
     void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
-        Format = HexConverter.HexFormat;
+        Format = HexConverter.HEX_FORMAT;
     }
 
     /// <inheritdoc/>

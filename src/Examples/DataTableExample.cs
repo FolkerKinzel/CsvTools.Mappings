@@ -1,6 +1,8 @@
 ﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
-using FolkerKinzel.CsvTools.Mappings.Converters;
+// A namespace alias helps to avoid potential name conflicts
+// with the converters from System.ComponentModel
+using Conv = FolkerKinzel.CsvTools.Mappings.Converters;
 using System.Data;
 using System.Globalization;
 
@@ -33,8 +35,8 @@ internal static class DataTableExample
 
         // Store the stringConverter because you can reuse the same 
         // converter for more than one property in CsvRecordWrapper.
-        TypeConverter<object> stringConverter
-            = StringConverter.CreateNullable().ToDBNullConverter();
+        Conv::TypeConverter<object> stringConverter
+            = Conv::StringConverter.CreateNullable().ToDBNullConverter();
 
         // Each dynamic property name of the Mapping has to have a corresponding column in
         // the DataTable - corresponding in the DataColumn.Caption property (case-insensitive)
@@ -45,8 +47,8 @@ internal static class DataTableExample
             .Create()
             .AddProperty("Name", stringConverter)
             .AddProperty("Subject", stringConverter)
-            .AddProperty("Day", new EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
-            .AddProperty("Begin", ["begin", "*start"], new TimeOnlyConverter().ToDBNullConverter())
+            .AddProperty("Day", new Conv::EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
+            .AddProperty("Begin", ["begin", "*start"], new Conv::TimeOnlyConverter().ToDBNullConverter())
             .Build();
 
         // Write the CSV file:

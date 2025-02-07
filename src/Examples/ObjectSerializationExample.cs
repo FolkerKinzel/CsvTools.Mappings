@@ -1,6 +1,8 @@
 ﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
-using FolkerKinzel.CsvTools.Mappings.Converters;
+// A namespace alias helps to avoid potential name conflicts
+// with the converters from System.ComponentModel
+using Conv = FolkerKinzel.CsvTools.Mappings.Converters;
 using System.Text;
 
 namespace Examples;
@@ -20,7 +22,7 @@ internal static class ObjectSerializationExample
                 """, Encoding.Unicode);
 
         // Reuse a converter for more than one property:
-        TypeConverter<string?> stringConverter = StringConverter.CreateNullable();
+        Conv::TypeConverter<string?> stringConverter = Conv::StringConverter.CreateNullable();
 
         // Initialize a Mapping that retrieves the data from
         // the CSV-Columns and converts it to the right data type.
@@ -30,8 +32,8 @@ internal static class ObjectSerializationExample
             .Create()
             .AddProperty("Name", ["*name"], stringConverter)
             .AddProperty("Subject", ["*subject", "*fach"], stringConverter)
-            .AddProperty("LessonDay", ["*day", "*tag"], new EnumConverter<DayOfWeek>().ToNullableConverter())
-            .AddProperty("LessonBegin", ["*begin?"], new TimeSpanConverter().ToNullableConverter())
+            .AddProperty("LessonDay", ["*day", "*tag"], new Conv::EnumConverter<DayOfWeek>().ToNullableConverter())
+            .AddProperty("LessonBegin", ["*begin?"], new Conv::TimeSpanConverter().ToNullableConverter())
             .Build();
 
         using CsvReader<Pupil> pupilsReader =

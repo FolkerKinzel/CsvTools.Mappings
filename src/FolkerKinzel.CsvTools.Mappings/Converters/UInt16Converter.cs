@@ -64,7 +64,7 @@ public sealed class UInt16Converter : TypeConverter<ushort>, IHexConverter<ushor
     void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
-        Format = HexConverter.HexFormat;
+        Format = HexConverter.HEX_FORMAT;
     }
 
     /// <inheritdoc/>

@@ -63,7 +63,7 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
-        Format = HexConverter.HexFormat;
+        Format = HexConverter.HEX_FORMAT;
     }
 
     /// <inheritdoc/>

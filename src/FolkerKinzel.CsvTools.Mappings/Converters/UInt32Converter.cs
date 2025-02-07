@@ -64,7 +64,7 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
-        Format = HexConverter.HexFormat;
+        Format = HexConverter.HEX_FORMAT;
     }
 
     /// <inheritdoc/>

@@ -106,20 +106,20 @@ namespace FolkerKinzel.CsvTools.Mappings.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Uri does not have the required type..
+        /// </summary>
+        internal static string IncorrectUriType {
+            get {
+                return ResourceManager.GetString("IncorrectUriType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is null..
         /// </summary>
         internal static string InstanceIsNull {
             get {
                 return ResourceManager.GetString("InstanceIsNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No property named &quot;{0}&quot; was found..
-        /// </summary>
-        internal static string PropertyNotFound {
-            get {
-                return ResourceManager.GetString("PropertyNotFound", resourceCulture);
             }
         }
     }

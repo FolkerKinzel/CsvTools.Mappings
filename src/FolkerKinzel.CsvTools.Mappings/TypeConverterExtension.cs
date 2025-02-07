@@ -1,8 +1,9 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using System.Data;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
 /// Extension methods for <see cref="TypeConverter{T}"/>.
@@ -54,13 +55,13 @@ public static class TypeConverterExtension
     /// Creates a new <see cref="Nullable{T}"/> converter instance that's based on <paramref name="converter"/>.
     /// </summary>
     /// <typeparam name="T">The data type that <paramref name="converter"/> can convert. 
-    /// <typeparamref name="T"/> must be a <see cref="System.ValueType"/>.</typeparam>
+    /// <typeparamref name="T"/> must be a <see cref="ValueType"/>.</typeparam>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> instance that is used as template.</param>
     /// <returns>The newly created <see cref="TypeConverter{T}"/> instance that converts <see cref="Nullable{T}"/>
     /// instead of <typeparamref name="T"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TypeConverter<Nullable<T>> ToNullableConverter<T>(this TypeConverter<T> converter)
+    public static TypeConverter<T?> ToNullableConverter<T>(this TypeConverter<T> converter)
         where T : struct => new NullableStructConverter<T>(converter);
 
     /// <summary>

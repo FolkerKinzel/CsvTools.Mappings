@@ -21,11 +21,7 @@ internal sealed class StringConverterIntl : TypeConverter<string?>
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out string? result)
     {
-        if (value.IsEmpty)
-        {
-            result = DefaultValue;
-            return false;
-        }
+        Debug.Assert(!value.IsEmpty);
 
         result = value.ToString();
         return true;

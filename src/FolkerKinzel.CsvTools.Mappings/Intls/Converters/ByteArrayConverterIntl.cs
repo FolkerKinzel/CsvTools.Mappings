@@ -27,6 +27,7 @@ internal sealed class ByteArrayConverterIntl : TypeConverter<byte[]?>
     /// <inheritdoc/>
     public override bool TryParseValue(ReadOnlySpan<char> value, out byte[]? result)
     {
+        // Needed to return null if the default value is null
         if (value.IsWhiteSpace())
         {
             result = DefaultValue;

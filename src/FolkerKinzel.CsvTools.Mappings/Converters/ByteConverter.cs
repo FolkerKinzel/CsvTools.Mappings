@@ -93,7 +93,7 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     void IAsHexConverter.AsHexConverter()
     {
         Styles = HexConverter.ToHexStyle(Styles);
-        Format = HexConverter.HexFormat;
+        Format = HexConverter.HEX_FORMAT;
     }
 
     /// <inheritdoc/>

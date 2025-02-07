@@ -135,7 +135,7 @@
   <data name="FormatStringNotSupported" xml:space="preserve">
     <value>The format string is not supported: {0}.</value>
   </data>
-  <data name="PropertyNotFound" xml:space="preserve">
-    <value>No property named "{0}" was found.</value>
+  <data name="IncorrectUriType" xml:space="preserve">
+    <value>The Uri does not have the required type.</value>
   </data>
 </root>

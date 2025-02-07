@@ -7,6 +7,8 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
 internal static class HexConverter
 {
+    internal const string HEX_FORMAT = "X";
+
     private static bool IsHexConverter<T>(IHexConverter<T> converter)
         => converter.Styles.HasFlag(NumberStyles.AllowHexSpecifier)
        && (converter.Styles & NumberStyles.HexNumber) == converter.Styles
@@ -27,6 +29,4 @@ internal static class HexConverter
     }
 
     internal static NumberStyles ToHexStyle(NumberStyles styles) => (styles & NumberStyles.HexNumber) | NumberStyles.AllowHexSpecifier;
-
-    internal const string HexFormat = "X";
 }
