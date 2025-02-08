@@ -169,19 +169,15 @@ public class EnumConverterTests
     }
 
     [DataTestMethod]
-    [DataRow(false, false, false)]
-    [DataRow(false, true, false)]
-    [DataRow(true, false, false)]
-    [DataRow(true, true, false)]
-    [DataRow(false, false, true)]
-    [DataRow(false, true, true)]
-    [DataRow(true, false, true)]
-    [DataRow(true, true, true)]
-    public void RoundtripTest9(bool throwOnParseErrors, bool ignoreCase, bool nullable)
+    [DataRow(false, false)]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    [DataRow(true, true)]
+    public void RoundtripTest9(bool throwOnParseErrors, bool ignoreCase)
     {
         var enumConv = new EnumConverter<TypeCode>(format: "F", ignoreCase: ignoreCase, throwing: throwOnParseErrors);
 
-        TypeConverter<object> conv = nullable ? enumConv.ToNullableConverter().ToDBNullConverter() : enumConv.ToDBNullConverter();
+        TypeConverter<object> conv = enumConv.ToNullableConverter().ToDBNullConverter();
 
         string? s = conv.ConvertToString(DBNull.Value);
         Assert.IsNull(s);
@@ -190,18 +186,15 @@ public class EnumConverterTests
     }
 
     [DataTestMethod]
-    [DataRow(false, false, false)]
-    [DataRow(false, true, false)]
-    [DataRow(true, false, false)]
-    [DataRow(true, true, false)]
-    [DataRow(false, false, true)]
-    [DataRow(false, true, true)]
-    [DataRow(true, false, true)]
-    [DataRow(true, true, true)]
-    public void RoundtripTest10(bool throwOnParseErrors, bool ignoreCase, bool nullable)
+    [DataRow(false, false)]
+    [DataRow(false, true)]
+    [DataRow(true, false)]
+    [DataRow(true, true)]
+    public void RoundtripTest10(bool throwOnParseErrors, bool ignoreCase)
     {
-        TypeConverter<object> conv = nullable ? new EnumConverter<TypeCode>(throwing: throwOnParseErrors, ignoreCase: ignoreCase).ToNullableConverter().ToDBNullConverter() :
-                              new EnumConverter<TypeCode>(throwing: throwOnParseErrors, ignoreCase: ignoreCase).ToDBNullConverter();
+        TypeConverter<object> conv = new EnumConverter<TypeCode>(throwing: throwOnParseErrors, ignoreCase: ignoreCase)
+                                     .ToNullableConverter()
+                                     .ToDBNullConverter();
 
         string? s = conv.ConvertToString(DBNull.Value);
         Assert.IsNull(s);

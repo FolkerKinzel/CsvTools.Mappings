@@ -41,11 +41,5 @@ public static class StringConverter
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see>
     /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <see cref="string.Empty"/>.
     /// </returns>
-    /// <remarks>
-    /// <note type="tip">
-    /// If you plan to call <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> 
-    /// on the return value, it's recommended to use <see cref="CreateNullable()"/> instead.
-    /// </note>
-    /// </remarks>
     public static TypeConverter<string> CreateNonNullable() => new StringConverterIntl("")!;
 }

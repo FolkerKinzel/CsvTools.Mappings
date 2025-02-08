@@ -4,8 +4,8 @@ using System.Text;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
-/// <summary>Static class that provides methods for CSV serialization of collections of 
-/// any data type.</summary>
+/// <summary>Static class that provides methods for CSV serialization of collections
+/// of any data type.</summary>
 public static class CsvConverter
 {
     private static readonly Type _mappingType = typeof(CsvRecordMapping);
@@ -63,14 +63,15 @@ public static class CsvConverter
     }
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as CSV file
+    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
     /// with header row.
     /// </summary>
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to write as CSV file. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
+    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.
+    /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnNames">
     /// <para>
@@ -80,10 +81,10 @@ public static class CsvConverter
     /// The collection determines the order in which the columns appear in the CSV file.
     /// </para>
     /// <para>
-    /// The collection will be copied. If the collection contains <c>null</c> values, empty strings, or white space, these 
-    /// are replaced by automatically generated column names. Column names cannot appear twice. By default the 
-    /// comparison is case-sensitive but it will be reset to a case-insensitive comparison if the column names are 
-    /// also unique when treated case-insensitive.
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty strings, or 
+    /// white space, these are replaced by automatically generated column names. Column names cannot 
+    /// appear twice. By default the comparison is case-sensitive but it will be reset to a case-insensitive
+    /// comparison if the column names are also unique when treated case-insensitive.
     /// </para>
     /// </param>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
@@ -141,7 +142,7 @@ public static class CsvConverter
     }
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as CSV file
+    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
     /// without a header row.
     /// </summary>
     /// <typeparam name="TData">
@@ -209,7 +210,8 @@ public static class CsvConverter
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
+    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.
+    /// </param>
     /// <param name="columnNames">
     /// <para>
     /// A collection of column names for the header to be written.
@@ -218,10 +220,10 @@ public static class CsvConverter
     /// The collection determines the order in which the columns appear in the CSV <see cref="string"/>.
     /// </para>
     /// <para>
-    /// The collection will be copied. If the collection contains <c>null</c> values, empty strings or white space, these 
-    /// are replaced by automatically generated column names. Column names cannot appear twice. By default the 
-    /// comparison is case-sensitive but it will be reset to a case-insensitive comparison if the column names are 
-    /// also unique when treated case-insensitive.
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty strings
+    /// or white space, these are replaced by automatically generated column names. Column names cannot 
+    /// appear twice. By default the comparison is case-sensitive but it will be reset to a 
+    /// case-insensitive comparison if the column names are also unique when treated case-insensitive.
     /// </para>
     /// </param>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
@@ -250,9 +252,10 @@ public static class CsvConverter
     /// <paramref name="data"/>.</returns>
     /// 
     /// <remarks>
-    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="Write"/>
-    /// method instead.
+    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field 
+    /// delimiter.
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the 
+    /// <see cref="Write"/> method instead.
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="columnNames"/>, or 
@@ -280,7 +283,8 @@ public static class CsvConverter
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
+    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.
+    /// </param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
@@ -309,8 +313,8 @@ public static class CsvConverter
     /// 
     /// <remarks>
     /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="Write"/>
-    /// method instead.
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the 
+    /// <see cref="Write"/> method instead.
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 

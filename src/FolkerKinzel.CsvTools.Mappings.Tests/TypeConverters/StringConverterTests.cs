@@ -37,7 +37,7 @@ public class StringConverterTests
     [TestMethod()]
     public void ConvertToStringTest()
     {
-        TypeConverter<object> conv = StringConverter.CreateNonNullable().ToDBNullConverter();
+        TypeConverter<object> conv = StringConverter.CreateNullable().ToDBNullConverter();
 
         Assert.IsNull(conv.ConvertToString(DBNull.Value));
 
@@ -56,7 +56,6 @@ public class StringConverterTests
 
         new IndexProperty<string>("prop", 0,  conv).Value = 4711;
     }
-
 
     [ExpectedException(typeof(InvalidCastException))]
     [TestMethod()]

@@ -47,8 +47,12 @@ internal static class DataTableExample
             .Create()
             .AddProperty("Name", stringConverter)
             .AddProperty("Subject", stringConverter)
-            .AddProperty("Day", new Conv::EnumConverter<DayOfWeek>(format: "G").ToDBNullConverter())
-            .AddProperty("Begin", ["begin", "*start"], new Conv::TimeOnlyConverter().ToDBNullConverter())
+            .AddProperty("Day", new Conv::EnumConverter<DayOfWeek>(format: "G")
+                                .ToNullableConverter()
+                                .ToDBNullConverter())
+            .AddProperty("Begin", ["begin", "*start"], new Conv::TimeOnlyConverter()
+                                                       .ToNullableConverter()
+                                                       .ToDBNullConverter())
             .Build();
 
         // Write the CSV file:

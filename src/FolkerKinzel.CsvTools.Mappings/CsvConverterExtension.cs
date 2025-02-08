@@ -52,6 +52,9 @@ public static class CsvConverterExtension
     /// </para>
     /// </param>
     /// 
+    /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
+    /// <paramref name="data"/>.</returns>
+    /// 
     /// <remarks>
     /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
     /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvConverter.Write"/>
@@ -101,6 +104,9 @@ public static class CsvConverterExtension
     /// </para>
     /// </param>
     /// 
+    /// <returns>A CSV <see cref="string"/> without header row that contains the contents of 
+    /// <paramref name="data"/>.</returns>
+    /// 
     /// <remarks>
     /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
     /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvConverter.Write"/>
@@ -119,7 +125,7 @@ public static class CsvConverterExtension
         => CsvConverter.ToCsv(data, columnsCount, mapping, conversion);
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as CSV file
+    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
     /// with header row.
     /// </summary>
     /// <typeparam name="TData">
@@ -196,7 +202,7 @@ public static class CsvConverterExtension
         => CsvConverter.Save(data, filePath, columnNames, mapping, conversion);
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as CSV file
+    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
     /// without a header row.
     /// </summary>
     /// <typeparam name="TData">
@@ -227,6 +233,8 @@ public static class CsvConverterExtension
     /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// 
+    /// 
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 

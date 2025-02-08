@@ -26,19 +26,15 @@ public static class UriConverter
     /// <summary>
     /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;Uri&gt;</see> instance.
     /// </summary>
-    /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
+    /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>. The 
+    /// <paramref name="defaultValue"/> must not be <c>null</c> and has to match the requirements of 
+    /// <paramref name="uriKind"/>.</param>
     /// <param name="uriKind">The type of the <see cref="Uri"/>.</param>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.
     /// </param>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;Uri&gt;</see>
-    /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be a relative <see cref="Uri"/>,
-    /// parsed from an empty <see cref="string"/>.</returns>
-    /// <remarks>
-    /// <note type="tip">
-    /// If you plan to call <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> 
-    /// on the return value, it's recommended to use <see cref="CreateNullable(UriKind, bool)"/> instead .
-    /// </note>
-    /// </remarks>
+    /// instance.</returns>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="defaultValue"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException"><paramref name="defaultValue"/> does not match the requirements of
     /// <paramref name="uriKind"/>.</exception>

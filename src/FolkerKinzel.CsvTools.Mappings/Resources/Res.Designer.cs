@@ -88,6 +88,15 @@ namespace FolkerKinzel.CsvTools.Mappings.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The DefaultValue of the TypeConverter MUST be null..
+        /// </summary>
+        internal static string DefaultValueNotNull {
+            get {
+                return ResourceManager.GetString("DefaultValueNotNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The separator must not be an empty string..
         /// </summary>
         internal static string EmptySeparator {

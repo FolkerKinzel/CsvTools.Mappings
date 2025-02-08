@@ -8,13 +8,22 @@ public class DBNullConverterTests
     [TestMethod]
     public void DBNullConverterTest1()
     {
-        TypeConverter<int> conv1 = new Int32Converter();
-        TypeConverter<object> conv2 = conv1.ToDBNullConverter();
-        Assert.AreNotSame<object>(conv1, conv2);
+        TypeConverter<object> conv1 = new Int32Converter()
+                                      .ToNullableConverter()
+                                      .ToDBNullConverter();
+        Assert.AreEqual(conv1.DataType, typeof(object));
+        Assert.IsTrue(Convert.IsDBNull(conv1.DefaultValue));
+    }
 
-        Assert.AreEqual(conv2.DataType, typeof(object));
-        Assert.IsTrue(Convert.IsDBNull(conv2.DefaultValue));
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException))]
+    public void DBNullConverterTest() => _ = new Int32Converter().ToDBNullConverter();
 
-        Assert.AreSame(conv2, conv2.ToDBNullConverter());
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void DBNullConverterTest3()
+    {
+        TypeConverter<int>? conv1 = null;
+        _ = conv1!.ToDBNullConverter();
     }
 }

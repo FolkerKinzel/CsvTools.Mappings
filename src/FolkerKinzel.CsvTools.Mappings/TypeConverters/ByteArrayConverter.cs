@@ -25,12 +25,6 @@ public static class ByteArrayConverter
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;byte[]?&gt;</see>
     /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be an empty <see cref="byte"/>
     /// array.</returns>
-    /// <remarks>
-    /// <note type="tip">
-    /// If you plan to call <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> 
-    /// on the return value, it's recommended to use <see cref="CreateNullable(bool)"/> instead.
-    /// </note>
-    /// </remarks>
     public static TypeConverter<byte[]> CreateNonNullable(bool throwing = true)
         => new ByteArrayConverterIntl(throwing, [])!;
 }

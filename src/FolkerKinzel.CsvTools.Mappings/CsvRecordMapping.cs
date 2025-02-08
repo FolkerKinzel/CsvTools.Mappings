@@ -20,15 +20,17 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <para>
 /// The class allows you to index the data of the <see cref="CsvRecord"/>
 /// object in a sequence of your choice, to access the data with .NET properties dynamically implemented at runtime ("late binding"), and to 
-/// perform type conversions automatically. In order to be able to use the dynamic properties of the <see cref="CsvRecordMapping"/> class like regular .NET 
-/// properties, the <see cref="CsvRecordMapping"/> instance has to be assigned to a variable that is declared with the keyword <c>dynamic</c>.
+/// perform type conversions automatically. In order to be able to use the dynamic properties of the <see cref="CsvRecordMapping"/> class like
+/// regular .NET properties, the <see cref="CsvRecordMapping"/> instance has to be assigned to a variable that is declared with the keyword 
+/// <c>dynamic</c>.
 /// </para>
 /// <para>
-/// Use the methods of the <see cref="CsvConverter"/> class to perform read and write operations with the <see cref="CsvRecordMapping"/>.
+/// Use the methods of the <see cref="CsvConverter"/> class or the corresponding extension methods to perform read and write operations with the 
+/// <see cref="CsvRecordMapping"/>.
 /// </para>
 /// <para>
-/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances of the <see cref="CsvRecordMapping"/> alternatively 
-/// can be accessed directly without having to use dynamic .NET properties:
+/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances of the <see cref="CsvRecordMapping"/> 
+/// alternatively can be accessed directly without having to use dynamic .NET properties:
 /// </para>
 /// <list type="bullet">
 /// <item>Use the indexers <see cref="this[int]"/> or <see cref="this[string]"/> to get a 
@@ -41,7 +43,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </para>
 /// <para>
 /// Unfortunately, for dynamic properties, the compiler does not monitor the nullability of reference types. With the 
-/// high-performance approach just presented, the use of dynamic properties can be avoided, but a critical point here 
+/// high-performance approach just presented this can be avoided, but a critical point here 
 /// is the correct type cast with the <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/> method: 
 /// Make sure that you choose the correct nullability of the reference types here. The compiler can't check this.
 /// </para>

@@ -1,7 +1,11 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
+
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using System.Data;
+using System.ComponentModel;
+using FolkerKinzel.CsvTools.Mappings.Resources;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -10,6 +14,10 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </summary>
 public static class TypeConverterExtension
 {
+    // IMPORTANT: This class MUST remain in this namespace because the
+    // FolkerKinzel.CsvTools.Mappings.TypeConverters namespace can not always been published
+    // because some type names might conflict with System.Component.Model
+
     /// <summary>
     /// Returns a <see cref="TypeConverter{T}">TypeConverter&lt;<see cref="object"/>&gt;</see>
     /// instance
@@ -29,8 +37,16 @@ public static class TypeConverterExtension
     /// </returns>
     /// 
     /// <remarks>
-    /// The method does not always initialize a new instance: if <paramref name="converter"/> already 
-    /// meets the requirements, it returns <paramref name="converter"/>.
+    /// <para>
+    /// The <see cref="ITypeConverter{T}.DefaultValue"/> of <paramref name="converter"/> MUST be
+    /// <c>null</c>.
+    /// </para>
+    /// <para>
+    /// Use the <c>CreateNullable()</c> methods for reference type converters and the 
+    /// <see cref="ToNullableConverter{T}(TypeConverter{T})"/> extension method for value type converters
+    /// to create a <see cref="TypeConverter{T}"/> instance whose <see cref="ITypeConverter{T}.DefaultValue"/>
+    /// is <c>null</c>.
+    /// </para>
     /// </remarks>
     /// 
     /// <example>
@@ -42,13 +58,17 @@ public static class TypeConverterExtension
     /// </example>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException">
+    /// The <see cref="ITypeConverter{T}.DefaultValue"/> of <paramref name="converter"/> is not <c>null</c>.
+    /// </exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TypeConverter<object> ToDBNullConverter<T>(this TypeConverter<T> converter)
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
-        return converter is TypeConverter<object> result && Convert.IsDBNull(result.DefaultValue)
-            ? result
-            : new DBNullConverter<T>(converter);
+
+        return converter.DefaultValue is not null
+            ? throw new ArgumentException(Res.DefaultValueNotNull, nameof(converter))
+            : (TypeConverter<object>)new DBNullConverter<T>(converter);
     }
 
     /// <summary>
@@ -96,19 +116,4 @@ public static class TypeConverterExtension
                                                                                     string separator,
                                                                                     bool nullable = true)
         => new IEnumerableConverter<TItem>(itemsConverter, separator, nullable);
-
-
-
-    //internal static ICsvTypeConverter HandleNullableAndDBNullAcceptance<T>(this CsvTypeConverter<T> converter, bool nullable, bool dbNullEnabled) where T : struct
-    //{
-    //    if (nullable)
-    //    {
-    //        CsvTypeConverter<T?> nullableConv = converter.AsNullableConverter();
-
-    //        return dbNullEnabled ? nullableConv.AsDBNullEnabled() : nullableConv;
-    //    }
-
-    //    return dbNullEnabled ? converter.AsDBNullEnabled() : converter;
-    //}
-
 }

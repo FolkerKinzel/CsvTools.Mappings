@@ -138,4 +138,7 @@
   <data name="IncorrectUriType" xml:space="preserve">
     <value>The Uri does not have the required type.</value>
   </data>
+  <data name="DefaultValueNotNull" xml:space="preserve">
+    <value>The DefaultValue of the TypeConverter MUST be null.</value>
+  </data>
 </root>

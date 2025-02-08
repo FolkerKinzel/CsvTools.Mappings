@@ -20,6 +20,8 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
         : base(default, (converter ?? throw new ArgumentNullException(nameof(converter))).Throwing)
         => _typeConverter = converter;
 
+    //internal TypeConverter<T?> Create(TypeConverter<T> converter) => ((object)converter.DefaultValue) == null ? converter : new NullableStructConverter<T>(converter);
+
     public override string? ConvertToString(T? value) => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;
 
     public override bool TryParseValue(ReadOnlySpan<char> value, out T? result)

@@ -3,6 +3,7 @@ using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Data;
 using System.Text;
+using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -391,7 +392,7 @@ public static class DataTableExtension
 
         for (int i = 0; i < rows.Count; i++)
         {
-            mapping.FillWithIntl(rows[i], captionDictionary);
+            mapping.FillWith(rows[i], captionDictionary);
             writer.WriteRecord();
         }
     }
