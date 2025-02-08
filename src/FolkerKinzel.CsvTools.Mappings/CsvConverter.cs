@@ -121,9 +121,9 @@ public static class CsvConverter
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static string ToCsv<TData>(IEnumerable<TData?> data,
-                                            IReadOnlyCollection<string?> columnNames,
-                                            CsvRecordMapping mapping,
-                                            Action<TData, dynamic> conversion)
+                                      IReadOnlyCollection<string?> columnNames,
+                                      CsvRecordMapping mapping,
+                                      Action<TData, dynamic> conversion)
     {
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnNames);
@@ -180,9 +180,9 @@ public static class CsvConverter
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static string ToCsv<TData>(IEnumerable<TData?> data,
-                                            int columnsCount,
-                                            CsvRecordMapping mapping,
-                                            Action<TData, dynamic> conversion)
+                                      int columnsCount,
+                                      CsvRecordMapping mapping,
+                                      Action<TData, dynamic> conversion)
     {
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnsCount);
