@@ -18,7 +18,7 @@ public class CsvMappingExtensionTests
 
         string csv = values.ToCsv(["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
-        (int A, int B)[] results = CsvMapping.Parse<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B));
+        (int A, int B)[] results = CsvConverter.Parse<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B));
 
         CollectionAssert.AreEqual(values, results);
     }
@@ -33,7 +33,7 @@ public class CsvMappingExtensionTests
 
         string csv = values.ToCsv(2, mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
-        (int A, int B)[] results = CsvMapping.Parse<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B), isHeaderPresent: false);
+        (int A, int B)[] results = CsvConverter.Parse<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B), isHeaderPresent: false);
 
         CollectionAssert.AreEqual(values, results);
     }
@@ -48,7 +48,7 @@ public class CsvMappingExtensionTests
 
         string csv = values.ToCsv(["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
-        (int A, int B)[] results = CsvMapping.ParseAnalyzed<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B));
+        (int A, int B)[] results = CsvConverter.ParseAnalyzed<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B));
 
         CollectionAssert.AreEqual(values, results);
     }
@@ -65,7 +65,7 @@ public class CsvMappingExtensionTests
 
         values.SaveCsv(filePath, ["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
-        using CsvReader<(int A, int B)> reader = CsvMapping.OpenRead<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B));
+        using CsvReader<(int A, int B)> reader = CsvConverter.OpenRead<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B));
 
         (int A, int B)[] results = [.. reader];
 
@@ -84,7 +84,7 @@ public class CsvMappingExtensionTests
 
         values.SaveCsv(filePath, 2, mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
-        using CsvReader<(int A, int B)> reader = CsvMapping.OpenRead<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B), isHeaderPresent: false);
+        using CsvReader<(int A, int B)> reader = CsvConverter.OpenRead<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B), isHeaderPresent: false);
         (int A, int B)[] results = [.. reader];
 
         CollectionAssert.AreEqual(values, results);
@@ -102,7 +102,7 @@ public class CsvMappingExtensionTests
 
         values.SaveCsv(filePath, ["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
-        using CsvReader<(int A, int B)> reader = CsvMapping.OpenReadAnalyzed<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B));
+        using CsvReader<(int A, int B)> reader = CsvConverter.OpenReadAnalyzed<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B));
 
         (int A, int B)[] results = [.. reader];
 

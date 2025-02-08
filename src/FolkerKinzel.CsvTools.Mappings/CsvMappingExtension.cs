@@ -54,7 +54,7 @@ public static class CsvMappingExtension
     /// 
     /// <remarks>
     /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvMapping.Write"/>
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvConverter.Write"/>
     /// method instead.
     /// </remarks>
     /// 
@@ -67,7 +67,7 @@ public static class CsvMappingExtension
                                       IReadOnlyCollection<string?> columnNames,
                                       CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
-        => CsvMapping.ToCsvString(data, columnNames, mapping, conversion);
+        => CsvConverter.ToCsvString(data, columnNames, mapping, conversion);
 
     /// <summary>
     /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
@@ -103,7 +103,7 @@ public static class CsvMappingExtension
     /// 
     /// <remarks>
     /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvMapping.Write"/>
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvConverter.Write"/>
     /// method instead.
     /// </remarks>
     /// 
@@ -116,7 +116,7 @@ public static class CsvMappingExtension
                                       int columnsCount,
                                       CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
-        => CsvMapping.ToCsvString(data, columnsCount, mapping, conversion);
+        => CsvConverter.ToCsvString(data, columnsCount, mapping, conversion);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as CSV file
@@ -170,7 +170,7 @@ public static class CsvMappingExtension
     /// </para>
     /// <para>
     /// This method creates a CSV file that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvMapping.Write"/>
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvConverter.Write"/>
     /// method instead.
     /// </para>
     /// </remarks>
@@ -194,7 +194,7 @@ public static class CsvMappingExtension
                                       Action<TData, dynamic> conversion)
     {
         using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnNames);
-        CsvMapping.Write(data, csvWriter, mapping, conversion);
+        CsvConverter.Write(data, csvWriter, mapping, conversion);
     }
 
     /// <summary>
@@ -236,7 +236,7 @@ public static class CsvMappingExtension
     /// </para>
     /// <para>
     /// This method creates a CSV file that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvMapping.Write"/>
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use the <see cref="CsvConverter.Write"/>
     /// method instead.
     /// </para>
     /// </remarks>
@@ -255,7 +255,7 @@ public static class CsvMappingExtension
                                       Action<TData, dynamic> conversion)
     {
         using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnsCount);
-        CsvMapping.Write(data, csvWriter, mapping, conversion);
+        CsvConverter.Write(data, csvWriter, mapping, conversion);
     }
 
 }

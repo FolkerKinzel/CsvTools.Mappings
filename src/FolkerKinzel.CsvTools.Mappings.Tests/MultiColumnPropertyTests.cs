@@ -81,7 +81,7 @@ public class MultiColumnPropertyTests
 
         string csv = stringWriter.ToString();
 
-        int?[] results = CsvMapping.Parse<int?>(csv, mappping, dyn => dyn.Sum);
+        int?[] results = CsvConverter.Parse<int?>(csv, mappping, dyn => dyn.Sum);
         CollectionAssert.AreEqual(sums, results);
     }
 
@@ -213,6 +213,6 @@ public class MultiColumnPropertyTests
             
         CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("Sum", new SumConverter(mappingBuilder)).Build();
 
-        dynamic[] result = CsvMapping.Parse(csv, mapping, dyn => dyn);
+        dynamic[] result = CsvConverter.Parse(csv, mapping, dyn => dyn);
     }
 }

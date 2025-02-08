@@ -19,7 +19,7 @@ public class CsvMappingTests
             3,4
             """);
 
-        using CsvReader<(int A, int B)> tupleReader = CsvMapping.OpenRead<(int A, int B)>(stringReader, 
+        using CsvReader<(int A, int B)> tupleReader = CsvConverter.OpenRead<(int A, int B)>(stringReader, 
                                                                                           mapping, 
                                                                                           dyn => (dyn.A, dyn.B), 
                                                                                           options: CsvOpts.Default | CsvOpts.DisableCaching);
@@ -41,7 +41,7 @@ public class CsvMappingTests
             3,4
             """);
 
-        using CsvReader<CsvRecordMapping> tupleReader = CsvMapping.OpenRead<CsvRecordMapping>(stringReader,
+        using CsvReader<CsvRecordMapping> tupleReader = CsvConverter.OpenRead<CsvRecordMapping>(stringReader,
                                                                             mapping, 
                                                                             dyn => dyn);
         CsvRecordMapping[] results = [.. tupleReader];

@@ -6,7 +6,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>Static class that provides methods for reading and writing CSV with
 /// <see cref="CsvRecordMapping"/>s and type conversions.</summary>
-public static class CsvMapping
+public static class CsvConverter
 {
     private static readonly Type _mappingType = typeof(CsvRecordMapping);
     private static readonly Type _recordType = typeof(CsvRecord);

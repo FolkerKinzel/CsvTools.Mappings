@@ -24,7 +24,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// properties, the <see cref="CsvRecordMapping"/> instance has to be assigned to a variable that is declared with the keyword <c>dynamic</c>.
 /// </para>
 /// <para>
-/// Use the methods of the <see cref="CsvMapping"/> class to perform read and write operations with the <see cref="CsvRecordMapping"/>.
+/// Use the methods of the <see cref="CsvConverter"/> class to perform read and write operations with the <see cref="CsvRecordMapping"/>.
 /// </para>
 /// <para>
 /// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances of the <see cref="CsvRecordMapping"/> alternatively 

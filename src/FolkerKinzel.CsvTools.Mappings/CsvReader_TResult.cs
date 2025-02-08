@@ -16,7 +16,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// iterate it twice, an <see cref="ObjectDisposedException"/> is thrown.
 /// </para>
 /// <para>
-/// Use the methods of <see cref="CsvMapping"/> to create an instance!
+/// Use the methods of <see cref="CsvConverter"/> to create an instance!
 /// </para>
 /// </remarks>
 public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResult>

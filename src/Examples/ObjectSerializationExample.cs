@@ -37,7 +37,7 @@ internal static class ObjectSerializationExample
             .Build();
 
         using CsvReader<Pupil> pupilsReader =
-           CsvMapping.OpenReadAnalyzed<Pupil>(filePath,
+           CsvConverter.OpenReadAnalyzed<Pupil>(filePath,
                                               mapping,
                                               // dyn is mapping as a dynamic variable ("late binding")
                                               static dyn => new Pupil(dyn.Name,
