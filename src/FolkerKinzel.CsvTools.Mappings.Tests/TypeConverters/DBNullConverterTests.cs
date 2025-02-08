@@ -13,9 +13,14 @@ public class DBNullConverterTests
                                       .ToDBNullConverter();
         Assert.AreEqual(conv1.DataType, typeof(object));
         Assert.IsTrue(Convert.IsDBNull(conv1.DefaultValue));
-        Assert.IsFalse(conv1.AcceptsNull);
+        Assert.IsTrue(conv1.AcceptsNull);
         Assert.IsTrue(conv1.TryParse("42".AsSpan(), out object? result));
         Assert.IsInstanceOfType<int>(result);
+
+        Assert.IsFalse(conv1.TryParse("blabla".AsSpan(), out result));
+        Assert.IsTrue(Convert.IsDBNull(result));
+
+        Assert.IsNull(conv1.ConvertToString(null!));
     }
 
     [TestMethod]

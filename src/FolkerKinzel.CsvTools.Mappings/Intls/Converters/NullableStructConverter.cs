@@ -17,20 +17,14 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
     /// instead of <typeparamref name="T"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
     internal NullableStructConverter(TypeConverter<T> converter)
-        : base(default, (converter ?? throw new ArgumentNullException(nameof(converter))).Throwing)
+        : base(default, converter.Throwing)
         => _typeConverter = converter;
-
-    //internal TypeConverter<T?> Create(TypeConverter<T> converter) => ((object)converter.DefaultValue) == null ? converter : new NullableStructConverter<T>(converter);
 
     public override string? ConvertToString(T? value) => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;
 
     public override bool TryParse(ReadOnlySpan<char> value, out T? result)
     {
-        if (value.IsWhiteSpace())
-        {
-            result = DefaultValue;
-            return true;
-        }
+        Debug.Assert(!value.IsEmpty);
 
         if (_typeConverter.TryParse(value, out T tmp))
         {
