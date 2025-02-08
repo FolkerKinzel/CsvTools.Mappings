@@ -20,7 +20,7 @@ public sealed class BooleanConverter(bool defaultValue = default, bool throwing 
         => value.ToString();                            // but that parameter is reserved and not used.
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out bool result)
+    public override bool TryParse(ReadOnlySpan<char> value, out bool result)
     { 
 #if NET462 || NETSTANDARD2_0
         return bool.TryParse(value.ToString(), out result);

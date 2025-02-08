@@ -12,7 +12,7 @@ public class BooleanConverterTests
     public void TryParseValueTest1()
     {
         string blString = true.ToString(CultureInfo.CreateSpecificCulture("de-DE"));
-        Assert.IsTrue(_conv.TryParseValue(blString.AsSpan(), out bool result));
+        Assert.IsTrue(_conv.TryParse(blString.AsSpan(), out bool result));
         Assert.IsTrue(result);
     }
 
@@ -23,7 +23,7 @@ public class BooleanConverterTests
     public void TryParseValueTest2(string input)
     {
         Assert.IsFalse(_conv.AcceptsNull);
-        Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
+        Assert.IsFalse(_conv.TryParse(input.AsSpan(), out _));
     }
 
     [DataTestMethod]

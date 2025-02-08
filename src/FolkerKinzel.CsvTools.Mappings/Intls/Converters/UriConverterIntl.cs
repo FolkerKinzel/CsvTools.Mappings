@@ -32,7 +32,7 @@ internal sealed class UriConverterIntl : TypeConverter<Uri?>
                     : value.ToString();
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out Uri? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out Uri? result)
     {
         Debug.Assert(!value.IsEmpty);
 

@@ -73,7 +73,7 @@ public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>,
     public override string? ConvertToString(short value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out short result)
+    public override bool TryParse(ReadOnlySpan<char> value, out short result)
 #if NET462 || NETSTANDARD2_0
         => short.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

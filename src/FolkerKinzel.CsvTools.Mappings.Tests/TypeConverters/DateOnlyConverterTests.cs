@@ -34,7 +34,7 @@ public class DateOnlyConverterTests
         var dateOnly = new DateOnly(2005, 12, 24);
         string? csv = conv.ConvertToString(dateOnly);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(conv.TryParseValue(csv.AsSpan(), out DateOnly parsed));
+        Assert.IsTrue(conv.TryParse(csv.AsSpan(), out DateOnly parsed));
         Assert.AreEqual(dateOnly, parsed);
     }
 
@@ -45,7 +45,7 @@ public class DateOnlyConverterTests
         var dateOnly = new DateOnly(2005, 12, 24);
         string? csv = _conv.ConvertToString(dateOnly);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(_conv.TryParseValue(csv.AsSpan(), out DateOnly parsed));
+        Assert.IsTrue(_conv.TryParse(csv.AsSpan(), out DateOnly parsed));
         Assert.AreEqual(dateOnly, parsed);
     }
 

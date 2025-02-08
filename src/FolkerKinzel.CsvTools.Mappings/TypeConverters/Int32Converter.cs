@@ -73,7 +73,7 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     public override string? ConvertToString(int value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out int result)
+    public override bool TryParse(ReadOnlySpan<char> value, out int result)
 #if NET462 || NETSTANDARD2_0
         => int.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

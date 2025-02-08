@@ -44,7 +44,7 @@ public sealed class GuidConverter : TypeConverter<Guid>
     public override string? ConvertToString(Guid value) => value.ToString(Format, CultureInfo.InvariantCulture);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out Guid result)
+    public override bool TryParse(ReadOnlySpan<char> value, out Guid result)
     { 
 #if NET462 || NETSTANDARD2_0
         return Guid.TryParse(value.ToString(), out result);

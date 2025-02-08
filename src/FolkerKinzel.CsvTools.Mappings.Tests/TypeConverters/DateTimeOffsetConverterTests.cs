@@ -117,7 +117,7 @@ public class DateTimeOffsetConverterTests
         DateTimeOffset dateTime = DateTimeOffset.Now;
         string? csv = conv.ConvertToString(dateTime);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(conv.TryParseValue(csv.AsSpan(), out DateTimeOffset parsed));
+        Assert.IsTrue(conv.TryParse(csv.AsSpan(), out DateTimeOffset parsed));
         Assert.AreEqual(dateTime, parsed);
     }
 
@@ -128,7 +128,7 @@ public class DateTimeOffsetConverterTests
         DateTimeOffset dateTime = DateTimeOffset.Now;
         string? csv = _conv.ConvertToString(dateTime);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(_conv.TryParseValue(csv.AsSpan(), out DateTimeOffset parsed));
+        Assert.IsTrue(_conv.TryParse(csv.AsSpan(), out DateTimeOffset parsed));
         Assert.AreEqual(dateTime, parsed);
     }
 }

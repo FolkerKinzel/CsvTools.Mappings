@@ -79,7 +79,7 @@ public class DateTimeConverterTests
         DateTime dateTime = DateTime.Now;
         string? csv = conv.ConvertToString(dateTime);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(conv.TryParseValue(csv.AsSpan(), out DateTime parsed));
+        Assert.IsTrue(conv.TryParse(csv.AsSpan(), out DateTime parsed));
         CultureInfo culture = CultureInfo.InvariantCulture;
         Assert.AreEqual(dateTime.ToString(culture), parsed.ToString(culture));
     }
@@ -91,7 +91,7 @@ public class DateTimeConverterTests
         DateTime dateTime = DateTime.Now;
         string? csv = _conv.ConvertToString(dateTime);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(_conv.TryParseValue(csv.AsSpan(), out DateTime parsed));
+        Assert.IsTrue(_conv.TryParse(csv.AsSpan(), out DateTime parsed));
         CultureInfo culture = CultureInfo.InvariantCulture;
         Assert.AreEqual(dateTime.ToString(culture), parsed.ToString(culture));
     }

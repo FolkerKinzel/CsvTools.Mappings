@@ -36,7 +36,7 @@ public class TimeOnlyConverterTests
         var timeOnly = new TimeOnly(14, 25, 17);
         string? csv = conv.ConvertToString(timeOnly);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(conv.TryParseValue(csv.AsSpan(), out TimeOnly parsed));
+        Assert.IsTrue(conv.TryParse(csv.AsSpan(), out TimeOnly parsed));
         Assert.AreEqual(timeOnly, parsed);
     }
 
@@ -47,7 +47,7 @@ public class TimeOnlyConverterTests
         var timeOnly = new TimeOnly(14, 25, 17);
         string? csv = _conv.ConvertToString(timeOnly);
         Assert.IsNotNull(csv);
-        Assert.IsTrue(_conv.TryParseValue(csv.AsSpan(), out TimeOnly parsed));
+        Assert.IsTrue(_conv.TryParse(csv.AsSpan(), out TimeOnly parsed));
         Assert.AreEqual(timeOnly, parsed);
     }
 }

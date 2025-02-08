@@ -22,9 +22,9 @@ public class VersionConverterTests
         Assert.IsNotNull(conv);
         Assert.IsNull(conv.DefaultValue);
 
-        Assert.IsTrue(conv.TryParseValue("  ".AsSpan(), out _));
-        Assert.IsFalse(conv.TryParseValue("bla".AsSpan(), out _));
-        Assert.IsTrue(conv.TryParseValue("4.3.2.1".AsSpan(), out Version? version));
+        Assert.IsTrue(conv.TryParse("  ".AsSpan(), out _));
+        Assert.IsFalse(conv.TryParse("bla".AsSpan(), out _));
+        Assert.IsTrue(conv.TryParse("4.3.2.1".AsSpan(), out Version? version));
         Assert.AreEqual(new Version(4, 3, 2, 1), version);
     }
 }

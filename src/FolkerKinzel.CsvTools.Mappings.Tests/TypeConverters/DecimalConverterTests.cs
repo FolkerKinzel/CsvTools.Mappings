@@ -15,7 +15,7 @@ public class DecimalConverterTests
     public void TryParseValueTest2(string input)
     {
         Assert.IsFalse(_conv.AcceptsNull);
-        Assert.IsFalse(_conv.TryParseValue(input.AsSpan(), out _));
+        Assert.IsFalse(_conv.TryParse(input.AsSpan(), out _));
     }
 
     [DataTestMethod]

@@ -74,7 +74,7 @@ public sealed class UInt16Converter : TypeConverter<ushort>, IHexConverter<ushor
     public override string? ConvertToString(ushort value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out ushort result)
+    public override bool TryParse(ReadOnlySpan<char> value, out ushort result)
 #if NET462 || NETSTANDARD2_0
         => ushort.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

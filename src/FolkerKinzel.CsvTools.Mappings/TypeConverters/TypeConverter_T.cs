@@ -38,7 +38,7 @@ public abstract class TypeConverter<T>(T defaultValue,
     /// if two conditions are met at the same time:
     /// <list type="number">
     /// <item><see cref="Throwing"/> MUST be <c>true</c> in this case, and</item>
-    /// <item><see cref="TryParseValue(ReadOnlySpan{char}, out T?)"/> MUST
+    /// <item><see cref="TryParse(ReadOnlySpan{char}, out T?)"/> MUST
     /// return <c>false</c> if its result is <see cref="DefaultValue"/> 
     /// (respectively <c>null</c>).</item>
     /// </list>
@@ -77,7 +77,7 @@ public abstract class TypeConverter<T>(T defaultValue,
     /// </para>
     /// </note>
     /// </remarks>
-    public abstract bool TryParseValue(ReadOnlySpan<char> value, out T? result);
+    public abstract bool TryParse(ReadOnlySpan<char> value, out T? result);
 
     /// <summary>
     /// Parses a read-only span of characters and returns 
@@ -87,7 +87,7 @@ public abstract class TypeConverter<T>(T defaultValue,
     /// <returns>An object of the desired type or <see cref="DefaultValue"/>.</returns>
     /// <remarks>
     /// <note type="implement">
-    /// Override <see cref="TryParseValue(ReadOnlySpan{char}, out T?)"/> to define the behavior 
+    /// Override <see cref="TryParse(ReadOnlySpan{char}, out T?)"/> to define the behavior 
     /// of this method.
     /// </note>
     /// </remarks>
@@ -97,7 +97,7 @@ public abstract class TypeConverter<T>(T defaultValue,
     public T? Parse(ReadOnlySpan<char> value)
         => value.IsEmpty 
             ? DefaultValue 
-            : TryParseValue(value, out T? result)
+            : TryParse(value, out T? result)
                 ? result
                 : Throwing
                     ? throw new FormatException(

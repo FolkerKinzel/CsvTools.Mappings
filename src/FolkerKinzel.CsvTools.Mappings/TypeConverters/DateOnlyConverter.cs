@@ -86,7 +86,7 @@ public sealed class DateOnlyConverter : TypeConverter<DateOnly>, ILocalizable
     public override string? ConvertToString(DateOnly value) => value.ToString(Format, FormatProvider);
    
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out DateOnly result)
+    public override bool TryParse(ReadOnlySpan<char> value, out DateOnly result)
     {
         return ParseExact
             ? DateOnly.TryParseExact(value, Format.AsSpan(), FormatProvider, Styles, out result)

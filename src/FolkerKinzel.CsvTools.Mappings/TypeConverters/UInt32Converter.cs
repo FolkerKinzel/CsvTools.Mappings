@@ -74,7 +74,7 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     public override string? ConvertToString(uint value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out uint result)
+    public override bool TryParse(ReadOnlySpan<char> value, out uint result)
 #if NET462 || NETSTANDARD2_0
         => uint.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

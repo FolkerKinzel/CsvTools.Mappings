@@ -97,7 +97,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILo
     }
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out DateTimeOffset result)
+    public override bool TryParse(ReadOnlySpan<char> value, out DateTimeOffset result)
     {
 #if NET462 || NETSTANDARD2_0
         return ParseExact

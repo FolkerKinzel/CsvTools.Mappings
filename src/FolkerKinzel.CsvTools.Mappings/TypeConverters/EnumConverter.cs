@@ -66,7 +66,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
     public override string? ConvertToString(TEnum value) => value.ToString(Format);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out TEnum result)
+    public override bool TryParse(ReadOnlySpan<char> value, out TEnum result)
     {
 #if NET462 || NETSTANDARD2_0 || NETSTANDARD2_1
         return Enum.TryParse<TEnum>(value.ToString(), IgnoreCase, out result);

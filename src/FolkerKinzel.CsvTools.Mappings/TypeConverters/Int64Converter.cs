@@ -73,7 +73,7 @@ public sealed class Int64Converter : TypeConverter<long>, IHexConverter<long>, I
     public override string? ConvertToString(long value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out long result)
+    public override bool TryParse(ReadOnlySpan<char> value, out long result)
 #if NET462 || NETSTANDARD2_0
         => long.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

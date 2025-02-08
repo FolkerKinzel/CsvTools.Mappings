@@ -25,7 +25,7 @@ internal sealed class ByteArrayConverterIntl : TypeConverter<byte[]?>
               : Convert.ToBase64String(value, Base64FormattingOptions.None);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out byte[]? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out byte[]? result)
     {
         // Needed to return null if the default value is null
         if (value.IsWhiteSpace())

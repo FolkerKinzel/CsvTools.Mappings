@@ -16,11 +16,11 @@ internal sealed class DBNullConverter<T> : TypeConverter<object>
             ? null
             : _valueConverter.ConvertToString((T)value);
 
-    public override bool TryParseValue(ReadOnlySpan<char> value, out object? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out object? result)
     {
         Debug.Assert(!value.IsEmpty);
 
-        if (_valueConverter.TryParseValue(value, out T? tmp))
+        if (_valueConverter.TryParse(value, out T? tmp))
         {
             result = tmp ?? DefaultValue;
             return true;

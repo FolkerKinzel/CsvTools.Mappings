@@ -64,7 +64,7 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     public override string? ConvertToString(double value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out double result)
+    public override bool TryParse(ReadOnlySpan<char> value, out double result)
 #if NET462 || NETSTANDARD2_0
         => double.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

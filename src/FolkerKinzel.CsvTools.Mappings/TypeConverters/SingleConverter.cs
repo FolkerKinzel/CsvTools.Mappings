@@ -65,7 +65,7 @@ public sealed class SingleConverter : TypeConverter<float>, ILocalizable
         => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out float result)
+    public override bool TryParse(ReadOnlySpan<char> value, out float result)
 #if NET462 || NETSTANDARD2_0
         => float.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

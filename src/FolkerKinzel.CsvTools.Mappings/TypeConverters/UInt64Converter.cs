@@ -74,7 +74,7 @@ public sealed class UInt64Converter : TypeConverter<ulong>, IHexConverter<ulong>
     public override string? ConvertToString(ulong value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out ulong result)
+    public override bool TryParse(ReadOnlySpan<char> value, out ulong result)
 #if NET462 || NETSTANDARD2_0
         => ulong.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

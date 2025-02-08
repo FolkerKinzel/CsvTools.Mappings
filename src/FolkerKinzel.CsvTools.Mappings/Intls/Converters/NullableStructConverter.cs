@@ -24,7 +24,7 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
 
     public override string? ConvertToString(T? value) => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;
 
-    public override bool TryParseValue(ReadOnlySpan<char> value, out T? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out T? result)
     {
         if (value.IsWhiteSpace())
         {
@@ -32,7 +32,7 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
             return true;
         }
 
-        if (_typeConverter.TryParseValue(value, out T tmp))
+        if (_typeConverter.TryParse(value, out T tmp))
         {
             result = tmp;
             return true;

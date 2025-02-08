@@ -21,7 +21,7 @@ internal sealed class VersionConverterIntl : TypeConverter<Version?>
     public override string? ConvertToString(Version? value) => value?.ToString();
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out Version? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out Version? result)
     {
         if (value.IsWhiteSpace())
         {

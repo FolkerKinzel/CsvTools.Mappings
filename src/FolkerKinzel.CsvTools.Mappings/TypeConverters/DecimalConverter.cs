@@ -63,7 +63,7 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
     public override string? ConvertToString(decimal value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out decimal result)
+    public override bool TryParse(ReadOnlySpan<char> value, out decimal result)
 #if NET462 || NETSTANDARD2_0
         => decimal.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

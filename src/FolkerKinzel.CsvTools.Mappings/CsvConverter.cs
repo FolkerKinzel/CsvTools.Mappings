@@ -18,8 +18,8 @@ public static class CsvConverter
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
+    /// <param name="data">The data to write as CSV. Each item will be represented with 
+    /// a CSV row.</param>
     /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
@@ -69,8 +69,8 @@ public static class CsvConverter
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to write as CSV file. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.
+    /// <param name="data">The data to save as CSV file. Each item will be represented with 
+    /// a CSV row.
     /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnNames">
@@ -148,8 +148,8 @@ public static class CsvConverter
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to write as CSV file. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
+    /// <param name="data">The data to save as CSV file. Each item will be represented with 
+    /// a CSV row.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
@@ -209,8 +209,8 @@ public static class CsvConverter
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.
+    /// <param name="data">The data to convert to CSV. Each item will be represented with 
+    /// a CSV row.
     /// </param>
     /// <param name="columnNames">
     /// <para>
@@ -282,8 +282,8 @@ public static class CsvConverter
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
-    /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.
+    /// <param name="data">The data to convert to CSV. Each item will be represented with 
+    /// a CSV row.
     /// </param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a

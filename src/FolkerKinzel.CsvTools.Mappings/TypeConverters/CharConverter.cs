@@ -21,7 +21,7 @@ public sealed class CharConverter(char defaultValue = default, bool throwing = t
                              // but the parameter is not used.
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out char result)
+    public override bool TryParse(ReadOnlySpan<char> value, out char result)
     {
         if (value.Length == 1)
         {

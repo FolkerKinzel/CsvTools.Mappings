@@ -96,7 +96,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>, ILocalizable
     }
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out DateTime result)
+    public override bool TryParse(ReadOnlySpan<char> value, out DateTime result)
     {
 #if NET462 || NETSTANDARD2_0
         return ParseExact

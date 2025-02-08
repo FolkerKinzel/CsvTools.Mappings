@@ -82,7 +82,7 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>, ILocalizable
     public override string? ConvertToString(TimeOnly value) => value.ToString(Format, FormatProvider);
    
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out TimeOnly result)
+    public override bool TryParse(ReadOnlySpan<char> value, out TimeOnly result)
     {
         return ParseExact
             ? TimeOnly.TryParseExact(value, Format.AsSpan(), FormatProvider, Styles, out result)

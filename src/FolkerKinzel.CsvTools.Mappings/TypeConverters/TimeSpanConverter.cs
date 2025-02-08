@@ -86,7 +86,7 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>, ILocalizable
     public override string? ConvertToString(TimeSpan value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, [NotNullWhen(true)] out TimeSpan result)
+    public override bool TryParse(ReadOnlySpan<char> value, [NotNullWhen(true)] out TimeSpan result)
     { 
 #if NET462 || NETSTANDARD2_0
         return ParseExact

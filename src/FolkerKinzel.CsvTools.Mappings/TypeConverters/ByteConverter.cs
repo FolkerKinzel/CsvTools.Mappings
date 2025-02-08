@@ -107,7 +107,7 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
         => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out byte result)
+    public override bool TryParse(ReadOnlySpan<char> value, out byte result)
 #if NET462 || NETSTANDARD2_0
         => byte.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

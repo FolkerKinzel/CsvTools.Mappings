@@ -60,18 +60,16 @@ public sealed class CsvWriter<TData> : IDisposable
     /// <summary>
     /// Writes <paramref name="data"/> as a new CSV row.
     /// </summary>
-    /// <param name="data">The <typeparamref name="TData"/> instance to be written. <paramref name="data"/> 
-    /// will be ignored if it is <c>null</c>.</param>
+    /// <param name="data">The <typeparamref name="TData"/> instance to be written or <c>null</c>.</param>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public void Write(TData? data)
     {
-        if (data is null)
+        if (data is not null)
         {
-            return;
+            _conversion(data, _mapping); 
         }
-
-        _conversion(data, _mapping);
+        
         _writer.WriteRecord();
     }
 

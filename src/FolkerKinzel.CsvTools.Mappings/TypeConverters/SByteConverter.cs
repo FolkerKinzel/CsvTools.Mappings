@@ -74,7 +74,7 @@ public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>,
     public override string? ConvertToString(sbyte value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out sbyte result)
+    public override bool TryParse(ReadOnlySpan<char> value, out sbyte result)
 #if NET462 || NETSTANDARD2_0
         => sbyte.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else

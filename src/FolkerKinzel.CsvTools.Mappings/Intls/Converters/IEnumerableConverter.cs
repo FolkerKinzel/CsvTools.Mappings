@@ -42,7 +42,7 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
             ? null 
             : string.Join(_separator, value.Select(x => _itemsConverter.ConvertToString(x)));
 
-    public override bool TryParseValue(ReadOnlySpan<char> value, out IEnumerable<TItem?>? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out IEnumerable<TItem?>? result)
     {
         Debug.Assert(_separator.Length > 0);   
         Debug.Assert(_itemsConverter.Throwing == Throwing);
