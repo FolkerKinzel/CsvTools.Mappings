@@ -1,9 +1,9 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
 /// Static class that contains methods to create <see cref="TypeConverter{T}"/> instances for the 
@@ -36,7 +36,7 @@ public static class UriConverter
     /// <remarks>
     /// <note type="tip">
     /// If you plan to call <see cref="TypeConverterExtension.ToDBNullConverter{T}(TypeConverter{T})"/> 
-    /// on the return value, it's recommended to use <see cref="CreateNullable(bool)"/> instead .
+    /// on the return value, it's recommended to use <see cref="CreateNullable(UriKind, bool)"/> instead .
     /// </note>
     /// </remarks>
     /// <exception cref="ArgumentNullException"><paramref name="defaultValue"/> is <c>null</c>.</exception>

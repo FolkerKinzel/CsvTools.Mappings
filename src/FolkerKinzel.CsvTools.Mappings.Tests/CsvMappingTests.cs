@@ -1,4 +1,4 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FolkerKinzel.CsvTools.Mappings.Tests;

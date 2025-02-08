@@ -45,10 +45,11 @@
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings" isDocumented="True">Mappings and type conversions for FolkerKinzel.CsvTools</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.Converters" isDocumented="True">Type converters for parsing and writing CSV files</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="FolkerKinzel.CsvTools" isDocumented="True">Classes for reading and writing CSV files (RFC 4180)</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.Converters.Interfaces" isDocumented="True">Interfaces for FolkerKinzel.CsvTools.Mappings.Converters</NamespaceSummaryItem>
-    </NamespaceSummaries>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.Converters" isDocumented="False">Type converters for parsing and writing CSV files.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools" isDocumented="True">Classes for reading and writing CSV files (RFC 4180)</NamespaceSummaryItem>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.Converters.Interfaces" isDocumented="False">Interfaces for FolkerKinzel.CsvTools.Mappings.Converters</NamespaceSummaryItem>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.TypeConverters" isDocumented="True">Type converters for parsing and writing CSV files</NamespaceSummaryItem>
+<NamespaceSummaryItem name="FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces" isDocumented="True">Interfaces for FolkerKinzel.CsvTools.Mappings.TypeConverters</NamespaceSummaryItem></NamespaceSummaries>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Protected, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
     <HelpTitle>FolkerKinzel.CsvTools.Mappings</HelpTitle>

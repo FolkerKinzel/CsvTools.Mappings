@@ -1,23 +1,23 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using System;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
-/// <see cref="TypeConverter{T}"/> implementation for <see cref="long"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="int"/>.
 /// </summary>
-public sealed class Int64Converter : TypeConverter<long>, IHexConverter<long>, ILocalizable, IAsHexConverter
+public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILocalizable, IAsHexConverter
 {
-    /// <summary> Initializes a new <see cref="Int64Converter"/> instance.</summary>
+    /// <summary> Initializes a new <see cref="Int32Converter"/> instance.</summary>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="long"/> values.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="int"/> values.
     /// The format strings "R" and "r" are not supported.
     /// </param>
     /// <param name="styles">
@@ -29,7 +29,7 @@ public sealed class Int64Converter : TypeConverter<long>, IHexConverter<long>, I
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "R" or "r".
     /// </exception>
-    public Int64Converter(IFormatProvider? formatProvider = null,
+    public Int32Converter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
 #endif
@@ -57,8 +57,8 @@ public sealed class Int64Converter : TypeConverter<long>, IHexConverter<long>, I
     public NumberStyles Styles { get; private set; }
 
     /// <inheritdoc/>
-    public TypeConverter<long> ToHexConverter()
-        => HexConverter.CreateHexConverter<long, Int64Converter>(this);
+    public TypeConverter<int> ToHexConverter()
+        => HexConverter.CreateHexConverter<int, Int32Converter>(this);
 
     void IAsHexConverter.AsHexConverter()
     {
@@ -70,14 +70,14 @@ public sealed class Int64Converter : TypeConverter<long>, IHexConverter<long>, I
     public object Clone() => MemberwiseClone();
 
     /// <inheritdoc/>
-    public override string? ConvertToString(long value) => value.ToString(Format, FormatProvider);
+    public override string? ConvertToString(int value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out long result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out int result)
 #if NET462 || NETSTANDARD2_0
-        => long.TryParse(value.ToString(), Styles, FormatProvider, out result);
+        => int.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else
-        => long.TryParse(value, Styles, FormatProvider, out result);
+        => int.TryParse(value, Styles, FormatProvider, out result);
 #endif
 
     private static void ValidateFormat(string? format)

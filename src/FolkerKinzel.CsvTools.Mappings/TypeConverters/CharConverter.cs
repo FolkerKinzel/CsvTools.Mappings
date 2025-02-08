@@ -1,4 +1,4 @@
-﻿namespace FolkerKinzel.CsvTools.Mappings.Converters;
+﻿namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="char"/>.

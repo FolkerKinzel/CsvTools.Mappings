@@ -1,9 +1,9 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 
 [TestClass()]
 public class StringConverterTests

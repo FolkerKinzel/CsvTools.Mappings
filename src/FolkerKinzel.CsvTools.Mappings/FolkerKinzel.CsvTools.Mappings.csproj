@@ -9,7 +9,7 @@
     <PackageId>FolkerKinzel.CsvTools.Mappings</PackageId>
     <Product>FolkerKinzel.CsvTools.Mappings</Product>
     <Version>1.0.0-alpha.3</Version>
-    <FileVersion>1.0.0.115</FileVersion>
+    <FileVersion>1.0.0.118</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-alpha.3</PackageReleaseNotes>
     <PackageTags>.NET CSV C#</PackageTags>
@@ -41,13 +41,13 @@
     <AnalysisLevel>6.0-recommended</AnalysisLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Converters\Int32Converter_old.cs" />
-    <Compile Remove="Converters\Int64Converter_old.cs" />
-    <Compile Remove="Converters\SByteConverter_old.cs" />
-    <Compile Remove="Converters\StringConverter_old.cs" />
-    <Compile Remove="Converters\UInt16Converter_old.cs" />
-    <Compile Remove="Converters\UInt32Converter_old.cs" />
-    <Compile Remove="Converters\UInt64Converter_old.cs" />
+    <Compile Remove="TypeConverters\Int32Converter_old.cs" />
+    <Compile Remove="TypeConverters\Int64Converter_old.cs" />
+    <Compile Remove="TypeConverters\SByteConverter_old.cs" />
+    <Compile Remove="TypeConverters\StringConverter_old.cs" />
+    <Compile Remove="TypeConverters\UInt16Converter_old.cs" />
+    <Compile Remove="TypeConverters\UInt32Converter_old.cs" />
+    <Compile Remove="TypeConverters\UInt64Converter_old.cs" />
     <Compile Remove="Intls\Extensions\CsvReaderExtension.cs" />
   </ItemGroup>
   <ItemGroup>

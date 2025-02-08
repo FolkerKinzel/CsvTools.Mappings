@@ -82,8 +82,8 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// on the <see cref="CsvOpts" /> value, specified in the constructor of the <see cref="CsvReader"/>.
     /// </exception>
     /// <exception cref="FormatException">
-    /// Parsing fails and the <see cref="Converters.TypeConverter{T}.Throwing"/> property of that
-    /// <see cref="Converters.TypeConverter{T}"/> is <c>true</c>.
+    /// Parsing fails and the <see cref="TypeConverters.TypeConverter{T}.Throwing"/> property of that
+    /// <see cref="TypeConverters.TypeConverter{T}"/> is <c>true</c>.
     /// </exception>
     bool IEnumerator.MoveNext() => TryRead(out _current);
 
@@ -125,8 +125,8 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// on the <see cref="CsvOpts" /> value, specified in the constructor of the <see cref="CsvReader"/>.
     /// </exception>
     /// <exception cref="FormatException">
-    /// Parsing fails and the <see cref="Converters.TypeConverter{T}.Throwing"/> property of that
-    /// <see cref="Converters.TypeConverter{T}"/> is <c>true</c>.
+    /// Parsing fails and the <see cref="TypeConverters.TypeConverter{T}.Throwing"/> property of that
+    /// <see cref="TypeConverters.TypeConverter{T}"/> is <c>true</c>.
     /// </exception>
     public bool TryRead(out TResult result)
     {

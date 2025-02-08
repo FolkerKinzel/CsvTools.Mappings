@@ -7,7 +7,7 @@ using FolkerKinzel.CsvTools.Mappings;
 using FolkerKinzel.CsvTools;
 using BenchmarkDotNet.Attributes;
 using System.IO;
-using FolkerKinzel.CsvTools.Mappings.Converters;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 namespace Benchmarks;
 

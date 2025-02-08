@@ -1,4 +1,4 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using System.Data;
@@ -55,7 +55,7 @@ public static class TypeConverterExtension
     /// Creates a new <see cref="Nullable{T}"/> converter instance that's based on <paramref name="converter"/>.
     /// </summary>
     /// <typeparam name="T">The data type that <paramref name="converter"/> can convert. 
-    /// <typeparamref name="T"/> must be a <see cref="ValueType"/>.</typeparam>
+    /// <typeparamref name="T"/> must be a <see cref="System.ValueType"/>.</typeparam>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> instance that is used as template.</param>
     /// <returns>The newly created <see cref="TypeConverter{T}"/> instance that converts <see cref="Nullable{T}"/>
     /// instead of <typeparamref name="T"/>.</returns>

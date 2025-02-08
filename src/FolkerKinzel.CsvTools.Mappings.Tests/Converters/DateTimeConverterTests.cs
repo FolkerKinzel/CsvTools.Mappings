@@ -5,7 +5,7 @@ using System.Text;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 
 [TestClass()]
 public class DateTimeConverterTests

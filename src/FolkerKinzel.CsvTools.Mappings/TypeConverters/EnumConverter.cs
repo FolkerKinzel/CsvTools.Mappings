@@ -1,7 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
 /// Generic <see cref="TypeConverter{T}"/> implementation for <c>enum</c> types.

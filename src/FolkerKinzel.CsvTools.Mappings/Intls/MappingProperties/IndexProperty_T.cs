@@ -1,4 +1,4 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;

@@ -2,7 +2,7 @@
 using System;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 
 [TestClass()]
 public class DateTimeOffsetConverterTests

@@ -1,7 +1,7 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
 /// Abstract base class for type converters that convert 

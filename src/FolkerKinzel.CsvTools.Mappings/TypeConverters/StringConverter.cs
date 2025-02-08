@@ -1,8 +1,8 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using System.Data;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
 /// Static class that contains methods to create <see cref="TypeConverter{T}"/> instances for the 

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 
 /// <summary>
 /// Generic interface that allows implementing instances of <see cref="TypeConverter{T}"/>

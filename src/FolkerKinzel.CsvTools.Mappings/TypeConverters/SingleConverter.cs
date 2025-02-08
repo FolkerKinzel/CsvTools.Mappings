@@ -1,18 +1,18 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
-/// <see cref="TypeConverter{T}"/> implementation for <see cref="double"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="float"/>.
 /// </summary>
-public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
+public sealed class SingleConverter : TypeConverter<float>, ILocalizable
 {
-    /// <summary>Initializes a new <see cref="DoubleConverter"/> instance.</summary>
+    /// <summary>Initializes a new <see cref="SingleConverter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, 
-    /// or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
+    /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
     /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/> values.
@@ -28,13 +28,13 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "D", "d", "X", or "x".
     /// </exception>
-    public DoubleConverter(IFormatProvider? formatProvider = null,
+    public SingleConverter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
 #endif
-                            string? format = "G17",
+                            string? format = "G9",
                             NumberStyles styles = NumberStyles.Any,
-                           bool throwing = true)
+                           bool throwing = true) 
         : base(default, throwing)
     {
         ValidateFormat(format);
@@ -61,14 +61,15 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     public NumberStyles Styles { get; }
 
     /// <inheritdoc/>
-    public override string? ConvertToString(double value) => value.ToString(Format, FormatProvider);
+    public override string? ConvertToString(float value) 
+        => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out double result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out float result)
 #if NET462 || NETSTANDARD2_0
-        => double.TryParse(value.ToString(), Styles, FormatProvider, out result);
+        => float.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else
-        => double.TryParse(value, Styles, FormatProvider, out result);
+        => float.TryParse(value, Styles, FormatProvider, out result);
 #endif
 
     private static void ValidateFormat(string? format)

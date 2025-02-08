@@ -1,24 +1,24 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using System;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
-/// <see cref="TypeConverter{T}"/> implementation for <see cref="uint"/>.
+/// <see cref="TypeConverter{T}"/> implementation for <see cref="sbyte"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, ILocalizable, IAsHexConverter
+public sealed class SByteConverter : TypeConverter<sbyte>, IHexConverter<sbyte>, ILocalizable, IAsHexConverter
 {
-    /// <summary> Initializes a new <see cref="UInt32Converter"/> instance.</summary>
+    /// <summary> Initializes a new <see cref="SByteConverter"/> instance.</summary>
     /// <param name="formatProvider">
     /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
     /// <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="uint"/> values.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="sbyte"/> values.
     /// The format strings "R" and "r" are not supported.
     /// </param>
     /// <param name="styles">
@@ -30,7 +30,7 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "R" or "r".
     /// </exception>
-    public UInt32Converter(IFormatProvider? formatProvider = null,
+    public SByteConverter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
 #endif
@@ -58,8 +58,8 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     public NumberStyles Styles { get; private set; }
 
     /// <inheritdoc/>
-    public TypeConverter<uint> ToHexConverter()
-        => HexConverter.CreateHexConverter<uint, UInt32Converter>(this);
+    public TypeConverter<sbyte> ToHexConverter()
+        => HexConverter.CreateHexConverter<sbyte, SByteConverter>(this);
 
     void IAsHexConverter.AsHexConverter()
     {
@@ -71,14 +71,14 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     public object Clone() => MemberwiseClone();
 
     /// <inheritdoc/>
-    public override string? ConvertToString(uint value) => value.ToString(Format, FormatProvider);
+    public override string? ConvertToString(sbyte value) => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
-    public override bool TryParseValue(ReadOnlySpan<char> value, out uint result)
+    public override bool TryParseValue(ReadOnlySpan<char> value, out sbyte result)
 #if NET462 || NETSTANDARD2_0
-        => uint.TryParse(value.ToString(), Styles, FormatProvider, out result);
+        => sbyte.TryParse(value.ToString(), Styles, FormatProvider, out result);
 #else
-        => uint.TryParse(value, Styles, FormatProvider, out result);
+        => sbyte.TryParse(value, Styles, FormatProvider, out result);
 #endif
 
     private static void ValidateFormat(string? format)

@@ -1,7 +1,7 @@
-﻿using FolkerKinzel.CsvTools.Mappings.Converters.Interfaces;
+﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
-namespace FolkerKinzel.CsvTools.Mappings.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 
 [TestClass]
 public class Int32ConverterTests
