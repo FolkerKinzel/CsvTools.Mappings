@@ -1,7 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
-using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
+using FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Data;
 using System.Globalization;

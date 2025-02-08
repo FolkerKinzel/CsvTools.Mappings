@@ -4,7 +4,7 @@ using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
 
 /// <summary>
 /// Abstract base class for classes representing a dynamic property of <see cref="CsvRecordMapping"/> 

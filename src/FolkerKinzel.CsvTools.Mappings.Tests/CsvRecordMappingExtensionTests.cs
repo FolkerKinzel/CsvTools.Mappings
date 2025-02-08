@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
 [TestClass]
-public class CsvMappingExtensionTests
+public class CsvRecordMappingExtensionTests
 {
     public TestContext? TestContext { get; set; }
 

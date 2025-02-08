@@ -1,7 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using System.Text.RegularExpressions;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
 
 /// <summary>
 /// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files without a header.

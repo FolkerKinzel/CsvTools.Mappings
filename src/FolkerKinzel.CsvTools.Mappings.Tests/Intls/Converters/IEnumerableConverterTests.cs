@@ -1,5 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
+using FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

@@ -2,7 +2,7 @@
 using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FolkerKinzel.CsvTools.Mappings.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties.Tests;
 
 [TestClass]
 public class MultiColumnPropertyTests
@@ -12,11 +12,11 @@ public class MultiColumnPropertyTests
         public override bool AcceptsNull => true;
 
         public SumConverter(CsvRecordMappingBuilder mapping) : base(mapping, null, false) { }
-        
+
         private SumConverter(SumConverter other) : base(other) { }
 
         public override object Clone() => new SumConverter(this);
-        
+
         protected override void DoConvertToCsv(int? value)
         {
             if (!value.HasValue)
@@ -26,7 +26,7 @@ public class MultiColumnPropertyTests
 
             dynamic dyn = Mapping;
             dyn.A = value.Value + 2;
-            dyn.B = - 2;
+            dyn.B = -2;
         }
 
         protected override bool TryParse(out int? result)
@@ -36,7 +36,7 @@ public class MultiColumnPropertyTests
             int? a = dyn.A;
             int? b = dyn.B;
 
-            if(a.HasValue && b.HasValue)
+            if (a.HasValue && b.HasValue)
             {
                 result = a.Value + b.Value;
                 return true;
@@ -210,7 +210,7 @@ public class MultiColumnPropertyTests
             .Create()
             .AddProperty("A", intConverter)
             .AddProperty("B", intConverter);
-            
+
         CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("Sum", new SumConverter(mappingBuilder)).Build();
 
         dynamic[] result = CsvConverter.Parse(csv, mapping, dyn => dyn);

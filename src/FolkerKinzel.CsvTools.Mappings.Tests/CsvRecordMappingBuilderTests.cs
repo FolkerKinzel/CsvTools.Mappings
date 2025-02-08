@@ -3,7 +3,7 @@
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
 [TestClass]
-public class MappingBuilderTests
+public class CsvRecordMappingBuilderTests
 {
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
