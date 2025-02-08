@@ -23,6 +23,7 @@ public class IEnumerableConverterTests
         };
 
         TypeConverter<IEnumerable<int?>?> conv = new Int32Converter().ToNullableConverter().ToIEnumerableConverter("::");
+        Assert.IsTrue(conv.AcceptsNull);
         string? s = conv.ConvertToString(list);
 
         var result = (IEnumerable<int?>?)conv.Parse(s.AsSpan());
@@ -31,7 +32,7 @@ public class IEnumerableConverterTests
     }
 
     [TestMethod()]
-    public void IEnumerableTConverterTest()
+    public void IEnumerableConverterTest1()
     {
         IEnumerable<int> arr1 = [1, 2, 3];
         TypeConverter<IEnumerable<int>?> conv = new Int32Converter().ToIEnumerableConverter("::");
@@ -61,4 +62,12 @@ public class IEnumerableConverterTests
 
         CollectionAssert.AreEqual(arr1.ToArray(), arr2.ToArray());
     }
+
+    [TestMethod()]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void IEnumerableConverterTest2() => _ = new Int32Converter().ToIEnumerableConverter(null!);
+
+    [TestMethod()]
+    [ExpectedException(typeof(ArgumentException))]
+    public void IEnumerableConverterTest3() => _ = new Int32Converter().ToIEnumerableConverter("");
 }

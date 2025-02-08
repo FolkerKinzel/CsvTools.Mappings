@@ -9,19 +9,14 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 public class ByteArrayConverterTests
 {
     [TestMethod()]
-    public void Base64ConverterTest1()
+    public void ByteArrayConverterTest1()
     {
         TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
         Assert.IsNotNull(conv);
-    }
-
-    [TestMethod]
-    public void ParseTest1()
-    {
-        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
-        Assert.IsNotNull(conv);
-
+        Assert.IsTrue(conv.AcceptsNull);
         Assert.IsNull(conv.Parse(null));
+        Assert.IsNull(conv.Parse("   ".AsSpan()));
+        Assert.IsNull(conv.ConvertToString(null));
     }
 
     [TestMethod]
@@ -72,6 +67,10 @@ public class ByteArrayConverterTests
         TypeConverter<byte[]> conv = ByteArrayConverter.CreateNonNullable();
         Assert.IsNotNull(conv);
         Assert.IsInstanceOfType<byte[]>(conv.DefaultValue);
+        Assert.IsTrue(conv.AcceptsNull);
+        Assert.IsNotNull(conv.Parse(null));
+        Assert.IsNotNull(conv.Parse("   ".AsSpan()));
+        Assert.IsNull(conv.ConvertToString(null!));
     }
 
     [TestMethod]

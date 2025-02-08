@@ -15,12 +15,14 @@ public class StringConverterTests
 
         Assert.IsNotNull(conv.Parse(null));
         Assert.IsInstanceOfType<ITypeConverter<string?>>(conv);
+        Assert.IsTrue(conv.AcceptsNull);
     }
 
     [TestMethod()]
     public void ParseTest()
     {
         TypeConverter<string?> conv = StringConverter.CreateNullable();
+        Assert.IsTrue(conv.AcceptsNull);
 
         Assert.IsNull(conv.Parse(null));
 

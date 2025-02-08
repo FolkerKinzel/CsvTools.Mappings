@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
+using System;
 using System.Data;
 
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
@@ -58,5 +59,25 @@ public class DataTableExtensionTests
 
         CollectionAssert.AreEqual(new object[] { 7, -1 }, table.Rows[0].ItemArray);
         CollectionAssert.AreEqual(new object[] { 42, 4711 }, table.Rows[1].ItemArray);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException))]
+    public void ReadWithWrongMappingTest1()
+    {
+        var converter = new Int32Converter();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("NotInTable", converter).Build();
+
+        using var table = new DataTable();
+        table.Columns.Add("A", typeof(int));
+        table.Columns.Add("B", typeof(int));
+
+        using var stringReader = new StringReader("""
+            A,B
+            1,2
+            """);
+        using var csvReader = new CsvReader(stringReader);
+
+        table.ReadCsv(csvReader, mapping);
     }
 }

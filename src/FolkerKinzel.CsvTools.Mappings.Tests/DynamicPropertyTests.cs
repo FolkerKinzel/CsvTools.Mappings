@@ -64,24 +64,21 @@ public class DynamicPropertyTests
     [ExpectedException(typeof(ArgumentException))]
     public void CsvPropertyTest13() => _ = new IndexProperty<string?>("Ähh", 17, StringConverter.CreateNullable());
 
-    //[TestMethod()]
-    //[Obsolete("Obsolete")]
-    //public void CloneTest1()
-    //{
-    //    const string propName = "Prop";
-    //    string[] aliases = new string[] { "Col1", "Other" };
-    //    ICsvTypeConverter conv = CsvConverterFactory.CreateConverter(CsvTypeCode.String);
 
+    [TestMethod]
+    public void ColumnNameTests1()
+    {
+        var conv = new Int32Converter();
+        var mapping = CsvRecordMappingBuilder
+            .Create()
+            .AddProperty("Prop1", conv)
+            .AddProperty("Prop2", 1, conv)
+            .Build();
 
-    //    var prop = new CsvProperty(propName, aliases, conv);
-
-    //    Assert.IsInstanceOfType(prop, typeof(CsvProperty));
-
-    //    var clone = (CsvProperty)prop.Clone();
-
-    //    Assert.AreNotSame(prop, clone);
-    //    Assert.AreEqual(propName, prop.PropertyName, clone.PropertyName);
-    //    CollectionAssert.AreEqual(prop.ColumnNameAliases, clone.ColumnNameAliases);
-    //    Assert.AreSame(prop.Converter, clone.Converter);
-    //}
+        foreach (DynamicProperty property in mapping)
+        {
+            Assert.AreEqual(0, property.CsvColumnIndexes.Count());
+            Assert.AreEqual(0, property.CsvColumnNames.Count());
+        }
+    }
 }

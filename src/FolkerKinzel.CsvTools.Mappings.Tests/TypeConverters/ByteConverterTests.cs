@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 
@@ -27,4 +28,14 @@ public class ByteConverterTests
     [TestMethod]
     [ExpectedException(typeof(ArgumentException))]
     public void ValidateFormatTest() => new ByteConverter(format: "R");
+
+    [TestMethod]
+    public void ToHexConverterTest1()
+    {
+        var byteConv = new ByteConverter(format: "X", styles: NumberStyles.HexNumber);
+        Assert.AreEqual("X", byteConv.Format);
+
+        var hexConv1 = byteConv.ToHexConverter();
+        Assert.AreSame(hexConv1, byteConv);
+    }
 }

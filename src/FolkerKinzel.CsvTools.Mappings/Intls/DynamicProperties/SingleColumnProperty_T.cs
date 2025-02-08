@@ -33,16 +33,6 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
         _converter = converter ?? throw new ArgumentNullException(nameof(converter));
     }
 
-    /// <summary>
-    /// Copy constructor.
-    /// </summary>
-    /// <param name="other">The <see cref="DynamicProperty"/> instance to clone.</param>
-    protected SingleColumnProperty(SingleColumnProperty<T> other) : base(other)
-    {
-        _converter = other._converter;
-        Record = other.Record!;
-    }
-
     /// <inheritdoc/>
     T ITypedProperty<T>.Value
     {
