@@ -120,7 +120,7 @@ public static class CsvConverter
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    public static string ToCsvString<TData>(IEnumerable<TData?> data,
+    public static string ToCsv<TData>(IEnumerable<TData?> data,
                                             IReadOnlyCollection<string?> columnNames,
                                             CsvRecordMapping mapping,
                                             Action<TData, dynamic> conversion)
@@ -179,7 +179,7 @@ public static class CsvConverter
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    public static string ToCsvString<TData>(IEnumerable<TData?> data,
+    public static string ToCsv<TData>(IEnumerable<TData?> data,
                                             int columnsCount,
                                             CsvRecordMapping mapping,
                                             Action<TData, dynamic> conversion)

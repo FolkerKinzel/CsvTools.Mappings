@@ -67,7 +67,7 @@ public static class CsvMappingExtension
                                       IReadOnlyCollection<string?> columnNames,
                                       CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
-        => CsvConverter.ToCsvString(data, columnNames, mapping, conversion);
+        => CsvConverter.ToCsv(data, columnNames, mapping, conversion);
 
     /// <summary>
     /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
@@ -116,7 +116,7 @@ public static class CsvMappingExtension
                                       int columnsCount,
                                       CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
-        => CsvConverter.ToCsvString(data, columnsCount, mapping, conversion);
+        => CsvConverter.ToCsv(data, columnsCount, mapping, conversion);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as CSV file
