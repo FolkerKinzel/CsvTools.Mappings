@@ -4,12 +4,12 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
-/// Represents a dynamic property of <see cref="Mapping"/> ("late binding") for processing CSV files without a header.
+/// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files without a header.
 /// </summary>
 /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
 /// <remarks>
 /// <see cref="IndexProperty{T}"/> 
-/// encapsulates information about access and type conversion, which <see cref="Mapping"/> needs to access the data of the underlying
+/// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its zero-based column index.
 /// </remarks>
 internal sealed class IndexProperty<T> : SingleColumnProperty<T>
@@ -32,7 +32,7 @@ internal sealed class IndexProperty<T> : SingleColumnProperty<T>
     /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules for C# 
     /// identifiers (only ASCII characters).</exception>
     /// <exception cref="RegexMatchTimeoutException">
-    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="Mapping.RegexTimeout"/>.
+    /// Validating of <paramref name="propertyName"/> takes longer than <see cref="CsvRecordMapping.RegexTimeout"/>.
     /// </exception>
     internal IndexProperty(
         string propertyName, int csvIndex, TypeConverter<T> converter) : base(propertyName, converter)

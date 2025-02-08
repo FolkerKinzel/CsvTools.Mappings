@@ -5,10 +5,10 @@ using System.Text;
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>Static class that provides methods for reading and writing CSV with
-/// <see cref="Mapping"/>s and type conversions.</summary>
+/// <see cref="CsvRecordMapping"/>s and type conversions.</summary>
 public static class CsvMapping
 {
-    private static readonly Type _mappingType = typeof(Mapping);
+    private static readonly Type _mappingType = typeof(CsvRecordMapping);
     private static readonly Type _recordType = typeof(CsvRecord);
     private static readonly Type _dynamicType = typeof(object);
 
@@ -21,7 +21,7 @@ public static class CsvMapping
     /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
     /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
     /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -49,7 +49,7 @@ public static class CsvMapping
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static void Write<TData>(IEnumerable<TData?> data,
                                     CsvWriter writer,
-                                    Mapping mapping,
+                                    CsvRecordMapping mapping,
                                     Action<TData, dynamic> conversion)
     {
         _ArgumentNullException.ThrowIfNull(data, nameof(data));
@@ -85,7 +85,7 @@ public static class CsvMapping
     /// also unique when treated case-insensitive.
     /// </para>
     /// </param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -122,7 +122,7 @@ public static class CsvMapping
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static string ToCsvString<TData>(IEnumerable<TData?> data,
                                             IReadOnlyCollection<string?> columnNames,
-                                            Mapping mapping,
+                                            CsvRecordMapping mapping,
                                             Action<TData, dynamic> conversion)
     {
         using var stringWriter = new StringWriter();
@@ -143,7 +143,7 @@ public static class CsvMapping
     /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
     /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -181,7 +181,7 @@ public static class CsvMapping
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static string ToCsvString<TData>(IEnumerable<TData?> data,
                                             int columnsCount,
-                                            Mapping mapping,
+                                            CsvRecordMapping mapping,
                                             Action<TData, dynamic> conversion)
     {
         using var stringWriter = new StringWriter();
@@ -200,7 +200,7 @@ public static class CsvMapping
     /// 
     /// <param name="reader">The <see cref="TextReader" /> with which the CSV data is
     /// read.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert the CSV data.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert the CSV data.</param>
     /// <param name="conversion">
     /// <para>
     /// A function that converts the content of <paramref name="mapping"/>
@@ -208,8 +208,8 @@ public static class CsvMapping
     /// </para>
     /// <para>
     /// The function is called for each row in 
-    /// the CSV data and gets the <see cref="Mapping"/> as argument, filled with the 
-    /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
+    /// the CSV data and gets the <see cref="CsvRecordMapping"/> as argument, filled with the 
+    /// current <see cref="CsvRecord"/> instance. The <see cref="CsvRecordMapping"/> is passed to the 
     /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
@@ -229,7 +229,7 @@ public static class CsvMapping
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="delimiter"/> is either 
     /// the double quotes <c>"</c> or a line break character ('\r' or  '\n').</exception>
     public static CsvReader<TResult> OpenRead<TResult>(TextReader reader,
-                                                       Mapping mapping,
+                                                       CsvRecordMapping mapping,
                                                        Func<dynamic, TResult> conversion,
                                                        bool isHeaderPresent = true,
                                                        CsvOpts options = CsvOpts.Default,
@@ -253,7 +253,7 @@ public static class CsvMapping
     /// of the items that the <see cref="CsvReader{TResult}"/> returns.</typeparam>
     /// 
     /// <param name="filePath">File path of the CSV file to read.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert the CSV data.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert the CSV data.</param>
     /// <param name="conversion">
     /// <para>
     /// A function that converts the content of <paramref name="mapping"/>
@@ -261,8 +261,8 @@ public static class CsvMapping
     /// </para>
     /// <para>
     /// The function is called for each row in 
-    /// the CSV file and gets the <see cref="Mapping"/> as argument, filled with the 
-    /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
+    /// the CSV file and gets the <see cref="CsvRecordMapping"/> as argument, filled with the 
+    /// current <see cref="CsvRecord"/> instance. The <see cref="CsvRecordMapping"/> is passed to the 
     /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
@@ -281,7 +281,7 @@ public static class CsvMapping
     /// <remarks>
     /// <note type="tip">
     /// The optimal parameters can be determined automatically with <see cref="Csv.AnalyzeFile(string, Header, Encoding?, int)"/> - or use
-    /// <see cref="OpenReadAnalyzed{TResult}(string, Mapping, Func{dynamic, TResult}, Header, Encoding?, int)"/>.
+    /// <see cref="OpenReadAnalyzed{TResult}(string, CsvRecordMapping, Func{dynamic, TResult}, Header, Encoding?, int)"/>.
     /// </note>
     /// </remarks>
     /// 
@@ -293,7 +293,7 @@ public static class CsvMapping
     /// the double quotes <c>"</c> or a line break character ('\r' or  '\n').</exception>
     /// <exception cref="IOException">I/O error.</exception>
     public static CsvReader<TResult> OpenRead<TResult>(string filePath,
-                                                       Mapping mapping,
+                                                       CsvRecordMapping mapping,
                                                        Func<dynamic, TResult> conversion,
                                                        bool isHeaderPresent = true,
                                                        CsvOpts options = CsvOpts.Default,
@@ -316,7 +316,7 @@ public static class CsvMapping
     /// of the items in the array that the method returns.</typeparam>
     /// 
     /// <param name="filePath">File path of the CSV file to read.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert the CSV data.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert the CSV data.</param>
     /// <param name="conversion">
     /// <para>
     /// A function that converts the content of <paramref name="mapping"/>
@@ -324,8 +324,8 @@ public static class CsvMapping
     /// </para>
     /// <para>
     /// The function is called for each row in 
-    /// the CSV file and gets the <see cref="Mapping"/> as argument, filled with the 
-    /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
+    /// the CSV file and gets the <see cref="CsvRecordMapping"/> as argument, filled with the 
+    /// current <see cref="CsvRecord"/> instance. The <see cref="CsvRecordMapping"/> is passed to the 
     /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
@@ -371,7 +371,7 @@ public static class CsvMapping
     /// <exception cref="CsvFormatException">Invalid CSV file. Try to increase the value of 
     /// <paramref name="analyzedLines"/> to get a better analyzer result!</exception>
     public static CsvReader<TResult> OpenReadAnalyzed<TResult>(string filePath,
-                                                               Mapping mapping,
+                                                               CsvRecordMapping mapping,
                                                                Func<dynamic, TResult> conversion,
                                                                Header header = Header.ProbablyPresent,
                                                                Encoding? textEncoding = null,
@@ -398,7 +398,7 @@ public static class CsvMapping
     /// of the items in the array that the method returns.</typeparam>
     /// 
     /// <param name="csv">The CSV-<see cref="string"/> to parse.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert the CSV data.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert the CSV data.</param>
     /// <param name="conversion">
     /// <para>
     /// A function that converts the content of <paramref name="mapping"/>
@@ -406,8 +406,8 @@ public static class CsvMapping
     /// </para>
     /// <para>
     /// The function is called for each row in 
-    /// <paramref name="csv"/> and gets the <see cref="Mapping"/> as argument, filled with the 
-    /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
+    /// <paramref name="csv"/> and gets the <see cref="CsvRecordMapping"/> as argument, filled with the 
+    /// current <see cref="CsvRecord"/> instance. The <see cref="CsvRecordMapping"/> is passed to the 
     /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
@@ -424,7 +424,7 @@ public static class CsvMapping
     /// <remarks>
     /// <note type="tip">
     /// The optimal parameters can be determined automatically with <see cref="Csv.AnalyzeString(string, Header, int)"/> - 
-    /// or use <see cref="ParseAnalyzed{TResult}(string, Mapping, Func{dynamic, TResult}, Header, int)"/>.
+    /// or use <see cref="ParseAnalyzed{TResult}(string, CsvRecordMapping, Func{dynamic, TResult}, Header, int)"/>.
     /// </note>
     /// </remarks>
     /// 
@@ -435,7 +435,7 @@ public static class CsvMapping
     /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
     /// </exception>
     public static TResult[] Parse<TResult>(string csv,
-                                           Mapping mapping,
+                                           CsvRecordMapping mapping,
                                            Func<dynamic, TResult> conversion,
                                            bool isHeaderPresent = true,
                                            CsvOpts options = CsvOpts.Default,
@@ -458,7 +458,7 @@ public static class CsvMapping
     ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
     /// of the items in the array that the method returns.</typeparam>
     /// <param name="csv">The CSV-<see cref="string"/> to parse.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert the CSV data.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert the CSV data.</param>
     /// <param name="conversion">
     /// <para>
     /// A function that converts the content of <paramref name="mapping"/>
@@ -466,8 +466,8 @@ public static class CsvMapping
     /// </para>
     /// <para>
     /// The function is called for each row in 
-    /// <paramref name="csv"/> and gets the <see cref="Mapping"/> as argument, filled with the 
-    /// current <see cref="CsvRecord"/> instance. The <see cref="Mapping"/> is passed to the 
+    /// <paramref name="csv"/> and gets the <see cref="CsvRecordMapping"/> as argument, filled with the 
+    /// current <see cref="CsvRecord"/> instance. The <see cref="CsvRecordMapping"/> is passed to the 
     /// function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
@@ -508,7 +508,7 @@ public static class CsvMapping
     /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
     /// </exception>
     public static TResult[] ParseAnalyzed<TResult>(string csv,
-                                                   Mapping mapping,
+                                                   CsvRecordMapping mapping,
                                                    Func<dynamic, TResult> conversion,
                                                    Header header = Header.ProbablyPresent,
                                                    int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)

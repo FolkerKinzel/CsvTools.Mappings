@@ -4,12 +4,12 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
-/// Represents a dynamic property of <see cref="Mapping"/> ("late binding") for processing CSV files with header row.
+/// Represents a dynamic property of <see cref="CsvRecordMapping"/> ("late binding") for processing CSV files with header row.
 /// </summary>
 /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
 /// <remarks>
 /// <see cref="ColumnNameProperty{T}"/> 
-/// encapsulates information about access and type conversion, which <see cref="Mapping"/> needs to access the data of the underlying
+/// encapsulates information about access and type conversion, which <see cref="CsvRecordMapping"/> needs to access the data of the underlying
 /// <see cref="CsvRecord"/> object with its CSV column name.
 /// </remarks>
 internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneable
@@ -58,7 +58,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
     {
         _ArgumentNullException.ThrowIfNull(columnNameAliases, nameof(columnNameAliases));
 
-        _wildcardTimeout = GetTimeout(Mapping.RegexTimeout);
+        _wildcardTimeout = GetTimeout(CsvRecordMapping.RegexTimeout);
         ColumnNameAliases = columnNameAliases.OfType<string>().ToArray();
 
         static TimeSpan GetTimeout(int wildcardTimeout)
@@ -73,7 +73,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
     public override object Clone() => MemberwiseClone();
 
     /// <summary>
-    /// Collection of alternative column names of the CSV file, which is used by <see cref="Mapping"/> to access
+    /// Collection of alternative column names of the CSV file, which is used by <see cref="CsvRecordMapping"/> to access
     /// a column of <see cref="CsvRecord"/>.
     /// </summary>
     /// <remarks>

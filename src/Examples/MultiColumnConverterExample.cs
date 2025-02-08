@@ -14,7 +14,7 @@ internal static class MultiColumnConverterExample
     {
         public override bool AcceptsNull => false;
 
-        public ColorConverter(MappingBuilder mapping) : base(mapping, Color.Transparent, true) { }
+        public ColorConverter(CsvRecordMappingBuilder mapping) : base(mapping, Color.Transparent, true) { }
         
         // Copy ctor
         private ColorConverter(ColorConverter other) : base(other) { }
@@ -52,14 +52,14 @@ internal static class MultiColumnConverterExample
     internal static void ParseDataFromSeveralCsvColumns()
     {
         Conv::TypeConverter<byte> byteConverter = new Conv::ByteConverter().ToHexConverter();
-        var mappingBuilder = MappingBuilder.Create();
+        var mappingBuilder = CsvRecordMappingBuilder.Create();
 
         var colorConverter = new ColorConverter(mappingBuilder.AddProperty("A", byteConverter)
                                                               .AddProperty("R", byteConverter)
                                                               .AddProperty("G", byteConverter)
                                                               .AddProperty("B", byteConverter));
 
-        Mapping mapping = mappingBuilder
+        CsvRecordMapping mapping = mappingBuilder
             .AddProperty("ColorName", ["Name"], Conv::StringConverter.CreateNullable())
             .AddProperty("Color", colorConverter)
             .Build();
@@ -94,7 +94,7 @@ internal static class MultiColumnConverterExample
         writer.WriteRecord();
     }
 
-    private static void ShowCsvContentInBrowser(Mapping mapping, string csvPath)
+    private static void ShowCsvContentInBrowser(CsvRecordMapping mapping, string csvPath)
     {
         string htmlPath = Path.Combine(Path.GetDirectoryName(csvPath) ?? "", "colors.htm");
         CreateHtmlFile(htmlPath, csvPath, mapping);

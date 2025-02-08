@@ -43,7 +43,7 @@ internal static class DataTableExample
         // and the accepted data type. Mapping properties and DataColumns don't need to
         // correspond in their number and order and they don't need to match the columns of
         // the CSV file:
-        Mapping mapping = MappingBuilder
+        CsvRecordMapping mapping = CsvRecordMappingBuilder
             .Create()
             .AddProperty("Name", stringConverter)
             .AddProperty("Subject", stringConverter)

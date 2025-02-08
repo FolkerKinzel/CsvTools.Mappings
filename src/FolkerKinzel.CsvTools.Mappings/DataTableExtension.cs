@@ -17,7 +17,7 @@ public static class DataTableExtension
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
     /// <param name="reader">The <see cref="CsvReader"/> to use.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> to be used.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to be used.</param>
     /// 
     /// <remarks>
     /// <para>
@@ -57,7 +57,7 @@ public static class DataTableExtension
     /// the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    public static void ReadCsv(this DataTable dataTable, CsvReader reader, Mapping mapping)
+    public static void ReadCsv(this DataTable dataTable, CsvReader reader, CsvRecordMapping mapping)
     {
         _ArgumentNullException.ThrowIfNull(dataTable, nameof(dataTable));
         _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
@@ -93,7 +93,7 @@ public static class DataTableExtension
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> to be used.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to be used.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
     /// <param name="options">Options for reading the CSV file.</param>
@@ -148,7 +148,7 @@ public static class DataTableExtension
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static void ReadCsv(this DataTable dataTable,
                                string filePath,
-                               Mapping mapping,
+                               CsvRecordMapping mapping,
                                bool isHeaderPresent = true,
                                CsvOpts options = CsvOpts.Default,
                                char delimiter = ',',
@@ -169,7 +169,7 @@ public static class DataTableExtension
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> to be used.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to be used.</param>
     /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used to read the CSV file, or <c>null</c> to determine the <see cref="Encoding"/>
@@ -242,7 +242,7 @@ public static class DataTableExtension
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static void ReadCsvAnalyzed(this DataTable dataTable,
                                        string filePath,
-                                       Mapping mapping,
+                                       CsvRecordMapping mapping,
                                        Header header = Header.ProbablyPresent,
                                        Encoding? textEncoding = null,
                                        int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
@@ -270,7 +270,7 @@ public static class DataTableExtension
     /// also unique when treated case-insensitive.
     /// </para>
     /// </param>
-    /// <param name="mapping">The <see cref="Mapping"/> to be used.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to be used.</param>
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
@@ -278,7 +278,7 @@ public static class DataTableExtension
     /// </para>
     /// <para>
     /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use <see cref="WriteCsv(DataTable, CsvWriter, Mapping)"/>
+    /// This complies with the RFC 4180 standard. If another delimiter is required, use <see cref="WriteCsv(DataTable, CsvWriter, CsvRecordMapping)"/>
     /// instead.
     /// </para>
     /// <para>
@@ -329,7 +329,7 @@ public static class DataTableExtension
     public static void WriteCsv(this DataTable dataTable,
                                 string filePath,
                                 IReadOnlyCollection<string?> columnNames,
-                                Mapping mapping)
+                                CsvRecordMapping mapping)
     {
         using CsvWriter writer = Csv.OpenWrite(filePath, columnNames);
         dataTable.WriteCsv(writer, mapping);
@@ -340,7 +340,7 @@ public static class DataTableExtension
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> whose content is written.</param>
     /// <param name="writer">The <see cref="CsvWriter"/> to be used.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> to be used.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to be used.</param>
     /// 
     /// <remarks>
     /// <para>
@@ -377,7 +377,7 @@ public static class DataTableExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    public static void WriteCsv(this DataTable dataTable, CsvWriter writer, Mapping mapping)
+    public static void WriteCsv(this DataTable dataTable, CsvWriter writer, CsvRecordMapping mapping)
     {
         _ArgumentNullException.ThrowIfNull(dataTable, nameof(dataTable));
         _ArgumentNullException.ThrowIfNull(writer, nameof(writer));

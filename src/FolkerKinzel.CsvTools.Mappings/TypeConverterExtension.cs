@@ -85,7 +85,7 @@ public static class TypeConverterExtension
     /// <remarks>
     /// The converter the method creates uses a simple string split and join operation. For nested CSV better use a
     /// simple <see cref="StringConverter"/> and initialize a separate <see cref="CsvReader"/>, <see cref="CsvWriter"/>,
-    /// and <see cref="Mapping"/> to handle the nested items.
+    /// and <see cref="CsvRecordMapping"/> to handle the nested items.
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>

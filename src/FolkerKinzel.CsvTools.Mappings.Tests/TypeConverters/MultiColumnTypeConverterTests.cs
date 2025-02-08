@@ -10,7 +10,7 @@ public class MultiColumnTypeConverterTests
     {
         public override bool AcceptsNull => false;
 
-        public MultiIntConverter(MappingBuilder mapping) : base(mapping, 0, true) { }
+        public MultiIntConverter(CsvRecordMappingBuilder mapping) : base(mapping, 0, true) { }
         
         public MultiIntConverter(MultiIntConverter other) : base(other) { }
 
@@ -32,7 +32,7 @@ public class MultiColumnTypeConverterTests
     [ExpectedException(typeof(InvalidCastException))]
     public void ConvertToCsv()
     {
-        var conv = new MultiIntConverter(MappingBuilder.Create());
+        var conv = new MultiIntConverter(CsvRecordMappingBuilder.Create());
         conv.ConvertToCsv(null);
     }
 }

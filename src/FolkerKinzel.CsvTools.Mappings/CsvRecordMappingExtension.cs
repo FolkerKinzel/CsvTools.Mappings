@@ -7,15 +7,15 @@ using System.Globalization;
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Extension methods for the <see cref="Mapping"/> class.
+/// Extension methods for the <see cref="CsvRecordMapping"/> class.
 /// </summary>
-public static class MappingExtension
+public static class CsvRecordMappingExtension
 {
     /// <summary>
     /// Fills <paramref name="mapping"/> with the items of 
     /// a collection. 
     /// </summary>
-    /// <param name="mapping">The <see cref="Mapping"/> to fill.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to fill.</param>
     /// <param name="data">The collection whose content is used to fill 
     /// <paramref name="mapping"/>.</param>
     /// <param name="resetExcess">
@@ -30,7 +30,7 @@ public static class MappingExtension
     /// is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="data"/> has more items than the
     /// number of <see cref="DynamicProperty"/> instances in <paramref name="mapping"/>.</exception>
-    /// <exception cref="InvalidOperationException"> The <see cref="Mapping.Record"/> property of
+    /// <exception cref="InvalidOperationException"> The <see cref="CsvRecordMapping.Record"/> property of
     /// <paramref name="mapping"/> is <c>null</c>. Assign a 
     /// <see cref="CsvRecord"/> instance to <paramref name="mapping"/> before calling 
     /// this method.
@@ -41,7 +41,7 @@ public static class MappingExtension
     /// <exception cref="FormatException">
     /// One of the <see cref="TypeConverter{T}"/> instances uses an invalid format string.
     /// </exception>
-    public static void FillWith(this Mapping mapping,
+    public static void FillWith(this CsvRecordMapping mapping,
                                 IEnumerable<object?> data,
                                 bool resetExcess = true)
     {
@@ -74,7 +74,7 @@ public static class MappingExtension
     /// Fills <paramref name="mapping"/> with the fields of 
     /// a <see cref="DataRow"/>.
     /// </summary>
-    /// <param name="mapping">The <see cref="Mapping"/> to fill.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to fill.</param>
     /// <param name="dataRow">The <see cref="DataRow"/> whose content is used to fill 
     /// <paramref name="mapping"/>.</param>
     /// 
@@ -107,7 +107,7 @@ public static class MappingExtension
     /// A value in <paramref name="dataRow"/> does not match the expected data type in 
     /// <paramref name="mapping"/>.
     /// </exception>
-    /// <exception cref="InvalidOperationException"> The <see cref="Mapping.Record"/> property of
+    /// <exception cref="InvalidOperationException"> The <see cref="CsvRecordMapping.Record"/> property of
     /// <paramref name="mapping"/> is <c>null</c>. Assign a 
     /// <see cref="CsvRecord"/> instance to <paramref name="mapping"/> before calling 
     /// this method.
@@ -115,7 +115,7 @@ public static class MappingExtension
     /// <exception cref="FormatException">
     /// One of the <see cref="TypeConverter{T}"/> instances uses an invalid format string.
     /// </exception>
-    public static void FillWith(this Mapping mapping, DataRow dataRow)
+    public static void FillWith(this CsvRecordMapping mapping, DataRow dataRow)
     {
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(dataRow, nameof(dataRow));
@@ -127,7 +127,7 @@ public static class MappingExtension
     /// Fills <paramref name="mapping"/> with the fields of 
     /// a <see cref="DataRow"/>.
     /// </summary>
-    /// <param name="mapping">The <see cref="Mapping"/> to fill.</param>
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to fill.</param>
     /// <param name="dataRow">The <see cref="DataRow"/> whose content is used to fill 
     /// <paramref name="mapping"/>.</param>
     /// <param name="captionDictionary">
@@ -164,7 +164,7 @@ public static class MappingExtension
     /// A value in <paramref name="dataRow"/> does not match the expected data type in 
     /// <paramref name="mapping"/>.
     /// </exception>
-    /// <exception cref="InvalidOperationException"> The <see cref="Mapping.Record"/> property of
+    /// <exception cref="InvalidOperationException"> The <see cref="CsvRecordMapping.Record"/> property of
     /// <paramref name="mapping"/> is <c>null</c>. Assign a 
     /// <see cref="CsvRecord"/> instance to <paramref name="mapping"/> before calling 
     /// this method.
@@ -172,13 +172,13 @@ public static class MappingExtension
     /// <exception cref="FormatException">
     /// One of the <see cref="TypeConverter{T}"/> instances uses an invalid format string.
     /// </exception>
-    internal static void FillWithIntl(this Mapping mapping, DataRow dataRow, Dictionary<string, string> captionDictionary)
+    internal static void FillWithIntl(this CsvRecordMapping mapping, DataRow dataRow, Dictionary<string, string> captionDictionary)
     {
         if (dataRow.RowState == DataRowState.Deleted)
         {
             if (mapping.Record is null)
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(Mapping.Record)));
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(CsvRecordMapping.Record)));
             }
 
             mapping.Record.Clear();

@@ -11,22 +11,22 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Builder for <see cref="Mapping"/> instances.
+/// Builder for <see cref="CsvRecordMapping"/> instances.
 /// </summary>
 /// <remarks>
 /// <para>
-/// An instance of the <see cref="DynamicProperty"/> class represents a dynamic property ("late binding") of the <see cref="Mapping"/> object
-/// that can be used like a regular .NET property if the <see cref="Mapping"/> instance is assigned to a variable that is declared with the keyword
+/// An instance of the <see cref="DynamicProperty"/> class represents a dynamic property ("late binding") of the <see cref="CsvRecordMapping"/> object
+/// that can be used like a regular .NET property if the <see cref="CsvRecordMapping"/> instance is assigned to a variable that is declared with the keyword
 /// <c>dynamic</c>.
 /// </para>
 /// <para>
-/// The <c>AddProperty</c> methods of <see cref="MappingBuilder"/> allow to create and add <see cref="DynamicProperty"/> instances. 
+/// The <c>AddProperty</c> methods of <see cref="CsvRecordMappingBuilder"/> allow to create and add <see cref="DynamicProperty"/> instances. 
 /// The order, in which the <see cref="DynamicProperty"/> instances are added, determines their index in 
-/// the newly created <see cref="Mapping"/> instance. These indexes may differ from the indexes of the columns of the CSV file that these 
+/// the newly created <see cref="CsvRecordMapping"/> instance. These indexes may differ from the indexes of the columns of the CSV file that these 
 /// <see cref="DynamicProperty"/> instances access.
 /// </para>
 /// </remarks>
-public sealed class MappingBuilder
+public sealed class CsvRecordMappingBuilder
 {
     // The builder pattern allows to avoid circular references in the object tree
     // of Mapping.
@@ -35,26 +35,26 @@ public sealed class MappingBuilder
     // As long as MultiColumnTypeConverter<T> takes a MappingBuilder as argument rather
     // than a mapping, all Sub-Mappings in the object tree are unique.
 
-    private Mapping? _mapping;
+    private CsvRecordMapping? _mapping;
 
-    private MappingBuilder() { }
-
-    /// <summary>
-    /// Creates a new <see cref="MappingBuilder"/> instance.
-    /// </summary>
-    /// <returns>The newly created <see cref="MappingBuilder"/> instance.</returns>
-    public static MappingBuilder Create() => new();
+    private CsvRecordMappingBuilder() { }
 
     /// <summary>
-    /// Builds a new <see cref="Mapping"/> instance from the contents of <see cref="MappingBuilder"/>
-    /// and deletes all contents of <see cref="MappingBuilder"/> on return.
+    /// Creates a new <see cref="CsvRecordMappingBuilder"/> instance.
     /// </summary>
-    /// <returns>The newly created <see cref="Mapping"/> instance.</returns>
-    public Mapping Build()
+    /// <returns>The newly created <see cref="CsvRecordMappingBuilder"/> instance.</returns>
+    public static CsvRecordMappingBuilder Create() => new();
+
+    /// <summary>
+    /// Builds a new <see cref="CsvRecordMapping"/> instance from the contents of <see cref="CsvRecordMappingBuilder"/>
+    /// and deletes all contents of <see cref="CsvRecordMappingBuilder"/> on return.
+    /// </summary>
+    /// <returns>The newly created <see cref="CsvRecordMapping"/> instance.</returns>
+    public CsvRecordMapping Build()
     {
-        Mapping? mapping = _mapping;
+        CsvRecordMapping? mapping = _mapping;
         _mapping = null;
-        return mapping ?? new Mapping();
+        return mapping ?? new CsvRecordMapping();
     }
 
     /// <summary>
@@ -72,7 +72,7 @@ public sealed class MappingBuilder
     /// when writing. When reading, in this case, <see cref="TypeConverter{T}.DefaultValue"/> is returned.</param>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
-    /// <returns>The <see cref="MappingBuilder"/> to chain calls.</returns>
+    /// <returns>The <see cref="CsvRecordMappingBuilder"/> to chain calls.</returns>
     /// 
     /// <remarks>Use this method if a CSV file has no header, or, or performance reasons, if the CSV column 
     /// index is known.</remarks>
@@ -94,11 +94,11 @@ public sealed class MappingBuilder
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
-    public MappingBuilder AddProperty<T>(string propertyName,
+    public CsvRecordMappingBuilder AddProperty<T>(string propertyName,
                                          int csvIndex,
                                          TypeConverter<T> converter)
     {
-        _mapping ??= new Mapping();
+        _mapping ??= new CsvRecordMapping();
         _mapping.AddProperty(new IndexProperty<T>(propertyName, csvIndex, converter));
         return this;
     }
@@ -127,7 +127,7 @@ public sealed class MappingBuilder
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
     ///  
-    /// <returns>The <see cref="MappingBuilder"/> to chain calls.</returns>
+    /// <returns>The <see cref="CsvRecordMappingBuilder"/> to chain calls.</returns>
     /// 
     /// <remarks>
     /// <para>
@@ -164,11 +164,11 @@ public sealed class MappingBuilder
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
-    public MappingBuilder AddProperty<T>(string propertyName,
+    public CsvRecordMappingBuilder AddProperty<T>(string propertyName,
                                          IEnumerable<string?> columnNameAliases,
                                          TypeConverter<T> converter)
     {
-        _mapping ??= new Mapping();
+        _mapping ??= new CsvRecordMapping();
 
         _mapping.AddProperty(new ColumnNameProperty<T>(propertyName, columnNameAliases, converter));
         return this;
@@ -186,7 +186,7 @@ public sealed class MappingBuilder
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
     ///  
-    /// <returns>The <see cref="MappingBuilder"/> to chain calls.</returns>
+    /// <returns>The <see cref="CsvRecordMappingBuilder"/> to chain calls.</returns>
     /// 
     /// <remarks>
     /// When using this method, <paramref name="propertyName"/> and the referenced CSV column name must match, 
@@ -218,7 +218,7 @@ public sealed class MappingBuilder
     /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public MappingBuilder AddProperty<T>(string propertyName,
+    public CsvRecordMappingBuilder AddProperty<T>(string propertyName,
                                          TypeConverter<T> converter) 
         => AddProperty(propertyName, [propertyName], converter);
 
@@ -233,7 +233,7 @@ public sealed class MappingBuilder
     /// <param name="converter">An instance derived from the abstract <see cref="MultiColumnTypeConverter{T}"/> 
     /// class. You have to write this class yourself because it depends on the CSV file.</param>
     /// 
-    /// <returns>The <see cref="MappingBuilder"/> to chain calls.</returns>
+    /// <returns>The <see cref="CsvRecordMappingBuilder"/> to chain calls.</returns>
     /// 
     /// <remarks>
     /// Use this method if the dynamic property is based on several columns of the CSV file.
@@ -261,16 +261,16 @@ public sealed class MappingBuilder
     /// <para>- or -</para>
     /// <para>
     /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
-    /// Check this beforehand with <see cref="Mapping.Contains(string)"/>!
+    /// Check this beforehand with <see cref="CsvRecordMapping.Contains(string)"/>!
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
-    public MappingBuilder AddProperty<T>(string propertyName,
+    public CsvRecordMappingBuilder AddProperty<T>(string propertyName,
                                          MultiColumnTypeConverter<T> converter)
     {
-        _mapping ??= new Mapping();
+        _mapping ??= new CsvRecordMapping();
 
         _mapping.AddProperty(new MultiColumnProperty<T>(propertyName, converter));
         return this;

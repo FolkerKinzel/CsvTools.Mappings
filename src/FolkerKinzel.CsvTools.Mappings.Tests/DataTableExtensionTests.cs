@@ -22,7 +22,7 @@ public class DataTableExtensionTests
         table.Rows.Add( 7, -1 );
         table.Rows.Add(42, 4711);
 
-        Mapping mapping = MappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         table.WriteCsv(filePath, ["A", "B"], mapping);
 
@@ -48,7 +48,7 @@ public class DataTableExtensionTests
         table.Rows.Add(7, -1);
         table.Rows.Add(42, 4711);
 
-        Mapping mapping = MappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         table.WriteCsv(filePath, ["A", "B"], mapping);
 

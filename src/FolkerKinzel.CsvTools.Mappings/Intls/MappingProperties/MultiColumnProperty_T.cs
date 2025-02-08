@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.MappingProperties;
 
 /// <summary>
-/// Abstract base class for classes representing a dynamic property of <see cref="Mapping"/> 
+/// Abstract base class for classes representing a dynamic property of <see cref="CsvRecordMapping"/> 
 /// whose data comes from multiple columns of the CSV file.
 /// </summary>
 /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>

@@ -15,7 +15,7 @@ public class MappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TrySetMemberTest1()
     {
-        Mapping wrapper = MappingBuilder.Create().Build();
+        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
 
@@ -34,7 +34,7 @@ public class MappingTests
     [ExpectedException(typeof(Microsoft.CSharp.RuntimeBinder.RuntimeBinderException))]
     public void TrySetMemberTest2()
     {
-        dynamic dyn = new Mapping();
+        dynamic dyn = new CsvRecordMapping();
         dyn.Property = 42;
     }
 
@@ -42,7 +42,7 @@ public class MappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TryGetMemberTest()
     {
-        Mapping wrapper = MappingBuilder.Create().Build();
+        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
 
@@ -62,7 +62,7 @@ public class MappingTests
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "<Pending>")]
     public void TryGetMemberTest2()
     {
-        dynamic dyn = new Mapping();
+        dynamic dyn = new CsvRecordMapping();
         int i = dyn.Property;
     }
 
@@ -74,7 +74,7 @@ public class MappingTests
 
         var rec = new CsvRecord(["Hallo1", "Blabla"], false, true, true);
 
-        Mapping mapping = MappingBuilder
+        CsvRecordMapping mapping = CsvRecordMappingBuilder
             .Create()
             .AddProperty(prop1Name, ["Hallo1"], new Int32Converter().ToNullableConverter())
             .AddProperty(prop2Name, ["Blub", null!, "Bla*"], StringConverter.CreateNullable())
@@ -102,7 +102,7 @@ public class MappingTests
     {
         var rec = new CsvRecord(3);
 
-        Mapping wrapper = MappingBuilder.Create().Build();
+        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
@@ -154,8 +154,8 @@ public class MappingTests
     [TestMethod()]
     public void ContainsTest()
     {
-        Mapping mapping =
-            MappingBuilder.Create().AddProperty("Hallo", StringConverter.CreateNullable()).Build();
+        CsvRecordMapping mapping =
+            CsvRecordMappingBuilder.Create().AddProperty("Hallo", StringConverter.CreateNullable()).Build();
 
         Assert.IsTrue(mapping.Contains("Hallo"));
         Assert.IsFalse(mapping.Contains("Wolli"));
@@ -165,7 +165,7 @@ public class MappingTests
     [TestMethod()]
     public void AddPropertyTest1()
     {
-        Mapping mapping = MappingBuilder.Create().Build();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
 
         Assert.AreEqual(0, mapping.Count);
 
@@ -182,7 +182,7 @@ public class MappingTests
     [ExpectedException(typeof(ArgumentException))]
     public void AddPropertyTest3()
     {
-        Mapping mapping = MappingBuilder.Create().Build();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
 
         TypeConverter<string?> conv = StringConverter.CreateNullable();
 
@@ -205,7 +205,7 @@ public class MappingTests
         record.Values[0] = "42".AsMemory();
         record.Values[1] = "43".AsMemory();
 
-        Mapping mapping = MappingBuilder.Create().Build();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
 
         var intConverter = new Int32Converter();
 
@@ -240,7 +240,7 @@ public class MappingTests
     {
         var rec = new CsvRecord(3);
 
-        Mapping wrapper = MappingBuilder.Create().Build();
+        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
 
         string s = wrapper.ToString();
         Assert.IsNotNull(s);
@@ -294,19 +294,19 @@ public class MappingTests
     }
 
     [TestMethod]
-    public void RegexTimeoutTest1() => Mapping.RegexTimeout = 42;
+    public void RegexTimeoutTest1() => CsvRecordMapping.RegexTimeout = 42;
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void RegexTimeoutTest2() => Mapping.RegexTimeout = 0;
+    public void RegexTimeoutTest2() => CsvRecordMapping.RegexTimeout = 0;
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void RegexTimeoutTest3() => Mapping.RegexTimeout = -17;
+    public void RegexTimeoutTest3() => CsvRecordMapping.RegexTimeout = -17;
 
     [TestMethod]
-    public void RegexTimeoutTest4() => Mapping.RegexTimeout = Timeout.Infinite;
+    public void RegexTimeoutTest4() => CsvRecordMapping.RegexTimeout = Timeout.Infinite;
 
     [TestMethod]
-    public void PropertyNamesTest1() => Assert.AreEqual(0, MappingBuilder.Create().Build().PropertyNames.Count());
+    public void PropertyNamesTest1() => Assert.AreEqual(0, CsvRecordMappingBuilder.Create().Build().PropertyNames.Count());
 }

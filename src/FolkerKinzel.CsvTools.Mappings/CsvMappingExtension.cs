@@ -3,7 +3,7 @@
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Extension methods for writing CSV with <see cref="Mapping"/>s and type conversions.
+/// Extension methods for writing CSV with <see cref="CsvRecordMapping"/>s and type conversions.
 /// </summary>
 public static class CsvMappingExtension
 {
@@ -30,7 +30,7 @@ public static class CsvMappingExtension
     /// also unique when treated case-insensitive.
     /// </para>
     /// </param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -65,7 +65,7 @@ public static class CsvMappingExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       IReadOnlyCollection<string?> columnNames,
-                                      Mapping mapping,
+                                      CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
         => CsvMapping.ToCsvString(data, columnNames, mapping, conversion);
 
@@ -79,7 +79,7 @@ public static class CsvMappingExtension
     /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
     /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -114,7 +114,7 @@ public static class CsvMappingExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       int columnsCount,
-                                      Mapping mapping,
+                                      CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
         => CsvMapping.ToCsvString(data, columnsCount, mapping, conversion);
 
@@ -142,7 +142,7 @@ public static class CsvMappingExtension
     /// also unique when treated case-insensitive.
     /// </para>
     /// </param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -190,7 +190,7 @@ public static class CsvMappingExtension
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       IReadOnlyCollection<string?> columnNames,
-                                      Mapping mapping,
+                                      CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
     {
         using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnNames);
@@ -208,7 +208,7 @@ public static class CsvMappingExtension
     /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
-    /// <param name="mapping">The <see cref="Mapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -251,7 +251,7 @@ public static class CsvMappingExtension
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       int columnsCount,
-                                      Mapping mapping,
+                                      CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
     {
         using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnsCount);
