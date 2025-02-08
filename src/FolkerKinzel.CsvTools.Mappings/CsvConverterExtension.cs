@@ -3,9 +3,9 @@
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Extension methods for writing CSV with <see cref="CsvRecordMapping"/>s and type conversions.
+/// Extension methods for converting collections of any data type to CSV.
 /// </summary>
-public static class CsvMappingExtension
+public static class CsvConverterExtension
 {
     /// <summary>
     /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
@@ -125,7 +125,7 @@ public static class CsvMappingExtension
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
+    /// <param name="data">The data to write as CSV file. Each <typeparamref name="TData"/> instance
     /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnNames">
@@ -187,15 +187,13 @@ public static class CsvMappingExtension
     /// is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl (MethodImplOptions.AggressiveInlining)]
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       IReadOnlyCollection<string?> columnNames,
                                       CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
-    {
-        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnNames);
-        CsvConverter.Write(data, csvWriter, mapping, conversion);
-    }
+        => CsvConverter.Save(data, filePath, columnNames, mapping, conversion);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as CSV file
@@ -204,7 +202,7 @@ public static class CsvMappingExtension
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to write as CSV. Each <typeparamref name="TData"/> instance
+    /// <param name="data">The data to write as CSV file. Each <typeparamref name="TData"/> instance
     /// will be represented with a CSV row. <c>null</c> references in the collection will be skipped.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
@@ -248,14 +246,11 @@ public static class CsvMappingExtension
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       int columnsCount,
                                       CsvRecordMapping mapping,
                                       Action<TData, dynamic> conversion)
-    {
-        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnsCount);
-        CsvConverter.Write(data, csvWriter, mapping, conversion);
-    }
-
+        => CsvConverter.Save(data, filePath, columnsCount, mapping, conversion);
 }
