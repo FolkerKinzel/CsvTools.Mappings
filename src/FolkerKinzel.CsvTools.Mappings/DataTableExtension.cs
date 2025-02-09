@@ -58,35 +58,37 @@ public static class DataTableExtension
     /// the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ReadCsv(this DataTable dataTable, CsvReader reader, CsvRecordMapping mapping)
-    {
-        _ArgumentNullException.ThrowIfNull(dataTable, nameof(dataTable));
-        _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        => CsvConverter.Fill(dataTable, reader, mapping);
+    //{
+    //    _ArgumentNullException.ThrowIfNull(dataTable, nameof(dataTable));
+    //    _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
+    //    _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
-        Dictionary<string, string> captionDictionary = DataTableHelper.CreateCaptionDictionary(dataTable);
+    //    Dictionary<string, string> captionDictionary = DataTableHelper.CreateCaptionDictionary(dataTable);
 
-        try
-        {
-            foreach (CsvRecord record in reader)
-            {
-                mapping.Record = record;
-                DataRow dataRow = dataTable.NewRow();
+    //    try
+    //    {
+    //        foreach (CsvRecord record in reader)
+    //        {
+    //            mapping.Record = record;
+    //            DataRow dataRow = dataTable.NewRow();
 
-                for (int i = 0; i < mapping.Count; i++)
-                {
-                    DynamicProperty prop = mapping[i];
-                    dataRow[captionDictionary[prop.PropertyName]] = prop.Value;
-                }
+    //            for (int i = 0; i < mapping.Count; i++)
+    //            {
+    //                DynamicProperty prop = mapping[i];
+    //                dataRow[captionDictionary[prop.PropertyName]] = prop.Value;
+    //            }
 
-                dataTable.Rows.Add(dataRow);
-            }
-        }
-        catch (KeyNotFoundException e)
-        {
-            throw new ArgumentException(e.Message, nameof(mapping), e);
-        }
-    }
+    //            dataTable.Rows.Add(dataRow);
+    //        }
+    //    }
+    //    catch (KeyNotFoundException e)
+    //    {
+    //        throw new ArgumentException(e.Message, nameof(mapping), e);
+    //    }
+    //}
 
     /// <summary>
     /// Adds the content of a CSV file as <see cref="DataRow"/>s to a <see cref="DataTable"/>.
@@ -147,6 +149,7 @@ public static class DataTableExtension
     /// the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ReadCsv(this DataTable dataTable,
                                string filePath,
                                CsvRecordMapping mapping,
@@ -154,14 +157,15 @@ public static class DataTableExtension
                                CsvOpts options = CsvOpts.Default,
                                char delimiter = ',',
                                Encoding? textEncoding = null)
-    {
-        using var reader = new CsvReader(filePath,
-                                         isHeaderPresent,
-                                         options | CsvOpts.DisableCaching,
-                                         delimiter,
-                                         textEncoding);
-        dataTable.ReadCsv(reader, mapping);
-    }
+        => CsvConverter.Fill(dataTable, filePath, mapping, isHeaderPresent, options, delimiter, textEncoding);
+    //{
+    //    using var reader = new CsvReader(filePath,
+    //                                     isHeaderPresent,
+    //                                     options | CsvOpts.DisableCaching,
+    //                                     delimiter,
+    //                                     textEncoding);
+    //    dataTable.ReadCsv(reader, mapping);
+    //}
 
     /// <summary>
     /// Adds the content of a CSV file as <see cref="DataRow"/>s to a <see cref="DataTable"/>
@@ -241,19 +245,21 @@ public static class DataTableExtension
     /// the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ReadCsvAnalyzed(this DataTable dataTable,
                                        string filePath,
                                        CsvRecordMapping mapping,
                                        Header header = Header.ProbablyPresent,
                                        Encoding? textEncoding = null,
                                        int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
-    {
-        using CsvReader reader = Csv.OpenReadAnalyzed(filePath, header, textEncoding, analyzedLines, true);
-        dataTable.ReadCsv(reader, mapping);
-    }
+        => CsvConverter.FillAnalyzed(dataTable, filePath, mapping, header, textEncoding, analyzedLines);
+    //{
+    //    using CsvReader reader = Csv.OpenReadAnalyzed(filePath, header, textEncoding, analyzedLines, true);
+    //    dataTable.ReadCsv(reader, mapping);
+    //}
 
     /// <summary>
-    /// Writes the content of a <see cref="DataTable"/> as CSV file with header.
+    /// Writes the content of a <see cref="DataTable"/> as a CSV file with header.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> whose content is written.</param>
     /// <param name="filePath">File path of the CSV file.</param>
@@ -327,14 +333,16 @@ public static class DataTableExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void WriteCsv(this DataTable dataTable,
                                 string filePath,
                                 IReadOnlyCollection<string?> columnNames,
                                 CsvRecordMapping mapping)
-    {
-        using CsvWriter writer = Csv.OpenWrite(filePath, columnNames);
-        dataTable.WriteCsv(writer, mapping);
-    }
+        => CsvConverter.Save(dataTable, filePath, columnNames, mapping);
+    //{
+    //    using CsvWriter writer = Csv.OpenWrite(filePath, columnNames);
+    //    dataTable.WriteCsv(writer, mapping);
+    //}
 
     /// <summary>
     /// Writes the content of a <see cref="DataTable"/> as CSV.
@@ -378,22 +386,24 @@ public static class DataTableExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void WriteCsv(this DataTable dataTable, CsvWriter writer, CsvRecordMapping mapping)
-    {
-        _ArgumentNullException.ThrowIfNull(dataTable, nameof(dataTable));
-        _ArgumentNullException.ThrowIfNull(writer, nameof(writer));
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        => CsvConverter.Write(dataTable, writer, mapping);
+    //{
+    //    _ArgumentNullException.ThrowIfNull(dataTable, nameof(dataTable));
+    //    _ArgumentNullException.ThrowIfNull(writer, nameof(writer));
+    //    _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
-        mapping.Record = writer.Record;
+    //    mapping.Record = writer.Record;
 
-        Dictionary<string, string> captionDictionary = DataTableHelper.CreateCaptionDictionary(dataTable);
+    //    Dictionary<string, string> captionDictionary = DataTableHelper.CreateCaptionDictionary(dataTable);
 
-        DataRowCollection rows = dataTable.Rows;
+    //    DataRowCollection rows = dataTable.Rows;
 
-        for (int i = 0; i < rows.Count; i++)
-        {
-            mapping.FillWith(rows[i], captionDictionary);
-            writer.WriteRecord();
-        }
-    }
+    //    for (int i = 0; i < rows.Count; i++)
+    //    {
+    //        mapping.FillWith(rows[i], captionDictionary);
+    //        writer.WriteRecord();
+    //    }
+    //}
 }
