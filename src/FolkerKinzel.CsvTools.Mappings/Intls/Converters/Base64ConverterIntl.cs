@@ -6,13 +6,13 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="byte"/> arrays.
 /// </summary>
-internal sealed class ByteArrayConverterIntl : TypeConverter<byte[]?>
+internal sealed class Base64ConverterIntl : TypeConverter<byte[]?>
 {
-    /// <summary>Initializes a new <see cref="ByteArrayConverter"/> instance.</summary>
+    /// <summary>Initializes a new <see cref="Base64Converter"/> instance.</summary>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
-    internal ByteArrayConverterIntl(bool throwing, byte[]? defaultValue)
+    internal Base64ConverterIntl(bool throwing, byte[]? defaultValue)
         : base(defaultValue, throwing) { }
 
     /// <inheritdoc/>

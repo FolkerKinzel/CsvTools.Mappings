@@ -6,12 +6,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 
 [TestClass()]
-public class ByteArrayConverterTests
+public class Base64ConverterTests
 {
     [TestMethod()]
     public void ByteArrayConverterTest1()
     {
-        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
+        TypeConverter<byte[]?> conv = Base64Converter.CreateNullable();
         Assert.IsNotNull(conv);
         Assert.IsTrue(conv.AcceptsNull);
         Assert.IsNull(conv.Parse(null));
@@ -23,7 +23,7 @@ public class ByteArrayConverterTests
     [ExpectedException(typeof(FormatException))]
     public void ParseTest2()
     {
-        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
+        TypeConverter<byte[]?> conv = Base64Converter.CreateNullable();
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
@@ -33,7 +33,7 @@ public class ByteArrayConverterTests
     [TestMethod]
     public void ParseTest3()
     {
-        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable(false);
+        TypeConverter<byte[]?> conv = Base64Converter.CreateNullable(false);
         Assert.IsNotNull(conv);
 
         Assert.IsNull(conv.Parse(default));
@@ -47,7 +47,7 @@ public class ByteArrayConverterTests
         using var rnd = RandomNumberGenerator.Create();
         rnd.GetBytes(bytes);
 
-        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
+        TypeConverter<byte[]?> conv = Base64Converter.CreateNullable();
 
         string? s = conv.ConvertToString(bytes);
         Assert.IsNotNull(s);
@@ -59,12 +59,12 @@ public class ByteArrayConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(InvalidCastException))]
-    public void InvalidCastTest() => new IndexProperty<byte[]?>("prop", 0, ByteArrayConverter.CreateNullable()).Value = 4711;
+    public void InvalidCastTest() => new IndexProperty<byte[]?>("prop", 0, Base64Converter.CreateNullable()).Value = 4711;
 
     [TestMethod]
     public void CreateNonNullableTest1()
     {
-        TypeConverter<byte[]> conv = ByteArrayConverter.CreateNonNullable();
+        TypeConverter<byte[]> conv = Base64Converter.CreateNonNullable();
         Assert.IsNotNull(conv);
         Assert.IsInstanceOfType<byte[]>(conv.DefaultValue);
         Assert.IsTrue(conv.AcceptsNull);
@@ -76,7 +76,7 @@ public class ByteArrayConverterTests
     [TestMethod]
     public void CreateNullableTest2()
     {
-        TypeConverter<byte[]?> conv = ByteArrayConverter.CreateNullable();
+        TypeConverter<byte[]?> conv = Base64Converter.CreateNullable();
         Assert.IsNotNull(conv);
         Assert.IsNull(conv.DefaultValue);
     }
