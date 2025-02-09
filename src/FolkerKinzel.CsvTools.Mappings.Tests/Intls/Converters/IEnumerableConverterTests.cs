@@ -12,25 +12,6 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters.Tests;
 [TestClass()]
 public class IEnumerableConverterTests
 {
-    [TestMethod]
-    public void MyTestMethod()
-    {
-        var list = new List<int?>
-        {
-            7,
-            9,
-            11
-        };
-
-        TypeConverter<IEnumerable<int?>?> conv = new Int32Converter().ToNullableConverter().ToIEnumerableConverter("::");
-        Assert.IsTrue(conv.AcceptsNull);
-        string? s = conv.ConvertToString(list);
-
-        var result = (IEnumerable<int?>?)conv.Parse(s.AsSpan());
-        Assert.IsNotNull(result);
-        CollectionAssert.AreEqual(list, result!.ToList());
-    }
-
     [TestMethod()]
     public void IEnumerableConverterTest1()
     {
@@ -67,7 +48,39 @@ public class IEnumerableConverterTests
     [ExpectedException(typeof(ArgumentNullException))]
     public void IEnumerableConverterTest2() => _ = new Int32Converter().ToIEnumerableConverter(null!);
 
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void IEnumerableConverterTest2b() => _ = ((Int32Converter?)null)!.ToIEnumerableConverter("::");
+
     [TestMethod()]
     [ExpectedException(typeof(ArgumentException))]
     public void IEnumerableConverterTest3() => _ = new Int32Converter().ToIEnumerableConverter("");
+
+    [TestMethod]
+    public void IEnumerableConverterTest4()
+    {
+        var list = new List<int?>
+        {
+            7,
+            9,
+            11
+        };
+
+        TypeConverter<IEnumerable<int?>?> conv = new Int32Converter().ToNullableConverter().ToIEnumerableConverter("::");
+        Assert.IsTrue(conv.AcceptsNull);
+        string? s = conv.ConvertToString(list);
+
+        var result = (IEnumerable<int?>?)conv.Parse(s.AsSpan());
+        Assert.IsNotNull(result);
+        CollectionAssert.AreEqual(list, result!.ToList());
+    }
+
+    [TestMethod]
+    public void NonNullableTest1()
+    {
+        TypeConverter<IEnumerable<int>?> conv = new Int32Converter().ToIEnumerableConverter("::", false);
+        Assert.IsNotNull(conv);
+        Assert.IsTrue(conv.AcceptsNull);
+        Assert.IsNotNull(conv.DefaultValue);
+    }
 }

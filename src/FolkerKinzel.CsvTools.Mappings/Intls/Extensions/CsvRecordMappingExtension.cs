@@ -64,12 +64,6 @@ internal static class CsvRecordMappingExtension
     {
         if (dataRow.RowState == DataRowState.Deleted)
         {
-            if (mapping.Record is null)
-            {
-                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Res.InstanceIsNull, nameof(CsvRecordMapping.Record)));
-            }
-
-            mapping.Record.Clear();
             return;
         }
 

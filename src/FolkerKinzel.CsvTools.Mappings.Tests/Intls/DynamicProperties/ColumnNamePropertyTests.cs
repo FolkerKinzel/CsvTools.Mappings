@@ -7,13 +7,31 @@ namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties.Tests;
 public class ColumnNamePropertyTests
 {
     [TestMethod]
-    public void NoTargetTest()
+    public void NoTargetTest1()
     {
         TypeConverter<int?> conv = new Int32Converter().ToNullableConverter();
 
         CsvRecordMapping mapping = CsvRecordMappingBuilder
             .Create()
             .AddProperty("NotInCsv", conv)
+            .Build();
+
+        int?[] results = CsvConverter.Parse<int?>("""
+            A
+            42
+            """, mapping, dyn => dyn.NotInCsv);
+        Assert.AreEqual(1, results.Length);
+        Assert.IsFalse(results[0].HasValue);
+    }
+
+    [TestMethod]
+    public void NoTargetTest2()
+    {
+        TypeConverter<int?> conv = new Int32Converter().ToNullableConverter();
+
+        CsvRecordMapping mapping = CsvRecordMappingBuilder
+            .Create()
+            .AddProperty("NotInCsv", ["NotInCsv*"], conv)
             .Build();
 
         int?[] results = CsvConverter.Parse<int?>("""

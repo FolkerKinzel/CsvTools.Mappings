@@ -38,9 +38,6 @@ internal sealed class ListConverter<TItem> : TypeConverter<List<TItem?>?>
     }
 
     public override string? ConvertToString(List<TItem?>? value) => DoConvertToString(value);
-        //=> value is null || value.Count == 0 
-        //    ? null 
-        //    : string.Join(_separator, value.Select(x => _itemsConverter.ConvertToString(x)));
 
     internal string? DoConvertToString(IEnumerable<TItem?>? value)
          => value is null || !value.Any()

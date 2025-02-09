@@ -312,10 +312,10 @@ public static class TypeConverterExtension
     /// is <c>null</c>.</exception>
     /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TypeConverter<List<TItem?>?> ToReadOnlyCollectionConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
-                                                                                    string separator,
-                                                                                    bool nullable = true)
-        => new ListConverter<TItem>(itemsConverter, separator, nullable);
+    public static TypeConverter<ReadOnlyCollection<TItem?>?> ToReadOnlyCollectionConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
+                                                                                                  string separator,
+                                                                                                  bool nullable = true)
+        => new ReadOnlyCollectionConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
     /// Creates a new array converter instance whose items will be converted by 

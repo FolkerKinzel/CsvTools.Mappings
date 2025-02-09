@@ -5,26 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties.Tests;
 
 [TestClass]
-public class SingleColumnPropertyTests
-{
-    [TestMethod]
-    public void TypedPropertyTest1()
-    {
-        var prop1 = new IndexProperty<int>("Prop", 0, new Int32Converter());
-        Assert.AreEqual(0, prop1.DefaultValue);
-
-        CsvRecord record = Utility.CreateCsvRecord(1);
-        prop1.Record = record;
-
-        ITypedProperty<int> typedProp = prop1.AsITypedProperty<int>();
-        Assert.AreEqual(0, typedProp.DefaultValue);
-
-        typedProp.Value = 42;
-        Assert.AreEqual("42", typedProp.Record![0].ToString());
-    }
-}
-
-[TestClass]
 public class IndexPropertyTests
 {
     [TestMethod]

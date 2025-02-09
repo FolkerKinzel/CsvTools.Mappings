@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Net.Mail;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Tests;
 
 [TestClass]
 public class UriConverterTests
 {
-
     [TestMethod]
     public void CreateNonNullableTest1()
     {
@@ -57,5 +57,42 @@ public class UriConverterTests
         Assert.AreEqual(absoluteUriString, conv.ConvertToString(new Uri(absoluteUriString)));
         string relativeUriString = "../relative.htm";
         Assert.AreEqual(relativeUriString, conv.ConvertToString( new Uri(relativeUriString, UriKind.Relative)));
+    }
+}
+
+[TestClass]
+public class MailAddressConverterTests
+{
+    [TestMethod]
+    public void CreateNonNullableTest1()
+    {
+        TypeConverter<MailAddress> conv = MailAddressConverter.CreateNonNullable(new MailAddress("Folker Kinzel <folker@internet.com>"));
+        Assert.IsNotNull(conv);
+        Assert.IsInstanceOfType<MailAddress>(conv.DefaultValue);
+        Assert.IsTrue(conv.AcceptsNull);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentNullException))]
+    public void CreateNonNullableTest3() => _ = UriConverter.CreateNonNullable(null!);
+
+    [TestMethod]
+    public void CreateNullableTest1()
+    {
+        TypeConverter<MailAddress?> conv = MailAddressConverter.CreateNullable();
+        Assert.IsNotNull(conv);
+        Assert.IsNull(conv.DefaultValue);
+        Assert.IsTrue(conv.AcceptsNull);
+        Assert.IsNull(conv.ConvertToString(null));
+        string absoluteUriString = "\"Folker Kinzel\" <folker@internet.com>";
+        Assert.AreEqual(absoluteUriString, conv.ConvertToString(new MailAddress(absoluteUriString)));
+    }
+
+    [TestMethod]
+    public void TryParseTest1()
+    {
+        TypeConverter<MailAddress?> conv = MailAddressConverter.CreateNullable();
+        Assert.IsTrue(conv.TryParse("\"Folker Kinzel\" <folker@internet.com>".AsSpan(), out _));
+        Assert.IsFalse(conv.TryParse("blabla".AsSpan(), out _));
     }
 }

@@ -74,8 +74,9 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     private static void ValidateFormat(string? format)
     {
         ReadOnlySpan<char> span = format.AsSpan();
+        StringComparison comp = StringComparison.OrdinalIgnoreCase;
 
-        if (span.Length == 1 && span[0].ToUpperInvariant() is 'D' or 'X')
+        if (span.Equals("D", comp) || span.Equals("X", comp))
         {
             throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
         }

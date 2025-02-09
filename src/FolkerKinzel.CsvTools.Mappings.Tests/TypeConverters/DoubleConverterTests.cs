@@ -43,5 +43,10 @@ public class DoubleConverterTests
     //[DataRow("R")]
     [DataRow("X")]
     [ExpectedException(typeof(ArgumentException))]
-    public void ValidateFormatTest(string? format) => new DoubleConverter(format: format);
+    public void ValidateFormatTest1(string? format) => _ = new DoubleConverter(format: format);
+
+    [DataTestMethod]
+    [DataRow("DD")]
+    [DataRow("XX")]
+    public void ValidateFormatTest2(string? format) => _ = new DoubleConverter(format: format);
 }

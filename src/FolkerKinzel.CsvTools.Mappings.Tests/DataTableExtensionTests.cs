@@ -20,8 +20,11 @@ public class DataTableExtensionTests
         table.Columns.Add("A", typeof(int));
         table.Columns.Add("B", typeof(int));
 
-        table.Rows.Add( 7, -1 );
+        table.Rows.Add(7, -1);
         table.Rows.Add(42, 4711);
+        table.Rows.Add(55, 44);
+        table.AcceptChanges();
+        table.Rows[2].Delete();
 
         CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
@@ -62,6 +65,37 @@ public class DataTableExtensionTests
     }
 
     [TestMethod]
+    public void DataTableTest3()
+    {
+        var converter = new Int32Converter();
+
+        using var table = new DataTable();
+        table.Columns.Add("A", typeof(int));
+        table.Columns.Add("B", typeof(int));
+
+        table.Rows.Add(7, -1);
+        table.Rows.Add(42, 4711);
+
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+
+        string csv;
+
+        using var stringWriter = new StringWriter();
+        using var csvWriter = new CsvWriter(stringWriter, ["A", "B"]);
+
+        table.WriteCsv(csvWriter, mapping);
+        csv = stringWriter.ToString();
+
+        table.Clear();
+        using var stringReader = new StringReader(csv);
+        using var csvReader = new CsvReader(stringReader);
+        table.ReadCsv(csvReader, mapping);
+
+        CollectionAssert.AreEqual(new object[] { 7, -1 }, table.Rows[0].ItemArray);
+        CollectionAssert.AreEqual(new object[] { 42, 4711 }, table.Rows[1].ItemArray);
+    }
+
+    [TestMethod]
     [ExpectedException(typeof(ArgumentException))]
     public void ReadWithWrongMappingTest1()
     {
@@ -79,5 +113,23 @@ public class DataTableExtensionTests
         using var csvReader = new CsvReader(stringReader);
 
         table.ReadCsv(csvReader, mapping);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(ArgumentException))]
+    public void WriteWithWrongMappingTest1()
+    {
+        var converter = new Int32Converter();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("NotInTable", converter).Build();
+
+        using var table = new DataTable();
+        table.Columns.Add("A", typeof(int));
+        table.Columns.Add("B", typeof(int));
+
+        table.Rows.Add(42, 4711);
+
+        using var stringWriter = new StringWriter();
+        using var csvWriter = new CsvWriter(stringWriter, ["A", "B"]);
+        table.WriteCsv(csvWriter, mapping);
     }
 }
