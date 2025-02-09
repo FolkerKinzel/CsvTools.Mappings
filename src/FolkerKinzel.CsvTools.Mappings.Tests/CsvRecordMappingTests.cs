@@ -72,7 +72,7 @@ public class CsvRecordMappingTests
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
 
-        var rec = new CsvRecord(["Hallo1", "Blabla"], false, true, true);
+        var rec = Utility.CreateCsvRecord(["Hallo1", "Blabla"]);
 
         CsvRecordMapping mapping = CsvRecordMappingBuilder
             .Create()
@@ -100,7 +100,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void GetEnumeratorTest1()
     {
-        var rec = new CsvRecord(3);
+        CsvRecord rec = Utility.CreateCsvRecord(3);
 
         CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
 
@@ -201,7 +201,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void IndexerTest()
     {
-        var record = new CsvRecord(2);
+        CsvRecord record = Utility.CreateCsvRecord(2);
         record.Values[0] = "42".AsMemory();
         record.Values[1] = "43".AsMemory();
 
@@ -238,7 +238,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void ToStringTest()
     {
-        var rec = new CsvRecord(3);
+        CsvRecord rec = Utility.CreateCsvRecord(3);
 
         CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
 

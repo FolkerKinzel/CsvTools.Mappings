@@ -1,16 +1,14 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using FolkerKinzel.CsvTools.Mappings.Resources;
-using System.Text;
 using System.Collections.ObjectModel;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
-internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TItem?>?>
+internal sealed class ReadOnlyCollectionConverter<TItem> : TypeConverter<ReadOnlyCollection<TItem?>?>
 {
     private readonly ListConverter<TItem> _listConverter;
 
-    internal IEnumerableConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
-        : base(nullable ? null : [],
+    internal ReadOnlyCollectionConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
+        : base(nullable ? null : new ReadOnlyCollection<TItem?>(Array.Empty<TItem>()),
                itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)))
     {
         _listConverter = new ListConverter<TItem>(itemsConverter, separator, nullable);
@@ -18,13 +16,14 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
 
     public override bool AcceptsNull => true;
 
-    public override string? ConvertToString(IEnumerable<TItem?>? value)
+    public override string? ConvertToString(ReadOnlyCollection<TItem?>? value)
         => _listConverter.DoConvertToString(value);
 
-    public override bool TryParse(ReadOnlySpan<char> value, out IEnumerable<TItem?>? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out ReadOnlyCollection<TItem?>? result)
     {
         _ = _listConverter.TryParse(value, out List<TItem?>? list);
-        result = list;
+        Debug.Assert(list != null);
+        result = new ReadOnlyCollection<TItem?>(list);
         return true;
     }
 }

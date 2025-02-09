@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
+﻿using FolkerKinzel.CsvTools.Mappings.Tests;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties.Tests;
@@ -12,7 +13,7 @@ public class SingleColumnPropertyTests
         var prop1 = new IndexProperty<int>("Prop", 0, new Int32Converter());
         Assert.AreEqual(0, prop1.DefaultValue);
 
-        var record = new CsvRecord(1);
+        CsvRecord record = Utility.CreateCsvRecord(1);
         prop1.Record = record;
 
         ITypedProperty<int> typedProp = prop1.AsITypedProperty<int>();
