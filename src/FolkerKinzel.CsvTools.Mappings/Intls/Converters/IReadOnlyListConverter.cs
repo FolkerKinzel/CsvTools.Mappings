@@ -1,15 +1,12 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using FolkerKinzel.CsvTools.Mappings.Resources;
-using System.Text;
-using System.Collections.ObjectModel;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 
-internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TItem?>?>
+internal sealed class IReadOnlyListConverter<TItem> : TypeConverter<IReadOnlyList<TItem?>?>
 {
     private readonly ListConverter<TItem> _listConverter;
 
-    internal IEnumerableConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
+    internal IReadOnlyListConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
         : base(nullable ? null : [],
                itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)))
     {
@@ -18,13 +15,14 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
 
     public override bool AcceptsNull => true;
 
-    public override string? ConvertToString(IEnumerable<TItem?>? value)
+    public override string? ConvertToString(IReadOnlyList<TItem?>? value)
         => _listConverter.DoConvertToString(value);
 
-    public override bool TryParse(ReadOnlySpan<char> value, out IEnumerable<TItem?>? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out IReadOnlyList<TItem?>? result)
     {
         _ = _listConverter.TryParse(value, out List<TItem?>? list);
         result = list;
         return true;
     }
 }
+

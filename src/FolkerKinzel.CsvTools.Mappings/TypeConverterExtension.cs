@@ -153,6 +153,106 @@ public static class TypeConverterExtension
         => new IListConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
+    /// Creates a new <see cref="ICollection{T}"/> converter instance whose items will be converted by 
+    /// <paramref name="itemsConverter"/>.
+    /// </summary>
+    /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="ICollection{T}"/>
+    /// objects that the newly created converter can convert.</typeparam>
+    /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance that converts the items.</param>
+    /// <param name="separator">A <see cref="string"/> that separates the items in a field of the CSV file. When parsing
+    /// the CSV, <paramref name="separator"/> will not be part of the results.</param>    
+    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.DefaultValue"/>
+    /// to <c>null</c>; <c>false</c> to have an empty <see cref="ICollection{T}"/> as 
+    /// <see cref="TypeConverter{T}.DefaultValue"/>.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="TypeConverter{T}"/> instance that converts <see cref="ICollection{T}"/>. The value of its 
+    /// <see cref="TypeConverter{T}.Throwing"/> property is derived from <paramref name="itemsConverter"/>.
+    /// </returns>
+    /// 
+    /// <remarks>
+    /// The converter the method creates uses a simple string split and join operation. For nested CSV better use a
+    /// simple <see cref="StringConverter"/> and initialize a separate <see cref="CsvReader"/>, <see cref="CsvWriter"/>,
+    /// and <see cref="CsvRecordMapping"/> to handle the nested items.
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>
+    /// is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TypeConverter<ICollection<TItem?>?> ToICollectionConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
+                                                                                    string separator,
+                                                                                    bool nullable = true)
+        => new ICollectionConverter<TItem>(itemsConverter, separator, nullable);
+
+    /// <summary>
+    /// Creates a new <see cref="IReadOnlyList{T}"/> converter instance whose items will be converted by 
+    /// <paramref name="itemsConverter"/>.
+    /// </summary>
+    /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="IReadOnlyList{T}"/>
+    /// objects that the newly created converter can convert.</typeparam>
+    /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance that converts the items.</param>
+    /// <param name="separator">A <see cref="string"/> that separates the items in a field of the CSV file. When parsing
+    /// the CSV, <paramref name="separator"/> will not be part of the results.</param>    
+    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.DefaultValue"/>
+    /// to <c>null</c>; <c>false</c> to have an empty <see cref="IReadOnlyList{T}"/> as 
+    /// <see cref="TypeConverter{T}.DefaultValue"/>.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="TypeConverter{T}"/> instance that converts <see cref="IReadOnlyList{T}"/>. The value of its 
+    /// <see cref="TypeConverter{T}.Throwing"/> property is derived from <paramref name="itemsConverter"/>.
+    /// </returns>
+    /// 
+    /// <remarks>
+    /// The converter the method creates uses a simple string split and join operation. For nested CSV better use a
+    /// simple <see cref="StringConverter"/> and initialize a separate <see cref="CsvReader"/>, <see cref="CsvWriter"/>,
+    /// and <see cref="CsvRecordMapping"/> to handle the nested items.
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>
+    /// is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TypeConverter<IReadOnlyList<TItem?>?> ToIReadOnlyListConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
+                                                                                        string separator,
+                                                                                        bool nullable = true)
+        => new IReadOnlyListConverter<TItem>(itemsConverter, separator, nullable);
+
+    /// <summary>
+    /// Creates a new <see cref="IReadOnlyCollection{T}"/> converter instance whose items will be converted by 
+    /// <paramref name="itemsConverter"/>.
+    /// </summary>
+    /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="IReadOnlyCollection{T}"/>
+    /// objects that the newly created converter can convert.</typeparam>
+    /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance that converts the items.</param>
+    /// <param name="separator">A <see cref="string"/> that separates the items in a field of the CSV file. When parsing
+    /// the CSV, <paramref name="separator"/> will not be part of the results.</param>    
+    /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.DefaultValue"/>
+    /// to <c>null</c>; <c>false</c> to have an empty <see cref="IReadOnlyCollection{T}"/> as 
+    /// <see cref="TypeConverter{T}.DefaultValue"/>.
+    /// </param>
+    /// <returns>
+    /// A new <see cref="TypeConverter{T}"/> instance that converts <see cref="IReadOnlyCollection{T}"/>. The value of its 
+    /// <see cref="TypeConverter{T}.Throwing"/> property is derived from <paramref name="itemsConverter"/>.
+    /// </returns>
+    /// 
+    /// <remarks>
+    /// The converter the method creates uses a simple string split and join operation. For nested CSV better use a
+    /// simple <see cref="StringConverter"/> and initialize a separate <see cref="CsvReader"/>, <see cref="CsvWriter"/>,
+    /// and <see cref="CsvRecordMapping"/> to handle the nested items.
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>
+    /// is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TypeConverter<IReadOnlyCollection<TItem?>?> 
+        ToIReadOnlyCollectionConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
+                                              string separator,
+                                              bool nullable = true)
+        => new IReadOnlyCollectionConverter<TItem>(itemsConverter, separator, nullable);
+
+    /// <summary>
     /// Creates a new <see cref="List{T}"/> converter instance whose items will be converted by 
     /// <paramref name="itemsConverter"/>.
     /// </summary>
