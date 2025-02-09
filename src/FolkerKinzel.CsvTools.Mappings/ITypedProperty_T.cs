@@ -8,23 +8,32 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// instances.
 /// </summary>
 /// <typeparam name="T">The type of the dynamic properties value.</typeparam>
+/// <remarks>
+/// <note type="tip">
+/// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+/// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
+/// instance.
+/// </note>
+/// </remarks>
 public interface ITypedProperty<T> : IDynamicProperty
 {
     /// <summary>
     /// Allows to get and set the value of the referenced field in the CSV file
     /// without having to use a dynamic property.
     /// </summary>
+    /// 
     /// <remarks>
     /// <para>
     /// This property supports high performance scenarios: boxing and unboxing of 
     /// value types can be omitted in this way.
     /// </para>
-    /// <para>
+    /// <note type="tip">
     /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
-    /// to cast a <see cref="DynamicProperty"/> instance to an <see cref="ITypedProperty{T}"/>
+    /// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
     /// instance.
-    /// </para>
+    /// </note>
     /// </remarks>
+    /// 
     /// <exception cref="InvalidOperationException"><see cref="DynamicProperty.Record"/>
     /// is <c>null</c>. Assign a <see cref="CsvRecord"/> instance to 
     /// <see cref="CsvRecordMapping.Record"/> before accessing this property.</exception>
@@ -52,10 +61,26 @@ public interface ITypedProperty<T> : IDynamicProperty
     /// Gets the value that the <see cref="ITypedProperty{T}"/> returns if parsing 
     /// fails.
     /// </summary>
+    /// 
+    /// <remarks>
+    /// <note type="tip">
+    /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
+    /// instance.
+    /// </note>
+    /// </remarks>
     T? DefaultValue { get; }
 
     /// <summary>
     /// An object implementing <see cref="ITypeConverter{T}"/> that performs the type conversion.
     /// </summary>
+    /// <remarks>
+    /// 
+    /// <note type="tip">
+    /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
+    /// instance.
+    /// </note>
+    /// </remarks>
     ITypeConverter<T> Converter { get; }
 }
