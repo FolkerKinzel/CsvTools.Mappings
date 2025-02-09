@@ -72,7 +72,7 @@ public class CsvRecordMappingTests
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
 
-        var rec = Utility.CreateCsvRecord(["Hallo1", "Blabla"]);
+        CsvRecord rec = Utility.CreateCsvRecord(["Hallo1", "Blabla"]);
 
         CsvRecordMapping mapping = CsvRecordMappingBuilder
             .Create()

@@ -1,6 +1,6 @@
 ﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
-// A namespace alias helps to avoid potential name conflicts
+// A namespace alias helps to avoid name conflicts
 // with the converters from System.ComponentModel
 using Conv = FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using System.Text;

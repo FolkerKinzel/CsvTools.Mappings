@@ -15,7 +15,7 @@ public static class UriConverter
     /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;Uri?&gt;</see> instance.
     /// </summary>
     /// <param name="uriKind">The type of the <see cref="Uri"/>.</param>
-    /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>"/>
+    /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// 
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;Uri?&gt;</see>
     /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>.</returns>
@@ -44,9 +44,9 @@ public static class UriConverter
     {
         _ArgumentNullException.ThrowIfNull(defaultValue, nameof(defaultValue));
 
-        return (uriKind == UriKind.Absolute && !defaultValue.IsAbsoluteUri)
+        return ((uriKind == UriKind.Absolute && !defaultValue.IsAbsoluteUri)
                 || (uriKind == UriKind.Relative && defaultValue.IsAbsoluteUri)
                     ? throw new ArgumentException(Res.IncorrectUriType, nameof(defaultValue))
-                    : (TypeConverter<Uri>)new UriConverterIntl(uriKind, throwing, defaultValue)!;
+                    : new UriConverterIntl(uriKind, throwing, defaultValue))!;
     }
 }

@@ -1,12 +1,11 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-
-using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
-using System.Data;
-using System.ComponentModel;
 using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -16,8 +15,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public static class TypeConverterExtension
 {
     // IMPORTANT: This class MUST remain in this namespace because the
-    // FolkerKinzel.CsvTools.Mappings.TypeConverters namespace can not always been published
-    // because some type names might conflict with System.Component.Model
+    // FolkerKinzel.CsvTools.Mappings.TypeConverters namespace cannot always been published
+    // because some type names conflict with System.Component.Model
 
     /// <summary>
     /// Returns a <see cref="TypeConverter{T}">TypeConverter&lt;<see cref="object"/>&gt;</see>
@@ -246,7 +245,7 @@ public static class TypeConverterExtension
     /// is <c>null</c>.</exception>
     /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static TypeConverter<IReadOnlyCollection<TItem?>?> 
+    public static TypeConverter<IReadOnlyCollection<TItem?>?>
         ToIReadOnlyCollectionConverter<TItem>(this TypeConverter<TItem?> itemsConverter,
                                               string separator,
                                               bool nullable = true)
