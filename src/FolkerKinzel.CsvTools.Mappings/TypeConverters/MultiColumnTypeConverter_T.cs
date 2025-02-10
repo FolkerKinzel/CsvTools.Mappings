@@ -51,16 +51,13 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// by the constructor.)
     /// </para>
     /// </param>
+    /// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="DefaultValue"/> property.</param>
     /// 
     /// <remarks>
     /// The builder pattern is needed to avoid circular references.
     /// </remarks>
     /// 
-    /// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
-    /// <param name="defaultValue">
-    /// The <see cref="DefaultValue"/> to return when a parsing error occurs and
-    /// the <see cref="Throwing"/> property is <c>false</c>.
-    /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="mappingBuilder"/> is <c>null</c>.</exception>
     protected MultiColumnTypeConverter(CsvMappingBuilder mappingBuilder,
                                        T defaultValue,
@@ -112,18 +109,6 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     public bool Throwing { get; }
 
     /// <inheritdoc/>
-    /// <remarks>
-    /// <note type="implement">
-    /// The value may be <c>null</c> for non-nullable reference types
-    /// if two conditions are met at the same time:
-    /// <list type="number">
-    /// <item><see cref="Throwing"/> MUST be <c>true</c> in this case, and</item>
-    /// <item><see cref="TryParse(out T?)"/> MUST
-    /// return <c>false</c> if its result is <see cref="DefaultValue"/> 
-    /// (respectively <c>null</c>).</item>
-    /// </list>
-    /// </note>
-    /// </remarks>
     public T DefaultValue { get; }
 
     /// <inheritdoc/>
