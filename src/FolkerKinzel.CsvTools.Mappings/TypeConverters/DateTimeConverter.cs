@@ -29,6 +29,7 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>, ILocalizable
     /// if <c>false</c>, it doesn't.
     /// </param>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is 
     /// <c>true</c>.</exception>
@@ -40,7 +41,8 @@ public sealed class DateTimeConverter : TypeConverter<DateTime>, ILocalizable
         string? format = "s",
         DateTimeStyles styles = DateTimeStyles.NoCurrentDateDefault | DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind,
         bool parseExact = false,
-        bool throwing = true) : base(default, throwing)
+        bool throwing = true,
+        DateTime defaultValue = default) : base(throwing, defaultValue)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;

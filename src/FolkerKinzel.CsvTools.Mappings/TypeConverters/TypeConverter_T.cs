@@ -20,8 +20,8 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// </para>
 /// <code language="cs" source="..\Examples\Int128Converter.cs"/>
 /// </example>
-public abstract class TypeConverter<T>(T defaultValue,
-                                       bool throwing) : ITypeConverter<T>
+public abstract class TypeConverter<T>(bool throwing,
+                                       T defaultValue) : ITypeConverter<T>
 {
     /// <inheritdoc/>
     public T DefaultValue { get; } = defaultValue;

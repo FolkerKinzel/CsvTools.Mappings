@@ -7,7 +7,7 @@ internal sealed class DBNullConverter<T> : TypeConverter<object>
     private readonly TypeConverter<T> _valueConverter;
 
     internal DBNullConverter(TypeConverter<T> converter)
-        : base(DBNull.Value, converter.Throwing) => _valueConverter = converter;
+        : base(converter.Throwing, DBNull.Value) => _valueConverter = converter;
 
     public override bool AcceptsNull => _valueConverter.AcceptsNull;
 

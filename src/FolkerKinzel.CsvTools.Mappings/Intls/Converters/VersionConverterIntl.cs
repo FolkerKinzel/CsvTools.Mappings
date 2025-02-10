@@ -12,7 +12,7 @@ internal sealed class VersionConverterIntl : TypeConverter<Version?>
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
     internal VersionConverterIntl(bool throwing, Version? defaultValue)
-        : base(defaultValue, throwing) { }
+        : base(throwing, defaultValue) { }
 
     /// <inheritdoc/>
     public override bool AcceptsNull => true;

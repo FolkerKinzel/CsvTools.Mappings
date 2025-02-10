@@ -13,7 +13,7 @@ internal sealed class Base64ConverterIntl : TypeConverter<byte[]?>
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
     internal Base64ConverterIntl(bool throwing, byte[]? defaultValue)
-        : base(defaultValue, throwing) { }
+        : base(throwing, defaultValue) { }
 
     /// <inheritdoc/>
     public override bool AcceptsNull => true;

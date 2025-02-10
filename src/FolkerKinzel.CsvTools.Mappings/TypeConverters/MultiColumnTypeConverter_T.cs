@@ -60,8 +60,8 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="mappingBuilder"/> is <c>null</c>.</exception>
     protected MultiColumnTypeConverter(CsvMappingBuilder mappingBuilder,
-                                       T defaultValue,
-                                       bool throwing)
+                                       bool throwing,
+                                       T defaultValue)
     {
         Mapping = mappingBuilder?.Build() ?? throw new ArgumentNullException(nameof(mappingBuilder));
         Throwing = throwing;

@@ -15,7 +15,7 @@ internal sealed class UriConverterIntl : TypeConverter<Uri?>
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
     internal UriConverterIntl(UriKind uriKind, bool throwing, Uri? defaultValue)
-        : base(defaultValue, throwing)
+        : base(throwing, defaultValue)
     {
         _uriKind = uriKind;
     }

@@ -3,14 +3,11 @@
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="bool"/>.
 /// </summary>
-/// <param name="defaultValue">
-/// The <see cref="TypeConverter{T}.DefaultValue"/> to return when a parsing error occurs and
-/// the <see cref="TypeConverter{T}.Throwing"/> property is <c>false</c>.
-/// </param>
 /// <param name="throwing">Sets the value of the 
 /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-public sealed class BooleanConverter(bool defaultValue = default, bool throwing = true)
-    : TypeConverter<bool>(defaultValue, throwing)
+/// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+public sealed class BooleanConverter(bool throwing = true, bool defaultValue = default)
+    : TypeConverter<bool>(throwing, defaultValue)
 {
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

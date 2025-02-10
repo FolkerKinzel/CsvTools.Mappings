@@ -13,7 +13,7 @@ internal sealed class MailAddressConverterIntl : TypeConverter<MailAddress?>
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
     /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
     internal MailAddressConverterIntl(bool throwing, MailAddress? defaultValue)
-        : base(defaultValue, throwing) { }
+        : base(throwing, defaultValue) { }
 
     /// <inheritdoc/>
     public override bool AcceptsNull => true;

@@ -17,7 +17,7 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
     /// instead of <typeparamref name="T"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
     internal NullableStructConverter(TypeConverter<T> converter)
-        : base(default, converter.Throwing)
+        : base(converter.Throwing, default)
         => _typeConverter = converter;
 
     public override string? ConvertToString(T? value) => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;

@@ -34,12 +34,9 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
     /// </param>
     /// <param name="ignoreCase">A value that indicates whether the parser takes casing into account.
     /// (<c>false</c> for case-sensitive parsing, otherwise, <c>true</c>.)</param>
-    /// <param name="defaultValue">
-    /// The <see cref="TypeConverter{T}.DefaultValue"/> to return when a parsing error occurs and
-    /// the <see cref="TypeConverter{T}.Throwing"/> property is <c>false</c>.
-    /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentException">The value of <paramref name="format"/> is invalid.</exception>"
     public EnumConverter(
@@ -48,9 +45,9 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
 #endif
         string? format = "D",
         bool ignoreCase = true,
-        TEnum defaultValue = default,
-        bool throwing = true)
-        : base(defaultValue, throwing)
+        bool throwing = true,
+        TEnum defaultValue = default)
+        : base(throwing, defaultValue)
     {
         EnumConverter<TEnum>.ValidateFormat(format);
         IgnoreCase = ignoreCase;

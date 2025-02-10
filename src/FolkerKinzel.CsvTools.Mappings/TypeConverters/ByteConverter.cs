@@ -36,6 +36,7 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <example>
     /// <para>
@@ -57,8 +58,9 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
 #endif
                          string? format = "G",
                          NumberStyles styles = NumberStyles.Any,
-                         bool throwing = true)
-        : base(default, throwing)
+                         bool throwing = true,
+                         byte defaultValue = default)
+        : base(throwing, defaultValue)
     {
         ValidateFormat(format);
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;

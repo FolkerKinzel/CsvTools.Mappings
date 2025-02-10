@@ -24,6 +24,8 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// 
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "D", "d", "R", "r", "X", or "x".
     /// </exception>
@@ -33,8 +35,9 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
 #endif
                             string? format = "G",
                             NumberStyles styles = NumberStyles.Any,
-                            bool throwing = true)
-        : base(default, throwing)
+                            bool throwing = true,
+                            decimal defaultValue = default)
+        : base(throwing, defaultValue)
     {
         ValidateFormat(format);
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;

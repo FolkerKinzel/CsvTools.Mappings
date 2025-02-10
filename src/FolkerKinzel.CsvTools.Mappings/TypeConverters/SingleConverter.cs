@@ -24,6 +24,7 @@ public sealed class SingleConverter : TypeConverter<float>, ILocalizable
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "D", "d", "X", or "x".
@@ -34,8 +35,9 @@ public sealed class SingleConverter : TypeConverter<float>, ILocalizable
 #endif
                             string? format = "G9",
                             NumberStyles styles = NumberStyles.Any,
-                           bool throwing = true)
-        : base(default, throwing)
+                            bool throwing = true,
+                            float defaultValue = default)
+        : base(throwing, defaultValue)
     {
         ValidateFormat(format);
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;

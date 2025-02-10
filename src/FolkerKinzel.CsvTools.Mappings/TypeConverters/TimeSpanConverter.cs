@@ -34,8 +34,8 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>, ILocalizable
     /// A value of the <see cref="TimeSpanStyles"/> enum that provides additional information for parsing. (Becomes evaluated
     /// only if <paramref name="parseExact"/> is <c>true</c>.)
     /// </param>
-    /// 
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and 
     /// <paramref name="parseExact"/> is <c>true</c>.</exception>
@@ -49,7 +49,8 @@ public sealed class TimeSpanConverter : TypeConverter<TimeSpan>, ILocalizable
         string? format = "c",
         bool parseExact = false,
         TimeSpanStyles styles = TimeSpanStyles.None,
-        bool throwing = true) : base(default, throwing)
+        bool throwing = true,
+        TimeSpan defaultValue = default) : base(throwing, defaultValue)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Styles = styles;

@@ -11,7 +11,7 @@ public class MultiColumnTypeConverterTests
         public override bool AcceptsNull => false;
 
         public MultiIntConverter(CsvMappingBuilder mapping, bool throwing) 
-            : base(mapping, 0, throwing) { }
+            : base(mapping, throwing, 0) { }
         
         public MultiIntConverter(MultiIntConverter other) : base(other) { }
 

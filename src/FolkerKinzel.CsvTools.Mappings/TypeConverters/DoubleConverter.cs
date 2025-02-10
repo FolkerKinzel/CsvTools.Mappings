@@ -31,6 +31,7 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <example>
     /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
@@ -47,8 +48,9 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
 #endif
                             string? format = "G17",
                             NumberStyles styles = NumberStyles.Any,
-                           bool throwing = true)
-        : base(default, throwing)
+                            bool throwing = true,
+                            double defaultValue = default)
+        : base(throwing, defaultValue)
     {
         ValidateFormat(format);
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;

@@ -29,6 +29,7 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILo
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">The value of <paramref name="styles"/> is invalid.</exception>
@@ -40,7 +41,8 @@ public sealed class DateTimeOffsetConverter : TypeConverter<DateTimeOffset>, ILo
         string? format = "O",
         DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces | DateTimeStyles.RoundtripKind,
         bool parseExact = false,
-        bool throwing = true) : base(default, throwing)
+        bool throwing = true,
+        DateTimeOffset defaultValue = default) : base(throwing, defaultValue)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;

@@ -11,7 +11,7 @@ public class MultiColumnPropertyTests
     {
         public override bool AcceptsNull => true;
 
-        public SumConverter(CsvMappingBuilder mapping) : base(mapping, null, false) { }
+        public SumConverter(CsvMappingBuilder mapping) : base(mapping, false, null) { }
 
         private SumConverter(SumConverter other) : base(other) { }
 

@@ -30,6 +30,7 @@ public sealed class DateOnlyConverter : TypeConverter<DateOnly>, ILocalizable
     /// if <c>false</c>, it doesn't.
     /// </param>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="format"/> is <c>null</c> and <paramref name="parseExact"/> is <c>true</c>.</exception>
     public DateOnlyConverter(
@@ -40,7 +41,8 @@ public sealed class DateOnlyConverter : TypeConverter<DateOnly>, ILocalizable
         string? format = "d",
         DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces,
         bool parseExact = false,
-        bool throwing = true) : base(default, throwing)
+        bool throwing = true,
+        DateOnly defaultValue = default) : base(throwing, defaultValue)
     {
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;
         Format = format;

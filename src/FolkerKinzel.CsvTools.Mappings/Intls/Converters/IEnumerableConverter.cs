@@ -10,8 +10,8 @@ internal sealed class IEnumerableConverter<TItem> : TypeConverter<IEnumerable<TI
     private readonly ListConverter<TItem> _listConverter;
 
     internal IEnumerableConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
-        : base(nullable ? null : [],
-               itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)))
+        : base(itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)),
+               nullable ? null : [])
     {
         _listConverter = new ListConverter<TItem>(itemsConverter, separator, nullable);
     }

@@ -10,7 +10,7 @@ internal sealed class StringConverterIntl : TypeConverter<string?>
     /// Initializes a new <see cref="StringConverter"/> instance.
     /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
     internal StringConverterIntl(string? defaultValue)
-        : base(defaultValue, false) { }
+        : base(false, defaultValue) { }
 
     /// <inheritdoc/>
     public override bool AcceptsNull => true;

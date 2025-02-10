@@ -8,8 +8,8 @@ internal sealed class ReadOnlyCollectionConverter<TItem> : TypeConverter<ReadOnl
     private readonly ListConverter<TItem> _listConverter;
 
     internal ReadOnlyCollectionConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
-        : base(nullable ? null : new ReadOnlyCollection<TItem?>(Array.Empty<TItem>()),
-               itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)))
+        : base(itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)),
+               nullable ? null : new ReadOnlyCollection<TItem?>(Array.Empty<TItem>()))
     {
         _listConverter = new ListConverter<TItem>(itemsConverter, separator, nullable);
     }

@@ -30,6 +30,7 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>, ILocalizable
     /// if <c>false</c>, it doesn't.
     /// </param>
     /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentOutOfRangeException">The value of <paramref name="styles"/> is invalid.</exception>
     public TimeOnlyConverter(
@@ -40,7 +41,8 @@ public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>, ILocalizable
         string? format = "T",
         DateTimeStyles styles = DateTimeStyles.AllowWhiteSpaces,
         bool parseExact = false,
-        bool throwing = true) : base(default, throwing)
+        bool throwing = true,
+        TimeOnly defaultValue = default) : base(throwing, defaultValue)
     {
         ValidateStyles(styles);
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;

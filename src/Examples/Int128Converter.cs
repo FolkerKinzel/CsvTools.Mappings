@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Examples;
 
-public sealed class Int128Converter() : TypeConverter<Int128>(default, true)
+public sealed class Int128Converter() : TypeConverter<Int128>(true, default)
 {
     public override bool AcceptsNull => false;
 

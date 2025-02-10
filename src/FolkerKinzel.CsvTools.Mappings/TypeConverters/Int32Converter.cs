@@ -26,6 +26,8 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// 
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "R" or "r".
     /// </exception>
@@ -35,8 +37,9 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
 #endif
                          string? format = "G",
                          NumberStyles styles = NumberStyles.Any,
-                         bool throwing = true) 
-        : base(default, throwing)
+                         bool throwing = true,
+                         int defaultValue = default) 
+        : base(throwing, defaultValue)
     {
         ValidateFormat(format);
         FormatProvider = formatProvider ?? CultureInfo.InvariantCulture;

@@ -3,20 +3,17 @@
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="char"/>.
 /// </summary>
-/// <param name="defaultValue">
-/// The <see cref="TypeConverter{T}.DefaultValue"/> to return when a parsing error occurs and
-/// the <see cref="TypeConverter{T}.Throwing"/> property is <c>false</c>.
-/// </param>
 /// <param name="throwing">Sets the value of the 
 /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+/// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
 /// 
 /// <example>
 /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
 /// </example>
-public sealed class CharConverter(char defaultValue = default, bool throwing = true)
-    : TypeConverter<char>(defaultValue, throwing)
+public sealed class CharConverter(bool throwing = true, char defaultValue = default)
+    : TypeConverter<char>(throwing, defaultValue)
 {
     /// <inheritdoc/>
     public override bool AcceptsNull => false;

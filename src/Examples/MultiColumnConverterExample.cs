@@ -15,7 +15,7 @@ internal static class MultiColumnConverterExample
         public override bool AcceptsNull => false;
 
         public ColorConverter(CsvMappingBuilder mapping) 
-            : base(mapping, Color.Transparent, true) { }
+            : base(mapping, true, Color.Transparent) { }
         
         // Copy ctor
         private ColorConverter(ColorConverter other) : base(other) { }
