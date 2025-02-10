@@ -9,6 +9,12 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Abstract base class for classes that represent a dynamic property of <see cref="CsvMapping"/>.
 /// </summary>
+/// <remarks>Use <see cref="CsvMappingBuilder"/> to create and add instances to <see cref="CsvMapping"/>.</remarks>
+/// 
+/// <example>
+/// <para>Object serialization with CSV:</para>
+/// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
+/// </example>
 public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
 {
     /// <summary>

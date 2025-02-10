@@ -61,6 +61,11 @@ public static class CsvConverterExtension
     /// method instead.
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="columnNames"/>, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>

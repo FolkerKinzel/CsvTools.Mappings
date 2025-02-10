@@ -12,6 +12,14 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Extension methods for <see cref="TypeConverter{T}"/>.
 /// </summary>
+/// 
+/// <example>
+/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <para>
+/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
+/// <see cref="DataTable"/>: </para>
+/// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+/// </example>
 public static class TypeConverterExtension
 {
     // IMPORTANT: This class MUST remain in this namespace because the
@@ -79,6 +87,15 @@ public static class TypeConverterExtension
     /// <param name="converter">The <see cref="TypeConverter{T}"/> instance that is used as template.</param>
     /// <returns>The newly created <see cref="TypeConverter{T}"/> instance that converts <see cref="Nullable{T}"/>
     /// instead of <typeparamref name="T"/>.</returns>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>
+    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
+    /// <see cref="DataTable"/>: </para>
+    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TypeConverter<T?> ToNullableConverter<T>(this TypeConverter<T> converter)

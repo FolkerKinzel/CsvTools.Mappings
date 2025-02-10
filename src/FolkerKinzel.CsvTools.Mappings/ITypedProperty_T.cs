@@ -8,6 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// instances.
 /// </summary>
 /// <typeparam name="T">The type of the dynamic properties value.</typeparam>
+/// 
 /// <remarks>
 /// <note type="tip">
 /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
@@ -15,6 +16,11 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// instance.
 /// </note>
 /// </remarks>
+/// 
+/// <example>
+/// <para>Object serialization with CSV:</para>
+/// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
+/// </example>
 public interface ITypedProperty<T> : IDynamicProperty
 {
     /// <summary>

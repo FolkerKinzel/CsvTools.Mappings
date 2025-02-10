@@ -38,13 +38,13 @@ internal static class ObjectSerializationExample
 
         using CsvReader<Pupil> pupilsReader =
            CsvConverter.OpenReadAnalyzed<Pupil>(filePath,
-                                              mapping,
-                                              // dyn is mapping as a dynamic variable ("late binding")
-                                              static dyn => new Pupil(dyn.Name,
-                                                                      dyn.Subject,
-                                                                      dyn.LessonDay,
-                                                                      dyn.LessonBegin));
-
+                                                mapping,
+                                                // dyn is mapping as a dynamic variable ("late binding")
+                                                static dyn => new Pupil(dyn.Name,
+                                                                        dyn.Subject,
+                                                                        dyn.LessonDay,
+                                                                        dyn.LessonBegin));
+                                                
         Pupil[] pupils = [.. pupilsReader];
 
         // Write the results to the Console:

@@ -9,6 +9,12 @@ namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>Static class that provides methods for CSV serialization of collections
 /// of any data type.</summary>
+/// 
+/// <example>
+/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <para>Object serialization with CSV:</para>
+/// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+/// </example>
 public static class CsvConverter
 {
     private static readonly Type _mappingType = typeof(CsvMapping);
@@ -314,13 +320,6 @@ public static class CsvConverter
     /// </para>
     /// </remarks>
     /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling 
-    /// has been omitted.</note>
-    /// <para>DataTable serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-    /// </example>
-    /// 
     /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="filePath"/>,
     /// or <paramref name="columnNames"/>, or <paramref name="mapping"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
@@ -405,13 +404,7 @@ public static class CsvConverter
     /// This complies with the RFC 4180 standard. If another delimiter is required, use the 
     /// <see cref="Write"/> method instead.
     /// </remarks>
-    /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
-    /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
-    /// </example>
-    /// 
+    ///
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="columnNames"/>, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
@@ -941,13 +934,6 @@ public static class CsvConverter
     /// </para>
     /// </remarks>
     /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling 
-    /// has been omitted.</note>
-    /// <para>DataTable serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-    /// </example>
-    /// 
     /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="filePath"/>,
     /// or <paramref name="mapping"/> is <c>null</c>.
     /// </exception>
@@ -1034,13 +1020,6 @@ public static class CsvConverter
     /// TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are recognized automatically.
     /// </para>
     /// </remarks>
-    /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling 
-    /// has been omitted.</note>
-    /// <para>DataTable serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-    /// </example>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="filePath"/>,
     /// or <paramref name="mapping"/> is <c>null</c>.

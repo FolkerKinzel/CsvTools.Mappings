@@ -7,6 +7,10 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Extension methods for <see cref="DynamicProperty"/>.
 /// </summary>
+/// <example>
+/// <para>Object serialization with CSV:</para>
+/// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
+/// </example>
 public static class DynamicPropertyExtension 
 {
     /// <summary>
@@ -38,7 +42,6 @@ public static class DynamicPropertyExtension
     /// </remarks>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
     /// <para>Object serialization with CSV:</para>
     /// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
     /// </example>

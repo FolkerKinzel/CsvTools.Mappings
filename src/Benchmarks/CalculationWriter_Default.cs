@@ -1,4 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings;
+﻿using FolkerKinzel.CsvTools;
+using FolkerKinzel.CsvTools.Mappings;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 namespace Benchmarks;
@@ -17,7 +18,7 @@ internal static partial class CalculationWriter
             .AddProperty("Result", doubleConverter)
             .Build();
 
-        return CsvConverter.ToCsv(data, ["First", "Operator", "Second", "Result"], mapping,
+        return data.ToCsv(["First", "Operator", "Second", "Result"], mapping,
             (calc, dyn) =>
             {
                 dyn.First = calc.First;

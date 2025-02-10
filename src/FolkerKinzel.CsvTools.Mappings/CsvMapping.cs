@@ -47,8 +47,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// is the correct type cast with the <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/> method: 
 /// Make sure that you choose the correct nullability of the reference types here. The compiler can't check this.
 /// </para>
-/// 
 /// </remarks>
+/// 
 /// <example>
 /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
 /// <para>
@@ -155,6 +155,11 @@ public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, IC
     /// The <paramref name="index"/> corresponds to the order in which the <see cref="DynamicProperty"/> 
     /// instances had been added to the <see cref="CsvMapping"/>.
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Performance.cs"/>
+    /// </example>
     /// 
     /// <exception cref="ArgumentOutOfRangeException">
     /// <paramref name="index"/> is less than zero or greater than or equal to <see cref="Count"/>.
