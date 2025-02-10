@@ -63,7 +63,7 @@ internal static class ObjectSerializationExample
 
         // Pass the column names of the newly created CSV file:
         pupils.SaveCsv(filePath, ["Name", "Subject", "Weekday", "Begin"], mapping, PupilToCsv);
-        
+
         Console.WriteLine();
         Console.WriteLine(File.ReadAllText(filePath));
     }

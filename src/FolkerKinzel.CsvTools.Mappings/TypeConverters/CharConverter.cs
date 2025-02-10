@@ -9,6 +9,12 @@
 /// </param>
 /// <param name="throwing">Sets the value of the 
 /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+/// 
+/// <example>
+/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <para>Object serialization with CSV:</para>
+/// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
+/// </example>
 public sealed class CharConverter(char defaultValue = default, bool throwing = true)
     : TypeConverter<char>(defaultValue, throwing)
 {

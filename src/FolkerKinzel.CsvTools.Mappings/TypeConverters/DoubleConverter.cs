@@ -7,6 +7,13 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="double"/>.
 /// </summary>
+/// 
+/// <example>
+/// <note type="note">In the following code examples - for easier readability - 
+/// exception handling has been omitted.</note>
+/// <para>Object serialization with CSV:</para>
+/// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
+/// </example>
 public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="DoubleConverter"/> instance.</summary>
@@ -24,6 +31,12 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
+    /// </example>
     /// 
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is "D", "d", "X", or "x".

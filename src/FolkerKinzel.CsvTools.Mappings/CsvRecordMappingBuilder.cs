@@ -7,6 +7,7 @@ using System.Data;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -95,8 +96,8 @@ public sealed class CsvRecordMappingBuilder
     /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public CsvRecordMappingBuilder AddProperty<T>(string propertyName,
-                                         int csvIndex,
-                                         TypeConverter<T> converter)
+                                                  int csvIndex,
+                                                  TypeConverter<T> converter)
     {
         _mapping ??= new CsvRecordMapping();
         _mapping.AddProperty(new IndexProperty<T>(propertyName, csvIndex, converter));
@@ -105,7 +106,7 @@ public sealed class CsvRecordMappingBuilder
 
     /// <summary>
     /// Adds a new <see cref="DynamicProperty"/> instance that accesses a 
-    /// single column of a CSV file with header using a collection of column name aliases.
+    /// single column of a CSV file with a collection of column name aliases.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// <param name="propertyName">The identifier under which the property is addressed. It must follow the 
@@ -165,8 +166,8 @@ public sealed class CsvRecordMappingBuilder
     /// Validating of <paramref name="propertyName"/> takes too long.
     /// </exception>
     public CsvRecordMappingBuilder AddProperty<T>(string propertyName,
-                                         IEnumerable<string?> columnNameAliases,
-                                         TypeConverter<T> converter)
+                                                  IEnumerable<string?> columnNameAliases,
+                                                  TypeConverter<T> converter)
     {
         _mapping ??= new CsvRecordMapping();
 
@@ -176,7 +177,7 @@ public sealed class CsvRecordMappingBuilder
 
     /// <summary>
     /// Adds a new <see cref="DynamicProperty"/> instance that accesses a single 
-    /// column of a CSV file with header using the column name.
+    /// column of a CSV file with its column name.
     /// 
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
@@ -189,18 +190,22 @@ public sealed class CsvRecordMappingBuilder
     /// <returns>The <see cref="CsvRecordMappingBuilder"/> to chain calls.</returns>
     /// 
     /// <remarks>
+    /// <para>
     /// When using this method, <paramref name="propertyName"/> and the referenced CSV column name must match, 
     /// and <paramref name="propertyName"/> must meet the requirements for C# identifiers. Use the 
     /// <see cref="CsvRecord.HasCaseSensitiveColumnNames"/> property to determine whether the comparison is 
     /// case-sensitive.
+    /// </para>
+    /// <para>
+    /// If the column name of the CSV file does not meet the requirements of C# identifiers, use 
+    /// <see cref="AddProperty{T}(string, IEnumerable{string?}, TypeConverter{T})"/> instead.
+    /// </para>
     /// </remarks>
     /// 
     /// <example>
     /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
-    /// <para>
-    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
-    /// <see cref="DataTable"/>: </para>
-    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
     /// </example>
     /// 
     /// <exception cref="ArgumentNullException">
@@ -219,7 +224,7 @@ public sealed class CsvRecordMappingBuilder
     /// </exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public CsvRecordMappingBuilder AddProperty<T>(string propertyName,
-                                         TypeConverter<T> converter) 
+                                                  TypeConverter<T> converter) 
         => AddProperty(propertyName, [propertyName], converter);
 
     /// <summary>
@@ -274,5 +279,26 @@ public sealed class CsvRecordMappingBuilder
 
         _mapping.AddProperty(new MultiColumnProperty<T>(propertyName, converter));
         return this;
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override bool Equals(object? obj)
+    {
+        return base.Equals(obj);
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public override string ToString()
+    {
+        return base.ToString()!;
     }
 }

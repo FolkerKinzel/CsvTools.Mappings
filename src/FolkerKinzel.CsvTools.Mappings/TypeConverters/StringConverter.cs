@@ -24,6 +24,7 @@ public static class StringConverter
     /// </summary>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;String?&gt;</see>
     /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>.</returns>
+    /// 
     /// <example>
     /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
     /// <para>

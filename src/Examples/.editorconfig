@@ -8,3 +8,6 @@
 dotnet_diagnostic.CA1303.severity = none
 
 
+
+# CA1515: Consider making public types internal
+dotnet_diagnostic.CA1515.severity = none

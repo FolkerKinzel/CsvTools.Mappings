@@ -16,7 +16,7 @@ public class TimeSpanConverterTests
         Assert.IsFalse(_conv.AcceptsNull);
         Assert.IsFalse(_conv.ParseExact);
         Assert.AreEqual(_conv.FormatProvider, CultureInfo.InvariantCulture);
-        Assert.AreEqual("g", _conv.Format);
+        Assert.AreEqual("c", _conv.Format);
         Assert.AreEqual(TimeSpanStyles.None, _conv.Styles);
     }
 
@@ -85,5 +85,13 @@ public class TimeSpanConverterTests
     {
         var conv = new TimeSpanConverter(parseExact: true);
         Assert.IsTrue(conv.ParseExact);
+
+        TimeSpan timeSpan = DateTime.Now.TimeOfDay;
+
+        string? tmp = conv.ConvertToString(timeSpan);
+        Assert.IsNotNull(tmp);
+
+        Assert.IsTrue(conv.TryParse(tmp.AsSpan(), out TimeSpan result));
+        Assert.AreEqual(timeSpan, result);
     }
 }

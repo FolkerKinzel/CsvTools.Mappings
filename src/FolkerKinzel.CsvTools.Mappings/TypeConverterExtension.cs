@@ -72,7 +72,7 @@ public static class TypeConverterExtension
     }
 
     /// <summary>
-    /// Creates a new <see cref="Nullable{T}"/> converter instance that's based on <paramref name="converter"/>.
+    /// Creates a new <see cref="Nullable{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="T">The data type that <paramref name="converter"/> can convert. 
     /// <typeparamref name="T"/> must be a <see cref="System.ValueType"/>.</typeparam>
@@ -85,8 +85,7 @@ public static class TypeConverterExtension
         where T : struct => new NullableStructConverter<T>(converter);
 
     /// <summary>
-    /// Creates a new <see cref="IEnumerable{T}"/> converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new <see cref="IEnumerable{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="IEnumerable{T}"/>
     /// objects that the newly created converter can convert.</typeparam>
@@ -119,8 +118,7 @@ public static class TypeConverterExtension
 
 
     /// <summary>
-    /// Creates a new <see cref="IList{T}"/> converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new <see cref="IList{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="IList{T}"/>
     /// objects that the newly created converter can convert.</typeparam>
@@ -152,8 +150,7 @@ public static class TypeConverterExtension
         => new IListConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
-    /// Creates a new <see cref="ICollection{T}"/> converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new <see cref="ICollection{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="ICollection{T}"/>
     /// objects that the newly created converter can convert.</typeparam>
@@ -185,8 +182,7 @@ public static class TypeConverterExtension
         => new ICollectionConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
-    /// Creates a new <see cref="IReadOnlyList{T}"/> converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new <see cref="IReadOnlyList{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="IReadOnlyList{T}"/>
     /// objects that the newly created converter can convert.</typeparam>
@@ -218,8 +214,7 @@ public static class TypeConverterExtension
         => new IReadOnlyListConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
-    /// Creates a new <see cref="IReadOnlyCollection{T}"/> converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new <see cref="IReadOnlyCollection{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="IReadOnlyCollection{T}"/>
     /// objects that the newly created converter can convert.</typeparam>
@@ -252,8 +247,7 @@ public static class TypeConverterExtension
         => new IReadOnlyCollectionConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
-    /// Creates a new <see cref="List{T}"/> converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new <see cref="List{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="List{T}"/>
     /// objects that the newly created converter can convert.</typeparam>
@@ -285,8 +279,7 @@ public static class TypeConverterExtension
         => new ListConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
-    /// Creates a new <see cref="ReadOnlyCollection{T}"/> converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new <see cref="ReadOnlyCollection{T}"/> converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the <see cref="ReadOnlyCollection{T}"/>
     /// objects that the newly created converter can convert.</typeparam>
@@ -318,8 +311,7 @@ public static class TypeConverterExtension
         => new ReadOnlyCollectionConverter<TItem>(itemsConverter, separator, nullable);
 
     /// <summary>
-    /// Creates a new array converter instance whose items will be converted by 
-    /// <paramref name="itemsConverter"/>.
+    /// Creates a new array converter instance.
     /// </summary>
     /// <typeparam name="TItem">The <see cref="Type"/> of the items of the arrays
     /// that the newly created converter can convert.</typeparam>

@@ -8,6 +8,7 @@ internal static partial class CalculationReader
     internal static IList<Calculation> ReadDefault(string csv)
     {
         var doubleConverter = new DoubleConverter();
+
         CsvRecordMapping mapping = CsvRecordMappingBuilder
             .Create()
             .AddProperty("First", doubleConverter)

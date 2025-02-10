@@ -1,5 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Resources;
 using System.Globalization;
+using System.Data;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
@@ -8,6 +9,14 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// </summary>
 /// <typeparam name="TEnum">The .NET enum data type the <see cref="EnumConverter{TEnum}"/>
 /// can convert.</typeparam>
+/// 
+/// <example>
+/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <para>
+/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
+/// <see cref="DataTable"/>: </para>
+/// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+/// </example>
 public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : struct, Enum
 {
     /// <summary>

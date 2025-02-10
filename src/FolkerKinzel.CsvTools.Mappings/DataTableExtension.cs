@@ -183,13 +183,6 @@ public static class DataTableExtension
     /// </para>
     /// </remarks>
     /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling 
-    /// has been omitted.</note>
-    /// <para>DataTable serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-    /// </example>
-    /// 
     /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="filePath"/>,
     /// or <paramref name="mapping"/> is <c>null</c>.
     /// </exception>

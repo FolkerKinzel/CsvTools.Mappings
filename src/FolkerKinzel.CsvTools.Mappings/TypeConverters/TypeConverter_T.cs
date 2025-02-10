@@ -20,13 +20,9 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// 
 /// <example>
 /// <para>
-/// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+/// Writing an own implementation of <see cref="TypeConverter{T}"/> is easy: 
 /// </para>
-/// <para>
-/// (For the sake of easier readability exception handling has been omitted.)
-/// </para>
-/// <img src="images\MultiColumnConverter.png"/>
-/// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+/// <code language="cs" source="..\Examples\Int128Converter.cs"/>
 /// </example>
 public abstract class TypeConverter<T>(T defaultValue,
                                        bool throwing) : ITypeConverter<T>

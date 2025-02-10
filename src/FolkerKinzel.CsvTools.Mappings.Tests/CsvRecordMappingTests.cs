@@ -240,14 +240,9 @@ public class CsvRecordMappingTests
     {
         CsvRecord rec = Utility.CreateCsvRecord(3);
 
-        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
+        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
 
-        string s = wrapper.ToString();
-        Assert.IsNotNull(s);
-        Assert.AreNotEqual(0, s.Length);
-
-
-        s = wrapper.ToString();
+        string s = mapping.ToString();
         Assert.IsNotNull(s);
         Assert.AreNotEqual(0, s.Length);
 
@@ -261,34 +256,34 @@ public class CsvRecordMappingTests
             new IndexProperty<int?>(prop1Name, 0, conv);
 
         var prop2 =
-            new IndexProperty<int?>(prop2Name, 1, conv);
+            new IndexProperty<object>(prop2Name, 1, conv.ToDBNullConverter());
 
         var prop3 =
             new IndexProperty<int?>(prop3Name, 2, conv);
 
-        wrapper.AddProperty(prop1);
-        wrapper.AddProperty(prop2);
-        wrapper.AddProperty(prop3);
+        mapping.AddProperty(prop1);
+        mapping.AddProperty(prop2);
+        mapping.AddProperty(prop3);
 
-        wrapper.Record = rec;
+        mapping.Record = rec;
 
-        s = wrapper.ToString();
+        s = mapping.ToString();
         Assert.IsNotNull(s);
         Assert.AreNotEqual(0, s.Length);
 
-        dynamic dyn = wrapper;
+        dynamic dyn = mapping;
 
         dyn.Prop1 = 1;
         dyn.Prop2 = 2;
         dyn.Prop3 = 3;
 
-        s = wrapper.ToString();
+        s = mapping.ToString();
         Assert.IsNotNull(s);
         Assert.AreNotEqual(0, s.Length);
 
         rec.Values[0] = "bla".AsMemory();
 
-        s = wrapper.ToString();
+        s = mapping.ToString();
         Assert.IsNotNull(s);
         Assert.AreNotEqual(0, s.Length);
     }

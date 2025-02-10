@@ -37,6 +37,12 @@ public static class DynamicPropertyExtension
     /// </note>
     /// </remarks>
     /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="InvalidCastException"><paramref name="property"/> is not of type 
     /// <see cref="ITypedProperty{T}"/>.</exception>"
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

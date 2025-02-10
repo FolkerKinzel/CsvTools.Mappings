@@ -406,6 +406,12 @@ public static class CsvConverter
     /// <see cref="Write"/> method instead.
     /// </remarks>
     /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="columnNames"/>, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
@@ -571,7 +577,8 @@ public static class CsvConverter
     /// 
     /// <remarks>
     /// <note type="tip">
-    /// The optimal parameters can be determined automatically with <see cref="Csv.AnalyzeFile(string, Header, Encoding?, int)"/> - or use
+    /// The optimal parameters can be determined automatically with <see cref="Csv.AnalyzeFile(string, Header, Encoding?, int)"/>
+    /// - or use
     /// <see cref="OpenReadAnalyzed{TResult}(string, CsvRecordMapping, Func{dynamic, TResult}, Header, Encoding?, int)"/>.
     /// </note>
     /// </remarks>
@@ -718,6 +725,12 @@ public static class CsvConverter
     /// or use <see cref="ParseAnalyzed{TResult}(string, CsvRecordMapping, Func{dynamic, TResult}, Header, int)"/>.
     /// </note>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationReader_Default.cs"/>
+    /// </example>
     /// 
     /// <exception cref="ArgumentNullException"> <paramref name="csv" /> is <c>null</c>.</exception>
     /// <exception cref="CsvFormatException">Invalid CSV. The interpretation depends
