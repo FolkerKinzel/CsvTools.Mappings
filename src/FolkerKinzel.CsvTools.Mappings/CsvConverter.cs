@@ -178,6 +178,9 @@ public static class CsvConverter
     /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is truncated and overwritten.
@@ -205,12 +208,13 @@ public static class CsvConverter
                                    string filePath,
                                    IReadOnlyCollection<string?> columnNames,
                                    CsvMapping mapping,
-                                   Action<TData, dynamic> conversion)
+                                   Action<TData, dynamic> conversion,
+                                   Encoding? textEncoding = null)
     {
-        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnNames);
+        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnNames, textEncoding);
         Write(data, csvWriter, mapping, conversion);
     }
-    
+
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
     /// without a header row.
@@ -243,6 +247,9 @@ public static class CsvConverter
     /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
@@ -266,9 +273,10 @@ public static class CsvConverter
                                    string filePath,
                                    int columnsCount,
                                    CsvMapping mapping,
-                                   Action<TData, dynamic> conversion)
+                                   Action<TData, dynamic> conversion,
+                                   Encoding? textEncoding = null)
     {
-        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnsCount);
+        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnsCount, textEncoding);
         Write(data, csvWriter, mapping, conversion);
     }
 
@@ -292,6 +300,9 @@ public static class CsvConverter
     /// </para>
     /// </param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
@@ -343,9 +354,10 @@ public static class CsvConverter
     public static void Save(DataTable dataTable,
                             string filePath,
                             IReadOnlyCollection<string?> columnNames,
-                            CsvMapping mapping)
+                            CsvMapping mapping,
+                            Encoding? textEncoding = null)
     {
-        using CsvWriter writer = Csv.OpenWrite(filePath, columnNames);
+        using CsvWriter writer = Csv.OpenWrite(filePath, columnNames, textEncoding);
         Write(dataTable, writer, mapping);
     }
 

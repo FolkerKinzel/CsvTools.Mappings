@@ -1,6 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
 using System.Data;
+using FolkerKinzel.CsvTools.Mappings.Intls;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
@@ -39,8 +40,16 @@ public static class StringConverter
     /// <summary>
     /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see> instance.
     /// </summary>
+    /// <param name="defaultValue">
+    /// The value of <see cref="TypeConverter{T}.DefaultValue"/>. The <paramref name="defaultValue"/>
+    /// must not be <c>null</c>.
+    /// </param>
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;String&gt;</see>
     /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <see cref="string.Empty"/>.
     /// </returns>
-    public static TypeConverter<string> CreateNonNullable() => new StringConverterIntl("")!;
+    public static TypeConverter<string> CreateNonNullable(string defaultValue = "")
+    {
+        _ArgumentNullException.ThrowIfNull(defaultValue, nameof(defaultValue));
+        return new StringConverterIntl(defaultValue)!;
+    }
 }

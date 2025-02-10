@@ -20,7 +20,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public static class DataTableExtension
 {
     /// <summary>
-    /// Adds CSV content as <see cref="DataRow"/>s to a <see cref="DataTable"/>.
+    /// Adds CSV content as <see cref="DataRow"/>s to the <see cref="DataTable"/>.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
@@ -70,7 +70,7 @@ public static class DataTableExtension
         => CsvConverter.Fill(dataTable, reader, mapping);
 
     /// <summary>
-    /// Adds the content of a CSV file as <see cref="DataRow"/>s to a <see cref="DataTable"/>.
+    /// Adds the content of a CSV file as <see cref="DataRow"/>s to the <see cref="DataTable"/>.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
@@ -139,7 +139,7 @@ public static class DataTableExtension
         => CsvConverter.Fill(dataTable, filePath, mapping, isHeaderPresent, options, delimiter, textEncoding);
 
     /// <summary>
-    /// Adds the content of a CSV file as <see cref="DataRow"/>s to a <see cref="DataTable"/>
+    /// Adds the content of a CSV file as <see cref="DataRow"/>s to the <see cref="DataTable"/>
     /// after the CSV file had been analyzed.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
@@ -219,7 +219,7 @@ public static class DataTableExtension
         => CsvConverter.FillAnalyzed(dataTable, filePath, mapping, header, textEncoding, analyzedLines);
 
     /// <summary>
-    /// Writes the content of a <see cref="DataTable"/> as a CSV file with header.
+    /// Writes the content of the <see cref="DataTable"/> as a CSV file with header.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> whose content is written.</param>
     /// <param name="filePath">File path of the CSV file.</param>
@@ -238,6 +238,9 @@ public static class DataTableExtension
     /// </para>
     /// </param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
@@ -297,11 +300,12 @@ public static class DataTableExtension
     public static void WriteCsv(this DataTable dataTable,
                                 string filePath,
                                 IReadOnlyCollection<string?> columnNames,
-                                CsvMapping mapping)
-        => CsvConverter.Save(dataTable, filePath, columnNames, mapping);
+                                CsvMapping mapping,
+                                Encoding? textEncoding = null)
+        => CsvConverter.Save(dataTable, filePath, columnNames, mapping, textEncoding);
 
     /// <summary>
-    /// Writes the content of a <see cref="DataTable"/> as CSV.
+    /// Writes the content of the <see cref="DataTable"/> as CSV.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> whose content is written.</param>
     /// <param name="writer">The <see cref="CsvWriter"/> to be used.</param>

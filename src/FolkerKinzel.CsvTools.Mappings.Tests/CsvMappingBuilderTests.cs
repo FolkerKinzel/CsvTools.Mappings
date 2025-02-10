@@ -14,6 +14,11 @@ public class CsvMappingBuilderTests
     public void CreateAndBuildTest1()
     {
         var builder = CsvMappingBuilder.Create();
+        Assert.IsNotNull(builder);
+        Assert.IsNotNull(builder.ToString());
+        var other = CsvMappingBuilder.Create();
+        Assert.AreNotEqual(builder, other);
+        Assert.AreNotEqual(builder.GetHashCode(), other.GetHashCode());
         Assert.IsInstanceOfType<CsvMappingBuilder>(builder);
         CsvMapping mapping1 = builder.Build();
         Assert.IsInstanceOfType<CsvMapping>(mapping1);

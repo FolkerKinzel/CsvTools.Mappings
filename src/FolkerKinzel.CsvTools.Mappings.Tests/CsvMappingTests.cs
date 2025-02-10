@@ -15,7 +15,7 @@ public class CsvMappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TrySetMemberTest1()
     {
-        CsvMapping wrapper = CsvMappingBuilder.Create().Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
 
@@ -23,9 +23,9 @@ public class CsvMappingTests
             new ColumnNameProperty<int?>(prop1Name, ["Hallo1"],
             new Int32Converter().ToNullableConverter());
 
-        wrapper.AddProperty(prop1);
+        mapping.AddProperty(prop1);
 
-        dynamic dyn = wrapper;
+        dynamic dyn = mapping;
 
         dyn.Prop1 = 42;
     }

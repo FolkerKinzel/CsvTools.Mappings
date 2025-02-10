@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Text;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -174,6 +175,9 @@ public static class CsvConverterExtension
     /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
@@ -203,8 +207,9 @@ public static class CsvConverterExtension
                                       string filePath,
                                       IReadOnlyCollection<string?> columnNames,
                                       CsvMapping mapping,
-                                      Action<TData, dynamic> conversion)
-        => CsvConverter.Save(data, filePath, columnNames, mapping, conversion);
+                                      Action<TData, dynamic> conversion,
+                                      Encoding? textEncoding = null)
+        => CsvConverter.Save(data, filePath, columnNames, mapping, conversion, textEncoding);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
@@ -238,8 +243,9 @@ public static class CsvConverterExtension
     /// <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
-    /// 
-    /// 
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// 
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
@@ -264,6 +270,7 @@ public static class CsvConverterExtension
                                       string filePath,
                                       int columnsCount,
                                       CsvMapping mapping,
-                                      Action<TData, dynamic> conversion)
-        => CsvConverter.Save(data, filePath, columnsCount, mapping, conversion);
+                                      Action<TData, dynamic> conversion,
+                                      Encoding? textEncoding = null)
+        => CsvConverter.Save(data, filePath, columnsCount, mapping, conversion, textEncoding);
 }
