@@ -26,7 +26,7 @@ public class DataTableExtensionTests
         table.AcceptChanges();
         table.Rows[2].Delete();
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         table.WriteCsv(filePath, ["A", "B"], mapping);
 
@@ -52,7 +52,7 @@ public class DataTableExtensionTests
         table.Rows.Add(7, -1);
         table.Rows.Add(42, 4711);
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         table.WriteCsv(filePath, ["A", "B"], mapping);
 
@@ -76,7 +76,7 @@ public class DataTableExtensionTests
         table.Rows.Add(7, -1);
         table.Rows.Add(42, 4711);
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         string csv;
 
@@ -100,7 +100,7 @@ public class DataTableExtensionTests
     public void ReadWithWrongMappingTest1()
     {
         var converter = new Int32Converter();
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("NotInTable", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("NotInTable", converter).Build();
 
         using var table = new DataTable();
         table.Columns.Add("A", typeof(int));
@@ -120,7 +120,7 @@ public class DataTableExtensionTests
     public void WriteWithWrongMappingTest1()
     {
         var converter = new Int32Converter();
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("NotInTable", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("NotInTable", converter).Build();
 
         using var table = new DataTable();
         table.Columns.Add("A", typeof(int));

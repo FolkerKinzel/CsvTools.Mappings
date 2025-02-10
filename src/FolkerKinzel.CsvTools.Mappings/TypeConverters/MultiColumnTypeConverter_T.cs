@@ -18,7 +18,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// on the CSV file to be processed. Fortunately, writing a derived class is easy:
 /// </para>
 /// <note type="implement">
-/// Pass a <see cref="Mappings.CsvRecordMapping"/> instance that 
+/// Pass a <see cref="Mappings.CsvMapping"/> instance that 
 /// targets the required columns of the CSV file to the constructor, and override the abstract 
 /// members. (For overriding <see cref="ICloneable.Clone"/> using the copy constructor 
 /// (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) is required!)
@@ -42,13 +42,13 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// </summary>
     /// <param name="mappingBuilder">
     /// <para>
-    /// A <see cref="CsvRecordMappingBuilder"/> that builds the
-    /// <see cref="Mappings.CsvRecordMapping"/> to use to access those columns 
+    /// A <see cref="CsvMappingBuilder"/> that builds the
+    /// <see cref="Mappings.CsvMapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.
     /// </para>
     /// <para>Add all required properties to <paramref name="mappingBuilder"/> before
-    /// passing it as argument. (The <see cref="CsvRecordMappingBuilder.Build"/> method is called
-    /// from the constructor.)
+    /// passing it as argument. (The <see cref="CsvMappingBuilder.Build"/> method is called
+    /// by the constructor.)
     /// </para>
     /// </param>
     /// 
@@ -62,7 +62,7 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// the <see cref="Throwing"/> property is <c>false</c>.
     /// </param>
     /// <exception cref="ArgumentNullException"><paramref name="mappingBuilder"/> is <c>null</c>.</exception>
-    protected MultiColumnTypeConverter(CsvRecordMappingBuilder mappingBuilder,
+    protected MultiColumnTypeConverter(CsvMappingBuilder mappingBuilder,
                                        T defaultValue,
                                        bool throwing)
     {
@@ -80,7 +80,7 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     {
         _ArgumentNullException.ThrowIfNull(other, nameof(other));
 
-        Mapping = (CsvRecordMapping)other.Mapping.Clone();
+        Mapping = (CsvMapping)other.Mapping.Clone();
         Throwing = other.Throwing;
         DefaultValue = other.DefaultValue;
     }
@@ -100,10 +100,10 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     public abstract object Clone();
 
     /// <summary>
-    /// The <see cref="Mappings.CsvRecordMapping"/> to use to access those columns 
+    /// The <see cref="Mappings.CsvMapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.
     /// </summary>
-    public CsvRecordMapping Mapping { get; }
+    public CsvMapping Mapping { get; }
 
     /// <inheritdoc/>
     public abstract bool AcceptsNull { get; }

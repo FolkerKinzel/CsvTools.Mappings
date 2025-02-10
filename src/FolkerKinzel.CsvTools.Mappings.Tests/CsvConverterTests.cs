@@ -11,7 +11,7 @@ public class CsvConverterTests
     {
         var conv = new Int32Converter();
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", conv).AddProperty("B", conv).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", conv).AddProperty("B", conv).Build();
 
         using var stringReader = new StringReader("""
             A,B
@@ -34,7 +34,7 @@ public class CsvConverterTests
     {
         var conv = new Int32Converter();
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", conv).AddProperty("B", conv).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", conv).AddProperty("B", conv).Build();
 
         using var stringReader = new StringReader("""
             A,B
@@ -42,10 +42,10 @@ public class CsvConverterTests
             3,4
             """);
 
-        using CsvReader<CsvRecordMapping> tupleReader = CsvConverter.OpenRead<CsvRecordMapping>(stringReader,
+        using CsvReader<CsvMapping> tupleReader = CsvConverter.OpenRead<CsvMapping>(stringReader,
                                                                             mapping, 
                                                                             dyn => dyn);
-        CsvRecordMapping[] results = [.. tupleReader];
+        CsvMapping[] results = [.. tupleReader];
 
         var resultVals = new (int A, int B)[] { (results[0]["A"].AsITypedProperty<int>().Value, results[0]["B"].AsITypedProperty<int>().Value),
                                                 (results[1]["A"].AsITypedProperty<int>().Value, results[1]["B"].AsITypedProperty<int>().Value)

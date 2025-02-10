@@ -22,7 +22,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResult>
 {
     private readonly CsvReader _reader;
-    private readonly CsvRecordMapping _mapping;
+    private readonly CsvMapping _mapping;
     private readonly Func<dynamic, TResult> _conversion;
     private readonly bool _cloneMappings;
     private TResult? _current;
@@ -32,27 +32,27 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// Initializes a new <see cref="CsvReader{TResult}"/> instance.
     /// </summary>
     /// <param name="reader">A <see cref="CsvReader"/> instance.</param>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert the CSV data.</param>
+    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert the CSV data.</param>
     /// <param name="conversion">
     /// <para>
     /// A function that converts the content of <paramref name="mapping"/>
     /// to an instance of <typeparamref name="TResult"/>. 
     /// </para>
     /// <para>
-    /// The function is called for each row in the CSV data and gets the specified <see cref="CsvRecordMapping"/> 
-    /// as argument, filled with the current <see cref="CsvRecord"/> instance. The <see cref="CsvRecordMapping"/> 
+    /// The function is called for each row in the CSV data and gets the specified <see cref="CsvMapping"/> 
+    /// as argument, filled with the current <see cref="CsvRecord"/> instance. The <see cref="CsvMapping"/> 
     /// is passed to the function as <c>dynamic</c> argument: Inside the function the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
     /// <param name="cloneMappings"><c>true</c> to clone <paramref name="mapping"/> each time before passing
-    /// it to <paramref name="conversion"/>, or <c>false</c> to use always the same <see cref="CsvRecordMapping"/> 
-    /// instance. (Cloning is required if <typeparamref name="TResult"/> is <see cref="CsvRecordMapping"/> and the
+    /// it to <paramref name="conversion"/>, or <c>false</c> to use always the same <see cref="CsvMapping"/> 
+    /// instance. (Cloning is required if <typeparamref name="TResult"/> is <see cref="CsvMapping"/> and the
     /// results need to be cached.</param>
     /// 
     internal CsvReader(CsvReader reader,
-                       CsvRecordMapping mapping,
+                       CsvMapping mapping,
                        Func<dynamic, TResult> conversion,
                        bool cloneMappings)
     {
@@ -139,7 +139,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
             return false;
         }
 
-        CsvRecordMapping clone = _cloneMappings ? (CsvRecordMapping)_mapping.Clone() : _mapping;
+        CsvMapping clone = _cloneMappings ? (CsvMapping)_mapping.Clone() : _mapping;
         clone.Record = record;
         result = _conversion(clone);
         return true;

@@ -7,15 +7,15 @@ using System.Globalization;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 
 /// <summary>
-/// Extension methods for the <see cref="CsvRecordMapping"/> class.
+/// Extension methods for the <see cref="CsvMapping"/> class.
 /// </summary>
-internal static class CsvRecordMappingExtension
+internal static class CsvMappingExtension
 {
     /// <summary>
     /// Fills <paramref name="mapping"/> with the fields of 
     /// a <see cref="DataRow"/>.
     /// </summary>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> to fill.</param>
+    /// <param name="mapping">The <see cref="CsvMapping"/> to fill.</param>
     /// <param name="dataRow">The <see cref="DataRow"/> whose content is used to fill 
     /// <paramref name="mapping"/>.</param>
     /// <param name="captionDictionary">
@@ -52,7 +52,7 @@ internal static class CsvRecordMappingExtension
     /// A value in <paramref name="dataRow"/> does not match the expected data type in 
     /// <paramref name="mapping"/>.
     /// </exception>
-    /// <exception cref="InvalidOperationException"> The <see cref="CsvRecordMapping.Record"/> property of
+    /// <exception cref="InvalidOperationException"> The <see cref="CsvMapping.Record"/> property of
     /// <paramref name="mapping"/> is <c>null</c>. Assign a 
     /// <see cref="CsvRecord"/> instance to <paramref name="mapping"/> before calling 
     /// this method.
@@ -60,7 +60,7 @@ internal static class CsvRecordMappingExtension
     /// <exception cref="FormatException">
     /// One of the <see cref="TypeConverter{T}"/> instances uses an invalid format string.
     /// </exception>
-    internal static void FillWith(this CsvRecordMapping mapping, DataRow dataRow, Dictionary<string, string> captionDictionary)
+    internal static void FillWith(this CsvMapping mapping, DataRow dataRow, Dictionary<string, string> captionDictionary)
     {
         if (dataRow.RowState == DataRowState.Deleted)
         {

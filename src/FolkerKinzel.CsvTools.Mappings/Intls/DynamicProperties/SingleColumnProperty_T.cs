@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
 
 /// <summary>
-/// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>
+/// Abstract base class for classes that represent a dynamic property of <see cref="CsvMapping"/>
 /// whose data comes from a single column of the CSV file.
 /// </summary>
 internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedProperty<T>, ICloneable
@@ -79,7 +79,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// </summary>
     /// <param name="value">The value to set.</param>
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to the containing <see cref="CsvRecordMapping"/> before calling this method.</exception>
+    /// to the containing <see cref="CsvMapping"/> before calling this method.</exception>
     /// <exception cref="InvalidCastException">
     /// <para>
     /// <paramref name="value"/> is <c>null</c> and 
@@ -108,7 +108,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// </summary>
     /// <returns>The value.</returns>
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// to <see cref="CsvMapping.Record"/> first before calling this method.</exception>
     /// <exception cref="FormatException">Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
     private T? GetTypedValue()
     {
@@ -129,7 +129,7 @@ internal abstract class SingleColumnProperty<T> : DynamicProperty, ITypedPropert
     /// </summary>
     /// <param name="value">The value to set.</param>
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a <see cref="CsvRecord"/> instance
-    /// to <see cref="CsvRecordMapping.Record"/> first before calling this method.</exception>
+    /// to <see cref="CsvMapping.Record"/> first before calling this method.</exception>
     /// <exception cref="InvalidCastException"><paramref name="value"/> is <c>null</c> and 
     /// <see cref="ITypeConverter{T}.AcceptsNull"/> is <c>false</c>.</exception>
     /// <exception cref="FormatException">The converter uses an invalid format string.</exception>

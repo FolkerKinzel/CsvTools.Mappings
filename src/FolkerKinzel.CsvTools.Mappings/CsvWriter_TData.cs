@@ -11,7 +11,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public sealed class CsvWriter<TData> : IDisposable
 {
     private readonly CsvWriter _writer;
-    private readonly CsvRecordMapping _mapping;
+    private readonly CsvMapping _mapping;
     private readonly Action<TData, dynamic> _conversion;
 
     private bool _disposed;
@@ -20,7 +20,7 @@ public sealed class CsvWriter<TData> : IDisposable
     /// Initializes a new <see cref="CsvWriter{TResult}"/> instance.
     /// </summary>
     /// <param name="writer">A <see cref="CsvWriter"/> instance.</param>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert 
+    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert 
     /// <typeparamref name="TData"/> to CSV.</param>
     /// <param name="conversion">
     /// <para>
@@ -30,7 +30,7 @@ public sealed class CsvWriter<TData> : IDisposable
     /// <para>
     /// <paramref name="conversion"/> is called with each call to <see cref="Write(TData)"/> and it
     /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
-    /// arguments. The <see cref="CsvRecordMapping"/>
+    /// arguments. The <see cref="CsvMapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the method the registered 
     /// <see cref="DynamicProperty"/> instances can be used like 
     /// regular .NET properties, but without IntelliSense ("late binding").
@@ -44,7 +44,7 @@ public sealed class CsvWriter<TData> : IDisposable
     /// <exception cref="ArgumentNullException"><paramref name="writer"/>, or <paramref name="mapping"/>, 
     /// or <paramref name="conversion"/> is <c>null</c>.</exception>
     public CsvWriter(CsvWriter writer,
-                     CsvRecordMapping mapping,
+                     CsvMapping mapping,
                      Action<TData, dynamic> conversion)
     {
         _ArgumentNullException.ThrowIfNull(writer, nameof(writer));

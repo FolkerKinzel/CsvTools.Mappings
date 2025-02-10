@@ -10,7 +10,7 @@ public class CsvReaderTests
     public void ResetTest()
     {
         using var stringReader = new StringReader("");
-        using CsvReader<dynamic> objectReader = CsvConverter.OpenRead(stringReader, CsvRecordMappingBuilder.Create().Build(), dyn => dyn);
+        using CsvReader<dynamic> objectReader = CsvConverter.OpenRead(stringReader, CsvMappingBuilder.Create().Build(), dyn => dyn);
         ((IEnumerator)objectReader).Reset();
     }
 
@@ -19,7 +19,7 @@ public class CsvReaderTests
     {
         using var stringReader = new StringReader("Hi");
         using CsvReader<dynamic> objectReader = CsvConverter.OpenRead(stringReader, 
-                                                                      CsvRecordMappingBuilder.Create().Build(), 
+                                                                      CsvMappingBuilder.Create().Build(), 
                                                                       dyn => dyn, 
                                                                       isHeaderPresent: false);
         Assert.AreEqual(1, objectReader.AsWeakEnumerable().Count());

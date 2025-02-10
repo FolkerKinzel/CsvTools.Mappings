@@ -9,13 +9,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
 [TestClass()]
-public class CsvRecordMappingTests
+public class CsvMappingTests
 {
     [TestMethod()]
     [ExpectedException(typeof(InvalidOperationException))]
     public void TrySetMemberTest1()
     {
-        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
+        CsvMapping wrapper = CsvMappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
 
@@ -34,7 +34,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(Microsoft.CSharp.RuntimeBinder.RuntimeBinderException))]
     public void TrySetMemberTest2()
     {
-        dynamic dyn = new CsvRecordMapping();
+        dynamic dyn = new CsvMapping();
         dyn.Property = 42;
     }
 
@@ -42,7 +42,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(InvalidOperationException))]
     public void TryGetMemberTest()
     {
-        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
+        CsvMapping wrapper = CsvMappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
 
@@ -62,7 +62,7 @@ public class CsvRecordMappingTests
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "<Pending>")]
     public void TryGetMemberTest2()
     {
-        dynamic dyn = new CsvRecordMapping();
+        dynamic dyn = new CsvMapping();
         int i = dyn.Property;
     }
 
@@ -74,7 +74,7 @@ public class CsvRecordMappingTests
 
         CsvRecord rec = Utility.CreateCsvRecord(["Hallo1", "Blabla"]);
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder
+        CsvMapping mapping = CsvMappingBuilder
             .Create()
             .AddProperty(prop1Name, ["Hallo1"], new Int32Converter().ToNullableConverter())
             .AddProperty(prop2Name, ["Blub", null!, "Bla*"], StringConverter.CreateNullable())
@@ -102,7 +102,7 @@ public class CsvRecordMappingTests
     {
         CsvRecord rec = Utility.CreateCsvRecord(3);
 
-        CsvRecordMapping wrapper = CsvRecordMappingBuilder.Create().Build();
+        CsvMapping wrapper = CsvMappingBuilder.Create().Build();
 
         const string prop1Name = "Prop1";
         const string prop2Name = "Prop2";
@@ -154,8 +154,8 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void ContainsTest()
     {
-        CsvRecordMapping mapping =
-            CsvRecordMappingBuilder.Create().AddProperty("Hallo", StringConverter.CreateNullable()).Build();
+        CsvMapping mapping =
+            CsvMappingBuilder.Create().AddProperty("Hallo", StringConverter.CreateNullable()).Build();
 
         Assert.IsTrue(mapping.Contains("Hallo"));
         Assert.IsFalse(mapping.Contains("Wolli"));
@@ -165,7 +165,7 @@ public class CsvRecordMappingTests
     [TestMethod()]
     public void AddPropertyTest1()
     {
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().Build();
 
         Assert.AreEqual(0, mapping.Count);
 
@@ -182,7 +182,7 @@ public class CsvRecordMappingTests
     [ExpectedException(typeof(ArgumentException))]
     public void AddPropertyTest3()
     {
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().Build();
 
         TypeConverter<string?> conv = StringConverter.CreateNullable();
 
@@ -205,7 +205,7 @@ public class CsvRecordMappingTests
         record.Values[0] = "42".AsMemory();
         record.Values[1] = "43".AsMemory();
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().Build();
 
         var intConverter = new Int32Converter();
 
@@ -240,7 +240,7 @@ public class CsvRecordMappingTests
     {
         CsvRecord rec = Utility.CreateCsvRecord(3);
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().Build();
 
         string s = mapping.ToString();
         Assert.IsNotNull(s);
@@ -289,19 +289,19 @@ public class CsvRecordMappingTests
     }
 
     [TestMethod]
-    public void RegexTimeoutTest1() => CsvRecordMapping.RegexTimeout = 42;
+    public void RegexTimeoutTest1() => CsvMapping.RegexTimeout = 42;
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void RegexTimeoutTest2() => CsvRecordMapping.RegexTimeout = 0;
+    public void RegexTimeoutTest2() => CsvMapping.RegexTimeout = 0;
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentOutOfRangeException))]
-    public void RegexTimeoutTest3() => CsvRecordMapping.RegexTimeout = -17;
+    public void RegexTimeoutTest3() => CsvMapping.RegexTimeout = -17;
 
     [TestMethod]
-    public void RegexTimeoutTest4() => CsvRecordMapping.RegexTimeout = Timeout.Infinite;
+    public void RegexTimeoutTest4() => CsvMapping.RegexTimeout = Timeout.Infinite;
 
     [TestMethod]
-    public void PropertyNamesTest1() => Assert.AreEqual(0, CsvRecordMappingBuilder.Create().Build().PropertyNames.Count());
+    public void PropertyNamesTest1() => Assert.AreEqual(0, CsvMappingBuilder.Create().Build().PropertyNames.Count());
 }

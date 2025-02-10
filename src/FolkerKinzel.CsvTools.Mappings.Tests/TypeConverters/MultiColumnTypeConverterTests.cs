@@ -10,7 +10,7 @@ public class MultiColumnTypeConverterTests
     {
         public override bool AcceptsNull => false;
 
-        public MultiIntConverter(CsvRecordMappingBuilder mapping, bool throwing) 
+        public MultiIntConverter(CsvMappingBuilder mapping, bool throwing) 
             : base(mapping, 0, throwing) { }
         
         public MultiIntConverter(MultiIntConverter other) : base(other) { }
@@ -31,20 +31,20 @@ public class MultiColumnTypeConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void CtorTest() => _ = new MultiIntConverter((CsvRecordMappingBuilder?)null!, false);
+    public void CtorTest() => _ = new MultiIntConverter((CsvMappingBuilder?)null!, false);
 
     [TestMethod]
     [ExpectedException(typeof(InvalidCastException))]
     public void ConvertToCsvTest1()
     {
-        var conv = new MultiIntConverter(CsvRecordMappingBuilder.Create(), false);
+        var conv = new MultiIntConverter(CsvMappingBuilder.Create(), false);
         conv.ConvertToCsv(null);
     }
 
     [TestMethod]
     public void ParseTest1()
     {
-        var conv = new MultiIntConverter(CsvRecordMappingBuilder.Create(), false);
+        var conv = new MultiIntConverter(CsvMappingBuilder.Create(), false);
         Assert.AreEqual(0, conv.Parse());
     }
 
@@ -52,7 +52,7 @@ public class MultiColumnTypeConverterTests
     [ExpectedException (typeof(FormatException))]
     public void ParseTest2()
     {
-        var conv = new MultiIntConverter(CsvRecordMappingBuilder.Create(), true);
+        var conv = new MultiIntConverter(CsvMappingBuilder.Create(), true);
         Assert.AreEqual(0, conv.Parse());
     }
 }

@@ -15,7 +15,7 @@ internal static partial class CalculationReader
                                                         | NumberStyles.AllowLeadingSign
                                                         | NumberStyles.AllowDecimalPoint);
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder
+        CsvMapping mapping = CsvMappingBuilder
             .Create()
             .AddProperty("First", doubleConverter)
             .AddProperty("Operator", new CharConverter())

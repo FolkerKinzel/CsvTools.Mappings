@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Abstract base class for classes that represent a dynamic property of <see cref="CsvRecordMapping"/>.
+/// Abstract base class for classes that represent a dynamic property of <see cref="CsvMapping"/>.
 /// </summary>
 public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
 {
@@ -61,7 +61,7 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// </summary>
     /// <remarks>
     /// <para>
-    /// If the containing <see cref="CsvRecordMapping"/> instance is assigned to a <c>dynamic</c> 
+    /// If the containing <see cref="CsvMapping"/> instance is assigned to a <c>dynamic</c> 
     /// variable, the runtime will do all the required casting operations automatically.
     /// </para>
     /// <para>
@@ -71,12 +71,12 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// to process value types without boxing and unboxing.)
     /// </para>
     /// </remarks>
-    /// <seealso cref="CsvRecordMapping.Record"/>
+    /// <seealso cref="CsvMapping.Record"/>
     /// <seealso cref="ITypedProperty{T}.Value"/>
     /// <seealso cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
     /// 
     /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a 
-    /// <see cref="CsvRecord"/> instance to the containing <see cref="CsvRecordMapping"/> before accessing 
+    /// <see cref="CsvRecord"/> instance to the containing <see cref="CsvMapping"/> before accessing 
     /// this property.
     /// </exception>
     /// <exception cref="InvalidCastException">
@@ -111,7 +111,7 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// <inheritdoc/>
     /// <remarks>
     /// <see cref="DynamicProperty"/> gets this instance from the containing 
-    /// <see cref="CsvRecordMapping"/> instance.
+    /// <see cref="CsvMapping"/> instance.
     /// </remarks>
     [DisallowNull]
     public abstract CsvRecord? Record { get; protected internal set; }

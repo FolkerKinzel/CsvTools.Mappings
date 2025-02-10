@@ -36,7 +36,7 @@ public interface ITypedProperty<T> : IDynamicProperty
     /// 
     /// <exception cref="InvalidOperationException"><see cref="DynamicProperty.Record"/>
     /// is <c>null</c>. Assign a <see cref="CsvRecord"/> instance to 
-    /// <see cref="CsvRecordMapping.Record"/> before accessing this property.</exception>
+    /// <see cref="CsvMapping.Record"/> before accessing this property.</exception>
     /// <exception cref="InvalidCastException">
     /// When setting the value,
     /// <paramref name="value"/> is <c>null</c> and 

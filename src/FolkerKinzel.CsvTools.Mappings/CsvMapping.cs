@@ -16,20 +16,20 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// Mapping for <see cref="CsvRecord"/> instances.
 /// </summary>
 /// <remarks>
-/// <para>Use <see cref="CsvRecordMappingBuilder"/> to create an instance.</para>
+/// <para>Use <see cref="CsvMappingBuilder"/> to create an instance.</para>
 /// <para>
 /// The class allows you to index the data of the <see cref="CsvRecord"/>
 /// object in a sequence of your choice, to access the data with .NET properties dynamically implemented at runtime ("late binding"), and to 
-/// perform type conversions automatically. In order to be able to use the dynamic properties of the <see cref="CsvRecordMapping"/> class like
-/// regular .NET properties, the <see cref="CsvRecordMapping"/> instance has to be assigned to a variable that is declared with the keyword 
+/// perform type conversions automatically. In order to be able to use the dynamic properties of the <see cref="CsvMapping"/> class like
+/// regular .NET properties, the <see cref="CsvMapping"/> instance has to be assigned to a variable that is declared with the keyword 
 /// <c>dynamic</c>.
 /// </para>
 /// <para>
 /// Use the methods of the <see cref="CsvConverter"/> class or the corresponding extension methods to perform read and write operations with the 
-/// <see cref="CsvRecordMapping"/>.
+/// <see cref="CsvMapping"/>.
 /// </para>
 /// <para>
-/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances of the <see cref="CsvRecordMapping"/> 
+/// In order to support high-performance scenarios, the <see cref="DynamicProperty"/> instances of the <see cref="CsvMapping"/> 
 /// alternatively can be accessed directly without having to use dynamic .NET properties:
 /// </para>
 /// <list type="bullet">
@@ -58,7 +58,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
 /// </example>
-public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicProperty>, ICloneable
+public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, ICloneable
 {
     private class PropertyCollection : KeyedCollection<string, DynamicProperty>
     {
@@ -72,7 +72,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     private CsvRecord? _record;
 
     /// <summary>
-    /// Initializes a new <see cref="CsvRecordMapping"/> instance. 
+    /// Initializes a new <see cref="CsvMapping"/> instance. 
     /// </summary>
     /// <remarks>
     /// <note type="important">
@@ -80,9 +80,9 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     /// has to be assigned to <see cref="Record"/>.
     /// </note>
     /// </remarks>
-    internal CsvRecordMapping() { }
+    internal CsvMapping() { }
 
-    private CsvRecordMapping(CsvRecordMapping other)
+    private CsvMapping(CsvMapping other)
     {
         foreach (DynamicProperty prop in other)
         {
@@ -93,7 +93,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     }
 
     /// <inheritdoc/>
-    public object Clone() => new CsvRecordMapping(this);
+    public object Clone() => new CsvMapping(this);
 
     /// <summary>
     /// Maximum time (in milliseconds) that can be used to resolve a CSV column 
@@ -137,12 +137,12 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
 
     /// <summary>
     /// Gets the number of <see cref="DynamicProperty"/> instances in the 
-    /// <see cref="CsvRecordMapping"/>.
+    /// <see cref="CsvMapping"/>.
     /// </summary>
     public int Count => _dynProps.Count;
 
     /// <summary>
-    /// Returns the property names, which are currently registered in the <see cref="CsvRecordMapping"/>.
+    /// Returns the property names, which are currently registered in the <see cref="CsvMapping"/>.
     /// </summary>
     public IEnumerable<string> PropertyNames => _dynProps.Select(x => x.PropertyName);
 
@@ -153,7 +153,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     /// 
     /// <remarks>
     /// The <paramref name="index"/> corresponds to the order in which the <see cref="DynamicProperty"/> 
-    /// instances had been added to the <see cref="CsvRecordMapping"/>.
+    /// instances had been added to the <see cref="CsvMapping"/>.
     /// </remarks>
     /// 
     /// <exception cref="ArgumentOutOfRangeException">
@@ -171,7 +171,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     /// <exception cref="ArgumentException">
     /// There was no <see cref="DynamicProperty"/> found whose 
     /// <see cref="DynamicProperty.PropertyName"/> property matches <paramref name="propertyName"/>. Check this beforehand with
-    /// <see cref="CsvRecordMapping.Contains(string?)"/>.
+    /// <see cref="CsvMapping.Contains(string?)"/>.
     /// </exception>
     public DynamicProperty this[string propertyName] => _dynProps[propertyName];
 
@@ -181,12 +181,12 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     /// <param name="property">The <see cref="DynamicProperty"/> to be added.</param>
     /// <exception cref="ArgumentException">
     /// A <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
-    /// Check this beforehand with <see cref="CsvRecordMapping.Contains(string)"/>!
+    /// Check this beforehand with <see cref="CsvMapping.Contains(string)"/>!
     /// </exception>
     internal void AddProperty(DynamicProperty property) => this._dynProps.Add(property);
 
     /// <summary>
-    /// Examines whether a <see cref="DynamicProperty"/> instance is registered in the <see cref="CsvRecordMapping"/>
+    /// Examines whether a <see cref="DynamicProperty"/> instance is registered in the <see cref="CsvMapping"/>
     /// under the name that is specified with <paramref name="propertyName"/>.
     /// </summary>
     /// <param name="propertyName">The <see cref="DynamicProperty.PropertyName"/> of the <see cref="DynamicProperty"/> instance
@@ -210,7 +210,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     /// <param name="binder">Informationen über die aufrufende dynamische Eigenschaft.</param>
     /// <param name="value">Das Objekt, das der dynamisch implementierten Eigenschaft zugewiesen wird.</param>
     /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die bereits zuvor als <see cref="DynamicProperty"/>
-    /// im <see cref="CsvRecordMapping"/>-Objekt registriert wurde.</returns>
+    /// im <see cref="CsvMapping"/>-Objekt registriert wurde.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> ist <c>null</c>. (Das kann nur passieren,
     /// wenn die Methode direkt aus eigenem Code aufgerufen wird.)</exception>
     /// 
@@ -254,7 +254,7 @@ public sealed class CsvRecordMapping : DynamicObject, IEnumerable<DynamicPropert
     /// <param name="binder">Informationen über die aufrufende dynamische Eigenschaft.</param>
     /// <param name="result">Das Objekt, das den Rückgabewert der dynamisch implementierten Eigenschaft darstellt.</param>
     /// <returns><c>true</c>, wenn auf eine Eigenschaft zugegriffen wurde, die zuvor als <see cref="DynamicProperty"/>
-    /// im <see cref="CsvRecordMapping"/>-Objekt registriert wurde.</returns>
+    /// im <see cref="CsvMapping"/>-Objekt registriert wurde.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="binder"/> ist <c>null</c>. (Das kann nur passieren,
     /// wenn die Methode direkt aus eigenem Code aufgerufen wird.)</exception>
     /// 

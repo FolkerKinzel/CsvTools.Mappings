@@ -11,7 +11,7 @@ public class ColumnNamePropertyTests
     {
         TypeConverter<int?> conv = new Int32Converter().ToNullableConverter();
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder
+        CsvMapping mapping = CsvMappingBuilder
             .Create()
             .AddProperty("NotInCsv", conv)
             .Build();
@@ -29,7 +29,7 @@ public class ColumnNamePropertyTests
     {
         TypeConverter<int?> conv = new Int32Converter().ToNullableConverter();
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder
+        CsvMapping mapping = CsvMappingBuilder
             .Create()
             .AddProperty("NotInCsv", ["NotInCsv*"], conv)
             .Build();

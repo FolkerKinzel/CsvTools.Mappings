@@ -8,7 +8,7 @@ public class CsvWriterTests
     {
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, 1);
-        using var objectWriter = new CsvWriter<object>(csvWriter, CsvRecordMappingBuilder.Create().Build(), (o, dyn) => { });
+        using var objectWriter = new CsvWriter<object>(csvWriter, CsvMappingBuilder.Create().Build(), (o, dyn) => { });
 
         Assert.AreEqual(',', objectWriter.Delimiter);
     }

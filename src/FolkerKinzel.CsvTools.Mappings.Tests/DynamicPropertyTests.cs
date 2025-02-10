@@ -69,7 +69,7 @@ public class DynamicPropertyTests
     public void ColumnNameTests1()
     {
         var conv = new Int32Converter();
-        var mapping = CsvRecordMappingBuilder
+        var mapping = CsvMappingBuilder
             .Create()
             .AddProperty("Prop1", conv)
             .AddProperty("Prop2", 1, conv)

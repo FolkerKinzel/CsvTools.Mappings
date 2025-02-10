@@ -15,21 +15,21 @@ namespace Benchmarks;
 public class AccessBenchmark
 {
     private readonly string _csv;
-    private readonly CsvRecordMapping _indexWrapper;
-    private readonly CsvRecordMapping _nameWrapper;
+    private readonly CsvMapping _indexWrapper;
+    private readonly CsvMapping _nameWrapper;
 
     public AccessBenchmark()
     {
         _csv = Properties.Resources.Test1;
         TypeConverter<string> conv = StringConverter.CreateNonNullable();
-        _indexWrapper = CsvRecordMappingBuilder
+        _indexWrapper = CsvMappingBuilder
             .Create()
             .AddProperty("Column0", 0, conv)
             .AddProperty("Column1", 1, conv)
             .AddProperty("Column2", 2, conv)
             .Build();
 
-        _nameWrapper = CsvRecordMappingBuilder
+        _nameWrapper = CsvMappingBuilder
             .Create()
             .AddProperty("Column0", conv)
             .AddProperty("Column1", conv)

@@ -9,7 +9,7 @@ internal static partial class CalculationWriter
     {
         var doubleConverter = new DoubleConverter();
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder
+        CsvMapping mapping = CsvMappingBuilder
             .Create()
             .AddProperty("First", doubleConverter)
             .AddProperty("Operator", new CharConverter())

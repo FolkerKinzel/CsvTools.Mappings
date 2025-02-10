@@ -30,7 +30,7 @@ public static class CsvConverterExtension
     /// also unique when treated case-insensitive.
     /// </para>
     /// </param>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -68,7 +68,7 @@ public static class CsvConverterExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       IReadOnlyCollection<string?> columnNames,
-                                      CsvRecordMapping mapping,
+                                      CsvMapping mapping,
                                       Action<TData, dynamic> conversion)
         => CsvConverter.ToCsv(data, columnNames, mapping, conversion);
 
@@ -82,7 +82,7 @@ public static class CsvConverterExtension
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
     /// a CSV row.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -120,7 +120,7 @@ public static class CsvConverterExtension
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       int columnsCount,
-                                      CsvRecordMapping mapping,
+                                      CsvMapping mapping,
                                       Action<TData, dynamic> conversion)
         => CsvConverter.ToCsv(data, columnsCount, mapping, conversion);
 
@@ -148,7 +148,7 @@ public static class CsvConverterExtension
     /// also unique when treated case-insensitive.
     /// </para>
     /// </param>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -197,7 +197,7 @@ public static class CsvConverterExtension
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       IReadOnlyCollection<string?> columnNames,
-                                      CsvRecordMapping mapping,
+                                      CsvMapping mapping,
                                       Action<TData, dynamic> conversion)
         => CsvConverter.Save(data, filePath, columnNames, mapping, conversion);
 
@@ -212,7 +212,7 @@ public static class CsvConverterExtension
     /// a CSV row.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
-    /// <param name="mapping">The <see cref="CsvRecordMapping"/> used to convert a
+    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
@@ -258,7 +258,7 @@ public static class CsvConverterExtension
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       int columnsCount,
-                                      CsvRecordMapping mapping,
+                                      CsvMapping mapping,
                                       Action<TData, dynamic> conversion)
         => CsvConverter.Save(data, filePath, columnsCount, mapping, conversion);
 }

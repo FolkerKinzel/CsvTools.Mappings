@@ -1,10 +1,10 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FolkerKinzel.CsvTools.Mappings.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.Extensions.Tests;
 
 [TestClass]
-public class CsvRecordMappingExtensionTests
+public class CsvMappingExtensionTests
 {
     public TestContext? TestContext { get; set; }
 
@@ -14,7 +14,7 @@ public class CsvRecordMappingExtensionTests
         var converter = new Int32Converter();
         (int A, int B)[] values = [(7, -1), (42, 4711)];
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         string csv = values.ToCsv(["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
@@ -29,7 +29,7 @@ public class CsvRecordMappingExtensionTests
         var converter = new Int32Converter();
         (int A, int B)[] values = [(7, -1), (42, 4711)];
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", 0, converter).AddProperty("B", 1, converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", 0, converter).AddProperty("B", 1, converter).Build();
 
         string csv = values.ToCsv(2, mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
@@ -44,7 +44,7 @@ public class CsvRecordMappingExtensionTests
         var converter = new Int32Converter();
         (int A, int B)[] values = [(7, -1), (42, 4711)];
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         string csv = values.ToCsv(["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
@@ -61,7 +61,7 @@ public class CsvRecordMappingExtensionTests
         var converter = new Int32Converter();
         (int A, int B)[] values = [(7, -1), (42, 4711)];
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         values.SaveCsv(filePath, ["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
@@ -80,7 +80,7 @@ public class CsvRecordMappingExtensionTests
         var converter = new Int32Converter();
         (int A, int B)[] values = [(7, -1), (42, 4711)];
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", 0, converter).AddProperty("B", 1, converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", 0, converter).AddProperty("B", 1, converter).Build();
 
         values.SaveCsv(filePath, 2, mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
@@ -98,7 +98,7 @@ public class CsvRecordMappingExtensionTests
         var converter = new Int32Converter();
         (int A, int B)[] values = [(7, -1), (42, 4711)];
 
-        CsvRecordMapping mapping = CsvRecordMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
+        CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
         values.SaveCsv(filePath, ["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
