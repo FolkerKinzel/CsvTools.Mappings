@@ -5,7 +5,7 @@
             <a href="https://learn.microsoft.com/dotnet/api/system.dbnull.value" target="_blank" rel="noopener noreferrer">DBNull.Value</a>.
             <a href="https://learn.microsoft.com/dotnet/api/system.dbnull.value" target="_blank" rel="noopener noreferrer">DBNull.Value</a> is the 
             <a href="7f4b11f0-28c3-4719-760d-f1f38299d48e.htm">DefaultValue</a> of this <a href="4f4d61ef-73fd-6f9c-9735-d13b649e046d.htm">TypeConverter<span id="LST9A2F338B_3" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST9A2F338B_4" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a> instance.
-            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.1+df54185deedead2d7b235eeb99a2470373a685db<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">static</span> <span class="identifier">TypeConverter</span>&lt;<span class="identifier">Object</span>&gt; <span class="identifier">ToDBNullConverter</span>&lt;T&gt;(
+            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.1+c23233ffbfb36c4b5a9a7f27d5e689275b3d6a5a<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">static</span> <span class="identifier">TypeConverter</span>&lt;<span class="identifier">Object</span>&gt; <span class="identifier">ToDBNullConverter</span>&lt;T&gt;(
 	<span class="keyword">this</span> <span class="identifier">TypeConverter</span>&lt;T&gt; <span class="parameter">converter</span>
 )
 </code></pre></div></div><div class="codeSnippet is-hidden" data-codeSnippetLanguage="vb"><div class="codeHeader"><span class="codeHeaderTitle">VB</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-vb">&lt;<span class="identifier">ExtensionAttribute</span>&gt;
@@ -105,40 +105,9 @@ internal static class DataTableExample
         Console.WriteLine("Csv file:");
         Console.WriteLine();
         Console.WriteLine(File.ReadAllText(filePath));
-
-        WriteConsole(dataTable);
-    }
-
-    private static void WriteConsole(DataTable dataTable)
-    {
         Console.WriteLine();
         Console.WriteLine("Content of the refilled DataTable:");
-
-        foreach (DataRow? dataRow in dataTable.Rows)
-        {
-            if (dataRow is null)
-            {
-                continue;
-            }
-
-            const int padding = 15;
-
-            for (int i = 0; i &lt; dataTable.Columns.Count; i++)
-            {
-                object o = dataRow[i];
-                Console.Write(o switch
-                {
-                    null =&gt; "&lt;null&gt;".PadRight(padding),
-                    DBNull dBNull =&gt; "&lt;DBNull&gt;".PadRight(padding),
-                    string s when s.Length == 0 =&gt; "\"\"".PadRight(padding),
-                    TimeOnly ts =&gt; ts.ToString(CultureInfo.InvariantCulture).PadRight(padding),
-                    _ =&gt; o.ToString()?.PadRight(padding)
-                });
-                Console.Write(' ');
-            }
-
-            Console.WriteLine();
-        }
+        Utility.WriteConsole(dataTable);
     }
 
     /* 

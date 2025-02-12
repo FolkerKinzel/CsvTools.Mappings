@@ -7,24 +7,22 @@ using System.Text;
 
 namespace Examples;
 
-internal sealed record Pupil(string? Name, string? Subject, DayOfWeek? LessonDay, TimeSpan? LessonBegin);
+internal sealed record Pupil(string? Name, string? Subject, DayOfWeek? LessonDay, TimeOnly? LessonBegin);
 
 internal static class ObjectSerializationExample
 {
     public static void CsvReadWritePupils(string filePath)
     {
-        // Create a nonstandard CSV-File
-        File.WriteAllText(filePath, """
-                Unterrichtstag;Unterrichtsbeginn;Vollständiger Name;Unterrichtsfach;
-                Wednesday;14:30;Susi;Piano
-                Thursday;15:15;Carl Czerny;Piano;
-                ;;Frederic Chopin
-                """, Encoding.Unicode);
+        Pupil[] pupils = [
+                            new("Susi", "Piano", DayOfWeek.Wednesday, new TimeOnly(14, 30)),
+                            new("Carl Czerny", "Piano", DayOfWeek.Thursday, new TimeOnly(15, 15)),
+                            new("Frederic Chopin", "Piano", null, null)
+                         ];
 
         // Reuse a converter for more than one property:
         Conv::TypeConverter<string?> stringConverter = Conv::StringConverter.CreateNullable();
 
-        // Initialize a Mapping that retrieves the data from
+        // Initialize a Mapping that maps the data from
         // the CSV-Columns and converts it to the right data type.
         // Aliases with wildcards can be used to match the column-headers
         // of the CSV file. 
@@ -33,9 +31,23 @@ internal static class ObjectSerializationExample
             .AddProperty("Name", ["*name"], stringConverter)
             .AddProperty("Subject", ["*subject", "*fach"], stringConverter)
             .AddProperty("LessonDay", ["*day", "*tag"], new Conv::EnumConverter<DayOfWeek>().ToNullableConverter())
-            .AddProperty("LessonBegin", ["*begin?"], new Conv::TimeSpanConverter().ToNullableConverter())
+            .AddProperty("LessonBegin", ["*begin?"], new Conv::TimeOnlyConverter().ToNullableConverter())
             .Build();
 
+        // Create a nonstandard CSV-File as UTF-16 LE
+        pupils.SaveCsv(filePath, 
+                       ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"],
+                       mapping, 
+                       (pupil, dyn) =>
+                       {
+                           dyn.Name = pupil.Name;
+                           dyn.Subject = pupil.Subject;
+                           dyn.LessonDay = pupil.LessonDay;
+                           dyn.LessonBegin = pupil.LessonBegin;
+                       },
+                       textEncoding: Encoding.Unicode);
+        
+        // Reading analyzed will auto-detect the UTF-16 encoding:
         using CsvReader<Pupil> pupilsReader =
            CsvConverter.OpenReadAnalyzed<Pupil>(filePath,
                                                 mapping,
@@ -45,39 +57,20 @@ internal static class ObjectSerializationExample
                                                                         dyn.LessonDay,
                                                                         dyn.LessonBegin));
                                                 
-        Pupil[] pupils = [.. pupilsReader];
+        pupils = [.. pupilsReader];
 
         // Write the results to the Console:
         foreach (Pupil pupil in pupils)
         {
             Console.WriteLine(pupil);
         }
-
-        static void PupilToCsv(Pupil pupil, dynamic dyn)
-        {
-            dyn.Name = pupil.Name;
-            dyn.LessonBegin = pupil.LessonBegin;
-            dyn.LessonDay = pupil.LessonDay;
-            dyn.Subject = pupil.Subject;
-        }
-
-        // Pass the column names of the newly created CSV file:
-        pupils.SaveCsv(filePath, ["Name", "Subject", "Weekday", "Begin"], mapping, PupilToCsv);
-
-        Console.WriteLine();
-        Console.WriteLine(File.ReadAllText(filePath));
     }
 }
 
 /*
 Console output: 
 
-Pupil { Name = Susi, Subject = Piano, LessonDay = Wednesday, LessonBegin = 14:30:00 }
-Pupil { Name = Carl Czerny, Subject = Piano, LessonDay = Thursday, LessonBegin = 15:15:00 }
-Pupil { Name = Frederic Chopin, Subject = , LessonDay = , LessonBegin =  }
-
-Name,Subject,Weekday,Begin
-Susi,Piano,3,
-Carl Czerny,Piano,4,
-Frederic Chopin,,,
+Pupil { Name = Susi, Subject = Piano, LessonDay = Wednesday, LessonBegin = 14:30 }
+Pupil { Name = Carl Czerny, Subject = Piano, LessonDay = Thursday, LessonBegin = 15:15 }
+Pupil { Name = Frederic Chopin, Subject = Piano, LessonDay = , LessonBegin =  }
 */

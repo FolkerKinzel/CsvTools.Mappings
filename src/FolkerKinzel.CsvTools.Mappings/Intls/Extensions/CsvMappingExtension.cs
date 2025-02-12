@@ -62,10 +62,7 @@ internal static class CsvMappingExtension
     /// </exception>
     internal static void FillWith(this CsvMapping mapping, DataRow dataRow, Dictionary<string, string> captionDictionary)
     {
-        if (dataRow.RowState == DataRowState.Deleted)
-        {
-            return;
-        }
+        Debug.Assert(dataRow.RowState != DataRowState.Deleted);
 
         int i = 0;
 

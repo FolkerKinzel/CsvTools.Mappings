@@ -127,8 +127,13 @@ public static class CsvConverter
 
         for (int i = 0; i < rows.Count; i++)
         {
-            mapping.FillWith(rows[i], captionDictionary);
-            writer.WriteRecord();
+            DataRow row = rows[i];
+
+            if (row.RowState != DataRowState.Deleted)
+            {
+                mapping.FillWith(row, captionDictionary);
+                writer.WriteRecord();
+            }
         }
     }
 
