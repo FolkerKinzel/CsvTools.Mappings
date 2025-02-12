@@ -1,23 +1,23 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters.Tests;
 
 [TestClass()]
-public class ICollectionConverterTests
+public class IReadOnlyListConverterTests
 {
     [TestMethod]
-    public void ICollectionConverterTest1()
+    public void IReadOnlyListConverterTest1()
     {
-        TypeConverter<ICollection<int>?> conv = new Int32Converter().ToICollectionConverter("::");
+        TypeConverter<IReadOnlyList<int>?> conv = new Int32Converter().ToIReadOnlyListConverter("::");
         Assert.IsNotNull(conv);
         Assert.IsTrue(conv.AcceptsNull);
         Assert.IsNull(conv.DefaultValue);
     }
 
     [TestMethod]
-    public void ICollectionConverterTest2()
+    public void IReadOnlyListConverterTest2()
     {
-        TypeConverter<ICollection<int>?> conv = new Int32Converter().ToICollectionConverter("::", false);
+        TypeConverter<IReadOnlyList<int>?> conv = new Int32Converter().ToIReadOnlyListConverter("::", false);
         Assert.IsNotNull(conv);
         Assert.IsTrue(conv.AcceptsNull);
         Assert.IsNotNull(conv.DefaultValue);
@@ -25,12 +25,12 @@ public class ICollectionConverterTests
 
     [TestMethod]
     [ExpectedException(typeof(ArgumentNullException))]
-    public void ICollectionConverterTest3() => _ = ((Int32Converter?)null)!.ToICollectionConverter("::");
+    public void IReadOnlyListConverterTest3() => _ = ((Int32Converter?)null)!.ToIReadOnlyListConverter("::");
 
     [TestMethod]
     public void ConvertToStringTest1()
     {
-        TypeConverter<ICollection<int>?> conv = new Int32Converter().ToICollectionConverter("::", false);
+        TypeConverter<IReadOnlyList<int>?> conv = new Int32Converter().ToIReadOnlyListConverter("::", false);
         Assert.IsNull(conv.ConvertToString(null));
         Assert.IsNull(conv.ConvertToString([]));
         Assert.AreEqual("1::2::3", conv.ConvertToString([1, 2, 3]));
@@ -39,8 +39,8 @@ public class ICollectionConverterTests
     [TestMethod]
     public void TryParseTest1()
     {
-        TypeConverter<ICollection<int>?> conv = new Int32Converter().ToICollectionConverter("::", false);
-        Assert.IsTrue(conv.TryParse("1::2::3".AsSpan(), out ICollection<int>? result));
+        TypeConverter<IReadOnlyList<int>?> conv = new Int32Converter().ToIReadOnlyListConverter("::", false);
+        Assert.IsTrue(conv.TryParse("1::2::3".AsSpan(), out IReadOnlyList<int>? result));
         Assert.IsNotNull(result);
         CollectionAssert.AreEqual(new int[] { 1, 2, 3 }, result.ToArray());
     }

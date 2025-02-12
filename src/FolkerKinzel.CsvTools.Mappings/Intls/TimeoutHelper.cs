@@ -14,5 +14,4 @@ internal static class TimeoutHelper
         => timeOut is < 1 and not Timeout.Infinite 
                 ? throw new ArgumentOutOfRangeException(paramName) 
                 : timeOut;
-    
 }

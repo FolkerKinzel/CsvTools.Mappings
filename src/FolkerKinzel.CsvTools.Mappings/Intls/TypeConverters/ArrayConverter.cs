@@ -1,12 +1,14 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 
-internal sealed class IListConverter<TItem> : TypeConverter<IList<TItem?>?>
+internal sealed class ArrayConverter<TItem> : TypeConverter<TItem?[]?>
 {
     private readonly ListConverter<TItem> _listConverter;
 
-    internal IListConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
+    internal ArrayConverter(TypeConverter<TItem?> itemsConverter,
+                            string separator,
+                            bool nullable)
         : base(itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)),
                nullable ? null : [])
     {
@@ -15,14 +17,15 @@ internal sealed class IListConverter<TItem> : TypeConverter<IList<TItem?>?>
 
     public override bool AcceptsNull => true;
 
-    public override string? ConvertToString(IList<TItem?>? value)
+    public override string? ConvertToString(TItem?[]? value)
         => _listConverter.DoConvertToString(value);
 
-    public override bool TryParse(ReadOnlySpan<char> value, out IList<TItem?>? result)
+    public override bool TryParse(ReadOnlySpan<char> value, out TItem?[]? result)
     {
         _ = _listConverter.TryParse(value, out List<TItem?>? list);
-        result = list;
+        Debug.Assert(list != null);
+        result = [.. list];
+
         return true;
     }
 }
-

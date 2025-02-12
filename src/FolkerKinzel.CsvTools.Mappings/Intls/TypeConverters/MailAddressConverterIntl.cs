@@ -1,7 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using System.Net.Mail;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="MailAddress"/>.

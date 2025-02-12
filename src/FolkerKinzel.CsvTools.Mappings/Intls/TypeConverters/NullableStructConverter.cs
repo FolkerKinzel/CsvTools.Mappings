@@ -1,7 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using System.Diagnostics.CodeAnalysis;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 
 internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : struct
 {
@@ -12,15 +11,19 @@ internal sealed class NullableStructConverter<T> : TypeConverter<T?> where T : s
     /// <summary>
     /// Initializes a new <see cref="NullableStructConverter{T}"/> instance.
     /// </summary>
-    /// <param name="converter">The <see cref="TypeConverter{T}"/> instance that is used as template.</param>
-    /// <returns>The newly created <see cref="TypeConverter{T}"/> instance that converts <see cref="Nullable{T}"/>
+    /// <param name="converter">The <see cref="TypeConverter{T}"/> instance that 
+    /// is used as template.</param>
+    /// <returns>The newly created <see cref="TypeConverter{T}"/> instance that 
+    /// converts <see cref="Nullable{T}"/>
     /// instead of <typeparamref name="T"/>.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="converter"/> 
+    /// is <c>null</c>.</exception>
     internal NullableStructConverter(TypeConverter<T> converter)
         : base(converter.Throwing, default)
         => _typeConverter = converter;
 
-    public override string? ConvertToString(T? value) => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;
+    public override string? ConvertToString(T? value) 
+        => value.HasValue ? _typeConverter.ConvertToString(value.Value) : null;
 
     public override bool TryParse(ReadOnlySpan<char> value, out T? result)
     {

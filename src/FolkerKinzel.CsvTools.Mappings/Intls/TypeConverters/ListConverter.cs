@@ -1,8 +1,7 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using FolkerKinzel.CsvTools.Mappings.Resources;
-using System.Text;
+﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 
 internal sealed class ListConverter<TItem> : TypeConverter<List<TItem?>?>
 {
@@ -14,17 +13,22 @@ internal sealed class ListConverter<TItem> : TypeConverter<List<TItem?>?>
     /// <summary>
     /// Initializes a new <see cref="ListConverter{TItem}"/> instance.
     /// </summary>
-    /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance that converts the items.</param>
-    /// <param name="separator">A <see cref="string"/> that separates the items in field of the CSV file. When parsing
-    /// the CSV, <paramref name="separator"/> will not be part of the results.</param>    
+    /// <param name="itemsConverter">A <see cref="TypeConverter{T}"/> instance 
+    /// that converts the items.</param>
+    /// <param name="separator">A <see cref="string"/> that separates the items 
+    /// in field of the CSV file. When parsing the CSV, <paramref name="separator"/>
+    /// will not be part of the results.</param>    
     /// <param name="nullable"><c>true</c> to set <see cref="TypeConverter{T}.DefaultValue"/>
     /// to <c>null</c>; <c>false</c> to have <see cref="Enumerable.Empty{TResult}"/> as 
     /// <see cref="TypeConverter{T}.DefaultValue"/>.
     /// </param>
-    /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> or <paramref name="separator"/>
-    /// is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="separator"/> is an <see cref="string.Empty"/>.</exception>
-    internal ListConverter(TypeConverter<TItem?> itemsConverter, string separator, bool nullable)
+    /// <exception cref="ArgumentNullException"><paramref name="itemsConverter"/> 
+    /// or <paramref name="separator"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="separator"/> is an 
+    /// <see cref="string.Empty"/>.</exception>
+    internal ListConverter(TypeConverter<TItem?> itemsConverter,
+                           string separator,
+                           bool nullable)
         : base(itemsConverter?.Throwing ?? throw new ArgumentNullException(nameof(itemsConverter)),
                nullable ? null : [])
     {
@@ -44,9 +48,10 @@ internal sealed class ListConverter<TItem> : TypeConverter<List<TItem?>?>
             ? null
             : string.Join(_separator, value.Select(x => _itemsConverter.ConvertToString(x)));
 
-    public override bool TryParse(ReadOnlySpan<char> value, [NotNullWhen(true)] out List<TItem?>? result)
+    public override bool TryParse(ReadOnlySpan<char> value,
+                                  [NotNullWhen(true)] out List<TItem?>? result)
     {
-        Debug.Assert(_separator.Length > 0);   
+        Debug.Assert(_separator.Length > 0);
         Debug.Assert(_itemsConverter.Throwing == Throwing);
 
         const int notFound = -1;
@@ -64,7 +69,7 @@ internal sealed class ListConverter<TItem> : TypeConverter<List<TItem?>?>
                 return true;
             }
 
-            list.Add(_itemsConverter.Parse(value.Slice(0,idx)));
+            list.Add(_itemsConverter.Parse(value.Slice(0, idx)));
             idx += _separator.Length;
 
             value = value.Slice(idx);

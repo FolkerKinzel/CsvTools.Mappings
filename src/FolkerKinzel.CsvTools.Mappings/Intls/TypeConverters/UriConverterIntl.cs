@@ -1,6 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="Uri"/>.
@@ -13,7 +13,8 @@ internal sealed class UriConverterIntl : TypeConverter<Uri?>
     /// <param name="uriKind">The type of the <see cref="Uri"/>.</param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
+    /// <param name="defaultValue">The value of 
+    /// <see cref="TypeConverter{T}.DefaultValue"/>.</param>
     internal UriConverterIntl(UriKind uriKind, bool throwing, Uri? defaultValue)
         : base(throwing, defaultValue)
     {

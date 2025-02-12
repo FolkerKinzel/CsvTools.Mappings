@@ -1,5 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls;
-using FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;

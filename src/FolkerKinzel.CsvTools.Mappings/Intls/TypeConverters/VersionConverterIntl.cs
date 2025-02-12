@@ -1,16 +1,18 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="Version"/>.
 /// </summary>
 internal sealed class VersionConverterIntl : TypeConverter<Version?>
 {
-    /// <summary>Initializes a new <see cref="VersionConverterIntl"/> instance.</summary>
+    /// <summary>Initializes a new <see cref="VersionConverterIntl"/> 
+    /// instance.</summary>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">The value of <see cref="TypeConverter{T}.DefaultValue"/>.</param>
+    /// <param name="defaultValue">The value of 
+    /// <see cref="TypeConverter{T}.DefaultValue"/>.</param>
     internal VersionConverterIntl(bool throwing, Version? defaultValue)
         : base(throwing, defaultValue) { }
 

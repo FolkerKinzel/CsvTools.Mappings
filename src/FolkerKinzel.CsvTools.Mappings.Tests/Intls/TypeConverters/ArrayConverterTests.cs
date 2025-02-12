@@ -1,6 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters.Tests;
 
 [TestClass()]
 public class ArrayConverterTests

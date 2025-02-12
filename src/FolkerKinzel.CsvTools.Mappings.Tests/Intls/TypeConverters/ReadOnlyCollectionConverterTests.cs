@@ -1,7 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using System.Collections.ObjectModel;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters.Tests;
 
 [TestClass()]
 public class ReadOnlyCollectionConverterTests

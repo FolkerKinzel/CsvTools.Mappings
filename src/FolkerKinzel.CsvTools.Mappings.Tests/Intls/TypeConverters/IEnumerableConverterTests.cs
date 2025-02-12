@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters.Tests;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters.Tests;
 
 [TestClass()]
 public class IEnumerableConverterTests

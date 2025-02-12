@@ -1,22 +1,31 @@
 ﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
+using System.Diagnostics;
+using System.Drawing;
 // A namespace alias helps to avoid name conflicts
 // with the converters from System.ComponentModel
 using Conv = FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using System.Diagnostics;
-using System.Drawing;
 
 namespace Examples;
 
+/// <summary>
+/// Parse <see cref="Color"/> instances whose data is distributed across 
+/// different columns of the CSV file.
+/// </summary>
 internal static class MultiColumnConverterExample
 {
+    /// <summary>
+    /// Custom implementation of <see cref="Conv::MultiColumnTypeConverter{T}"/>
+    /// for the <see cref="Color"/> struct. (A ready-to-use implementation can't 
+    /// be provided as it depends on the CSV file.)
+    /// </summary>
     private sealed class ColorConverter : Conv::MultiColumnTypeConverter<Color>
     {
         public override bool AcceptsNull => false;
 
-        public ColorConverter(CsvMappingBuilder mapping) 
+        public ColorConverter(CsvMappingBuilder mapping)
             : base(mapping, true, Color.Transparent) { }
-        
+
         // Copy ctor
         private ColorConverter(ColorConverter other) : base(other) { }
 

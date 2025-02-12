@@ -16,13 +16,14 @@ internal static class DataTableHelper
     /// <see cref="DataColumn.ColumnName"/>s as values.</returns>
     /// 
     /// <exception cref="ArgumentException">
-    /// A value of <see cref="DataColumn.Caption"/> occurs twice in <paramref name="dataTable"/>. The 
-    /// comparison is case-insensitive.
+    /// A value of <see cref="DataColumn.Caption"/> occurs twice in <paramref name="dataTable"/>.
+    /// The comparison is case-insensitive.
     /// </exception>
     internal static Dictionary<string, string> CreateCaptionDictionary(DataTable dataTable)
     {
         DataColumnCollection columns = dataTable.Columns;
-        var captionDictionary = new Dictionary<string, string>(columns.Count, StringComparer.OrdinalIgnoreCase);
+        var captionDictionary = new Dictionary<string, string>(columns.Count,
+                                                               StringComparer.OrdinalIgnoreCase);
 
         for (int i = 0; i < columns.Count; i++)
         {

@@ -1,12 +1,12 @@
 ﻿using FolkerKinzel.CsvTools;
-using FolkerKinzel.CsvTools.Mappings;
-using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using System.Globalization;
 
 namespace Benchmarks;
 
 internal static partial class CalculationWriter
 {
+    // This example completely dispenses with CsvMapping and uses CsvWriter
+    // directly. (This approach is only recommended for writing CSV.)
     internal static string WritePerformance(Calculation[] data)
     {
         CultureInfo culture = CultureInfo.InvariantCulture;

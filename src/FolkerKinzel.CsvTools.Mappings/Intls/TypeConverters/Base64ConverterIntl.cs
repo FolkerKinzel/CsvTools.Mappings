@@ -1,7 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using System.Diagnostics.CodeAnalysis;
 
-namespace FolkerKinzel.CsvTools.Mappings.Intls.Converters;
+namespace FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="byte"/> arrays.
