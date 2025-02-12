@@ -11,24 +11,23 @@ public sealed class SingleConverter : TypeConverter<float>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="SingleConverter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific 
+    /// formatting information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/> values.
-    /// The format strings "D", "d", "X", "x" are not supported.
-    /// </param>
+    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/>
+    /// values. The format strings "D", "d", "X", "x" are not supported. </param>
     /// <param name="styles">
     /// A combined value of the <see cref="NumberStyles"/> enum that provides additional 
     /// information for parsing.
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the 
+    /// <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentException">
-    /// <paramref name="format"/> is "D", "d", "X", or "x".
-    /// </exception>
+    /// <paramref name="format"/> is "D", "d", "X", or "x". </exception>
     public SingleConverter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
@@ -81,7 +80,10 @@ public sealed class SingleConverter : TypeConverter<float>, ILocalizable
 
         if (span.Equals("D", comp) || span.Equals("X", comp))
         {
-            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                                                      Res.FormatStringNotSupported,
+                                                      format),
+                                        nameof(format));
         }
     }
 }

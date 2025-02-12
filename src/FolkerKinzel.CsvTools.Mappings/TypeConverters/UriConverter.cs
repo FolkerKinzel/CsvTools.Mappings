@@ -1,13 +1,13 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
-/// Static class that contains methods to create <see cref="TypeConverter{T}"/> instances for the 
-/// <see cref="Uri"/> class.
+/// Static class that contains methods to create <see cref="TypeConverter{T}"/> 
+/// instances for the <see cref="Uri"/> class.
 /// </summary>
 public static class UriConverter
 {
@@ -15,7 +15,8 @@ public static class UriConverter
     /// Creates a new <see cref="TypeConverter{T}">TypeConverter&lt;Uri?&gt;</see> instance.
     /// </summary>
     /// <param name="uriKind">The type of the <see cref="Uri"/>.</param>
-    /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/> property.</param>
+    /// <param name="throwing">Sets the value of the <see cref="TypeConverter{T}.Throwing"/>
+    /// property.</param>
     /// 
     /// <returns>The newly created <see cref="TypeConverter{T}">TypeConverter&lt;Uri?&gt;</see>
     /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>.</returns>
@@ -36,8 +37,8 @@ public static class UriConverter
     /// instance.</returns>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="defaultValue"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException"><paramref name="defaultValue"/> does not match the requirements of
-    /// <paramref name="uriKind"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="defaultValue"/> does not match the 
+    /// requirements of <paramref name="uriKind"/>.</exception>
     public static TypeConverter<Uri> CreateNonNullable(Uri defaultValue,
                                                        UriKind uriKind = UriKind.RelativeOrAbsolute,
                                                        bool throwing = true)

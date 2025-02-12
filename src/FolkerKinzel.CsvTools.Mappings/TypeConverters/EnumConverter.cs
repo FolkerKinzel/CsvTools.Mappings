@@ -1,6 +1,6 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Resources;
-using System.Globalization;
 using System.Data;
+using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
@@ -11,10 +11,11 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// can convert.</typeparam>
 /// 
 /// <example>
-/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <note type="note">In the following code examples - for easier readability - exception 
+/// handling has been omitted.</note>
 /// <para>
-/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
-/// <see cref="DataTable"/>: </para>
+/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from 
+/// a CSV file into a <see cref="DataTable"/>: </para>
 /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
 /// </example>
 public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : struct, Enum
@@ -32,13 +33,16 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
     /// The format strings "X" and "x" are not supported here!
     /// </note>
     /// </param>
-    /// <param name="ignoreCase">A value that indicates whether the parser takes casing into account.
+    /// <param name="ignoreCase">A value that indicates whether the parser takes casing 
+    /// into account.
     /// (<c>false</c> for case-sensitive parsing, otherwise, <c>true</c>.)</param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the 
+    /// <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
-    /// <exception cref="ArgumentException">The value of <paramref name="format"/> is invalid.</exception>"
+    /// <exception cref="ArgumentException">The value of <paramref name="format"/> is 
+    /// invalid.</exception>"
     public EnumConverter(
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.EnumFormat)]
@@ -53,7 +57,7 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
         IgnoreCase = ignoreCase;
         Format = format;
     }
-    
+
     /// <summary>
     /// Gets a value that indicates whether the parser takes casing into account.
     /// </summary>
@@ -98,7 +102,10 @@ public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : st
             //case "x":
             //break;
             default:
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, 
+                                                          Res.FormatStringNotSupported, 
+                                                          format),
+                                            nameof(format));
         }
     }
 }

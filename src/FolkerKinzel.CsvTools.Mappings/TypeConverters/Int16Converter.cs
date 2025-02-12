@@ -1,7 +1,6 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
-using System;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -9,12 +8,13 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="short"/>.
 /// </summary>
-public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>, ILocalizable, IAsHexConverter
+public sealed class Int16Converter
+    : TypeConverter<short>, IHexConverter<short>, ILocalizable, IAsHexConverter
 {
     /// <summary> Initializes a new <see cref="Int16Converter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting 
-    /// information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific 
+    /// formatting information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
     /// A format string that is used for the <see cref="string"/> output of <see cref="short"/> 
@@ -26,10 +26,10 @@ public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>,
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/>
+    /// property.</param>
     /// 
-    /// <exception cref="ArgumentException">
-    /// <paramref name="format"/> is "R" or "r".
+    /// <exception cref="ArgumentException"><paramref name="format"/> is "R" or "r".
     /// </exception>
     public Int16Converter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
@@ -38,7 +38,7 @@ public sealed class Int16Converter : TypeConverter<short>, IHexConverter<short>,
                          string? format = "G",
                          NumberStyles styles = NumberStyles.Any,
                          bool throwing = true,
-                         short defaultValue = default) 
+                         short defaultValue = default)
         : base(throwing, defaultValue)
     {
         ValidateFormat(format);

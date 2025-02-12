@@ -1,5 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Resources;
+﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -18,12 +18,12 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="DoubleConverter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, 
-    /// or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific 
+    /// formatting information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/> values.
-    /// The format strings "D", "d", "X", "x" are not supported.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/>
+    /// values. The format strings "D", "d", "X", "x" are not supported.
     /// </param>
     /// <param name="styles">
     /// A combined value of the <see cref="NumberStyles"/> enum that provides additional 
@@ -31,10 +31,12 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/>
+    /// property.</param>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <note type="note">In the following code examples - for easier readability - exception 
+    /// handling has been omitted.</note>
     /// <para>Object serialization with CSV:</para>
     /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
     /// </example>
@@ -93,7 +95,10 @@ public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
 
         if (span.Equals("D", comp) || span.Equals("X", comp))
         {
-            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                                                      Res.FormatStringNotSupported,
+                                                      format),
+                                        nameof(format));
         }
     }
 }

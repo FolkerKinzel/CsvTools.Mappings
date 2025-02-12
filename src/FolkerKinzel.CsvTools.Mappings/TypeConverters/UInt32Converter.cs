@@ -1,7 +1,6 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
-using System;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -10,16 +9,17 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="uint"/>.
 /// </summary>
 [CLSCompliant(false)]
-public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, ILocalizable, IAsHexConverter
+public sealed class UInt32Converter
+    : TypeConverter<uint>, IHexConverter<uint>, ILocalizable, IAsHexConverter
 {
     /// <summary> Initializes a new <see cref="UInt32Converter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific 
+    /// formatting information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="uint"/> values.
-    /// The format strings "R" and "r" are not supported.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="uint"/>
+    /// values. The format strings "R" and "r" are not supported.
     /// </param>
     /// <param name="styles">
     /// A combined value of the <see cref="NumberStyles"/> enum that provides additional 
@@ -27,19 +27,19 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/>
+    /// property.</param>
     /// 
-    /// <exception cref="ArgumentException">
-    /// <paramref name="format"/> is "R" or "r".
+    /// <exception cref="ArgumentException"> <paramref name="format"/> is "R" or "r".
     /// </exception>
     public UInt32Converter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
 #endif
-                         string? format = "G",
-                         NumberStyles styles = NumberStyles.Any,
-                         bool throwing = true,
-                         uint defaultValue = default) 
+                           string? format = "G",
+                           NumberStyles styles = NumberStyles.Any,
+                           bool throwing = true,
+                           uint defaultValue = default)
         : base(throwing, defaultValue)
     {
         ValidateFormat(format);
@@ -74,7 +74,8 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     public object Clone() => MemberwiseClone();
 
     /// <inheritdoc/>
-    public override string? ConvertToString(uint value) => value.ToString(Format, FormatProvider);
+    public override string? ConvertToString(uint value)
+        => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
     public override bool TryParse(ReadOnlySpan<char> value, out uint result)
@@ -88,7 +89,10 @@ public sealed class UInt32Converter : TypeConverter<uint>, IHexConverter<uint>, 
     {
         if (StringComparer.OrdinalIgnoreCase.Equals("R", format))
         {
-            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                                                      Res.FormatStringNotSupported,
+                                                      format),
+                                        nameof(format));
         }
     }
 }

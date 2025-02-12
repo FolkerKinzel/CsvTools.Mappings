@@ -1,26 +1,30 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
 /// Abstract base class for type converters that provides conversions between
-/// .NET data types and CSV data that is distributed across multiple columns of a CSV file.
+/// .NET data types and CSV data that is distributed across multiple columns 
+/// of a CSV file.
 /// </summary>
 /// 
-/// <typeparam name="T">The data <see cref="Type"/> that the <see cref="MultiColumnTypeConverter{T}"/> converts.</typeparam>
+/// <typeparam name="T">The data <see cref="Type"/> that the 
+/// <see cref="MultiColumnTypeConverter{T}"/> converts.</typeparam>
 /// 
 /// <remarks>
 /// <para>
-/// A ready-to-use implementation of this class can't be provided because their structure depends 
-/// on the CSV file to be processed. Fortunately, writing a derived class is easy:
+/// A ready-to-use implementation of this class can't be provided because their 
+/// structure depends on the CSV file to be processed. Fortunately, writing a derived 
+/// class is easy:
 /// </para>
 /// <note type="implement">
 /// Pass a <see cref="Mappings.CsvMapping"/> instance that 
-/// targets the required columns of the CSV file to the constructor, and override the abstract 
-/// members. (For overriding <see cref="ICloneable.Clone"/> using the copy constructor 
+/// targets the required columns of the CSV file to the constructor, and override 
+/// the abstract members. (For overriding <see cref="ICloneable.Clone"/> using the 
+/// copy constructor 
 /// (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) is required!)
 /// </note>
 /// </remarks>
@@ -46,19 +50,21 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// <see cref="Mappings.CsvMapping"/> to use to access those columns 
     /// of the CSV file that are required for the <see cref="Type"/> conversion.
     /// </para>
-    /// <para>Add all required properties to <paramref name="mappingBuilder"/> before
-    /// passing it as argument. (The <see cref="CsvMappingBuilder.Build"/> method is called
-    /// by the constructor.)
+    /// <para>Add all required properties to <paramref name="mappingBuilder"/> 
+    /// before passing it as argument. (The <see cref="CsvMappingBuilder.Build"/> 
+    /// method is called by the constructor.)
     /// </para>
     /// </param>
     /// <param name="throwing">Sets the value of the <see cref="Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="DefaultValue"/> 
+    /// property.</param>
     /// 
     /// <remarks>
     /// The builder pattern is needed to avoid circular references.
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="mappingBuilder"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="mappingBuilder"/> 
+    /// is <c>null</c>.</exception>
     protected MultiColumnTypeConverter(CsvMappingBuilder mappingBuilder,
                                        bool throwing,
                                        T defaultValue)
@@ -71,8 +77,10 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// <summary>
     /// Copy constructor used by derived classes to implement <see cref="ICloneable"/>.
     /// </summary>
-    /// <param name="other">The <see cref="MultiColumnTypeConverter{T}"/> instance to clone.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="other"/> is <c>null</c>.</exception>
+    /// <param name="other">The <see cref="MultiColumnTypeConverter{T}"/> instance to
+    /// clone.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="other"/> is <c>null</c>.
+    /// </exception>
     protected MultiColumnTypeConverter(MultiColumnTypeConverter<T> other)
     {
         _ArgumentNullException.ThrowIfNull(other, nameof(other));
@@ -90,7 +98,8 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// executing instance.</returns>
     /// <remarks>
     /// <note type="important">
-    /// Use the copy constructor (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) 
+    /// Use the copy constructor 
+    /// (<see cref="MultiColumnTypeConverter{T}(MultiColumnTypeConverter{T})"/>) 
     /// for the implementation to ensure that <see cref="Mapping"/> is cloned too!
     /// </note>
     /// </remarks>
@@ -113,16 +122,16 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
 
     /// <inheritdoc/>
     public Type DataType => typeof(T);
-    
+
     /// <summary>
     /// Tries to convert the content of <see cref="Mapping"/> to <typeparamref name="T"/>.
     /// </summary>
     /// 
     /// <param name="result">
-    /// After the method was successful, contains the <typeparamref name="T"/> value that is equivalent
-    /// to the content of the converted <see cref="DynamicProperty"/> instances in
-    /// <see cref="Mapping"/>,
-    /// or the default value of <typeparamref name="T"/> if the parsing failed.
+    /// After the method was successful, contains the <typeparamref name="T"/> value that 
+    /// is equivalent to the content of the converted <see cref="DynamicProperty"/> instances 
+    /// in <see cref="Mapping"/>, or the default value of <typeparamref name="T"/> if the 
+    /// parsing failed.
     /// </param>
     /// <returns><c>true</c> if the parsing was successfull, otherwise <c>false</c>.</returns>
     /// <remarks>
@@ -153,7 +162,9 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
         => TryParse(out T? result)
              ? result
              : Throwing
-                 ? throw new FormatException(string.Format(CultureInfo.CurrentCulture, Res.CannotParseCsv, typeof(T).FullName))
+                 ? throw new FormatException(string.Format(CultureInfo.CurrentCulture,
+                                                           Res.CannotParseCsv,
+                                                           typeof(T).FullName))
                  : DefaultValue;
 
     /// <summary>
@@ -162,12 +173,13 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// <param name="value">The value to convert.</param>
     /// <remarks>
     /// <note type="implement">
-    /// Implement this method in derived classes to determine the behavior of <see cref="ConvertToCsv(object?)"/>
-    /// and <see cref="ConvertToCsv(T?)"/>. (Several <see cref="DynamicProperty"/> instances in <see cref="Mapping"/>
-    /// have to be filled with data.)
+    /// Implement this method in derived classes to determine the behavior of 
+    /// <see cref="ConvertToCsv(object?)"/> and <see cref="ConvertToCsv(T?)"/>. (Several 
+    /// <see cref="DynamicProperty"/> instances in <see cref="Mapping"/> have to be filled with data.)
     /// </note>
     /// </remarks>
-    /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.</exception>
+    /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.
+    /// </exception>
     protected abstract void DoConvertToCsv(T? value);
 
     /// <summary>
@@ -182,14 +194,16 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// </note>
     /// </remarks>
     /// 
-    /// <exception cref="FormatException">One of the subsequent converters uses an invalid format string.</exception>
+    /// <exception cref="FormatException">One of the subsequent converters uses an invalid format string.
+    /// </exception>
     public void ConvertToCsv(T? value) => DoConvertToCsv(value);
 
     /// <summary>
     /// Writes <paramref name="value"/> to the selected fields of <see cref="DynamicProperty.Record"/> 
     /// using <see cref="Mapping"/>.
     /// </summary>
-    /// <param name="value">The object to write to the selected fields of <see cref="DynamicProperty.Record"/>.</param>
+    /// <param name="value">The object to write to the selected fields of <see cref="DynamicProperty.Record"/>.
+    /// </param>
     /// 
     /// <remarks>
     /// <note type="implement">
@@ -203,7 +217,9 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     {
         if (value is null && !AcceptsNull)
         {
-            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture, Res.CannotCastNull, typeof(T).FullName));
+            throw new InvalidCastException(string.Format(CultureInfo.CurrentCulture,
+                                                         Res.CannotCastNull,
+                                                         typeof(T).FullName));
         }
         else
         {

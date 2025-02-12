@@ -48,7 +48,8 @@ public abstract class TypeConverter<T>(bool throwing,
     /// 
     /// <remarks>
     /// <note type="implement">
-    /// Implement this method in derived classes to determine the behavior of <see cref="Parse(ReadOnlySpan{char})"/>.
+    /// Implement this method in derived classes to determine the behavior of 
+    /// <see cref="Parse(ReadOnlySpan{char})"/>.
     /// <para>
     /// </para>
     /// <para>
@@ -90,7 +91,8 @@ public abstract class TypeConverter<T>(bool throwing,
     /// Converts <paramref name="value"/> to a <see cref="string"/> or <c>null</c>.
     /// </summary>
     /// <param name="value">The value to convert.</param>
-    /// <returns>A <see cref="string"/> that represents <paramref name="value"/> or <c>null</c>.</returns>
+    /// <returns>A <see cref="string"/> that represents <paramref name="value"/> or <c>null</c>.
+    /// </returns>
     /// <exception cref="FormatException">The instance uses an invalid format string.</exception>
     public abstract string? ConvertToString(T value);
 }

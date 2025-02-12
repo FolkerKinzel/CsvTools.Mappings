@@ -1,5 +1,4 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Resources;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -13,12 +12,13 @@ public sealed class GuidConverter : TypeConverter<Guid>
     /// Initializes a new <see cref="GuidConverter"/> instance and allows
     /// to specify a format string.
     /// </summary>
-    /// <param name="format">A format string that is used for the <see cref="string"/> output 
-    /// of <see cref="Guid"/> values. The accepted values 
-    /// are "N", "D", "B", "P", "X", <c>null</c> and <see cref="string.Empty"/>.</param>
+    /// <param name="format">A format string that is used for the <see cref="string"/> 
+    /// output of <see cref="Guid"/> values. The accepted values are
+    /// "N", "D", "B", "P", "X", <c>null</c> and <see cref="string.Empty"/>.</param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the 
+    /// <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
     /// <exception cref="ArgumentException">
     /// <paramref name="format"/> is not valid.
@@ -44,11 +44,12 @@ public sealed class GuidConverter : TypeConverter<Guid>
     public string? Format { get; }
 
     /// <inheritdoc/>
-    public override string? ConvertToString(Guid value) => value.ToString(Format, CultureInfo.InvariantCulture);
+    public override string? ConvertToString(Guid value)
+        => value.ToString(Format, CultureInfo.InvariantCulture);
 
     /// <inheritdoc/>
     public override bool TryParse(ReadOnlySpan<char> value, out Guid result)
-    { 
+    {
 #if NET462 || NETSTANDARD2_0
         return Guid.TryParse(value.ToString(), out result);
 #else
@@ -69,7 +70,10 @@ public sealed class GuidConverter : TypeConverter<Guid>
             case "":
                 return;
             default:
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                                                          Res.FormatStringNotSupported,
+                                                          format),
+                                            nameof(format));
         }
     }
 }

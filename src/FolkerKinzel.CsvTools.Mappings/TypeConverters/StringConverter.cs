@@ -6,14 +6,15 @@ using System.Data;
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 /// <summary>
-/// Static class that contains methods to create <see cref="TypeConverter{T}"/> instances for the 
-/// <see cref="string"/> class.
+/// Static class that contains methods to create <see cref="TypeConverter{T}"/> 
+/// instances for the <see cref="string"/> class.
 /// </summary>
 /// <example>
-/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <note type="note">In the following code examples - for easier readability -
+/// exception handling has been omitted.</note>
 /// <para>
-/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
-/// <see cref="DataTable"/>: </para>
+/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing
+/// data from a CSV file into a <see cref="DataTable"/>: </para>
 /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
@@ -27,10 +28,11 @@ public static class StringConverter
     /// instance. Its <see cref="ITypeConverter{T}.DefaultValue"/> will be <c>null</c>.</returns>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <note type="note">In the following code examples - for easier readability - exception 
+    /// handling has been omitted.</note>
     /// <para>
-    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
-    /// <see cref="DataTable"/>: </para>
+    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a 
+    /// CSV file into a <see cref="DataTable"/>: </para>
     /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
     /// <para>Object serialization with CSV:</para>
     /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>

@@ -1,7 +1,6 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
-using System;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -9,16 +8,17 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="int"/>.
 /// </summary>
-public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILocalizable, IAsHexConverter
+public sealed class Int32Converter 
+    : TypeConverter<int>, IHexConverter<int>, ILocalizable, IAsHexConverter
 {
     /// <summary> Initializes a new <see cref="Int32Converter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific 
+    /// formatting information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="int"/> values.
-    /// The format strings "R" and "r" are not supported.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="int"/>
+    /// values. The format strings "R" and "r" are not supported.
     /// </param>
     /// <param name="styles">
     /// A combined value of the <see cref="NumberStyles"/> enum that provides additional 
@@ -26,10 +26,10 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the 
+    /// <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
     /// 
-    /// <exception cref="ArgumentException">
-    /// <paramref name="format"/> is "R" or "r".
+    /// <exception cref="ArgumentException"><paramref name="format"/> is "R" or "r".
     /// </exception>
     public Int32Converter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
@@ -38,7 +38,7 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
                          string? format = "G",
                          NumberStyles styles = NumberStyles.Any,
                          bool throwing = true,
-                         int defaultValue = default) 
+                         int defaultValue = default)
         : base(throwing, defaultValue)
     {
         ValidateFormat(format);
@@ -73,7 +73,8 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     public object Clone() => MemberwiseClone();
 
     /// <inheritdoc/>
-    public override string? ConvertToString(int value) => value.ToString(Format, FormatProvider);
+    public override string? ConvertToString(int value)
+        => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
     public override bool TryParse(ReadOnlySpan<char> value, out int result)
@@ -87,7 +88,10 @@ public sealed class Int32Converter : TypeConverter<int>, IHexConverter<int>, ILo
     {
         if (StringComparer.OrdinalIgnoreCase.Equals("R", format))
         {
-            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,
+                                                      Res.FormatStringNotSupported,
+                                                      format),
+                                        nameof(format));
         }
     }
 }
