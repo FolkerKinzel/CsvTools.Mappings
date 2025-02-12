@@ -18,7 +18,7 @@ public sealed class BooleanConverter(bool throwing = true, bool defaultValue = d
 
     /// <inheritdoc/>
     public override bool TryParse(ReadOnlySpan<char> value, out bool result)
-    { 
+    {
 #if NET462 || NETSTANDARD2_0
         return bool.TryParse(value.ToString(), out result);
 #else

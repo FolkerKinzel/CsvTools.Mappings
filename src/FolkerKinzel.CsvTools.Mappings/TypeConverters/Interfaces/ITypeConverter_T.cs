@@ -1,7 +1,8 @@
 ﻿namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 
 /// <summary>
-/// Interface for classes that provide conversions between CSV data and .NET data types.
+/// Interface for classes that provide conversions between CSV data and 
+/// .NET data types.
 /// </summary>
 /// <typeparam name="T">The .NET data type the converter can convert.</typeparam>
 public interface ITypeConverter<T>
@@ -39,14 +40,15 @@ public interface ITypeConverter<T>
     /// <value><c>true</c> if the converter allows <c>null</c> values as input,
     /// otherwise <c>false</c>.</value>
     /// <remarks>
-    /// <note type="implement">This value should be <c>true</c> for all reference types
-    /// and <c>false</c> for all value types, except <see cref="Nullable{T}"/>.</note>
+    /// <note type="implement">This value should be <c>true</c> for all reference
+    /// types and <c>false</c> for all value types, except <see cref="Nullable{T}"/>.
+    /// </note>
     /// <remarks>
     /// <para>
     /// The behavior is equivalent to the behavior of the AllowNullAttribute:
-    /// Even if the converters <see cref="DataType"/> doesn't allow <c>null</c> values, 
-    /// <c>null</c> will be accepted as input if the <see cref="AcceptsNull"/> property 
-    /// is <c>true</c>.
+    /// Even if the converters <see cref="DataType"/> doesn't allow <c>null</c> 
+    /// values, <c>null</c> will be accepted as input if the <see cref="AcceptsNull"/> 
+    /// property is <c>true</c>.
     /// </para>
     /// </remarks>
     /// </remarks>

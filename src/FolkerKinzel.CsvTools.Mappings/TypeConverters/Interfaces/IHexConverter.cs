@@ -4,7 +4,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 
 /// <summary>
 /// Generic interface that allows implementing instances of <see cref="TypeConverter{T}"/>
-/// to create a modified version of themself that provides hexadecimal conversion.
+/// to create a modified copy of themself that provides hexadecimal conversion.
 /// </summary>
 /// <typeparam name="T">Generic type parameter.</typeparam>
 public interface IHexConverter<T> : ICloneable
@@ -38,5 +38,4 @@ public interface IHexConverter<T> : ICloneable
     /// provides additional information for parsing.
     /// </summary>
     public NumberStyles Styles { get; }
-
 }

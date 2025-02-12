@@ -5,10 +5,12 @@
 /// </summary>
 /// <param name="throwing">Sets the value of the 
 /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-/// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+/// <param name="defaultValue">Sets the value of the 
+/// <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
 /// 
 /// <example>
-/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <note type="note">In the following code examples - for easier 
+/// readability - exception handling has been omitted.</note>
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
 /// </example>

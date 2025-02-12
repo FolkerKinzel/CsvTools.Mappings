@@ -1,5 +1,5 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Resources;
+﻿using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -11,11 +11,12 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="DecimalConverter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting information, or <c>null</c> for 
-    /// <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific 
+    /// formatting information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/> values.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/>
+    /// values.
     /// The format strings "D", "d", "R", "r", "X", "x" are not supported.
     /// </param>
     /// <param name="styles">
@@ -24,10 +25,10 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/>
+    /// property.</param>
     /// 
-    /// <exception cref="ArgumentException">
-    /// <paramref name="format"/> is "D", "d", "R", "r", "X", or "x".
+    /// <exception cref="ArgumentException"><paramref name="format"/> is "D", "d", "R", "r", "X", or "x".
     /// </exception>
     public DecimalConverter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
@@ -63,7 +64,8 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
     public NumberStyles Styles { get; }
 
     /// <inheritdoc/>
-    public override string? ConvertToString(decimal value) => value.ToString(Format, FormatProvider);
+    public override string? ConvertToString(decimal value) 
+        => value.ToString(Format, FormatProvider);
 
     /// <inheritdoc/>
     public override bool TryParse(ReadOnlySpan<char> value, out decimal result)
@@ -79,7 +81,10 @@ public sealed class DecimalConverter : TypeConverter<decimal>, ILocalizable
 
         if (span.Length == 1 && span[0].ToUpperInvariant() is 'D' or 'R' or 'X')
         {
-            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, 
+                                                      Res.FormatStringNotSupported,
+                                                      format),
+                                        nameof(format));
         }
     }
 }

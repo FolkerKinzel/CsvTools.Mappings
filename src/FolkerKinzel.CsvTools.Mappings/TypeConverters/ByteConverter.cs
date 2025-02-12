@@ -1,6 +1,6 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Globalization;
 
 namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -19,16 +19,17 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <img src="images\MultiColumnConverter.png"/>
 /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
 /// </example>
-public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, IAsHexConverter
+public sealed class ByteConverter 
+    : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, IAsHexConverter
 {
     /// <summary>Initializes a new <see cref="ByteConverter"/> instance.</summary>
     /// <param name="formatProvider">
-    /// An <see cref="IFormatProvider"/> instance that provides culture-specific formatting 
-    /// information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
+    /// An <see cref="IFormatProvider"/> instance that provides culture-specific 
+    /// formatting information, or <c>null</c> for <see cref="CultureInfo.InvariantCulture"/>.
     /// </param>
     /// <param name="format">
-    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/> values.
-    /// The format strings "R" and "r" are not supported.
+    /// A format string that is used for the <see cref="string"/> output of <see cref="byte"/>
+    /// values. The format strings "R" and "r" are not supported.
     /// </param>
     /// <param name="styles">
     /// A combined value of the <see cref="NumberStyles"/> enum that provides additional 
@@ -36,7 +37,8 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     /// </param>
     /// <param name="throwing">Sets the value of the 
     /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
-    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+    /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/>
+    /// property.</param>
     /// 
     /// <example>
     /// <para>
@@ -49,9 +51,7 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
     /// </example>
     /// 
-    /// <exception cref="ArgumentException">
-    /// <paramref name="format"/> is "R" or "r".
-    /// </exception>
+    /// <exception cref="ArgumentException"><paramref name="format"/> is "R" or "r".</exception>
     public ByteConverter(IFormatProvider? formatProvider = null,
 #if !(NET462 || NETSTANDARD2_0 || NETSTANDARD2_1)
         [StringSyntax(StringSyntaxAttribute.NumericFormat)]
@@ -89,7 +89,7 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     /// <img src="images\MultiColumnConverter.png"/>
     /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
     /// </example>
-    public TypeConverter<byte> ToHexConverter() 
+    public TypeConverter<byte> ToHexConverter()
         => HexConverter.CreateHexConverter<byte, ByteConverter>(this);
 
     void IAsHexConverter.AsHexConverter()
@@ -120,7 +120,10 @@ public sealed class ByteConverter : TypeConverter<byte>, IHexConverter<byte>, IL
     {
         if (StringComparer.OrdinalIgnoreCase.Equals("R", format))
         {
-            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Res.FormatStringNotSupported, format), nameof(format));
+            throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, 
+                                                      Res.FormatStringNotSupported,
+                                                      format), 
+                                        nameof(format));
         }
     }
 }
