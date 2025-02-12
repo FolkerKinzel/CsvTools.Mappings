@@ -1,9 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls;
 using System.Data;
 using System.Text;
-using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -12,8 +10,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </summary>
 /// 
 /// <example>
-/// <note type="note">In the following code examples - for easier readability - exception handling 
-/// has been omitted.</note>
+/// <note type="note">In the following code examples - for easier readability 
+/// - exception handling has been omitted.</note>
 /// <para>DataTable serialization with CSV:</para>
 /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
 /// </example>
@@ -22,8 +20,8 @@ public static class DataTableExtension
     /// <summary>
     /// Adds CSV content as <see cref="DataRow"/>s to the <see cref="DataTable"/>.
     /// </summary>
-    /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
-    /// are added.</param>
+    /// <param name="dataTable">The <see cref="DataTable"/> to which 
+    /// <see cref="DataRow"/>s are added.</param>
     /// <param name="reader">The <see cref="CsvReader"/> to use.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// 
@@ -40,29 +38,30 @@ public static class DataTableExtension
     /// even when treated case-insensitive.
     /// </para>
     /// <para>
-    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither in
-    /// number nor in order).
+    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need
+    /// to match all columns of the <see cref="DataTable"/> or all columns of the CSV file 
+    /// (neither in number nor in order).
     /// </para>
     /// <para>
-    /// It's recommended to initialize <paramref name="reader"/> with the <see cref="CsvOpts.DisableCaching"/>
-    /// flag set.
+    /// It's recommended to initialize <paramref name="reader"/> with the 
+    /// <see cref="CsvOpts.DisableCaching"/> flag set.
     /// </para>
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="reader"/>,
-    /// or <paramref name="mapping"/> is <c>null</c>.
+    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or 
+    /// <paramref name="reader"/>, or <paramref name="mapping"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="ArgumentException">
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
-    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <paramref name="dataTable"/>.
+    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding 
+    /// <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
     /// </exception>
-    /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
-    /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't match the schema of
-    /// the <paramref name="dataTable"/>.</exception>
-    /// <exception cref="ConstraintException">The parsed CSV data does not match the schema of
-    /// the <paramref name="dataTable"/>.</exception>
+    /// <exception cref="FormatException">Parsing fails and 
+    /// <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
+    /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't 
+    /// match the schema of the <paramref name="dataTable"/>.</exception>
+    /// <exception cref="ConstraintException">The parsed CSV data does not match the 
+    /// schema of the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -96,34 +95,35 @@ public static class DataTableExtension
     /// even when treated case-insensitive.
     /// </para>
     /// <para>
-    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither in
-    /// number nor in order).
+    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to 
+    /// match all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither 
+    /// in number nor in order).
     /// </para>
     /// </remarks>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling 
-    /// has been omitted.</note>
+    /// <note type="note">In the following code examples - for easier readability - exception 
+    /// handling has been omitted.</note>
     /// <para>DataTable serialization with CSV:</para>
     /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
     /// </example>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="filePath"/>,
-    /// or <paramref name="mapping"/> is <c>null</c>.
+    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or 
+    /// <paramref name="filePath"/>, or <paramref name="mapping"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="ArgumentException">
     /// <para><paramref name="filePath" /> is not a valid file path.</para>
     /// <para>- or -</para>
     /// <para>
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
-    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <paramref name="dataTable"/>.
+    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding 
+    /// <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
     /// </para>
     /// </exception>
-    /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
-    /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't match the schema of
-    /// the <paramref name="dataTable"/>.</exception>
+    /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/>
+    /// is <c>true</c>.</exception>
+    /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't 
+    /// match the schema of the <paramref name="dataTable"/>.</exception>
     /// <exception cref="ConstraintException">The parsed CSV data does not match the schema of
     /// the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
@@ -148,8 +148,8 @@ public static class DataTableExtension
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="textEncoding">
-    /// The text encoding to be used to read the CSV file, or <c>null</c> to determine the <see cref="Encoding"/>
-    /// automatically from the byte order mark (BOM).
+    /// The text encoding to be used to read the CSV file, or <c>null</c> to determine the 
+    /// <see cref="Encoding"/> automatically from the byte order mark (BOM).
     /// </param>
     /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
     /// value is <see cref="CsvAnalyzer.AnalyzedLinesMinCount" />. If the file has fewer lines than 
@@ -175,36 +175,39 @@ public static class DataTableExtension
     /// </para>
     /// <para>
     /// The method performs a statistical analysis on the CSV file to find the appropriate 
-    /// parameters for reading the file. The result of the analysis is therefore always only an estimate, 
-    /// the accuracy of which increases with the number of lines analyzed. The analysis is time-consuming 
-    /// because the CSV file has to be accessed for reading.
+    /// parameters for reading the file. The result of the analysis is therefore always only an 
+    /// estimate, the accuracy of which increases with the number of lines analyzed. The analysis 
+    /// is time-consuming because the CSV file has to be accessed for reading.
     /// </para>
     /// <para>
-    /// This method also automatically determines the <see cref="Encoding"/> of the CSV file from the
-    /// byte order mark (BOM) if the argument of the <paramref name="textEncoding"/> parameter is <c>null</c>.
-    /// If the <see cref="Encoding"/> cannot be determined automatically, <see cref="Encoding.UTF8"/> is used.
+    /// This method also automatically determines the <see cref="Encoding"/> of the CSV file from
+    /// the byte order mark (BOM) if the argument of the <paramref name="textEncoding"/> parameter
+    /// is <c>null</c>. If the <see cref="Encoding"/> cannot be determined automatically,
+    /// <see cref="Encoding.UTF8"/> is used.
     /// </para>
     /// <para>
-    /// The field delimiters COMMA (<c>','</c>, %x2C), SEMICOLON  (<c>';'</c>, %x3B), HASH (<c>'#'</c>, %x23),
-    /// TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are recognized automatically.
+    /// The field delimiters COMMA (<c>','</c>, %x2C), SEMICOLON  (<c>';'</c>, %x3B), 
+    /// HASH (<c>'#'</c>, %x23), TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are 
+    /// recognized automatically.
     /// </para>
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="filePath"/>,
-    /// or <paramref name="mapping"/> is <c>null</c>.
+    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or 
+    /// <paramref name="filePath"/>, or <paramref name="mapping"/> is <c>null</c>.
     /// </exception>
     /// <exception cref="ArgumentException">
     /// <para><paramref name="filePath" /> is not a valid file path.</para>
     /// <para>- or -</para>
     /// <para>
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
-    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <paramref name="dataTable"/>.
+    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding 
+    /// <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
     /// </para>
     /// </exception>
-    /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/> is <c>true</c>.</exception>
-    /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't match the schema of
-    /// the <paramref name="dataTable"/>.</exception>
+    /// <exception cref="FormatException">Parsing fails and <see cref="ITypeConverter{T}.Throwing"/>
+    /// is <c>true</c>.</exception>
+    /// <exception cref="NoNullAllowedException">The <paramref name="mapping"/> doesn't match the
+    /// schema of the <paramref name="dataTable"/>.</exception>
     /// <exception cref="ConstraintException">The parsed CSV data does not match the schema of
     /// the <paramref name="dataTable"/>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
@@ -231,10 +234,11 @@ public static class DataTableExtension
     /// The collection determines the order in which the columns appear in the CSV file.
     /// </para>
     /// <para>
-    /// The collection will be copied. If the collection contains <c>null</c> values, empty strings or white space, these 
-    /// are replaced by automatically generated column names. Column names cannot appear twice. By default the 
-    /// comparison is case-sensitive but it will be reset to a case-insensitive comparison if the column names are 
-    /// also unique when treated case-insensitive.
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty 
+    /// strings or white space, these are replaced by automatically generated column names. 
+    /// Column names cannot appear twice. By default the comparison is case-sensitive but 
+    /// it will be reset to a case-insensitive comparison if the column names are also 
+    /// unique when treated case-insensitive.
     /// </para>
     /// </param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
@@ -247,9 +251,9 @@ public static class DataTableExtension
     /// truncated and overwritten.
     /// </para>
     /// <para>
-    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use <see cref="WriteCsv(DataTable, CsvWriter, CsvMapping)"/>
-    /// instead.
+    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) 
+    /// as field delimiter. This complies with the RFC 4180 standard. If another delimiter is 
+    /// required, use <see cref="WriteCsv(DataTable, CsvWriter, CsvMapping)"/> instead.
     /// </para>
     /// <para>
     /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
@@ -263,28 +267,29 @@ public static class DataTableExtension
     /// even when treated case-insensitive.
     /// </para>
     /// <para>
-    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither in
-    /// number nor in order).
+    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to
+    /// match all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither 
+    /// in number nor in order).
     /// </para>
     /// </remarks>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling 
-    /// has been omitted.</note>
+    /// <note type="note">In the following code examples - for easier readability - exception 
+    /// handling has been omitted.</note>
     /// <para>DataTable serialization with CSV:</para>
     /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
     /// </example>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="filePath"/>,
-    /// or <paramref name="columnNames"/>, or <paramref name="mapping"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or 
+    /// <paramref name="filePath"/>, or <paramref name="columnNames"/>, or <paramref name="mapping"/>
+    /// is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
     /// <para><paramref name="filePath" /> is not a valid file path.</para>
     /// <para>- or -</para>
     /// <para>
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
-    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <paramref name="dataTable"/>.
+    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding 
+    /// <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
     /// </para>
     /// </exception>
     /// <exception cref="InvalidCastException">
@@ -324,18 +329,18 @@ public static class DataTableExtension
     /// even when treated case-insensitive.
     /// </para>
     /// <para>
-    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to match 
-    /// all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither in
-    /// number nor in order).
+    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need 
+    /// to match all columns of the <see cref="DataTable"/> or all columns of the CSV file 
+    /// (neither in number nor in order).
     /// </para>
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or <paramref name="writer"/>,
-    /// or <paramref name="mapping"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or 
+    /// <paramref name="writer"/>, or <paramref name="mapping"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
     /// There is a <see cref="DynamicProperty"/> in <paramref name="mapping"/> whose 
-    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding <see cref="DataColumn.ColumnName"/>
-    /// in <paramref name="dataTable"/>.
+    /// <see cref="DynamicProperty.PropertyName"/> finds no corresponding 
+    /// <see cref="DataColumn.ColumnName"/> in <paramref name="dataTable"/>.
     /// </exception>
     /// <exception cref="InvalidCastException">
     /// A value in <paramref name="dataTable"/> does not match the expected data type in 

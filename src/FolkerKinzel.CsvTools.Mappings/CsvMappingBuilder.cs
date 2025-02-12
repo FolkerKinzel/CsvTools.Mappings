@@ -1,13 +1,8 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using FolkerKinzel.CsvTools.Mappings.Intls;
-using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
-using FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
-using FolkerKinzel.CsvTools.Mappings.Resources;
-using System.Data;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using System.ComponentModel;
+using System.Data;
+using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
@@ -17,23 +12,27 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// 
 /// <remarks>
 /// <para>
-/// An instance of the <see cref="DynamicProperty"/> class represents a dynamic property ("late binding") of the <see cref="CsvMapping"/> object
-/// that can be used like a regular .NET property if the <see cref="CsvMapping"/> instance is assigned to a variable that is declared with the keyword
-/// <c>dynamic</c>.
+/// An instance of the <see cref="DynamicProperty"/> class represents a dynamic
+/// property ("late binding") of the <see cref="CsvMapping"/> object that can be 
+/// used like a regular .NET property if the <see cref="CsvMapping"/> instance is 
+/// assigned to a variable that is declared with the keyword <c>dynamic</c>.
 /// </para>
 /// <para>
-/// The <c>AddProperty</c> methods of <see cref="CsvMappingBuilder"/> allow to create and add <see cref="DynamicProperty"/> instances. 
-/// The order, in which the <see cref="DynamicProperty"/> instances are added, determines their index in 
-/// the newly created <see cref="CsvMapping"/> instance. These indexes may differ from the indexes of the columns of the CSV file that these 
+/// The <c>AddProperty</c> methods of <see cref="CsvMappingBuilder"/> allow to create 
+/// and add <see cref="DynamicProperty"/> instances. 
+/// The order, in which the <see cref="DynamicProperty"/> instances are added, determines
+/// their index in the newly created <see cref="CsvMapping"/> instance. These indexes may 
+/// differ from the indexes of the columns of the CSV file that these 
 /// <see cref="DynamicProperty"/> instances access.
 /// </para>
 /// </remarks>
 /// 
 /// <example>
-/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <note type="note">In the following code examples - for easier readability - exception 
+/// handling has been omitted.</note>
 /// <para>
-/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
-/// <see cref="DataTable"/>: </para>
+/// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data 
+/// from a CSV file into a <see cref="DataTable"/>: </para>
 /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
@@ -58,8 +57,9 @@ public sealed class CsvMappingBuilder
     public static CsvMappingBuilder Create() => new();
 
     /// <summary>
-    /// Builds a new <see cref="CsvMapping"/> instance from the contents of <see cref="CsvMappingBuilder"/>
-    /// and deletes all contents of <see cref="CsvMappingBuilder"/> on return.
+    /// Builds a new <see cref="CsvMapping"/> instance from the contents of 
+    /// <see cref="CsvMappingBuilder"/> and deletes all contents of 
+    /// <see cref="CsvMappingBuilder"/> on return.
     /// </summary>
     /// <returns>The newly created <see cref="CsvMapping"/> instance.</returns>
     public CsvMapping Build()
@@ -70,29 +70,33 @@ public sealed class CsvMappingBuilder
     }
 
     /// <summary>
-    /// Adds a new <see cref="DynamicProperty"/> instance that accesses 
-    /// a single column of the CSV file with its index.
+    /// Adds a new <see cref="DynamicProperty"/> instance that accesses a single 
+    /// column of the CSV file with its index.
     /// </summary>
     /// 
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
     /// 
-    /// <param name="propertyName">The identifier of the dynamic .NET property. It must follow the 
-    /// rules for C# identifiers. Only ASCII characters are accepted.
+    /// <param name="propertyName">The identifier of the dynamic .NET property. It must
+    /// follow the rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
     /// <param name="csvIndex">Zero-based index of the column in the CSV file.
     /// If this index doesn't exist, the <see cref="DynamicProperty"/> is ignored 
-    /// when writing. When reading, in this case, <see cref="TypeConverter{T}.DefaultValue"/> is returned.</param>
-    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
+    /// when writing. When reading, in this case, <see cref="TypeConverter{T}.DefaultValue"/>
+    /// is returned.</param>
+    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type 
+    /// conversion.</param>
     /// 
     /// <returns>The <see cref="CsvMappingBuilder"/> to chain calls.</returns>
     /// 
-    /// <remarks>Use this method if a CSV file has no header, or, or performance reasons, if the CSV column 
-    /// index is known.</remarks>
+    /// <remarks>Use this method if a CSV file has no header, or, or performance reasons, 
+    /// if the CSV column index is known.</remarks>
     /// 
     /// <exception cref="ArgumentNullException">
-    /// <paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.
+    /// </exception>
     /// 
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="csvIndex"/>  is less than Zero.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="csvIndex"/>  is less 
+    /// than Zero.</exception>
     /// <exception cref="ArgumentException">
     /// <para>
     /// <paramref name="propertyName"/> does not conform to the rules for C# 
@@ -100,7 +104,8 @@ public sealed class CsvMappingBuilder
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
+    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> 
+    /// has already been added.
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
@@ -120,23 +125,25 @@ public sealed class CsvMappingBuilder
     /// single column of a CSV file with a collection of column name aliases.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
-    /// <param name="propertyName">The identifier under which the property is addressed. It must follow the 
-    /// rules for C# identifiers. Only ASCII characters are accepted.
+    /// <param name="propertyName">The identifier under which the property is addressed. It 
+    /// must follow the rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
     /// <param name="columnNameAliases">
     /// <para>
-    /// Column names of the CSV file that the <see cref="DynamicProperty"/> can access. The aliases can use the 
-    /// wildcard characters '*' and '?'. 
+    /// Column names of the CSV file that the <see cref="DynamicProperty"/> can access. The 
+    /// aliases can use the wildcard characters '*' and '?'. 
     /// </para>
     /// <para>
-    /// The first alias, which is a match with a column name of the CSV file, is used. If a wildcard alias matches 
-    /// several columns in the CSV file, the column with the lowest index is referenced.
+    /// The first alias, which is a match with a column name of the CSV file, is used. If a 
+    /// wildcard alias matches several columns in the CSV file, the column with the lowest 
+    /// index is referenced.
     /// </para>
     /// <para>
     /// The collection will be copied.
     /// </para>
     /// </param>
-    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
+    /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.
+    /// </param>
     /// 
     ///  
     /// <returns>The <see cref="CsvMappingBuilder"/> to chain calls.</returns>
@@ -152,17 +159,19 @@ public sealed class CsvMappingBuilder
     /// </remarks>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <note type="note">In the following code examples - for easier readability - exception 
+    /// handling has been omitted.</note>
     /// <para>
-    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from a CSV file into a 
-    /// <see cref="DataTable"/>: </para>
+    /// Saving the contents of a <see cref="DataTable"/> as a CSV file and importing data from
+    /// a CSV file into a <see cref="DataTable"/>: </para>
     /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
     /// <para>Object serialization with CSV:</para>
     /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
     /// </example>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/>, or <paramref name="columnNameAliases"/>, 
-    /// or <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/>, or 
+    /// <paramref name="columnNameAliases"/>, or <paramref name="converter"/> is <c>null</c>.
+    /// </exception>
     /// <exception cref="ArgumentException">
     /// <para>
     /// <paramref name="propertyName"/> does not conform to the rules for C# 
@@ -170,7 +179,8 @@ public sealed class CsvMappingBuilder
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
+    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/>
+    /// has already been added.
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
@@ -192,8 +202,9 @@ public sealed class CsvMappingBuilder
     /// 
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
-    /// <param name="propertyName">The identifier of the dynamic .NET property and the corresponding column of the 
-    /// CSV file. The value of the argument must follow the rules for C# identifiers. Only ASCII characters are accepted.
+    /// <param name="propertyName">The identifier of the dynamic .NET property and the 
+    /// corresponding column of the CSV file. The value of the argument must follow the rules 
+    /// for C# identifiers. Only ASCII characters are accepted.
     /// </param>
     /// <param name="converter">The <see cref="TypeConverter{T}"/> that does the type conversion.</param>
     /// 
@@ -202,10 +213,10 @@ public sealed class CsvMappingBuilder
     /// 
     /// <remarks>
     /// <para>
-    /// When using this method, <paramref name="propertyName"/> and the referenced CSV column name must match, 
-    /// and <paramref name="propertyName"/> must meet the requirements for C# identifiers. Use the 
-    /// <see cref="CsvRecord.HasCaseSensitiveColumnNames"/> property to determine whether the comparison is 
-    /// case-sensitive.
+    /// When using this method, <paramref name="propertyName"/> and the referenced CSV column 
+    /// name must match, and <paramref name="propertyName"/> must meet the requirements for C# 
+    /// identifiers. Use the <see cref="CsvRecord.HasCaseSensitiveColumnNames"/> property to 
+    /// determine whether the comparison is case-sensitive.
     /// </para>
     /// <para>
     /// If the column name of the CSV file does not meet the requirements of C# identifiers, use 
@@ -214,7 +225,8 @@ public sealed class CsvMappingBuilder
     /// </remarks>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+    /// <note type="note">In the following code examples - for easier readability - exception 
+    /// handling has been omitted.</note>
     /// <para>Object serialization with CSV:</para>
     /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
     /// </example>
@@ -223,11 +235,13 @@ public sealed class CsvMappingBuilder
     /// <paramref name="propertyName"/> or <paramref name="converter"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
     /// <para>
-    /// <paramref name="propertyName"/> does not conform to the rules for C# identifiers (only ASCII characters)
+    /// <paramref name="propertyName"/> does not conform to the rules for C# identifiers (only 
+    /// ASCII characters)
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
+    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/>
+    /// has already been added.
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
@@ -235,7 +249,7 @@ public sealed class CsvMappingBuilder
     /// </exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public CsvMappingBuilder AddProperty<T>(string propertyName,
-                                                  TypeConverter<T> converter) 
+                                                  TypeConverter<T> converter)
         => AddProperty(propertyName, [propertyName], converter);
 
     /// <summary>
@@ -243,11 +257,12 @@ public sealed class CsvMappingBuilder
     /// several columns of a CSV file.
     /// </summary>
     /// <typeparam name="T">The .NET data type of the dynamic property.</typeparam>
-    /// <param name="propertyName">The identifier of the dynamic .NET property. It must follow the 
-    /// rules for C# identifiers. Only ASCII characters are accepted.
+    /// <param name="propertyName">The identifier of the dynamic .NET property. It must 
+    /// follow the rules for C# identifiers. Only ASCII characters are accepted.
     /// </param>
-    /// <param name="converter">An instance derived from the abstract <see cref="MultiColumnTypeConverter{T}"/> 
-    /// class. You have to write this class yourself because it depends on the CSV file.</param>
+    /// <param name="converter">An instance derived from the abstract 
+    /// <see cref="MultiColumnTypeConverter{T}"/> class. You have to write this class 
+    /// yourself because it depends on the CSV file.</param>
     /// 
     /// <returns>The <see cref="CsvMappingBuilder"/> to chain calls.</returns>
     /// 
@@ -276,8 +291,8 @@ public sealed class CsvMappingBuilder
     /// </para>
     /// <para>- or -</para>
     /// <para>
-    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/> has already been added.
-    /// Check this beforehand with <see cref="CsvMapping.Contains(string)"/>!
+    /// a <see cref="DynamicProperty"/> with the same <see cref="DynamicProperty.PropertyName"/>
+    /// has already been added.
     /// </para>
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">

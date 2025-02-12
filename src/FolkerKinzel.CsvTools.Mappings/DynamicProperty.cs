@@ -1,15 +1,17 @@
-﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
-using FolkerKinzel.CsvTools.Mappings.Intls;
+﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Resources;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters;
+using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
 
 /// <summary>
-/// Abstract base class for classes that represent a dynamic property of <see cref="CsvMapping"/>.
+/// Abstract base class for classes that represent a dynamic property
+/// of <see cref="CsvMapping"/>.
 /// </summary>
-/// <remarks>Use <see cref="CsvMappingBuilder"/> to create and add instances to <see cref="CsvMapping"/>.</remarks>
+/// <remarks>Use <see cref="CsvMappingBuilder"/> to create and add instances
+/// to <see cref="CsvMapping"/>.</remarks>
 /// 
 /// <example>
 /// <para>Object serialization with CSV:</para>
@@ -22,13 +24,14 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// Initializes a new <see cref="DynamicProperty"/> instance.
     /// </summary>
     /// <param name="propertyName">
-    /// The identifier under which the property is addressed. It must follow the rules for C# identifiers. 
-    /// Only ASCII characters are accepted.</param>
+    /// The identifier under which the property is addressed. It must follow the 
+    /// rules for C# identifiers. Only ASCII characters are accepted.</param>
     /// 
-    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does not conform to the rules 
-    /// for C# identifiers (only ASCII characters).</exception>
+    /// <exception cref="ArgumentException"><paramref name="propertyName"/> does 
+    /// not conform to the rules for C# identifiers (only ASCII characters).</exception>
     /// 
-    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is <c>null</c>.
+    /// <exception cref="ArgumentNullException"><paramref name="propertyName"/> is 
+    /// <c>null</c>.
     /// </exception>
     /// <exception cref="RegexMatchTimeoutException">
     /// Validating of <paramref name="propertyName"/> takes too long.
@@ -68,28 +71,28 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     /// </summary>
     /// <remarks>
     /// <para>
-    /// If the containing <see cref="CsvMapping"/> instance is assigned to a <c>dynamic</c> 
-    /// variable, the runtime will do all the required casting operations automatically.
+    /// If the containing <see cref="CsvMapping"/> instance is assigned to a 
+    /// <c>dynamic</c> variable, the runtime will do all the required casting operations
+    /// automatically.
     /// </para>
     /// <para>
-    /// For high-performance scenarios you can do without the convenience of dynamic properties 
-    /// and perform the type cast yourself with 
-    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>. (This allows you
-    /// to process value types without boxing and unboxing.)
+    /// For high-performance scenarios you can do without the convenience of dynamic 
+    /// properties and perform the type cast yourself with 
+    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>. 
+    /// (This allows you to process value types without boxing and unboxing.)
     /// </para>
     /// </remarks>
     /// <seealso cref="CsvMapping.Record"/>
     /// <seealso cref="ITypedProperty{T}.Value"/>
     /// <seealso cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
     /// 
-    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. Assign a 
-    /// <see cref="CsvRecord"/> instance to the containing <see cref="CsvMapping"/> before accessing 
-    /// this property.
+    /// <exception cref="InvalidOperationException"><see cref="Record"/> is <c>null</c>. 
+    /// Assign a <see cref="CsvRecord"/> instance to the containing <see cref="CsvMapping"/>
+    /// before accessing this property.
     /// </exception>
     /// <exception cref="InvalidCastException">
     /// <para>
-    /// When setting the value,
-    /// <paramref name="value"/> is <c>null</c> and 
+    /// When setting the value, <paramref name="value"/> is <c>null</c> and 
     /// <see cref="ITypeConverter{T}.AcceptsNull"/> is <c>false</c>,
     /// </para>
     /// <para>- or -</para>
@@ -110,8 +113,7 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     public abstract object? Value { get; set; }
 
     /// <summary>
-    /// Gets the value that the <see cref="DynamicProperty"/> returns if parsing 
-    /// fails.
+    /// Gets the value that the <see cref="DynamicProperty"/> returns if parsing fails.
     /// </summary>
     public abstract object? DefaultValue { get; }
 
@@ -139,6 +141,8 @@ public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
     private static partial Regex PropertyNameRegex();
 #else
     private static Regex PropertyNameRegex { get; } 
-        = new("^[A-Za-z_][A-Za-z0-9_]*$", RegexOptions.Compiled | RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100));
+        = new("^[A-Za-z_][A-Za-z0-9_]*$", 
+              RegexOptions.Compiled | RegexOptions.CultureInvariant, 
+              TimeSpan.FromMilliseconds(100));
 #endif
 }

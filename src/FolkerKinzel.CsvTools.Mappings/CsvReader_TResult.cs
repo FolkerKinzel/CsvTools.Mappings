@@ -12,9 +12,10 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <remarks>
 /// <para>
 /// The class implements <see cref="IEnumerable{T}"/>. A 
-/// <see cref="CsvReader{TResult}"/> instance can be iterated with <c>foreach</c> or queried using 
-/// Linq methods. Note that an instance can only be iterated once; if an attempt is made to
-/// iterate it twice, an <see cref="ObjectDisposedException"/> is thrown.
+/// <see cref="CsvReader{TResult}"/> instance can be iterated with <c>foreach</c> or
+/// queried using Linq methods. Note that an instance can only be iterated once; if an 
+/// attempt is made to iterate it twice, an <see cref="ObjectDisposedException"/> is 
+/// thrown.
 /// </para>
 /// <para>
 /// Use the methods of <see cref="CsvConverter"/> to create an instance!
@@ -22,7 +23,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// </remarks>
 /// 
 /// <example>
-/// <note type="note">In the following code examples - for easier readability - exception handling has been omitted.</note>
+/// <note type="note">In the following code examples - for easier readability - exception
+/// handling has been omitted.</note>
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
 /// </example>
@@ -46,28 +48,28 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// to an instance of <typeparamref name="TResult"/>. 
     /// </para>
     /// <para>
-    /// The function is called for each row in the CSV data and gets the specified <see cref="CsvMapping"/> 
-    /// as argument, filled with the current <see cref="CsvRecord"/> instance. The <see cref="CsvMapping"/> 
-    /// is passed to the function as <c>dynamic</c> argument: Inside the function the registered 
-    /// <see cref="DynamicProperty"/> instances can be used like 
-    /// regular .NET properties, but without IntelliSense ("late binding").
+    /// The function is called for each row in the CSV data and gets the specified 
+    /// <see cref="CsvMapping"/> as argument, filled with the current <see cref="CsvRecord"/> 
+    /// instance. The <see cref="CsvMapping"/> is passed to the function as <c>dynamic</c> 
+    /// argument: Inside the function the registered <see cref="DynamicProperty"/> instances
+    /// can be used like regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
-    /// <param name="cloneMappings"><c>true</c> to clone <paramref name="mapping"/> each time before passing
-    /// it to <paramref name="conversion"/>, or <c>false</c> to use always the same <see cref="CsvMapping"/> 
-    /// instance. (Cloning is required if <typeparamref name="TResult"/> is <see cref="CsvMapping"/> and the
-    /// results need to be cached.</param>
+    /// <param name="cloneMappings"><c>true</c> to clone <paramref name="mapping"/> each time 
+    /// before passing it to <paramref name="conversion"/>, or <c>false</c> to use always the 
+    /// same <see cref="CsvMapping"/> instance. (Cloning is required if 
+    /// <typeparamref name="TResult"/> is <see cref="CsvMapping"/> and the results need to be
+    /// cached.</param>
     /// 
     internal CsvReader(CsvReader reader,
                        CsvMapping mapping,
                        Func<dynamic, TResult> conversion,
                        bool cloneMappings)
     {
-        //_ArgumentNullException.ThrowIfNull(reader, nameof(reader));
         Debug.Assert(reader is not null);
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
-        
+
         _reader = reader;
         _mapping = mapping;
         _conversion = conversion;
@@ -85,12 +87,13 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// <exception cref="ObjectDisposedException">The CSV file was already
     /// closed.</exception>
     /// <exception cref="IOException">I/O error.</exception>
-    /// <exception cref="CsvFormatException">Invalid CSV file. The interpretation depends
-    /// on the <see cref="CsvOpts" /> value, specified in the constructor of the <see cref="CsvReader"/>.
+    /// <exception cref="CsvFormatException">Invalid CSV file. The interpretation 
+    /// depends on the <see cref="CsvOpts" /> value, specified in the constructor 
+    /// of the <see cref="CsvReader"/>.
     /// </exception>
     /// <exception cref="FormatException">
-    /// Parsing fails and the <see cref="TypeConverters.TypeConverter{T}.Throwing"/> property of that
-    /// <see cref="TypeConverters.TypeConverter{T}"/> is <c>true</c>.
+    /// Parsing fails and the <see cref="TypeConverters.TypeConverter{T}.Throwing"/>
+    /// property of that <see cref="TypeConverters.TypeConverter{T}"/> is <c>true</c>.
     /// </exception>
     bool IEnumerator.MoveNext() => TryRead(out _current);
 
@@ -113,33 +116,35 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
 
     /// <inheritdoc/>
     public IEnumerator<TResult> GetEnumerator() => this;
-    
+
     /// <inheritdoc/>
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    /// <summary>Tries to read the next <typeparamref name="TResult"/> from the CSV file.
+    /// <summary>Tries to read the next <typeparamref name="TResult"/> from the 
+    /// CSV file.
     /// </summary>
     /// <param name="result">After the method returns <c>true</c>, contains
-    /// the next <typeparamref name="TResult"/> parsed from the CSV file, otherwise 
-    /// <c>default</c>.</param>
-    /// <returns><c>true</c> if a new <typeparamref name="TResult"/> instance could be parsed
-    /// from the CSV data, otherwise <c>false</c>.</returns>
+    /// the next <typeparamref name="TResult"/> parsed from the CSV file, 
+    /// otherwise <c>default</c>.</param>
+    /// <returns><c>true</c> if a new <typeparamref name="TResult"/> instance 
+    /// could be parsed from the CSV data, otherwise <c>false</c>.</returns>
     /// 
     /// <exception cref="ObjectDisposedException">The CSV file was already
     /// closed.</exception>
     /// <exception cref="IOException">I/O error.</exception>
-    /// <exception cref="CsvFormatException">Invalid CSV file. The interpretation depends
-    /// on the <see cref="CsvOpts" /> value, specified in the constructor of the <see cref="CsvReader"/>.
+    /// <exception cref="CsvFormatException">Invalid CSV file. The interpretation 
+    /// depends on the <see cref="CsvOpts" /> value, specified in the constructor 
+    /// of the <see cref="CsvReader"/>.
     /// </exception>
     /// <exception cref="FormatException">
-    /// Parsing fails and the <see cref="TypeConverters.TypeConverter{T}.Throwing"/> property of that
-    /// <see cref="TypeConverters.TypeConverter{T}"/> is <c>true</c>.
+    /// Parsing fails and the <see cref="TypeConverters.TypeConverter{T}.Throwing"/>
+    /// property of that <see cref="TypeConverters.TypeConverter{T}"/> is <c>true</c>.
     /// </exception>
     public bool TryRead(out TResult result)
     {
         CsvRecord? record = _reader.Read();
 
-        if(record is null)
+        if (record is null)
         {
             Dispose();
             result = default!;

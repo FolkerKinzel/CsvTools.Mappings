@@ -1,6 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
-using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -214,7 +213,7 @@ public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, IC
     public bool Contains(string propertyName) => _dynProps.Contains(propertyName);
 
     /// <inheritdoc/>
-    public IEnumerator<DynamicProperty> GetEnumerator() 
+    public IEnumerator<DynamicProperty> GetEnumerator()
         => ((IEnumerable<DynamicProperty>)_dynProps).GetEnumerator();
 
     /// <inheritdoc/>
@@ -302,13 +301,13 @@ public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, IC
     /// <inheritdoc/>
     [ExcludeFromCodeCoverage]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override IEnumerable<string> GetDynamicMemberNames() 
+    public override IEnumerable<string> GetDynamicMemberNames()
         => base.GetDynamicMemberNames();
 
     /// <inheritdoc/>
     [ExcludeFromCodeCoverage]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override DynamicMetaObject GetMetaObject(Expression parameter) 
+    public override DynamicMetaObject GetMetaObject(Expression parameter)
         => base.GetMetaObject(parameter);
 
     /// <inheritdoc/>
@@ -316,13 +315,13 @@ public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, IC
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryBinaryOperation(BinaryOperationBinder binder,
                                             object arg,
-                                            out object? result) 
+                                            out object? result)
         => base.TryBinaryOperation(binder, arg, out result);
 
     /// <inheritdoc/>
     [ExcludeFromCodeCoverage]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override bool TryConvert(ConvertBinder binder, out object? result) 
+    public override bool TryConvert(ConvertBinder binder, out object? result)
         => base.TryConvert(binder, out result);
 
     /// <inheritdoc/>
@@ -342,7 +341,7 @@ public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, IC
     /// <inheritdoc/>
     [ExcludeFromCodeCoverage]
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public override bool TryDeleteMember(DeleteMemberBinder binder) 
+    public override bool TryDeleteMember(DeleteMemberBinder binder)
         => base.TryDeleteMember(binder);
 
     /// <inheritdoc/>
@@ -381,7 +380,7 @@ public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, IC
     [ExcludeFromCodeCoverage]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public override bool TryUnaryOperation(UnaryOperationBinder binder,
-                                           out object? result) 
+                                           out object? result)
         => base.TryUnaryOperation(binder, out result);
 
     /// <inheritdoc/>
