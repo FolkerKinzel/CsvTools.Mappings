@@ -7,6 +7,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="System.DateTime"/>.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 public sealed class DateTimeConverter : TypeConverter<DateTime>, ILocalizable
 {
     /// <summary>

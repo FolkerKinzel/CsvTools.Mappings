@@ -9,6 +9,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// Static class that contains methods to create <see cref="TypeConverter{T}"/> 
 /// instances for the <see cref="Uri"/> class.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 public static class UriConverter
 {
     /// <summary>

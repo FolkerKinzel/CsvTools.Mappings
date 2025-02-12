@@ -14,6 +14,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
 /// </example>
+/// <threadsafety static="true" instance="true"/>
 public sealed class DoubleConverter : TypeConverter<double>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="DoubleConverter"/> instance.</summary>

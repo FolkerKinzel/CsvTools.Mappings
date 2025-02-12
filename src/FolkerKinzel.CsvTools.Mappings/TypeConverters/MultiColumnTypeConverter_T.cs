@@ -39,6 +39,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <img src="images\MultiColumnConverter.png"/>
 /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
 /// </example>
+/// <threadsafety static="false" instance="false"/>
 public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneable
 {
     /// <summary>

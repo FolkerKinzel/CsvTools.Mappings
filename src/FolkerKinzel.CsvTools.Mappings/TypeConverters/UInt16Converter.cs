@@ -8,6 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="ushort"/>.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 [CLSCompliant(false)]
 public sealed class UInt16Converter
     : TypeConverter<ushort>, IHexConverter<ushort>, ILocalizable, IAsHexConverter

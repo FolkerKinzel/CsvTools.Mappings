@@ -19,6 +19,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <img src="images\MultiColumnConverter.png"/>
 /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
 /// </example>
+/// <threadsafety static="true" instance="true"/>
 public sealed class ByteConverter 
     : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, IAsHexConverter
 {

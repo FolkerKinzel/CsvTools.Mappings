@@ -58,6 +58,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
 /// </example>
+/// <threadsafety static="false" instance="false"/>
 public sealed class CsvMapping : DynamicObject, IEnumerable<DynamicProperty>, ICloneable
 {
     private class PropertyCollection : KeyedCollection<string, DynamicProperty>

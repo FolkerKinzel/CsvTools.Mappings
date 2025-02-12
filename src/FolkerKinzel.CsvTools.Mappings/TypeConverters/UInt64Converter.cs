@@ -8,6 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="ulong"/>.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 [CLSCompliant(false)]
 public sealed class UInt64Converter
     : TypeConverter<ulong>, IHexConverter<ulong>, ILocalizable, IAsHexConverter

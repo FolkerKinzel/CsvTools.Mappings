@@ -8,6 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="sbyte"/>.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 [CLSCompliant(false)]
 public sealed class SByteConverter
     : TypeConverter<sbyte>, IHexConverter<sbyte>, ILocalizable, IAsHexConverter

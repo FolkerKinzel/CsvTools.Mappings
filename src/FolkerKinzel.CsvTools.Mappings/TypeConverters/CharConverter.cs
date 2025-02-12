@@ -14,6 +14,7 @@
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
 /// </example>
+/// <threadsafety static="true" instance="true"/>
 public sealed class CharConverter(bool throwing = true, char defaultValue = default)
     : TypeConverter<char>(throwing, defaultValue)
 {

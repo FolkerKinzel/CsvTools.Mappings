@@ -6,6 +6,7 @@
 /// <param name="throwing">Sets the value of the 
 /// <see cref="TypeConverter{T}.Throwing"/> property.</param>
 /// <param name="defaultValue">Sets the value of the <see cref="TypeConverter{T}.DefaultValue"/> property.</param>
+/// <threadsafety static="true" instance="true"/>
 public sealed class BooleanConverter(bool throwing = true, bool defaultValue = default)
     : TypeConverter<bool>(throwing, defaultValue)
 {

@@ -15,6 +15,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
 /// </example>
+/// <threadsafety static="false" instance="false"/>
 public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
 {
     /// <summary>

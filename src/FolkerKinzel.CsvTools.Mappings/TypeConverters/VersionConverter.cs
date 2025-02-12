@@ -7,6 +7,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// Static class that contains methods to create <see cref="TypeConverter{T}"/> 
 /// instances for the <see cref="Version"/> class.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 public static class VersionConverter
 {
     /// <summary>

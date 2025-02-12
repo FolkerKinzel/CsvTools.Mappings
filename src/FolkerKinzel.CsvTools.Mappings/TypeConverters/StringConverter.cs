@@ -19,6 +19,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <para>Object serialization with CSV:</para>
 /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
 /// </example>
+/// <threadsafety static="true" instance="true"/>
 public static class StringConverter
 {
     /// <summary>

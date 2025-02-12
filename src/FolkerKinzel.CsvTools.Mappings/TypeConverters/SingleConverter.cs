@@ -7,6 +7,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="float"/>.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 public sealed class SingleConverter : TypeConverter<float>, ILocalizable
 {
     /// <summary>Initializes a new <see cref="SingleConverter"/> instance.</summary>

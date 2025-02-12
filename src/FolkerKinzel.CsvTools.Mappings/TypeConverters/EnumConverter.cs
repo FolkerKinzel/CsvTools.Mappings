@@ -18,6 +18,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// a CSV file into a <see cref="DataTable"/>: </para>
 /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
 /// </example>
+/// <threadsafety static="true" instance="true"/>
 public sealed class EnumConverter<TEnum> : TypeConverter<TEnum> where TEnum : struct, Enum
 {
     /// <summary>

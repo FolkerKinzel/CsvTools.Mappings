@@ -8,6 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="long"/>.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 public sealed class Int64Converter
     : TypeConverter<long>, IHexConverter<long>, ILocalizable, IAsHexConverter
 {

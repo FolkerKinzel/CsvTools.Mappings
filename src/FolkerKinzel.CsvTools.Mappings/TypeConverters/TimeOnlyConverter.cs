@@ -6,6 +6,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <summary>
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="TimeOnly"/>.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 public sealed class TimeOnlyConverter : TypeConverter<TimeOnly>, ILocalizable
 {
     /// <summary>

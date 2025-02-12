@@ -8,6 +8,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// instances for <see cref="byte"/> arrays that serialize/deserialize the data
 /// in Base64 format.
 /// </summary>
+/// <threadsafety static="true" instance="true"/>
 public static class Base64Converter
 {
     /// <summary>
