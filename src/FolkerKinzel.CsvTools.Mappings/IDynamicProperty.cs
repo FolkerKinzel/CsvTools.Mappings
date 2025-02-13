@@ -12,8 +12,8 @@ public interface IDynamicProperty
     IEnumerable<int> CsvColumnIndexes { get; }
 
     /// <summary>
-    /// Gets the column names of the columns of the CSV file that the <see cref="DynamicProperty"/>
-    /// accesses.
+    /// Gets the column names of the columns of the CSV file that the 
+    /// <see cref="DynamicProperty"/> accesses.
     /// </summary>
     /// <remarks>
     /// If the CSV file has no header row, gets the automatically created

@@ -2,7 +2,7 @@
             Casts a <a href="dc1efb76-ccb1-38fb-cd92-12937a874421.htm">DynamicProperty</a> to a <a href="21968396-c199-b723-6be0-151b2c0a7638.htm">ITypedProperty<span id="LSTB3B2B8C8_3" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LSTB3B2B8C8_4" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a>
             in order to have type safe access to its <a href="8b96ee29-b083-b709-ba97-c106631ce3f0.htm">Value</a>
             without having to use dynamic .NET properties ("late binding").
-            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.1+c23233ffbfb36c4b5a9a7f27d5e689275b3d6a5a<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">static</span> <span class="identifier">ITypedProperty</span>&lt;T&gt; <span class="identifier">AsITypedProperty</span>&lt;T&gt;(
+            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.1+645ec9cbfcfcba2e869d5de472ee3fb83db2e675<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">static</span> <span class="identifier">ITypedProperty</span>&lt;T&gt; <span class="identifier">AsITypedProperty</span>&lt;T&gt;(
 	<span class="keyword">this</span> <span class="identifier">DynamicProperty</span> <span class="parameter">property</span>
 )
 </code></pre></div></div><div class="codeSnippet is-hidden" data-codeSnippetLanguage="vb"><div class="codeHeader"><span class="codeHeaderTitle">VB</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-vb">&lt;<span class="identifier">ExtensionAttribute</span>&gt;
@@ -19,19 +19,18 @@
             <a href="4f4d61ef-73fd-6f9c-9735-d13b649e046d.htm">TypeConverter<span id="LSTB3B2B8C8_5" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LSTB3B2B8C8_6" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a> that <span class="parameter">property</span> has
             been initialized with.</dd></dl><h4 class="quickLinkHeader">Return Value</h4><a href="21968396-c199-b723-6be0-151b2c0a7638.htm">ITypedProperty</a><span id="LSTB3B2B8C8_7" data-languageSpecificText="cpp=&lt;|cs=&lt;|fs=&lt;|vb=(Of |nu=("></span><span class="selflink"><span class="typeparameter">T</span></span><span id="LSTB3B2B8C8_8" data-languageSpecificText="cpp=&gt;|cs=&gt;|fs=&gt;|vb=)|nu=)"></span><br /><span class="parameter">property</span> casted as <a href="21968396-c199-b723-6be0-151b2c0a7638.htm">ITypedProperty<span id="LSTB3B2B8C8_9" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LSTB3B2B8C8_10" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a>.
             <h4 class="quickLinkHeader">Usage Note</h4>In Visual Basic and C#, you can call this method as an instance method on any object of type <a href="dc1efb76-ccb1-38fb-cd92-12937a874421.htm">DynamicProperty</a>. When you use instance method syntax to call this method, omit the first parameter. For more information, see <a href="https://docs.microsoft.com/dotnet/visual-basic/programming-guide/language-features/procedures/extension-methods" target="_blank" rel="noopener noreferrer">Extension Methods (Visual Basic)</a> or <a href="https://docs.microsoft.com/dotnet/csharp/programming-guide/classes-and-structs/extension-methods" target="_blank" rel="noopener noreferrer">Extension Methods (C# Programming Guide)</a>.</div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Remarks</h2><div id="IDECSection"><p>
-            This method exists in order to support high-performance scenarios. It allows you 
-            to process value types without boxing and unboxing.
+            This method exists in order to support high-performance scenarios. It allows 
+            you to process value types without boxing and unboxing.
             </p><p>
             The method is just syntactic sugar around a simple cast. When passing a <span class="code">null</span>
-            reference as argument the compiler will give you a nullability warning but the return type 
-            will be <span class="code">null</span>.
+            reference as argument the compiler will give you a nullability warning but the 
+            return type will be <span class="code">null</span>.
             </p><article class="message is-warning"><div class="message-header"><p><span class="icon"><i class="fa fa-warning"></i></span>  Caution</p></div><div class="message-body">
             When using nullable reference types, take care to cast to the correct nullability:
             The compiler won't warn you when casting incorrectly!
             </div></article></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Example</h2><div id="IDFCSection"><p>Object serialization with CSV:</p><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using System.Buffers;
 using System.Globalization;
 
 namespace Benchmarks;
@@ -40,8 +39,8 @@ internal static partial class CalculationReader
 {
     internal static IList&lt;Calculation&gt; ReadPerformance(string csv)
     {
-        // Strict parsers are faster:
-        var doubleConverter = new DoubleConverter(styles: NumberStyles.Integer 
+        // Strict parsers are faster but less flexible:
+        var doubleConverter = new DoubleConverter(styles: NumberStyles.Integer
                                                         | NumberStyles.AllowLeadingSign
                                                         | NumberStyles.AllowDecimalPoint);
 
@@ -54,7 +53,7 @@ internal static partial class CalculationReader
             .Build();
 
         using var stringReader = new StringReader(csv);
-        using var csvReader = new CsvReader(stringReader, options: CsvOpts.Default 
+        using var csvReader = new CsvReader(stringReader, options: CsvOpts.Default
         /* Using the DisableCaching option avoids cloning the */ | CsvOpts.DisableCaching);
         /* the CsvRecord instance with each Read(). */
 
@@ -70,7 +69,7 @@ internal static partial class CalculationReader
 
         CsvRecord? record;
 
-        while((record = csvReader.Read()) != null)
+        while ((record = csvReader.Read()) != null)
         {
             mapping.Record = record;
             list.Add(new Calculation(first.Value, op.Value, second.Value, result.Value));

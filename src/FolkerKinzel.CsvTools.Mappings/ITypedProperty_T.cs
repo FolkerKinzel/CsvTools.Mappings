@@ -11,7 +11,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// 
 /// <remarks>
 /// <note type="tip">
-/// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+/// Use the extension method 
+/// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
 /// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
 /// instance.
 /// </note>
@@ -34,7 +35,8 @@ public interface ITypedProperty<T> : IDynamicProperty
     /// value types can be omitted in this way.
     /// </para>
     /// <note type="tip">
-    /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// Use the extension method 
+    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
     /// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
     /// instance.
     /// </note>
@@ -59,7 +61,6 @@ public interface ITypedProperty<T> : IDynamicProperty
     /// </para>
     /// </exception>
     T Value { get; set; }
-
     // Value can't be T? here: If it were, this property could never return
     // a non-nullable reference type.
 
@@ -70,7 +71,8 @@ public interface ITypedProperty<T> : IDynamicProperty
     /// 
     /// <remarks>
     /// <note type="tip">
-    /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// Use the extension method 
+    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
     /// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
     /// instance.
     /// </note>
@@ -78,12 +80,14 @@ public interface ITypedProperty<T> : IDynamicProperty
     T? DefaultValue { get; }
 
     /// <summary>
-    /// An object implementing <see cref="ITypeConverter{T}"/> that performs the type conversion.
+    /// An object implementing <see cref="ITypeConverter{T}"/> that performs the 
+    /// type conversion.
     /// </summary>
     /// <remarks>
     /// 
     /// <note type="tip">
-    /// Use the extension method <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+    /// Use the extension method 
+    /// <see cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
     /// to cast a <see cref="DynamicProperty"/> to an <see cref="ITypedProperty{T}"/>
     /// instance.
     /// </note>
