@@ -1,6 +1,7 @@
 # FolkerKinzel.CsvTools.Mappings
 [![NuGet](https://img.shields.io/nuget/v/FolkerKinzel.CsvTools.Mappings)](https://www.nuget.org/packages/FolkerKinzel.CsvTools.Mappings/)
 [![GitHub](https://img.shields.io/github/license/FolkerKinzel/CsvTools.Mappings)](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/LICENSE)
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://stand-with-ukraine.pp.ua)
 
 ## Mappings and Type Conversions for FolkerKinzel.CsvTools (RFC 4180)
 [Project Reference](https://folkerkinzel.github.io/CsvTools.Mappings/reference/)
