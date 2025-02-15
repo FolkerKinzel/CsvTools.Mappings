@@ -19,13 +19,11 @@ internal static class ObjectSerializationExample
                             new("Frederic Chopin", "Piano", null, null)
                          ];
 
-        // Reuse a converter for more than one property:
+        // A converter can be reused for more than one DynamicProperty:
         Conv::TypeConverter<string?> stringConverter = Conv::StringConverter.CreateNullable();
 
-        // Initialize a Mapping that maps the data from
-        // the CSV-Columns and converts it to the right data type.
-        // Aliases with wildcards can be used to match the column-headers
-        // of the CSV file. 
+        // Initialize a CsvMapping that maps the data from the CSV-Columns and converts it to the right data type.
+        // Aliases with wildcards can be used to match the column-headers of the CSV file. 
         CsvMapping mapping = CsvMappingBuilder
             .Create()
             .AddProperty("Name", ["*name"], stringConverter)
@@ -34,7 +32,7 @@ internal static class ObjectSerializationExample
             .AddProperty("LessonBegin", ["*begin?"], new Conv::TimeOnlyConverter().ToNullableConverter())
             .Build();
 
-        // Create a nonstandard CSV-File as UTF-16 LE
+        // Create a CSV-File as UTF-16 LE
         pupils.SaveCsv(filePath, 
                        ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"],
                        mapping, 
