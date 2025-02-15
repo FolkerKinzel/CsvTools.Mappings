@@ -18,9 +18,9 @@ public class CsvReaderTests
     public void IEnumerableTest()
     {
         using var stringReader = new StringReader("Hi");
-        using CsvReader<dynamic> objectReader = CsvConverter.OpenRead(stringReader, 
-                                                                      CsvMappingBuilder.Create().Build(), 
-                                                                      dyn => dyn, 
+        using CsvReader<dynamic> objectReader = CsvConverter.OpenRead(stringReader,
+                                                                      CsvMappingBuilder.Create().Build(),
+                                                                      dyn => dyn,
                                                                       isHeaderPresent: false);
         Assert.AreEqual(1, objectReader.AsWeakEnumerable().Count());
     }

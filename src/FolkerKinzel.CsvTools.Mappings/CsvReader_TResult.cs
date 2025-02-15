@@ -17,9 +17,9 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// attempt is made to iterate it twice, an <see cref="ObjectDisposedException"/> is 
 /// thrown.
 /// </para>
-/// <para>
+/// <note type="tip">
 /// Use the methods of <see cref="CsvConverter"/> to create an instance!
-/// </para>
+/// </note>
 /// </remarks>
 /// 
 /// <example>
@@ -33,7 +33,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     private readonly CsvReader _reader;
     private readonly CsvMapping _mapping;
     private readonly Func<dynamic, TResult> _conversion;
-    private readonly bool _cloneMappings;
+    private readonly bool _cloneMapping;
     private TResult? _current;
     private bool _disposed;
 
@@ -55,25 +55,35 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     /// can be used like regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
-    /// <param name="cloneMappings"><c>true</c> to clone <paramref name="mapping"/> each time 
+    /// <param name="cloneMapping"><c>true</c> to clone <paramref name="mapping"/> each time 
     /// before passing it to <paramref name="conversion"/>, or <c>false</c> to use always the 
     /// same <see cref="CsvMapping"/> instance. (Cloning is required if 
-    /// <typeparamref name="TResult"/> is <see cref="CsvMapping"/> and the results need to be
-    /// cached.</param>
+    /// <typeparamref name="TResult"/> is <see cref="CsvMapping"/> and the results need to be 
+    /// cached.)</param>
     /// 
-    internal CsvReader(CsvReader reader,
-                       CsvMapping mapping,
-                       Func<dynamic, TResult> conversion,
-                       bool cloneMappings)
+    /// <remarks>
+    /// <note type="tip">
+    /// It's recommended to use the methods of <see cref="CsvConverter"/> to create an instance.
+    /// </note>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="reader"/>, or <paramref name="mapping"/>, or <paramref name="conversion"/>
+    /// is <c>null</c>.
+    /// </exception>
+    public CsvReader(CsvReader reader,
+                     CsvMapping mapping,
+                     Func<dynamic, TResult> conversion,
+                     bool cloneMapping)
     {
-        Debug.Assert(reader is not null);
+        _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
 
         _reader = reader;
         _mapping = mapping;
         _conversion = conversion;
-        _cloneMappings = cloneMappings;
+        _cloneMapping = cloneMapping;
     }
 
     /// <inheritdoc/>
@@ -151,7 +161,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
             return false;
         }
 
-        CsvMapping clone = _cloneMappings ? (CsvMapping)_mapping.Clone() : _mapping;
+        CsvMapping clone = _cloneMapping ? (CsvMapping)_mapping.Clone() : _mapping;
         clone.Record = record;
         result = _conversion(clone);
         return true;

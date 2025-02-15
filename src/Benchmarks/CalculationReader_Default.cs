@@ -18,10 +18,10 @@ internal static partial class CalculationReader
             .Build();
 
         return CsvConverter.Parse(csv,
-                                  mapping, 
-                                  dyn => new Calculation(dyn.First, 
+                                  mapping,
+                                  dyn => new Calculation(dyn.First,
                                                          dyn.Operator,
-                                                         dyn.Second, 
+                                                         dyn.Second,
                                                          dyn.Result));
     }
 }

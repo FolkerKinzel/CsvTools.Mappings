@@ -189,19 +189,14 @@ public static class CsvConverter
     /// <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
-    /// <para>Creates a new CSV file. If the target file already exists, it is truncated 
+    /// Creates a new CSV file. If the target file already exists, it is truncated 
     /// and overwritten.
-    /// </para>
-    /// <para>
-    /// This method creates a CSV file that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the 
-    /// <see cref="Write"/> method instead.
-    /// </para>
     /// </remarks>
     /// 
     /// <example>
@@ -221,9 +216,10 @@ public static class CsvConverter
                                    IReadOnlyCollection<string?> columnNames,
                                    CsvMapping mapping,
                                    Action<TData, dynamic> conversion,
+                                   char delimiter = ',',
                                    Encoding? textEncoding = null)
     {
-        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnNames, textEncoding);
+        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnNames, delimiter, textEncoding);
         Write(data, csvWriter, mapping, conversion);
     }
 
@@ -260,19 +256,14 @@ public static class CsvConverter
     /// <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
-    /// <para>Creates a new CSV file. If the target file already exists, it is 
-    /// truncated and overwritten.
-    /// </para>
-    /// <para>
-    /// This method creates a CSV file that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use 
-    /// the <see cref="Write"/> method instead.
-    /// </para>
+    /// Creates a new CSV file. If the target file already exists, it is truncated and 
+    /// overwritten.
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="filePath"/>, or 
@@ -289,9 +280,10 @@ public static class CsvConverter
                                    int columnsCount,
                                    CsvMapping mapping,
                                    Action<TData, dynamic> conversion,
+                                   char delimiter = ',',
                                    Encoding? textEncoding = null)
     {
-        using CsvWriter csvWriter = Csv.OpenWrite(filePath, columnsCount, textEncoding);
+        using CsvWriter csvWriter = new(filePath, columnsCount, delimiter, textEncoding);
         Write(data, csvWriter, mapping, conversion);
     }
 
@@ -316,6 +308,7 @@ public static class CsvConverter
     /// </para>
     /// </param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
@@ -323,12 +316,6 @@ public static class CsvConverter
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
     /// truncated and overwritten.
-    /// </para>
-    /// <para>
-    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' 
-    /// (%x2C) as field delimiter. This complies with the RFC 4180 standard. If another 
-    /// delimiter is required, use <see cref="Write(DataTable, CsvWriter, CsvMapping)"/> 
-    /// instead.
     /// </para>
     /// <para>
     /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
@@ -373,9 +360,10 @@ public static class CsvConverter
                             string filePath,
                             IReadOnlyCollection<string?> columnNames,
                             CsvMapping mapping,
+                            char delimiter = ',',
                             Encoding? textEncoding = null)
     {
-        using CsvWriter writer = Csv.OpenWrite(filePath, columnNames, textEncoding);
+        using CsvWriter writer = Csv.OpenWrite(filePath, columnNames, delimiter, textEncoding);
         Write(dataTable, writer, mapping);
     }
 
@@ -426,16 +414,10 @@ public static class CsvConverter
     /// in <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// 
     /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
     /// <paramref name="data"/>.</returns>
-    /// 
-    /// <remarks>
-    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field 
-    /// delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the 
-    /// <see cref="Write"/> method instead.
-    /// </remarks>
     ///
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
     /// <paramref name="columnNames"/>, or <paramref name="mapping"/>, or <paramref name="conversion"/>
@@ -445,10 +427,11 @@ public static class CsvConverter
     public static string ToCsv<TData>(IEnumerable<TData?> data,
                                       IReadOnlyCollection<string?> columnNames,
                                       CsvMapping mapping,
-                                      Action<TData, dynamic> conversion)
+                                      Action<TData, dynamic> conversion,
+                                      char delimiter = ',')
     {
         using var stringWriter = new StringWriter();
-        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnNames);
+        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnNames, delimiter);
 
         Write(data, csvWriter, mapping, conversion);
 
@@ -487,15 +470,10 @@ public static class CsvConverter
     /// in <paramref name="mapping"/> are reset to their <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// 
     /// <returns>A CSV <see cref="string"/> without header row that contains the contents of 
     /// <paramref name="data"/>.</returns>
-    /// 
-    /// <remarks>
-    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the 
-    /// <see cref="Write"/> method instead.
-    /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
@@ -506,10 +484,11 @@ public static class CsvConverter
     public static string ToCsv<TData>(IEnumerable<TData?> data,
                                       int columnsCount,
                                       CsvMapping mapping,
-                                      Action<TData, dynamic> conversion)
+                                      Action<TData, dynamic> conversion,
+                                      char delimiter = ',')
     {
         using var stringWriter = new StringWriter();
-        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnsCount);
+        using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnsCount, delimiter);
 
         Write(data, csvWriter, mapping, conversion);
 
@@ -542,8 +521,8 @@ public static class CsvConverter
     /// </param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="options">Options for reading CSV.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="options">Options for reading CSV.</param>
     /// 
     /// <returns>A <see cref="CsvReader{TResult}"/> that allows you to iterate through the
     /// data parsed from the CSV.</returns>
@@ -557,15 +536,15 @@ public static class CsvConverter
                                                        CsvMapping mapping,
                                                        Func<dynamic, TResult> conversion,
                                                        bool isHeaderPresent = true,
-                                                       CsvOpts options = CsvOpts.Default,
-                                                       char delimiter = ',')
+                                                       char delimiter = ',',
+                                                       CsvOpts options = CsvOpts.Default)
     {
         bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         return new CsvReader<TResult>(new CsvReader(reader,
                                                     isHeaderPresent,
-                                                    options,
-                                                    delimiter),
+                                                    delimiter,
+                                                    options),
                                         mapping,
                                         conversion,
                                         cloneMapping);
@@ -595,8 +574,8 @@ public static class CsvConverter
     /// </param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="textEncoding">The text encoding to be used to read the CSV file
     /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// 
@@ -623,12 +602,16 @@ public static class CsvConverter
                                                        CsvMapping mapping,
                                                        Func<dynamic, TResult> conversion,
                                                        bool isHeaderPresent = true,
-                                                       CsvOpts options = CsvOpts.Default,
                                                        char delimiter = ',',
+                                                       CsvOpts options = CsvOpts.Default,
                                                        Encoding? textEncoding = null)
     {
         bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
-        return new CsvReader<TResult>(new CsvReader(filePath, isHeaderPresent, options, delimiter, textEncoding),
+        return new CsvReader<TResult>(new CsvReader(filePath,
+                                                    isHeaderPresent,
+                                                    delimiter,
+                                                    options,
+                                                    textEncoding),
                                       mapping,
                                       conversion,
                                       cloneMapping);
@@ -713,8 +696,8 @@ public static class CsvConverter
 
         return new CsvReader<TResult>(new CsvReader(filePath,
                                                     analyzerResult.IsHeaderPresent,
+                                                    analyzerResult.Delimiter, 
                                                     options,
-                                                    analyzerResult.Delimiter,
                                                     textEncoding),
                                       mapping,
                                       conversion,
@@ -745,8 +728,8 @@ public static class CsvConverter
     /// </param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="options">Parsing options.</param>
     /// <param name="delimiter">The field separator character used in <paramref name="csv"/>.</param>
+    /// <param name="options">Parsing options.</param>
     /// 
     /// <returns>An array of <typeparamref name="TResult"/> instances, initialized from the parsed 
     /// <paramref name="csv"/>.</returns>
@@ -776,22 +759,21 @@ public static class CsvConverter
                                            CsvMapping mapping,
                                            Func<dynamic, TResult> conversion,
                                            bool isHeaderPresent = true,
-                                           CsvOpts options = CsvOpts.Default,
-                                           char delimiter = ',')
+                                           char delimiter = ',',
+                                           CsvOpts options = CsvOpts.Default)
     {
         _ArgumentNullException.ThrowIfNull(csv, nameof(csv));
 
         bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         using var stringReader = new StringReader(csv);
-        using var csvReader = new CsvReader(stringReader, isHeaderPresent, options, delimiter);
+        using var csvReader = new CsvReader(stringReader, isHeaderPresent, delimiter, options);
         using var typedReader = new CsvReader<TResult>(csvReader, mapping, conversion, cloneMapping);
         return [.. typedReader];
     }
 
-    /// <summary>Analyzes the specified CSV-<see cref="string"/>
-    /// first and then parses its content to an array of a specified 
-    /// <see cref="Type"/>.
+    /// <summary>Analyzes the specified CSV-<see cref="string"/> first and then parses its content
+    /// to an array of a specified <see cref="Type"/>.
     /// </summary>
     ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
     /// of the items in the array that the method returns.</typeparam>
@@ -861,8 +843,8 @@ public static class CsvConverter
         using var csvReader =
             new CsvReader(stringReader,
                           analyzerResult.IsHeaderPresent,
-                          options,
-                          analyzerResult.Delimiter);
+                          analyzerResult.Delimiter,
+                          options);
         using var typeReader = new CsvReader<TResult>(csvReader, mapping, conversion, cloneMapping);
 
         return [.. typeReader];
@@ -954,8 +936,8 @@ public static class CsvConverter
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="textEncoding">The text encoding to be used to read the CSV file
     /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// 
@@ -1002,14 +984,14 @@ public static class CsvConverter
                             string filePath,
                             CsvMapping mapping,
                             bool isHeaderPresent = true,
-                            CsvOpts options = CsvOpts.Default,
                             char delimiter = ',',
+                            CsvOpts options = CsvOpts.Default,
                             Encoding? textEncoding = null)
     {
         using var reader = new CsvReader(filePath,
                                          isHeaderPresent,
-                                         options | CsvOpts.DisableCaching,
                                          delimiter,
+                                         options | CsvOpts.DisableCaching,
                                          textEncoding);
         Fill(dataTable, reader, mapping);
     }

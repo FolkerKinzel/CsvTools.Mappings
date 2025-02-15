@@ -53,15 +53,10 @@ public static class CsvConverterExtension
     /// <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// 
     /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
     /// <paramref name="data"/>.</returns>
-    /// 
-    /// <remarks>
-    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as 
-    /// field delimiter. This complies with the RFC 4180 standard. If another delimiter is 
-    /// required, use the <see cref="CsvConverter.Write"/> method instead.
-    /// </remarks>
     /// 
     /// <example>
     /// <para>Object serialization with CSV:</para>
@@ -77,8 +72,9 @@ public static class CsvConverterExtension
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       IReadOnlyCollection<string?> columnNames,
                                       CsvMapping mapping,
-                                      Action<TData, dynamic> conversion)
-        => CsvConverter.ToCsv(data, columnNames, mapping, conversion);
+                                      Action<TData, dynamic> conversion,
+                                      char delimiter = ',')
+        => CsvConverter.ToCsv(data, columnNames, mapping, conversion, delimiter);
 
     /// <summary>
     /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
@@ -112,15 +108,10 @@ public static class CsvConverterExtension
     /// <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// 
     /// <returns>A CSV <see cref="string"/> without header row that contains the contents of 
     /// <paramref name="data"/>.</returns>
-    /// 
-    /// <remarks>
-    /// This method creates a CSV <see cref="string"/> that uses the comma ',' (%x2C) as field
-    /// delimiter. This complies with the RFC 4180 standard. If another delimiter is required,
-    /// use the <see cref="CsvConverter.Write"/> method instead.
-    /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
@@ -130,8 +121,9 @@ public static class CsvConverterExtension
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       int columnsCount,
                                       CsvMapping mapping,
-                                      Action<TData, dynamic> conversion)
-        => CsvConverter.ToCsv(data, columnsCount, mapping, conversion);
+                                      Action<TData, dynamic> conversion,
+                                      char delimiter = ',')
+        => CsvConverter.ToCsv(data, columnsCount, mapping, conversion, delimiter);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
@@ -180,19 +172,14 @@ public static class CsvConverterExtension
     /// <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
-    /// <para>Creates a new CSV file. If the target file already exists, it is 
+    /// Creates a new CSV file. If the target file already exists, it is 
     /// truncated and overwritten.
-    /// </para>
-    /// <para>
-    /// This method creates a CSV file that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use 
-    /// the <see cref="CsvConverter.Write"/> method instead.
-    /// </para>
     /// </remarks>
     /// 
     /// <example>
@@ -213,8 +200,10 @@ public static class CsvConverterExtension
                                       IReadOnlyCollection<string?> columnNames,
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
+                                      char delimiter = ',',
                                       Encoding? textEncoding = null)
-        => CsvConverter.Save(data, filePath, columnNames, mapping, conversion, textEncoding);
+        => CsvConverter.Save(
+            data, filePath, columnNames, mapping, conversion, delimiter, textEncoding);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
@@ -249,19 +238,14 @@ public static class CsvConverterExtension
     /// <see cref="DynamicProperty.DefaultValue"/>.
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
-    /// <para>Creates a new CSV file. If the target file already exists, it is 
+    /// Creates a new CSV file. If the target file already exists, it is 
     /// truncated and overwritten.
-    /// </para>
-    /// <para>
-    /// This method creates a CSV file that uses the comma ',' (%x2C) as field delimiter.
-    /// This complies with the RFC 4180 standard. If another delimiter is required, use the 
-    /// <see cref="CsvConverter.Write"/> method instead.
-    /// </para>
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="filePath"/>, or 
@@ -279,6 +263,8 @@ public static class CsvConverterExtension
                                       int columnsCount,
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
+                                      char delimiter = ',',
                                       Encoding? textEncoding = null)
-        => CsvConverter.Save(data, filePath, columnsCount, mapping, conversion, textEncoding);
+        => CsvConverter.Save(
+            data, filePath, columnsCount, mapping, conversion, delimiter, textEncoding);
 }

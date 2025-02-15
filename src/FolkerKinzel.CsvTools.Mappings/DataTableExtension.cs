@@ -77,8 +77,8 @@ public static class DataTableExtension
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="textEncoding">The text encoding to be used to read the CSV file
     /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// 
@@ -133,10 +133,11 @@ public static class DataTableExtension
                                string filePath,
                                CsvMapping mapping,
                                bool isHeaderPresent = true,
-                               CsvOpts options = CsvOpts.Default,
                                char delimiter = ',',
+                               CsvOpts options = CsvOpts.Default,
                                Encoding? textEncoding = null)
-        => CsvConverter.Fill(dataTable, filePath, mapping, isHeaderPresent, options, delimiter, textEncoding);
+        => CsvConverter.Fill(
+            dataTable, filePath, mapping, isHeaderPresent, delimiter, options, textEncoding);
 
     /// <summary>
     /// Adds the content of a CSV file as <see cref="DataRow"/>s to the <see cref="DataTable"/>
@@ -242,6 +243,7 @@ public static class DataTableExtension
     /// </para>
     /// </param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
@@ -249,11 +251,6 @@ public static class DataTableExtension
     /// <remarks>
     /// <para>Creates a new CSV file. If the target file already exists, it is 
     /// truncated and overwritten.
-    /// </para>
-    /// <para>
-    /// This method initializes a <see cref="CsvWriter"/> instance that uses the comma ',' (%x2C) 
-    /// as field delimiter. This complies with the RFC 4180 standard. If another delimiter is 
-    /// required, use <see cref="WriteCsv(DataTable, CsvWriter, CsvMapping)"/> instead.
     /// </para>
     /// <para>
     /// Each <see cref="DynamicProperty.PropertyName"/> of <paramref name="mapping"/>
@@ -306,8 +303,10 @@ public static class DataTableExtension
                                 string filePath,
                                 IReadOnlyCollection<string?> columnNames,
                                 CsvMapping mapping,
+                                char delimiter = ',',
                                 Encoding? textEncoding = null)
-        => CsvConverter.Save(dataTable, filePath, columnNames, mapping, textEncoding);
+        => CsvConverter.Save(
+            dataTable, filePath, columnNames, mapping, delimiter, textEncoding);
 
     /// <summary>
     /// Writes the content of the <see cref="DataTable"/> as CSV.
