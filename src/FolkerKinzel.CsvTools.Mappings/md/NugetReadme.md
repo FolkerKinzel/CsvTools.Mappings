@@ -5,6 +5,7 @@
 
 This package allows:
 - analyzing CSV files and CSV strings (delimiter, header row, column names, text encoding, and required options for reading non-standard CSV)
+- retrieving the appropriate parameters for exchanging CSV data with Excel
 - serializing and deserializing collections of any data type 
 - serializing and deserializing DataTables
 - to do things easily and with just a few lines of code. In addition, the package also provides the means to write high-performance code:
