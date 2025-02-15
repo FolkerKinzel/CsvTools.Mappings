@@ -15,80 +15,6 @@ public static class CsvConverterExtension
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to convert to CSV. Each item will be represented 
-    /// with a CSV row.</param>
-    /// <param name="columnNames">
-    /// <para>
-    /// A collection of column names for the header to be written.
-    /// </para>
-    /// <para>
-    /// The collection determines the order in which the columns appear in the CSV file.
-    /// </para>
-    /// <para>
-    /// The collection will be copied. If the collection contains <c>null</c> values,
-    /// empty strings or white space, these are replaced by automatically generated column 
-    /// names. Column names cannot appear twice. By default the comparison is case-sensitive
-    /// but it will be reset to a case-insensitive comparison if the column names are 
-    /// also unique when treated case-insensitive.
-    /// </para>
-    /// </param>
-    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
-    /// <param name="conversion">
-    /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
-    /// into the properties of <paramref name="mapping"/>. 
-    /// </para>
-    /// <para>
-    /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
-    /// arguments. <paramref name="mapping"/>
-    /// is passed to the method as <c>dynamic</c> argument: Inside the 
-    /// <paramref name="conversion"/> method the registered 
-    /// <see cref="DynamicProperty"/> instances can be used like 
-    /// regular .NET properties, but without IntelliSense ("late binding").
-    /// </para>
-    /// <para>
-    /// With each call of <paramref name="conversion"/> all <see cref="DynamicProperty"/> 
-    /// instances in <paramref name="mapping"/> are reset to their 
-    /// <see cref="DynamicProperty.DefaultValue"/>.
-    /// </para>
-    /// </param>
-    /// <param name="delimiter">The field separator character.</param>
-    /// 
-    /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
-    /// <paramref name="data"/>.</returns>
-    /// 
-    /// <example>
-    /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
-    /// </example>
-    /// 
-    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
-    /// <paramref name="columnNames"/>, or <paramref name="mapping"/>, or 
-    /// <paramref name="conversion"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException">
-    /// A column name in <paramref name="columnNames" /> occurs twice.
-    /// </exception>
-    /// <exception cref="IOException">I/O error.</exception>
-    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(this IEnumerable<TData?> data,
-                                      IReadOnlyCollection<string?> columnNames,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',')
-        => CsvConverter.ToCsv(data, columnNames, mapping, conversion, delimiter);
-
-    /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
-    /// <see cref="string"/>.
-    /// The <see cref="CsvMapping.PropertyNames"/> of <paramref name="mapping"/> are
-    /// used as header row of the CSV file to be written.
-    /// </summary>
-    /// <typeparam name="TData">
-    /// Generic type parameter for the data type to write as CSV row.
-    /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
     /// a CSV row.
     /// </param>
@@ -114,20 +40,38 @@ public static class CsvConverterExtension
     /// </para>
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="columnNames">
+    /// <para>
+    /// A collection of column names for the header to be written, or <c>null</c> to use the
+    /// <see cref="CsvMapping.PropertyNames"/> of <paramref name="mapping"/> as column names.
+    /// </para>
+    /// <para>
+    /// The collection determines the order in which the columns appear in the CSV file.
+    /// </para>
+    /// <para>
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty 
+    /// strings, or white space, these are replaced by automatically generated column names.
+    /// Column names cannot appear twice. By default the comparison is case-sensitive but 
+    /// it will be reset to a case-insensitive comparison if the column names are also 
+    /// unique when treated case-insensitive.
+    /// </para>
+    /// </param>
     /// 
     /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
     /// <paramref name="data"/>.</returns>
     ///
-    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or <paramref name="mapping"/>, 
-    /// or <paramref name="conversion"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
+    /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException">
+    /// A column name in <paramref name="columnNames" /> occurs twice.
+    /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
-    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
-                                      char delimiter = ',')
-        => CsvConverter.ToCsv(data, mapping, conversion, delimiter);
+                                      char delimiter = ',',
+                                      IReadOnlyCollection<string?>? columnNames = null)
+        => CsvConverter.ToCsv(data, mapping, conversion, delimiter, columnNames);
 
     /// <summary>
     /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
@@ -186,102 +130,9 @@ public static class CsvConverterExtension
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented with 
-    /// a CSV row.</param>
-    /// <param name="filePath">File path of the CSV file.</param>
-    /// <param name="columnNames">
-    /// <para>
-    /// A collection of column names for the header to be written.
-    /// </para>
-    /// <para>
-    /// The collection determines the order in which the columns appear in the CSV file.
-    /// </para>
-    /// <para>
-    /// The collection will be copied. If the collection contains <c>null</c> values, empty
-    /// strings or white space, these are replaced by automatically generated column names. 
-    /// Column names cannot appear twice. By default the comparison is case-sensitive but 
-    /// it will be reset to a case-insensitive comparison if the column names are also unique
-    /// when treated case-insensitive.
-    /// </para>
-    /// </param>
-    /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
-    /// <param name="conversion">
-    /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
-    /// into the properties of <paramref name="mapping"/>. 
-    /// </para>
-    /// <para>
-    /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
-    /// arguments. <paramref name="mapping"/>
-    /// is passed to the method as <c>dynamic</c> argument: Inside the 
-    /// <paramref name="conversion"/> method the registered <see cref="DynamicProperty"/> 
-    /// instances can be used like regular .NET properties, but without IntelliSense 
-    /// ("late binding").
-    /// </para>
-    /// <para>
-    /// With each call of <paramref name="conversion"/> all <see cref="DynamicProperty"/> 
-    /// instances in <paramref name="mapping"/> are reset to their 
-    /// <see cref="DynamicProperty.DefaultValue"/>.
-    /// </para>
-    /// </param>
-    /// <param name="delimiter">The field separator character.</param>
-    /// <param name="textEncoding">
-    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
-    /// </param>
-    /// 
-    /// <remarks>
-    /// Creates a new CSV file. If the target file already exists, it is 
-    /// truncated and overwritten.
-    /// </remarks>
-    /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - 
-    /// exception handling has been omitted.</note>
-    /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
-    /// </example>
-    /// 
-    /// <exception cref="ArgumentNullException"><paramref name="filePath"/>, or 
-    /// <paramref name="data"/>, or <paramref name="columnNames"/>, or <paramref name="mapping"/>,
-    /// or <paramref name="conversion"/> is <c>null</c>.</exception>
-    /// <exception cref="ArgumentException">
-    /// <para>
-    /// <paramref name="filePath" /> is not a valid file path
-    /// </para>
-    /// <para>
-    /// - or -
-    /// </para>
-    /// <para>
-    /// a column name in <paramref name="columnNames" /> occurs twice.
-    /// </para>
-    /// </exception>
-    /// <exception cref="IOException">I/O error.</exception>
-    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void SaveCsv<TData>(this IEnumerable<TData?> data,
-                                      string filePath,
-                                      IReadOnlyCollection<string?> columnNames,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',',
-                                      Encoding? textEncoding = null)
-        => CsvConverter.Save(
-            data, filePath, columnNames, mapping, conversion, delimiter, textEncoding);
-
-    /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file.
-    /// The <see cref="CsvMapping.PropertyNames"/> of <paramref name="mapping"/> are
-    /// used as header row of the CSV file to be written.
-    /// </summary>
-    /// <typeparam name="TData">
-    /// Generic type parameter for the data type to write as CSV row.
-    /// </typeparam>
-    /// <param name="data">The data to save as CSV file. Each item will be represented with 
     /// a CSV row.
     /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
-    /// 
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
     /// <typeparamref name="TData"/> instance to a CSV row.</param>
     /// <param name="conversion">
@@ -305,6 +156,22 @@ public static class CsvConverterExtension
     /// </para>
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="columnNames">
+    /// <para>
+    /// A collection of column names for the header to be written, or <c>null</c> to use the
+    /// <see cref="CsvMapping.PropertyNames"/> of <paramref name="mapping"/> as column names.
+    /// </para>
+    /// <para>
+    /// The collection determines the order in which the columns appear in the CSV file.
+    /// </para>
+    /// <para>
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty 
+    /// strings, or white space, these are replaced by automatically generated column names.
+    /// Column names cannot appear twice. By default the comparison is case-sensitive but 
+    /// it will be reset to a case-insensitive comparison if the column names are also 
+    /// unique when treated case-insensitive.
+    /// </para>
+    /// </param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
@@ -315,28 +182,36 @@ public static class CsvConverterExtension
     /// </remarks>
     /// 
     /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception
-    /// handling has been omitted.</note>
     /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\ExcelExample.cs"/>
+    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
     /// </example>
-    /// 
-    /// <exception cref="ArgumentNullException"><paramref name="filePath"/>, or 
-    /// <paramref name="data"/>, or <paramref name="mapping"/>,
-    /// or <paramref name="conversion"/> is <c>null</c>.</exception>
+    ///
+    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
+    /// <paramref name="filePath"/>, or <paramref name="mapping"/>, or 
+    /// <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
+    /// <para>
     /// <paramref name="filePath" /> is not a valid file path.
+    /// </para>
+    /// <para>
+    /// - or -
+    /// </para>
+    /// <para>
+    /// <paramref name="columnNames"/> is not <c>null</c> and a column name in 
+    /// <paramref name="columnNames" /> occurs twice.
+    /// </para>
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
                                       char delimiter = ',',
+                                      IReadOnlyCollection<string?>? columnNames = null,
                                       Encoding? textEncoding = null)
-        => CsvConverter.Save(data, filePath, mapping, conversion, delimiter, textEncoding);
+        => CsvConverter.Save(
+            data, filePath, mapping, conversion, delimiter, columnNames, textEncoding);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file

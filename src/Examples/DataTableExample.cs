@@ -38,7 +38,7 @@ internal static class DataTableExample
         Conv::TypeConverter<object> stringConverter
             = Conv::StringConverter.CreateNullable().ToDBNullConverter();
 
-        // Each dynamic property name of the Mapping has to have a corresponding column in
+        // Each dynamic property name of the CsvMapping has to have a corresponding column in
         // the DataTable - corresponding in the DataColumn.Caption property (case-insensitive)
         // and the accepted data type. Mapping properties and DataColumns don't need to
         // correspond in their number and order and they don't need to match the columns of
@@ -56,11 +56,11 @@ internal static class DataTableExample
             .Build();
 
         // Write the CSV file:
-        // (The column names determine which DataColumns will be part of the CSV
-        // and their order in the CSV file.)
-        dataTable.WriteCsv(filePath, 
-                           ["Subject", "Lesson Start", "Name", "Day", "Reserved"],
-                           mapping);
+        // (The CSV column names and the CsvMapping determine which DataColumns will be
+        // part of the CSV and their order in the CSV file.)
+        dataTable.WriteCsv(filePath,
+                           mapping,
+                           csvColumnNames: ["Subject", "Lesson Start", "Name", "Day", "Reserved"]);
 
         dataTable.Clear();
 
@@ -74,20 +74,19 @@ internal static class DataTableExample
         Console.WriteLine("Content of the refilled DataTable:");
         Utility.WriteConsole(dataTable);
     }
-
-    /* 
-   Console output:
-
-   Csv file:
-
-   Subject,Lesson Start,Name,Day,Reserved
-   Piano,14:30:00,Susi Meyer,Wednesday,
-   Piano,15:15:00,Carl Czerny,Thursday,
-   Piano,,Frederic Chopin,,
-
-   Content of the refilled DataTable:
-   <DBNull>        Susi Meyer      Piano           3               14:30
-   <DBNull>        Carl Czerny     Piano           4               15:15
-   <DBNull>        Frederic Chopin Piano           <DBNull>        <DBNull>
-   */
 }
+/* 
+Console output:
+
+Csv file:
+
+Subject,Lesson Start,Name,Day,Reserved
+Piano,14:30:00,Susi Meyer,Wednesday,
+Piano,15:15:00,Carl Czerny,Thursday,
+Piano,,Frederic Chopin,,
+
+Content of the refilled DataTable:
+<DBNull>        Susi Meyer      Piano           3               14:30
+<DBNull>        Carl Czerny     Piano           4               15:15
+<DBNull>        Frederic Chopin Piano           <DBNull>        <DBNull>
+*/

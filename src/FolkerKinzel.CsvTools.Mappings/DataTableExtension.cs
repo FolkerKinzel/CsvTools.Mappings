@@ -223,13 +223,17 @@ public static class DataTableExtension
         => CsvConverter.FillAnalyzed(dataTable, filePath, mapping, header, textEncoding, analyzedLines);
 
     /// <summary>
-    /// Writes the content of the <see cref="DataTable"/> as a CSV file with header.
+    /// Saves the content of a <see cref="DataTable"/> as a CSV file with header.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> whose content is written.</param>
     /// <param name="filePath">File path of the CSV file.</param>
-    /// <param name="columnNames">
+    /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
+    /// <param name="delimiter">The field separator character.</param>
+    /// <param name="csvColumnNames">
     /// <para>
-    /// A collection of column names for the header to be written.
+    /// A collection of column names for the CSV header row to be written, or <c>null</c> to 
+    /// use the <see cref="DataColumn.ColumnName"/>s of <paramref name="dataTable"/> as CSV 
+    /// column names.
     /// </para>
     /// <para>
     /// The collection determines the order in which the columns appear in the CSV file.
@@ -238,12 +242,10 @@ public static class DataTableExtension
     /// The collection will be copied. If the collection contains <c>null</c> values, empty 
     /// strings or white space, these are replaced by automatically generated column names. 
     /// Column names cannot appear twice. By default the comparison is case-sensitive but 
-    /// it will be reset to a case-insensitive comparison if the column names are also 
-    /// unique when treated case-insensitive.
+    /// it will be reset to a case-insensitive comparison if the column names are also unique
+    /// when treated case-insensitive.
     /// </para>
     /// </param>
-    /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
-    /// <param name="delimiter">The field separator character.</param>
     /// <param name="textEncoding">
     /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
@@ -264,22 +266,14 @@ public static class DataTableExtension
     /// even when treated case-insensitive.
     /// </para>
     /// <para>
-    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to
-    /// match all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither 
-    /// in number nor in order).
+    /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need 
+    /// to match all columns of the <see cref="DataTable"/> or all columns of the CSV file 
+    /// (neither in number nor in order).
     /// </para>
     /// </remarks>
     /// 
-    /// <example>
-    /// <note type="note">In the following code examples - for easier readability - exception 
-    /// handling has been omitted.</note>
-    /// <para>DataTable serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-    /// </example>
-    /// 
     /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or 
-    /// <paramref name="filePath"/>, or <paramref name="columnNames"/>, or <paramref name="mapping"/>
-    /// is <c>null</c>.</exception>
+    /// <paramref name="filePath"/>, or <paramref name="mapping"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException">
     /// <para><paramref name="filePath" /> is not a valid file path.</para>
     /// <para>- or -</para>
@@ -298,15 +292,14 @@ public static class DataTableExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void WriteCsv(this DataTable dataTable,
                                 string filePath,
-                                IReadOnlyCollection<string?> columnNames,
                                 CsvMapping mapping,
                                 char delimiter = ',',
+                                IEnumerable<string?>? csvColumnNames = null,
                                 Encoding? textEncoding = null)
         => CsvConverter.Save(
-            dataTable, filePath, columnNames, mapping, delimiter, textEncoding);
+            dataTable, filePath, mapping, delimiter, csvColumnNames, textEncoding);
 
     /// <summary>
     /// Writes the content of the <see cref="DataTable"/> as CSV.

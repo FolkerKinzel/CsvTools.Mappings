@@ -31,10 +31,11 @@ internal static class ExcelExample
                                  new("Tom", 38_527.28m, new DateOnly(2006, 12, 24)),
                                  new("Rachel", 25.8m, new DateOnly(2011, 8, 27)) ];
 
-        // Get the Excel parameters for CultureInfo.CurrentCulture:
+        // Get the Excel arguments for CultureInfo.CurrentCulture:
         (char delimiter, IFormatProvider formatProvider) = Csv.GetExcelParameters();
 
-        // Pass the formatProvider from the Excel parameters to all localizable converters:
+        // Pass the formatProvider from the Excel arguments to all localizable converters.
+        // (The same CsvMapping could be used for parsing too.)
         CsvMapping mapping = CsvMappingBuilder
             .Create()
             .AddProperty("Name", Conv::StringConverter.CreateNonNullable())

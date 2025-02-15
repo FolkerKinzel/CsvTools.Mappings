@@ -28,7 +28,7 @@ public class DataTableExtensionTests
 
         CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
-        table.WriteCsv(filePath, ["A", "B"], mapping);
+        table.WriteCsv(filePath, mapping);
 
         table.Clear();
 
@@ -54,7 +54,7 @@ public class DataTableExtensionTests
 
         CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
-        table.WriteCsv(filePath, ["A", "B"], mapping);
+        table.WriteCsv(filePath, mapping);
 
         table.Clear();
 

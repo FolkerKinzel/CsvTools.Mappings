@@ -33,9 +33,8 @@ internal static class ObjectSerializationExample
             .Build();
 
         // Create a CSV-File as UTF-16 LE
-        pupils.SaveCsv(filePath, 
-                       ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"],
-                       mapping, 
+        pupils.SaveCsv(filePath,
+                       mapping,
                        (pupil, dyn) => // dyn is mapping as a dynamic variable ("late binding")
                        {
                            dyn.Name = pupil.Name;
@@ -43,6 +42,7 @@ internal static class ObjectSerializationExample
                            dyn.LessonDay = pupil.LessonDay;
                            dyn.LessonBegin = pupil.LessonBegin;
                        },
+                       columnNames: ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"],
                        textEncoding: Encoding.Unicode);
         
         // Reading analyzed will auto-detect the UTF-16 encoding:

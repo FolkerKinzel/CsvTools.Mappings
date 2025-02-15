@@ -16,7 +16,7 @@ public class CsvMappingExtensionTests
 
         CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
-        string csv = values.ToCsv(["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
+        string csv = values.ToCsv(mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
         (int A, int B)[] results = CsvConverter.Parse<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B));
 
@@ -46,7 +46,7 @@ public class CsvMappingExtensionTests
 
         CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
-        string csv = values.ToCsv(["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
+        string csv = values.ToCsv(mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
         (int A, int B)[] results = CsvConverter.ParseAnalyzed<(int A, int B)>(csv, mapping, dyn => (dyn.A, dyn.B));
 
@@ -63,7 +63,7 @@ public class CsvMappingExtensionTests
 
         CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
-        values.SaveCsv(filePath, ["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
+        values.SaveCsv(filePath, mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
         using CsvReader<(int A, int B)> reader = CsvConverter.OpenRead<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B));
 
@@ -100,7 +100,7 @@ public class CsvMappingExtensionTests
 
         CsvMapping mapping = CsvMappingBuilder.Create().AddProperty("A", converter).AddProperty("B", converter).Build();
 
-        values.SaveCsv(filePath, ["A", "B"], mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
+        values.SaveCsv(filePath, mapping, (tuple, dyn) => { dyn.A = tuple.A; dyn.B = tuple.B; });
 
         using CsvReader<(int A, int B)> reader = CsvConverter.OpenReadAnalyzed<(int A, int B)>(filePath, mapping, dyn => (dyn.A, dyn.B));
 
