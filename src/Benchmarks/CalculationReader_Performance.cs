@@ -25,7 +25,7 @@ internal static partial class CalculationReader
         using var stringReader = new StringReader(csv);
         using var csvReader = new CsvReader(stringReader, options: CsvOpts.Default
         /* Using the DisableCaching option avoids cloning the */ | CsvOpts.DisableCaching);
-        /* the CsvRecord instance with each Read(). */
+        /* the CsvRecord instance with each Read().           */
 
         var list = new List<Calculation>(64); // (This data storage allows further optimization.)
 
