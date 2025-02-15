@@ -32,7 +32,7 @@ internal static class ExcelExample
                                  new("Rachel", 25.8m, new DateOnly(2011, 8, 27)) ];
 
         // Get the Excel arguments for CultureInfo.CurrentCulture:
-        (char delimiter, IFormatProvider formatProvider) = Csv.GetExcelParameters();
+        (char delimiter, IFormatProvider formatProvider) = Csv.GetExcelArguments();
 
         // Pass the formatProvider from the Excel arguments to all localizable converters.
         // (The same CsvMapping could be used for parsing too.)

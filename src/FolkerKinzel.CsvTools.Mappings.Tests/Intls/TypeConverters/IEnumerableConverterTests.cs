@@ -33,7 +33,7 @@ public class IEnumerableConverterTests
         string csv = writer.ToString();
 
         using var reader = new StringReader(csv);
-        using var csvReader = new CsvReader(reader, false);
+        using var csvReader = new CsvReader(reader, isHeaderPresent: false);
 
         mapping.Record = csvReader.First();
 
