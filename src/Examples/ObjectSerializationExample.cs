@@ -38,7 +38,7 @@ internal static class ObjectSerializationExample
         pupils.SaveCsv(filePath, 
                        ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"],
                        mapping, 
-                       (pupil, dyn) =>
+                       (pupil, dyn) => // dyn is mapping as a dynamic variable ("late binding")
                        {
                            dyn.Name = pupil.Name;
                            dyn.Subject = pupil.Subject;
@@ -51,7 +51,6 @@ internal static class ObjectSerializationExample
         using CsvReader<Pupil> pupilsReader =
            CsvConverter.OpenReadAnalyzed<Pupil>(filePath,
                                                 mapping,
-                                                // dyn is mapping as a dynamic variable ("late binding")
                                                 static dyn => new Pupil(dyn.Name,
                                                                         dyn.Subject,
                                                                         dyn.LessonDay,
