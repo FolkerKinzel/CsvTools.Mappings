@@ -76,11 +76,11 @@ public static class DataTableExtension
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">The text encoding to be used to read the CSV file
+    /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
     /// <param name="options">Options for reading the CSV file.</param>
-    /// <param name="textEncoding">The text encoding to be used to read the CSV file
-    /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// 
     /// <remarks>
     /// <para>
@@ -137,11 +137,11 @@ public static class DataTableExtension
                                string filePath,
                                CsvMapping mapping,
                                char delimiter = ',',
+                               Encoding? textEncoding = null,
                                bool isHeaderPresent = true,
-                               CsvOpts options = CsvOpts.Default,
-                               Encoding? textEncoding = null)
+                               CsvOpts options = CsvOpts.Default)
         => CsvConverter.Fill(
-            dataTable, filePath, mapping, delimiter, isHeaderPresent, options, textEncoding);
+            dataTable, filePath, mapping, delimiter, textEncoding, isHeaderPresent, options);
 
     /// <summary>
     /// Adds the content of a CSV file as <see cref="DataRow"/>s to the <see cref="DataTable"/>
@@ -151,11 +151,11 @@ public static class DataTableExtension
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
-    /// <param name="header">A supposition that is made about the presence of a header row.</param>
-    /// <param name="textEncoding">
+    /// <param name="fallbackEncoding">
     /// The text encoding to be used to read the CSV file, or <c>null</c> to determine the 
     /// <see cref="Encoding"/> automatically from the byte order mark (BOM).
     /// </param>
+    /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
     /// value is <see cref="CsvAnalyzer.AnalyzedLinesMinCount" />. If the file has fewer lines than 
     /// <paramref name="analyzedLines" />, it will be analyzed completely. (You can specify 
@@ -186,7 +186,7 @@ public static class DataTableExtension
     /// </para>
     /// <para>
     /// This method also automatically determines the <see cref="Encoding"/> of the CSV file from
-    /// the byte order mark (BOM) if the argument of the <paramref name="textEncoding"/> parameter
+    /// the byte order mark (BOM) if the argument of the <paramref name="fallbackEncoding"/> parameter
     /// is <c>null</c>. If the <see cref="Encoding"/> cannot be determined automatically,
     /// <see cref="Encoding.UTF8"/> is used.
     /// </para>
@@ -221,10 +221,10 @@ public static class DataTableExtension
     public static void ReadCsvAnalyzed(this DataTable dataTable,
                                        string filePath,
                                        CsvMapping mapping,
+                                       Encoding? fallbackEncoding = null,
                                        Header header = Header.ProbablyPresent,
-                                       Encoding? textEncoding = null,
                                        int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
-        => CsvConverter.FillAnalyzed(dataTable, filePath, mapping, header, textEncoding, analyzedLines);
+        => CsvConverter.FillAnalyzed(dataTable, filePath, mapping, fallbackEncoding, header, analyzedLines);
 
     /// <summary>
     /// Saves the content of a <see cref="DataTable"/> as a CSV file with header.
@@ -233,6 +233,9 @@ public static class DataTableExtension
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// <param name="csvColumnNames">
     /// <para>
     /// A collection of column names for the CSV header row to be written, or <c>null</c> to 
@@ -249,9 +252,6 @@ public static class DataTableExtension
     /// it will be reset to a case-insensitive comparison if the column names are also unique
     /// when treated case-insensitive.
     /// </para>
-    /// </param>
-    /// <param name="textEncoding">
-    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
@@ -311,10 +311,10 @@ public static class DataTableExtension
                                 string filePath,
                                 CsvMapping mapping,
                                 char delimiter = ',',
-                                IEnumerable<string?>? csvColumnNames = null,
-                                Encoding? textEncoding = null)
+                                Encoding? textEncoding = null,
+                                IEnumerable<string?>? csvColumnNames = null)
         => CsvConverter.Save(
-            dataTable, filePath, mapping, delimiter, csvColumnNames, textEncoding);
+            dataTable, filePath, mapping, delimiter, textEncoding, csvColumnNames);
 
     /// <summary>
     /// Writes the content of the <see cref="DataTable"/> as CSV.

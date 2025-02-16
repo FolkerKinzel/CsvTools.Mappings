@@ -156,6 +156,9 @@ public static class CsvConverterExtension
     /// </para>
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// <param name="columnNames">
     /// <para>
     /// A collection of column names for the header to be written, or <c>null</c> to use the
@@ -171,9 +174,6 @@ public static class CsvConverterExtension
     /// it will be reset to a case-insensitive comparison if the column names are also 
     /// unique when treated case-insensitive.
     /// </para>
-    /// </param>
-    /// <param name="textEncoding">
-    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
@@ -214,10 +214,10 @@ public static class CsvConverterExtension
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
                                       char delimiter = ',',
-                                      IReadOnlyCollection<string?>? columnNames = null,
-                                      Encoding? textEncoding = null)
+                                      Encoding? textEncoding = null,
+                                      IReadOnlyCollection<string?>? columnNames = null)
         => CsvConverter.Save(
-            data, filePath, mapping, conversion, delimiter, columnNames, textEncoding);
+            data, filePath, mapping, conversion, delimiter, textEncoding, columnNames);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file

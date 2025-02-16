@@ -42,8 +42,8 @@ internal static class ObjectSerializationExample
                            dyn.LessonDay = pupil.LessonDay;
                            dyn.LessonBegin = pupil.LessonBegin;
                        },
-                       columnNames: ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"],
-                       textEncoding: Encoding.Unicode);
+                       textEncoding: Encoding.Unicode,
+                       columnNames: ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"]);
         
         // Reading analyzed will auto-detect the UTF-16 encoding:
         using CsvReader<Pupil> pupilsReader =

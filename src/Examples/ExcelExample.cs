@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
 using Conv = FolkerKinzel.CsvTools.Mappings.TypeConverters;
@@ -29,10 +30,12 @@ internal static class ExcelExample
 
         Customer[] customers = [ new("Susi", 4_711m, new DateOnly(2004, 3, 14)),
                                  new("Tom", 38_527.28m, new DateOnly(2006, 12, 24)),
-                                 new("Rachel", 25.8m, new DateOnly(2011, 8, 27)) ];
+                                 new("Sören", 25.8m, new DateOnly(2011, 8, 27)) ];
 
         // Get the Excel arguments for CultureInfo.CurrentCulture:
-        (char delimiter, IFormatProvider formatProvider) = Csv.GetExcelArguments();
+        (char delimiter,
+         IFormatProvider formatProvider,
+         Encoding encoding) = Csv.GetExcelArguments();
 
         // Pass the formatProvider from the Excel arguments to all localizable converters.
         // (The same CsvMapping could be used for parsing too.)
@@ -50,11 +53,12 @@ internal static class ExcelExample
             dyn.RecentPurchase = customer.RecentPurchase;
         }
 
-        // Don't forget to pass the delimiter from the Excel arguments:
-        customers.SaveCsv(filePath, mapping, Conversion, delimiter);
+        // Don't forget to pass the delimiter from the Excel arguments!
+        // (The textEncoding can be omitted when writing, but not when reading.)
+        customers.SaveCsv(filePath, mapping, Conversion, delimiter, encoding);
 
         Console.WriteLine();
-        Console.WriteLine(File.ReadAllText(filePath));
+        Console.WriteLine(File.ReadAllText(filePath, encoding));
     }
 }
 
@@ -66,5 +70,5 @@ Current culture: de-DE
 Name;Sales;RecentPurchase
 Susi;4711;14.03.2004
 Tom;38527,28;24.12.2006
-Rachel;25,8;27.08.2011
+Sören;25,8;27.08.2011
 */

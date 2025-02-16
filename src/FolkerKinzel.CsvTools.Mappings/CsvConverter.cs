@@ -125,14 +125,14 @@ public static class CsvConverter
     }
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
-    /// with header row.
+    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file with
+    /// header row.
     /// </summary>
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
-    /// <param name="data">The data to save as CSV file. Each item will be represented with 
-    /// a CSV row.
+    /// <param name="data">The data to save as CSV file. Each item will be represented 
+    /// with a CSV row.
     /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
@@ -158,6 +158,9 @@ public static class CsvConverter
     /// </para>
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// <param name="columnNames">
     /// <para>
     /// A collection of column names for the header to be written, or <c>null</c> to use the
@@ -173,9 +176,6 @@ public static class CsvConverter
     /// it will be reset to a case-insensitive comparison if the column names are also 
     /// unique when treated case-insensitive.
     /// </para>
-    /// </param>
-    /// <param name="textEncoding">
-    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
@@ -211,8 +211,8 @@ public static class CsvConverter
                                    CsvMapping mapping,
                                    Action<TData, dynamic> conversion,
                                    char delimiter = ',',
-                                   IReadOnlyCollection<string?>? columnNames = null,
-                                   Encoding? textEncoding = null)
+                                   Encoding? textEncoding = null,
+                                   IReadOnlyCollection<string?>? columnNames = null)
     {
         using CsvWriter csvWriter = Csv.OpenWrite(
             filePath, GetColumnNames(columnNames, mapping), delimiter, textEncoding);
@@ -296,6 +296,9 @@ public static class CsvConverter
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
     /// <param name="csvColumnNames">
     /// <para>
     /// A collection of column names for the CSV header row to be written, or <c>null</c> to 
@@ -312,9 +315,6 @@ public static class CsvConverter
     /// it will be reset to a case-insensitive comparison if the column names are also unique
     /// when treated case-insensitive.
     /// </para>
-    /// </param>
-    /// <param name="textEncoding">
-    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
     /// </param>
     /// 
     /// <remarks>
@@ -367,8 +367,8 @@ public static class CsvConverter
                             string filePath,
                             CsvMapping mapping,
                             char delimiter = ',',
-                            IEnumerable<string?>? csvColumnNames = null,
-                            Encoding? textEncoding = null)
+                            Encoding? textEncoding = null,
+                            IEnumerable<string?>? csvColumnNames = null)
     {
         _ArgumentNullException.ThrowIfNull(dataTable, nameof(dataTable));
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
@@ -594,11 +594,11 @@ public static class CsvConverter
     /// </para>
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">The text encoding to be used to read the CSV file
+    /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
     /// <param name="options">Options for reading the CSV file.</param>
-    /// <param name="textEncoding">The text encoding to be used to read the CSV file
-    /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// 
     /// <returns>A <see cref="CsvReader{TResult}"/> that allows you to iterate through the
     /// data parsed from the CSV.</returns>
@@ -606,9 +606,9 @@ public static class CsvConverter
     /// <remarks>
     /// <para>
     /// The optimal parameters can be determined automatically with 
-    /// <see cref="Csv.AnalyzeFile(string, Header, Encoding?, int)"/> - or use
-    /// <see cref="OpenReadAnalyzed{TResult}(string, CsvMapping, Func{dynamic, TResult}, 
-    /// Header, Encoding?, int)"/>.
+    /// <see cref="Csv.AnalyzeFile(string, Encoding?, Header, int)"/> - or use
+    /// <see cref="OpenReadAnalyzed{TResult}(string, CsvMapping, Func{dynamic, TResult}, Encoding?, 
+    /// Header, int)"/>.
     /// </para>
     /// <para>
     /// When importing CSV data from Excel, the appropriate arguments can be determined 
@@ -627,24 +627,24 @@ public static class CsvConverter
                                                        CsvMapping mapping,
                                                        Func<dynamic, TResult> conversion,
                                                        char delimiter = ',',
+                                                       Encoding? textEncoding = null,
                                                        bool isHeaderPresent = true,
-                                                       CsvOpts options = CsvOpts.Default,
-                                                       Encoding? textEncoding = null)
+                                                       CsvOpts options = CsvOpts.Default)
     {
         bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
         return new CsvReader<TResult>(new CsvReader(filePath,
                                                     delimiter,
+                                                    textEncoding,
                                                     isHeaderPresent,
-                                                    options,
-                                                    textEncoding),
+                                                    options),
                                       mapping,
                                       conversion,
                                       cloneMapping);
     }
 
-    /// <summary>Analyzes the CSV file referenced with <paramref name="filePath"/>
-    /// first and then returns a <see cref="CsvReader{TResult}"/> for reading its
-    /// data as a collection of <typeparamref name="TResult"/> instances.
+    /// <summary>Analyzes the CSV file referenced with <paramref name="filePath"/> first and 
+    /// then returns a <see cref="CsvReader{TResult}"/> for reading its data as a collection 
+    /// of <typeparamref name="TResult"/> instances.
     /// </summary>
     /// 
     ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
@@ -666,9 +666,9 @@ public static class CsvConverter
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
-    /// <param name="header">A supposition that is made about the presence of a header row.</param>
-    /// <param name="textEncoding">The text encoding to be used to read the CSV file,
+    /// <param name="fallbackEncoding">The text encoding to be used to read the CSV file,
     /// or <c>null</c> to determine the encoding automatically from the byte order mark (BOM).</param>
+    /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
     /// value is <see cref="CsvAnalyzer.AnalyzedLinesMinCount" />. If the file has fewer lines than 
     /// <paramref name="analyzedLines" />, it will be analyzed completely. (You can specify 
@@ -710,20 +710,22 @@ public static class CsvConverter
     public static CsvReader<TResult> OpenReadAnalyzed<TResult>(string filePath,
                                                                CsvMapping mapping,
                                                                Func<dynamic, TResult> conversion,
+                                                               Encoding? fallbackEncoding = null,
                                                                Header header = Header.ProbablyPresent,
-                                                               Encoding? textEncoding = null,
                                                                int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
     {
-        (CsvAnalyzerResult analyzerResult, Encoding enc) =
-            CsvTools.Csv.AnalyzeFile(filePath, header, textEncoding, analyzedLines);
+        (CsvAnalyzerResult analyzerResult, Encoding enc) = Csv.AnalyzeFile(filePath,
+                                                                           fallbackEncoding,
+                                                                           header,
+                                                                           analyzedLines);
         CsvOpts options = analyzerResult.Options;
         bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         return new CsvReader<TResult>(new CsvReader(filePath,
                                                     analyzerResult.Delimiter,
+                                                    enc,
                                                     analyzerResult.IsHeaderPresent,
-                                                    options,
-                                                    textEncoding),
+                                                    options),
                                       mapping,
                                       conversion,
                                       cloneMapping);
@@ -865,11 +867,10 @@ public static class CsvConverter
         bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
 
         using var stringReader = new StringReader(csv);
-        using var csvReader =
-            new CsvReader(stringReader,
-                          analyzerResult.Delimiter,
-                          analyzerResult.IsHeaderPresent,
-                          options);
+        using var csvReader = new CsvReader(stringReader,
+                                            analyzerResult.Delimiter,
+                                            analyzerResult.IsHeaderPresent,
+                                            options);
         using var typeReader = new CsvReader<TResult>(csvReader, mapping, conversion, cloneMapping);
 
         return [.. typeReader];
@@ -960,11 +961,11 @@ public static class CsvConverter
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">The text encoding to be used to read the CSV file
+    /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
     /// <param name="options">Options for reading the CSV file.</param>
-    /// <param name="textEncoding">The text encoding to be used to read the CSV file
-    /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
     /// 
     /// <remarks>
     /// <para>
@@ -1013,15 +1014,15 @@ public static class CsvConverter
                             string filePath,
                             CsvMapping mapping,
                             char delimiter = ',',
+                            Encoding? textEncoding = null,
                             bool isHeaderPresent = true,
-                            CsvOpts options = CsvOpts.Default,
-                            Encoding? textEncoding = null)
+                            CsvOpts options = CsvOpts.Default)
     {
         using var reader = new CsvReader(filePath,
                                          delimiter,
+                                         textEncoding,
                                          isHeaderPresent,
-                                         options | CsvOpts.DisableCaching,
-                                         textEncoding);
+                                         options | CsvOpts.DisableCaching);
         Fill(dataTable, reader, mapping);
     }
 
@@ -1033,11 +1034,11 @@ public static class CsvConverter
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
-    /// <param name="header">A supposition that is made about the presence of a header row.</param>
-    /// <param name="textEncoding">
+    /// <param name="fallbackEncoding">
     /// The text encoding to be used to read the CSV file, or <c>null</c> to determine the 
     /// <see cref="Encoding"/> automatically from the byte order mark (BOM).
     /// </param>
+    /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
     /// value is <see cref="CsvAnalyzer.AnalyzedLinesMinCount" />. If the file has fewer lines than 
     /// <paramref name="analyzedLines" />, it will be analyzed completely. (You can specify 
@@ -1069,7 +1070,7 @@ public static class CsvConverter
     /// </para>
     /// <para>
     /// This method also automatically determines the <see cref="Encoding"/> of the CSV file from 
-    /// the byte order mark (BOM) if the argument of the <paramref name="textEncoding"/> parameter 
+    /// the byte order mark (BOM) if the argument of the <paramref name="fallbackEncoding"/> parameter 
     /// is <c>null</c>. If the <see cref="Encoding"/> cannot be determined automatically, 
     /// <see cref="Encoding.UTF8"/> is used.
     /// </para>
@@ -1103,12 +1104,12 @@ public static class CsvConverter
     public static void FillAnalyzed(DataTable dataTable,
                                     string filePath,
                                     CsvMapping mapping,
+                                    Encoding? fallbackEncoding = null,
                                     Header header = Header.ProbablyPresent,
-                                    Encoding? textEncoding = null,
                                     int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
     {
         using CsvReader reader = Csv.OpenReadAnalyzed(
-            filePath, header, disableCaching: true, textEncoding, analyzedLines);
+            filePath, fallbackEncoding, header, disableCaching: true, analyzedLines);
         Fill(dataTable, reader, mapping);
     }
 
