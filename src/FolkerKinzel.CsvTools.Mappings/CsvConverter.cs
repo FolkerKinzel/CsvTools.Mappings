@@ -179,8 +179,14 @@ public static class CsvConverter
     /// </param>
     /// 
     /// <remarks>
+    /// <para>
     /// Creates a new CSV file. If the target file already exists, it is truncated 
     /// and overwritten.
+    /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
     /// </remarks>
     ///
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
@@ -252,8 +258,14 @@ public static class CsvConverter
     /// </param>
     /// 
     /// <remarks>
+    /// <para>
     /// Creates a new CSV file. If the target file already exists, it is truncated and 
     /// overwritten.
+    /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="filePath"/>, or 
@@ -324,6 +336,10 @@ public static class CsvConverter
     /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need 
     /// to match all columns of the <see cref="DataTable"/> or all columns of the CSV file 
     /// (neither in number nor in order).
+    /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
     /// </para>
     /// </remarks>
     /// 
@@ -528,6 +544,10 @@ public static class CsvConverter
     /// <returns>A <see cref="CsvReader{TResult}"/> that allows you to iterate through the
     /// data parsed from the CSV.</returns>
     /// 
+    /// <remarks>
+    /// When importing CSV data from Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"> <paramref name="reader" />, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
@@ -584,12 +604,16 @@ public static class CsvConverter
     /// data parsed from the CSV.</returns>
     /// 
     /// <remarks>
-    /// <note type="tip">
+    /// <para>
     /// The optimal parameters can be determined automatically with 
     /// <see cref="Csv.AnalyzeFile(string, Header, Encoding?, int)"/> - or use
     /// <see cref="OpenReadAnalyzed{TResult}(string, CsvMapping, Func{dynamic, TResult}, 
     /// Header, Encoding?, int)"/>.
-    /// </note>
+    /// </para>
+    /// <para>
+    /// When importing CSV data from Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"> <paramref name="filePath" />, or 
@@ -958,6 +982,10 @@ public static class CsvConverter
     /// The <see cref="DynamicProperty"/> instances in <paramref name="mapping"/> don't need to 
     /// match all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither 
     /// in number nor in order).
+    /// </para>
+    /// <para>
+    /// When importing CSV data from Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
     /// </para>
     /// </remarks>
     /// 

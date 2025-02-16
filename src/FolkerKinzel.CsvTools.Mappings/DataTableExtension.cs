@@ -99,6 +99,10 @@ public static class DataTableExtension
     /// match all columns of the <see cref="DataTable"/> or all columns of the CSV file (neither 
     /// in number nor in order).
     /// </para>
+    /// <para>
+    /// When importing CSV data from Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
     /// </remarks>
     /// 
     /// <example>
@@ -270,7 +274,18 @@ public static class DataTableExtension
     /// to match all columns of the <see cref="DataTable"/> or all columns of the CSV file 
     /// (neither in number nor in order).
     /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception 
+    /// handling has been omitted.</note>
+    /// <para>DataTable serialization with CSV:</para>
+    /// <code language="cs" source="..\Examples\DataTableExample.cs"/>
+    /// </example>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="dataTable"/>, or 
     /// <paramref name="filePath"/>, or <paramref name="mapping"/> is <c>null</c>.</exception>

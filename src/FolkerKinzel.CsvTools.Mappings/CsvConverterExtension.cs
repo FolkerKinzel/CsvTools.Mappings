@@ -177,8 +177,14 @@ public static class CsvConverterExtension
     /// </param>
     /// 
     /// <remarks>
-    /// Creates a new CSV file. If the target file already exists, it is truncated 
-    /// and overwritten.
+    /// <para>
+    /// Creates a new CSV file. If the target file already exists, it is truncated and 
+    /// overwritten.
+    /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
     /// </remarks>
     /// 
     /// <example>
@@ -252,8 +258,14 @@ public static class CsvConverterExtension
     /// </param>
     /// 
     /// <remarks>
-    /// Creates a new CSV file. If the target file already exists, it is 
-    /// truncated and overwritten.
+    /// <para>
+    /// Creates a new CSV file. If the target file already exists, it is truncated and 
+    /// overwritten.
+    /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
     /// </remarks>
     /// 
     /// <exception cref="ArgumentNullException"><paramref name="filePath"/>, or 
