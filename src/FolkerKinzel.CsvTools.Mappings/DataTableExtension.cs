@@ -8,13 +8,6 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Extension methods for the <see cref="DataTable"/> class.
 /// </summary>
-/// 
-/// <example>
-/// <note type="note">In the following code examples - for easier readability 
-/// - exception handling has been omitted.</note>
-/// <para>DataTable serialization with CSV:</para>
-/// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-/// </example>
 public static class DataTableExtension
 {
     /// <summary>
@@ -145,15 +138,17 @@ public static class DataTableExtension
 
     /// <summary>
     /// Adds the content of a CSV file as <see cref="DataRow"/>s to the <see cref="DataTable"/>
-    /// after the CSV file had been analyzed.
+    /// after the file had been analyzed.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="fallbackEncoding">
-    /// The text encoding to be used to read the CSV file, or <c>null</c> to determine the 
-    /// <see cref="Encoding"/> automatically from the byte order mark (BOM).
+    /// The text <see cref="Encoding"/> to be used as a fallback if the CSV file has no byte order mark 
+    /// (BOM), or <c>null</c> to use <see cref="Encoding.UTF8"/> as fallback encoding. Use 
+    /// <see cref="Csv.GetExcelArguments"/> to get the appropriate argument for this parameter when importing
+    /// CSV data from Excel.
     /// </param>
     /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
@@ -185,15 +180,14 @@ public static class DataTableExtension
     /// is time-consuming because the CSV file has to be accessed for reading.
     /// </para>
     /// <para>
-    /// This method also automatically determines the <see cref="Encoding"/> of the CSV file from
-    /// the byte order mark (BOM) if the argument of the <paramref name="fallbackEncoding"/> parameter
-    /// is <c>null</c>. If the <see cref="Encoding"/> cannot be determined automatically,
-    /// <see cref="Encoding.UTF8"/> is used.
-    /// </para>
-    /// <para>
     /// The field delimiters COMMA (<c>','</c>, %x2C), SEMICOLON  (<c>';'</c>, %x3B), 
     /// HASH (<c>'#'</c>, %x23), TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are 
     /// recognized automatically.
+    /// </para>
+    /// <para>
+    /// This method also tries to determine the <see cref="Encoding"/> of the CSV file from the
+    /// byte order mark (BOM). If no byte order mark can be found, <paramref name="fallbackEncoding"/> 
+    /// is used.
     /// </para>
     /// </remarks>
     /// 

@@ -2,7 +2,7 @@
             Abstract base class for type converters that provides conversions between
             .NET data types and CSV data that is distributed across multiple columns 
             of a CSV file.
-            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="49476974-f7a7-3b27-3f36-82388c34e0d9.htm">FolkerKinzel.CsvTools.Mappings.TypeConverters</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.1+645ec9cbfcfcba2e869d5de472ee3fb83db2e675<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="identifier">MultiColumnTypeConverter</span>&lt;T&gt; : <span class="identifier">ITypeConverter</span>&lt;T&gt;, 
+            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="49476974-f7a7-3b27-3f36-82388c34e0d9.htm">FolkerKinzel.CsvTools.Mappings.TypeConverters</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.2+841b58d067879c976dbe5dd28f62216ee0afaa73<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="identifier">MultiColumnTypeConverter</span>&lt;T&gt; : <span class="identifier">ITypeConverter</span>&lt;T&gt;, 
 	<span class="identifier">ICloneable</span>
 </code></pre></div></div><div class="codeSnippet is-hidden" data-codeSnippetLanguage="vb"><div class="codeHeader"><span class="codeHeaderTitle">VB</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-vb"><span class="keyword">Public</span> <span class="keyword">MustInherit</span> <span class="keyword">Class</span> <span class="identifier">MultiColumnTypeConverter</span>(<span class="keyword">Of</span> T)
 	<span class="keyword">Implements</span> <span class="identifier">ITypeConverter</span>(<span class="keyword">Of</span> T), <span class="identifier">ICloneable</span></code></pre></div></div><div class="codeSnippet is-hidden" data-codeSnippetLanguage="cpp"><div class="codeHeader"><span class="codeHeaderTitle">C++</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cpp"><span class="keyword">generic</span>&lt;<span class="keyword">typename</span> T&gt;
@@ -23,178 +23,9 @@
             the abstract members. (For overriding <a href="https://learn.microsoft.com/dotnet/api/system.icloneable.clone" target="_blank" rel="noopener noreferrer">Clone<span id="LST520F74AA_8" data-languageSpecificText="cs=()|vb=|cpp=()|nu=()|fs=()"></span></a> using the 
             copy constructor 
             (<a href="53c0fae7-087a-76a9-6c3d-e0b00636a3fb.htm">MultiColumnTypeConverter<span id="LST520F74AA_9" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_10" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span>(MultiColumnTypeConverter<span id="LST520F74AA_11" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST520F74AA_12" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a>) is required!)
-            </div></article></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Example</h2><div id="IDDCSection"><p>
-            Using <span class="selflink">MultiColumnTypeConverter<span id="LST520F74AA_13" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_14" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></span> to create and parse a CSV file.
-            </p><p>
-            (For the sake of easier readability exception handling has been omitted.)
-            </p><img src="images\MultiColumnConverter.png" /><div class="codeSnippet"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs">using FolkerKinzel.CsvTools;
-using FolkerKinzel.CsvTools.Mappings;
-using System.Diagnostics;
-using System.Drawing;
-// A namespace alias helps to avoid name conflicts
-// with the converters from System.ComponentModel
-using Conv = FolkerKinzel.CsvTools.Mappings.TypeConverters;
-
-namespace Examples;
-
-/// &lt;summary&gt;
-/// Parse &lt;see cref="Color"/&gt; instances whose data is distributed across 
-/// different columns of the CSV file.
-/// &lt;/summary&gt;
-internal static class MultiColumnConverterExample
-{
-    /// &lt;summary&gt;
-    /// Custom implementation of &lt;see cref="Conv::MultiColumnTypeConverter{T}"/&gt;
-    /// for the &lt;see cref="Color"/&gt; struct. (A ready-to-use implementation can't 
-    /// be provided as it depends on the CSV file.)
-    /// &lt;/summary&gt;
-    private sealed class ColorConverter : Conv::MultiColumnTypeConverter&lt;Color&gt;
-    {
-        public override bool AcceptsNull =&gt; false;
-
-        public ColorConverter(CsvMappingBuilder mapping)
-            : base(mapping, true, Color.Transparent) { }
-
-        // Copy ctor
-        private ColorConverter(ColorConverter other) : base(other) { }
-
-        // Using the copy ctor for cloning is required
-        public override object Clone() =&gt; new ColorConverter(this);
-
-        protected override void DoConvertToCsv(Color value)
-        {
-            dynamic mapping = Mapping;
-
-            mapping.A = value.A;
-            mapping.R = value.R;
-            mapping.G = value.G;
-            mapping.B = value.B;
-        }
-
-        protected override bool TryParse(out Color result)
-        {
-            dynamic mapping = Mapping;
-
-            try
-            {
-                result = Color.FromArgb(mapping.A, mapping.R, mapping.G, mapping.B);
-                return true;
-            }
-            catch (FormatException)
-            {
-                result = DefaultValue;
-                return false;
-            }
-        }
-    }
-
-    internal static void ParseDataFromSeveralCsvColumns()
-    {
-        Conv::TypeConverter&lt;byte&gt; byteConverter = new Conv::ByteConverter().ToHexConverter();
-        var mappingBuilder = CsvMappingBuilder.Create();
-
-        var colorConverter = new ColorConverter(mappingBuilder.AddProperty("A", byteConverter)
-                                                              .AddProperty("R", byteConverter)
-                                                              .AddProperty("G", byteConverter)
-                                                              .AddProperty("B", byteConverter));
-
-        CsvMapping mapping = mappingBuilder
-            .AddProperty("ColorName", ["Name"], Conv::StringConverter.CreateNullable())
-            .AddProperty("Color", colorConverter)
-            .Build();
-
-        DirectoryInfo tmpDirectory = Directory.CreateTempSubdirectory();
-        string csvPath = Path.Combine(tmpDirectory.FullName, "Colors.csv");
-
-        CreateCsvFile(csvPath, mapping);
-        Console.WriteLine(File.ReadAllText(csvPath));
-
-        ShowCsvContentInBrowser(mapping, csvPath);
-
-        Thread.Sleep(5000);
-        tmpDirectory.Delete(true);
-    }
-
-    private static void CreateCsvFile(string csvPath, dynamic mapping)
-    {
-        using CsvWriter writer = Csv.OpenWrite(csvPath, ["Name", "A", "R", "G", "B"]);
-        mapping.Record = writer.Record;
-
-        mapping.ColorName = nameof(Color.CornflowerBlue);
-        mapping.Color = Color.CornflowerBlue;
-        writer.WriteRecord();
-
-        mapping.ColorName = nameof(Color.LawnGreen);
-        mapping.Color = Color.LawnGreen;
-        writer.WriteRecord();
-
-        mapping.ColorName = nameof(Color.Salmon);
-        mapping.Color = Color.Salmon;
-        writer.WriteRecord();
-    }
-
-    private static void ShowCsvContentInBrowser(CsvMapping mapping, string csvPath)
-    {
-        string htmlPath = Path.Combine(Path.GetDirectoryName(csvPath) ?? "", "colors.htm");
-        CreateHtmlFile(htmlPath, csvPath, mapping);
-        _ = Process.Start(new ProcessStartInfo { FileName = htmlPath, UseShellExecute = true });
-    }
-
-    private static void CreateHtmlFile(string htmlPath, string csvPath, dynamic mapping)
-    {
-        var htmlFile = new FileInfo(htmlPath);
-        using StreamWriter writer = htmlFile.AppendText();
-
-        writer.WriteLine("""
-            &lt;html&gt;
-            &lt;head&gt;
-            &lt;title&gt;Colors From CSV&lt;/title&gt;
-            &lt;style&gt;
-            table { font-size: 200%; }
-            th, td { padding: 30px; }
-            &lt;/style&gt;
-            &lt;/head&gt;
-            &lt;body&gt;
-            &lt;table&gt;
-            &lt;thead&gt;
-            &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Color&lt;/th&gt;&lt;/tr&gt;
-            &lt;/thead&gt;
-            &lt;tbody&gt;
-            """);
-
-        using CsvReader csvReader = Csv.OpenRead(csvPath);
-
-        foreach (CsvRecord record in csvReader)
-        {
-            mapping.Record = record;
-            writer.Write("&lt;tr&gt;&lt;td&gt;");
-            writer.Write(mapping.ColorName);
-            writer.Write("&lt;/td&gt;");
-            writer.Write("&lt;td style=\"background-color: #");
-            writer.Write((mapping.Color.ToArgb() &amp; 0xFFFFFF).ToString("x"));
-            writer.Write(";\" /&gt;");
-            writer.WriteLine("&lt;/td&gt;&lt;/tr&gt;");
-        }
-
-        writer.WriteLine("""
-            &lt;/tbody&gt;
-            &lt;/table&gt;
-            &lt;/body&gt;
-            &lt;/html&gt;
-            """);
-    }
-}
-
-/*
-Console Output:
-
-Name,A,R,G,B
-CornflowerBlue,FF,64,95,ED
-LawnGreen,FF,7C,FC,0
-Salmon,FF,FA,80,72
-*/</code></pre></div></div></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Constructors</h2><div id="IDAAGASection"><table id="ConstructorList" class="table is-hoverable"><tr><td><a href="53c0fae7-087a-76a9-6c3d-e0b00636a3fb.htm">MultiColumnTypeConverter<span id="LST520F74AA_15" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_16" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span>(MultiColumnTypeConverter<span id="LST520F74AA_17" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST520F74AA_18" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
+            </div></article></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Constructors</h2><div id="IDAAGASection"><table id="ConstructorList" class="table is-hoverable"><tr><td><a href="53c0fae7-087a-76a9-6c3d-e0b00636a3fb.htm">MultiColumnTypeConverter<span id="LST520F74AA_13" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_14" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span>(MultiColumnTypeConverter<span id="LST520F74AA_15" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|fs=&lt;'|nu=("></span>T<span id="LST520F74AA_16" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|fs=&gt;|nu=)"></span>)</a></td><td>
             Copy constructor used by derived classes to implement <a href="https://learn.microsoft.com/dotnet/api/system.icloneable" target="_blank" rel="noopener noreferrer">ICloneable</a>.
-            </td></tr><tr><td><a href="2bdb8e1c-6a1b-76ad-a2bc-54550bec70ce.htm">MultiColumnTypeConverter<span id="LST520F74AA_19" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_20" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span>(CsvMappingBuilder, Boolean, T)</a></td><td>
+            </td></tr><tr><td><a href="2bdb8e1c-6a1b-76ad-a2bc-54550bec70ce.htm">MultiColumnTypeConverter<span id="LST520F74AA_17" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_18" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span>(CsvMappingBuilder, Boolean, T)</a></td><td>
             Constructor used by derived classes.
             </td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Properties</h2><div id="IDMGASection"><table id="PropertyList" class="table is-hoverable"><tr><td><a href="cca912ad-b93a-4216-a542-79425c21d845.htm">AcceptsNull</a></td><td>
             Gets a value indicating whether the converter accepts 
@@ -214,7 +45,7 @@ Salmon,FF,FA,80,72
             when a parsing error occurs, or if it returns 
             <a href="bda3544c-2f7f-6b3a-f096-07677302f45b.htm">DefaultValue</a> value instead.
             </td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Methods</h2><div id="IDBGASection"><table id="MethodList" class="table is-hoverable"><tr><td><a href="1b513977-da59-cfdf-d69d-c58759278ba0.htm">Clone</a></td><td>
-            Creates a deep copy of the <span class="selflink">MultiColumnTypeConverter<span id="LST520F74AA_21" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_22" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></span>
+            Creates a deep copy of the <span class="selflink">MultiColumnTypeConverter<span id="LST520F74AA_19" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST520F74AA_20" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></span>
             instance.
             </td></tr><tr><td><a href="faffc882-693a-58d6-b720-4f17f4f8f12d.htm">ConvertToCsv(T)</a></td><td>
             Writes <span class="parameter">value</span> to the selected fields of <a href="aff2d00a-4a1b-4a55-7e0d-2a39155ac32d.htm">Record</a> 
@@ -228,7 +59,7 @@ Salmon,FF,FA,80,72
             Converts the content of <a href="ee27dc52-ea8f-8af9-2b62-d825a40e11bf.htm">Mapping</a> to <span class="parameter">T</span>.
             </td></tr><tr><td><a href="https://learn.microsoft.com/dotnet/api/system.object.tostring" target="_blank" rel="noopener noreferrer">ToString</a></td><td>Returns a string that represents the current object.<br />(Inherited from <a href="https://learn.microsoft.com/dotnet/api/system.object" target="_blank" rel="noopener noreferrer">Object</a>)</td></tr><tr><td><a href="4dfeed40-8d34-b6e0-ceb9-037e18aee780.htm">TryParse</a></td><td>
             Tries to convert the content of <a href="ee27dc52-ea8f-8af9-2b62-d825a40e11bf.htm">Mapping</a> to <span class="parameter">T</span>.
-            </td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Thread Safety</h2><div id="IDECSection">Static members of this type are not safe for multi-threaded operations. Instance members of this type are not safe for multi-threaded operations. </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Reference</h4><div><a href="49476974-f7a7-3b27-3f36-82388c34e0d9.htm">FolkerKinzel.CsvTools.Mappings.TypeConverters Namespace</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Definition</a></li><li><a class="quickLink">Remarks</a></li><li><a class="quickLink">Example</a></li><li><a class="quickLink">Constructors</a></li><li><a class="quickLink">Properties</a></li><li><a class="quickLink">Methods</a></li><li><a class="quickLink">Thread Safety</a></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div></div><script>$(function(){
+            </td></tr></table></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Thread Safety</h2><div id="IDDCSection">Static members of this type are not safe for multi-threaded operations. Instance members of this type are not safe for multi-threaded operations. </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>See Also</h2><div id="seeAlsoSection"><h4>Reference</h4><div><a href="49476974-f7a7-3b27-3f36-82388c34e0d9.htm">FolkerKinzel.CsvTools.Mappings.TypeConverters Namespace</a></div></div></div><div id="InThisArticleColumn" class="column is-hidden-mobile"><nav class="menu sticky is-hidden"><p class="menu-label"><strong>In This Article</strong></p><ul id="InThisArticleMenu" class="menu-list"><li><a class="quickLink">Definition</a></li><li><a class="quickLink">Remarks</a></li><li><a class="quickLink">Constructors</a></li><li><a class="quickLink">Properties</a></li><li><a class="quickLink">Methods</a></li><li><a class="quickLink">Thread Safety</a></li><li><a class="quickLink">See Also</a></li></ul></nav></div></div></div></div><script>$(function(){
 SetDefaultLanguage("cs");
 LoadTocFile(null, null);
 InitializeQuickLinks();

@@ -21,13 +21,6 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// Use the methods of <see cref="CsvConverter"/> to create an instance!
 /// </note>
 /// </remarks>
-/// 
-/// <example>
-/// <note type="note">In the following code examples - for easier readability - exception
-/// handling has been omitted.</note>
-/// <para>Object serialization with CSV:</para>
-/// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
-/// </example>
 public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResult>
 {
     private readonly CsvReader _reader;

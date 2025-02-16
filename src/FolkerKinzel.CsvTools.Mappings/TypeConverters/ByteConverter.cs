@@ -9,16 +9,6 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="byte"/>.
 /// </summary>
 /// 
-/// <example>
-/// <para>
-/// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
-/// </para>
-/// <para>
-/// (For the sake of easier readability exception handling has been omitted.)
-/// </para>
-/// <img src="images\MultiColumnConverter.png"/>
-/// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
-/// </example>
 /// <threadsafety static="true" instance="true"/>
 public sealed class ByteConverter 
     : TypeConverter<byte>, IHexConverter<byte>, ILocalizable, IAsHexConverter

@@ -6,7 +6,7 @@
             <a href="https://learn.microsoft.com/dotnet/api/system.dbnull.value" target="_blank" rel="noopener noreferrer">DBNull.Value</a> is the 
             <a href="7f4b11f0-28c3-4719-760d-f1f38299d48e.htm">DefaultValue</a> of this <a href="4f4d61ef-73fd-6f9c-9735-d13b649e046d.htm">TypeConverter<span id="LST9A2F338B_3" data-languageSpecificText="cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'"></span>T<span id="LST9A2F338B_4" data-languageSpecificText="cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;"></span></a> 
             instance.
-            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.1+645ec9cbfcfcba2e869d5de472ee3fb83db2e675<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">static</span> <span class="identifier">TypeConverter</span>&lt;<span class="identifier">Object</span>&gt; <span class="identifier">ToDBNullConverter</span>&lt;T&gt;(
+            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.2+841b58d067879c976dbe5dd28f62216ee0afaa73<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="keyword">static</span> <span class="identifier">TypeConverter</span>&lt;<span class="identifier">Object</span>&gt; <span class="identifier">ToDBNullConverter</span>&lt;T&gt;(
 	<span class="keyword">this</span> <span class="identifier">TypeConverter</span>&lt;T&gt; <span class="parameter">converter</span>
 )
 </code></pre></div></div><div class="codeSnippet is-hidden" data-codeSnippetLanguage="vb"><div class="codeHeader"><span class="codeHeaderTitle">VB</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-vb">&lt;<span class="identifier">ExtensionAttribute</span>&gt;
@@ -75,7 +75,7 @@ internal static class DataTableExample
         Conv::TypeConverter&lt;object&gt; stringConverter
             = Conv::StringConverter.CreateNullable().ToDBNullConverter();
 
-        // Each dynamic property name of the Mapping has to have a corresponding column in
+        // Each dynamic property name of the CsvMapping has to have a corresponding column in
         // the DataTable - corresponding in the DataColumn.Caption property (case-insensitive)
         // and the accepted data type. Mapping properties and DataColumns don't need to
         // correspond in their number and order and they don't need to match the columns of
@@ -93,11 +93,11 @@ internal static class DataTableExample
             .Build();
 
         // Write the CSV file:
-        // (The column names determine which DataColumns will be part of the CSV
-        // and their order in the CSV file.)
-        dataTable.WriteCsv(filePath, 
-                           ["Subject", "Lesson Start", "Name", "Day", "Reserved"],
-                           mapping);
+        // (The CSV column names and the CsvMapping determine which DataColumns will be
+        // part of the CSV and their order in the CSV file.)
+        dataTable.WriteCsv(filePath,
+                           mapping,
+                           csvColumnNames: ["Subject", "Lesson Start", "Name", "Day", "Reserved"]);
 
         dataTable.Clear();
 
@@ -111,23 +111,22 @@ internal static class DataTableExample
         Console.WriteLine("Content of the refilled DataTable:");
         Utility.WriteConsole(dataTable);
     }
+}
+/* 
+Console output:
 
-    /* 
-   Console output:
+Csv file:
 
-   Csv file:
+Subject,Lesson Start,Name,Day,Reserved
+Piano,14:30:00,Susi Meyer,Wednesday,
+Piano,15:15:00,Carl Czerny,Thursday,
+Piano,,Frederic Chopin,,
 
-   Subject,Lesson Start,Name,Day,Reserved
-   Piano,14:30:00,Susi Meyer,Wednesday,
-   Piano,15:15:00,Carl Czerny,Thursday,
-   Piano,,Frederic Chopin,,
-
-   Content of the refilled DataTable:
-   &lt;DBNull&gt;        Susi Meyer      Piano           3               14:30
-   &lt;DBNull&gt;        Carl Czerny     Piano           4               15:15
-   &lt;DBNull&gt;        Frederic Chopin Piano           &lt;DBNull&gt;        &lt;DBNull&gt;
-   */
-}</code></pre></div></div></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Exceptions</h2><div id="IDGCSection"><table class="table is-hoverable"><tr><td><a href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception" target="_blank" rel="noopener noreferrer">ArgumentNullException</a></td><td><span class="parameter">converter</span> is <span class="code">null</span>.
+Content of the refilled DataTable:
+&lt;DBNull&gt;        Susi Meyer      Piano           3               14:30
+&lt;DBNull&gt;        Carl Czerny     Piano           4               15:15
+&lt;DBNull&gt;        Frederic Chopin Piano           &lt;DBNull&gt;        &lt;DBNull&gt;
+*/</code></pre></div></div></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Exceptions</h2><div id="IDGCSection"><table class="table is-hoverable"><tr><td><a href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception" target="_blank" rel="noopener noreferrer">ArgumentNullException</a></td><td><span class="parameter">converter</span> is <span class="code">null</span>.
             </td></tr><tr><td><a href="https://learn.microsoft.com/dotnet/api/system.argumentexception" target="_blank" rel="noopener noreferrer">ArgumentException</a></td><td>
             The <a href="bda3544c-2f7f-6b3a-f096-07677302f45b.htm">DefaultValue</a> of <span class="parameter">converter</span> is
             not <span class="code">null</span>.

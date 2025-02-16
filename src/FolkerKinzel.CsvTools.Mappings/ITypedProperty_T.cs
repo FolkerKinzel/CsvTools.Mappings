@@ -17,11 +17,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// instance.
 /// </note>
 /// </remarks>
-/// 
-/// <example>
-/// <para>Object serialization with CSV:</para>
-/// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
-/// </example>
+/// <seealso cref="DynamicPropertyExtension.AsITypedProperty{T}(DynamicProperty)"/>
+/// <seealso cref="DynamicProperty"/>
 public interface ITypedProperty<T> : IDynamicProperty
 {
     /// <summary>

@@ -221,7 +221,7 @@ public static class CsvConverterExtension
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
-    /// without a header row.
+    /// without header row.
     /// </summary>
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.

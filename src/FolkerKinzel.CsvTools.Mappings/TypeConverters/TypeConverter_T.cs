@@ -13,13 +13,6 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <param name="defaultValue">
 /// Sets the value of the <see cref="DefaultValue"/> property.
 /// </param>
-/// 
-/// <example>
-/// <para>
-/// Writing an own implementation of <see cref="TypeConverter{T}"/> is easy: 
-/// </para>
-/// <code language="cs" source="..\Examples\Int128Converter.cs"/>
-/// </example>
 public abstract class TypeConverter<T>(bool throwing,
                                        T defaultValue) : ITypeConverter<T>
 {
@@ -30,6 +23,12 @@ public abstract class TypeConverter<T>(bool throwing,
     public bool Throwing { get; } = throwing;
 
     /// <inheritdoc/>
+    /// <example>
+    /// <para>
+    /// Writing an own implementation of <see cref="TypeConverter{T}"/> is easy: 
+    /// </para>
+    /// <code language="cs" source="..\Examples\Int128Converter.cs"/>
+    /// </example>
     public abstract bool AcceptsNull { get; }
 
     /// <inheritdoc/>
@@ -58,6 +57,13 @@ public abstract class TypeConverter<T>(bool throwing,
     /// </para>
     /// </note>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    /// Writing an own implementation of <see cref="TypeConverter{T}"/> is easy: 
+    /// </para>
+    /// <code language="cs" source="..\Examples\Int128Converter.cs"/>
+    /// </example>
     public abstract bool TryParse(ReadOnlySpan<char> value, out T? result);
 
     /// <summary>
@@ -93,6 +99,14 @@ public abstract class TypeConverter<T>(bool throwing,
     /// <param name="value">The value to convert.</param>
     /// <returns>A <see cref="string"/> that represents <paramref name="value"/> or <c>null</c>.
     /// </returns>
+    /// 
+    /// <example>
+    /// <para>
+    /// Writing an own implementation of <see cref="TypeConverter{T}"/> is easy: 
+    /// </para>
+    /// <code language="cs" source="..\Examples\Int128Converter.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="FormatException">The instance uses an invalid format string.</exception>
     public abstract string? ConvertToString(T value);
 }

@@ -12,16 +12,6 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <summary>
 /// Extension methods for <see cref="TypeConverter{T}"/>.
 /// </summary>
-/// 
-/// <example>
-/// <note type="note">In the following code examples - for easier 
-/// readability - exception handling has been omitted.</note>
-/// <para>
-/// Saving the contents of a <see cref="DataTable"/> as a CSV file
-/// and importing data from a CSV file into a <see cref="DataTable"/>:
-/// </para>
-/// <code language="cs" source="..\Examples\DataTableExample.cs"/>
-/// </example>
 public static class TypeConverterExtension
 {
     // IMPORTANT: This class MUST remain in THIS namespace because the

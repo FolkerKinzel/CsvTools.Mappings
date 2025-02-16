@@ -2,7 +2,7 @@
             Adds a new <a href="dc1efb76-ccb1-38fb-cd92-12937a874421.htm">DynamicProperty</a> instance that accesses a single 
             column of a CSV file with its column name.
             
-            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.1+645ec9cbfcfcba2e869d5de472ee3fb83db2e675<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="identifier">CsvMappingBuilder</span> <span class="identifier">AddProperty</span>&lt;T&gt;(
+            </div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Definition</h2><div id="IDBSection"><strong>Namespace:</strong> <a href="36bca041-1217-8659-0718-bf83af638a0c.htm">FolkerKinzel.CsvTools.Mappings</a><br /><strong>Assembly:</strong> FolkerKinzel.CsvTools.Mappings (in FolkerKinzel.CsvTools.Mappings.dll) Version: 1.0.0-beta.2+841b58d067879c976dbe5dd28f62216ee0afaa73<div class="codeSnippet" data-codeSnippetLanguage="cs"><div class="codeHeader"><span class="codeHeaderTitle">C#</span><span class="buttons"><button class="button is-small is-light copyCode" title="Copy"><span class="icon is-small"><i class="fa fa-copy"></i></span><span>Copy</span></button></span></div><div class="codePanel hljs"><pre xml:space="preserve"><code class="language-cs"><span class="keyword">public</span> <span class="identifier">CsvMappingBuilder</span> <span class="identifier">AddProperty</span>&lt;T&gt;(
 	<span class="identifier">string</span> <span class="parameter">propertyName</span>,
 	<span class="identifier">TypeConverter</span>&lt;T&gt; <span class="parameter">converter</span>
 )
@@ -48,14 +48,13 @@ internal static partial class CalculationWriter
             .AddProperty("Result", doubleConverter)
             .Build();
 
-        return data.ToCsv(["First", "Operator", "Second", "Result"], mapping,
-            (calc, dyn) =&gt;
-            {
-                dyn.First = calc.First;
-                dyn.Operator = calc.Operator;
-                dyn.Second = calc.Second;
-                dyn.Result = calc.Result;
-            });
+        return data.ToCsv(mapping, (calculation, dyn) =&gt;
+                                   {
+                                       dyn.First = calculation.First;
+                                       dyn.Operator = calculation.Operator;
+                                       dyn.Second = calculation.Second;
+                                       dyn.Result = calculation.Result;
+                                   });
     }
 }</code></pre></div></div></div><h2 class="quickLinkHeader"><span class="icon toggleSection" tabindex="0"><i class="fa fa-angle-down"></i></span>Exceptions</h2><div id="IDHCSection"><table class="table is-hoverable"><tr><td><a href="https://learn.microsoft.com/dotnet/api/system.argumentnullexception" target="_blank" rel="noopener noreferrer">ArgumentNullException</a></td><td><span class="parameter">propertyName</span> or <span class="parameter">converter</span> is <span class="code">null</span>.</td></tr><tr><td><a href="https://learn.microsoft.com/dotnet/api/system.argumentexception" target="_blank" rel="noopener noreferrer">ArgumentException</a></td><td><p><span class="parameter">propertyName</span> does not conform to the rules for C# identifiers (only 
             ASCII characters)

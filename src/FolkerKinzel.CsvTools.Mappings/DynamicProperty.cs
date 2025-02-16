@@ -13,10 +13,6 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// <remarks>Use <see cref="CsvMappingBuilder"/> to create and add instances
 /// to <see cref="CsvMapping"/>.</remarks>
 /// 
-/// <example>
-/// <para>Object serialization with CSV:</para>
-/// <code language="cs" source="..\Benchmarks\CalculationReader_Performance.cs"/>
-/// </example>
 /// <threadsafety static="false" instance="false"/>
 public abstract partial class DynamicProperty : ICloneable, IDynamicProperty
 {

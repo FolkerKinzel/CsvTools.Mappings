@@ -8,12 +8,6 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// <see cref="TypeConverter{T}"/> implementation for <see cref="TimeSpan"/>.
 /// </summary>
 /// 
-/// <example>
-/// <note type="note">In the following code examples - for easier readability
-/// - exception handling has been omitted.</note>
-/// <para>Object serialization with CSV:</para>
-/// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
-/// </example>
 /// <threadsafety static="true" instance="true"/>
 public sealed class TimeSpanConverter : TypeConverter<TimeSpan>, ILocalizable
 {

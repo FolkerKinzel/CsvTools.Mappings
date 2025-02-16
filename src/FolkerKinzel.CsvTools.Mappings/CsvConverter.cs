@@ -214,7 +214,7 @@ public static class CsvConverter
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
-    /// without a header row.
+    /// without header row.
     /// </summary>
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
@@ -505,8 +505,8 @@ public static class CsvConverter
         return stringWriter.ToString();
     }
 
-    /// <summary>Initializes a <see cref="CsvReader{TResult}"/> instance to read data 
-    /// that is in the CSV format as a collection of <typeparamref name="TResult"/> instances.
+    /// <summary>Initializes a <see cref="CsvReader{TResult}"/> instance to parse CSV data 
+    /// as a collection of <typeparamref name="TResult"/> instances.
     /// </summary>
     /// 
     /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
@@ -564,8 +564,8 @@ public static class CsvConverter
                                         cloneMapping);
     }
 
-    /// <summary>Opens the CSV file referenced with <paramref name="filePath"/> for reading its
-    /// data with a <see cref="CsvReader{TResult}"/>.</summary>
+    /// <summary>Opens a CSV file for parsing its data.
+    /// </summary>
     /// 
     /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
     /// of the items that the <see cref="CsvReader{TResult}"/> returns.</typeparam>
@@ -635,13 +635,11 @@ public static class CsvConverter
                                       cloneMapping);
     }
 
-    /// <summary>Analyzes the CSV file referenced with <paramref name="filePath"/> first and 
-    /// then returns a <see cref="CsvReader{TResult}"/> for reading its data as a collection 
-    /// of <typeparamref name="TResult"/> instances.
+    /// <summary>Opens a CSV file for parsing its data after it had been analyzed.
     /// </summary>
     /// 
-    ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
-    /// of the items in the array that the method returns.</typeparam>
+    /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items that the <see cref="CsvReader{TResult}"/> returns.</typeparam>
     /// 
     /// <param name="filePath">File path of the CSV file to read.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert the CSV data.</param>
@@ -676,9 +674,8 @@ public static class CsvConverter
     /// 
     /// <remarks>
     /// <para>
-    /// <see cref="CsvAnalyzer" /> performs a statistical analysis on the CSV file. The result 
-    /// of the analysis is therefore always only an estimate, 
-    /// the accuracy of which increases with the number of lines analyzed.
+    /// The method performs a statistical analysis on the CSV file. The result of the analysis is therefore 
+    /// always only an estimate, the accuracy of which increases with the number of lines analyzed.
     /// </para>
     /// <para>
     /// The field delimiters COMMA (<c>','</c>, %x2C), SEMICOLON  (<c>';'</c>, %x3B), 
@@ -733,8 +730,8 @@ public static class CsvConverter
                                       cloneMapping);
     }
 
-    /// <summary>Parses the specified CSV-<see cref="string"/> to an array of a specified 
-    /// <see cref="Type"/>.</summary>
+    /// <summary>Parses a CSV-<see cref="string"/>.
+    /// </summary>
     /// 
     /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
     /// of the items in the array that the method returns.</typeparam>
@@ -801,8 +798,8 @@ public static class CsvConverter
         return [.. typedReader];
     }
 
-    /// <summary>Analyzes the specified CSV-<see cref="string"/> first and then parses its content
-    /// to an array of a specified <see cref="Type"/>.
+    /// <summary>
+    /// Parses a CSV-<see cref="string"/> after it had been analyzed.
     /// </summary>
     ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
     /// of the items in the array that the method returns.</typeparam>
@@ -1030,17 +1027,17 @@ public static class CsvConverter
 
     /// <summary>
     /// Adds the content of a CSV file as <see cref="DataRow"/>s to a <see cref="DataTable"/>
-    /// after the CSV file had been analyzed.
+    /// after the file had been analyzed.
     /// </summary>
     /// <param name="dataTable">The <see cref="DataTable"/> to which <see cref="DataRow"/>s
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
     /// <param name="fallbackEncoding">
-    /// The text <see cref="Encoding"/> to be used as a fallback if the CSV file has no byte order mark 
-    /// (BOM), or <c>null</c> to use <see cref="Encoding.UTF8"/> as fallback encoding. Use 
-    /// <see cref="Csv.GetExcelArguments"/> to get the appropriate argument for this parameter when importing
-    /// CSV data from Excel.
+    /// The text <see cref="Encoding"/> to be used as a fallback if the CSV file has no byte order 
+    /// mark (BOM), or <c>null</c> to use <see cref="Encoding.UTF8"/> as fallback encoding. Use 
+    /// <see cref="Csv.GetExcelArguments"/> to get the appropriate argument for this parameter when 
+    /// importing CSV data from Excel.
     /// </param>
     /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
@@ -1079,8 +1076,8 @@ public static class CsvConverter
     /// </para>
     /// <para>
     /// This method also tries to determine the <see cref="Encoding"/> of the CSV file from the
-    /// byte order mark (BOM). If no byte order mark can be found, <paramref name="fallbackEncoding"/> is
-    /// used.
+    /// byte order mark (BOM). If no byte order mark can be found, <paramref name="fallbackEncoding"/> 
+    /// is used.
     /// </para>
     /// </remarks>
     /// 

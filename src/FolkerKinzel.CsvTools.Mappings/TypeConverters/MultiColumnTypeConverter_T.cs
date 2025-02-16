@@ -29,16 +29,7 @@ namespace FolkerKinzel.CsvTools.Mappings.TypeConverters;
 /// </note>
 /// </remarks>
 /// 
-/// <example>
-/// <para>
-/// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
-/// </para>
-/// <para>
-/// (For the sake of easier readability exception handling has been omitted.)
-/// </para>
-/// <img src="images\MultiColumnConverter.png"/>
-/// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
-/// </example>
+/// 
 /// <threadsafety static="false" instance="false"/>
 public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneable
 {
@@ -64,6 +55,17 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// The builder pattern is needed to avoid circular references.
     /// </remarks>
     /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="mappingBuilder"/> 
     /// is <c>null</c>.</exception>
     protected MultiColumnTypeConverter(CsvMappingBuilder mappingBuilder,
@@ -80,6 +82,18 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// </summary>
     /// <param name="other">The <see cref="MultiColumnTypeConverter{T}"/> instance to
     /// clone.</param>
+    /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"><paramref name="other"/> is <c>null</c>.
     /// </exception>
     protected MultiColumnTypeConverter(MultiColumnTypeConverter<T> other)
@@ -104,6 +118,17 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// for the implementation to ensure that <see cref="Mapping"/> is cloned too!
     /// </note>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
     public abstract object Clone();
 
     /// <summary>
@@ -146,6 +171,17 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// </para>
     /// </note>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
     protected abstract bool TryParse(out T? result);
 
     /// <summary>
@@ -179,6 +215,18 @@ public abstract class MultiColumnTypeConverter<T> : ITypeConverter<T>, ICloneabl
     /// <see cref="DynamicProperty"/> instances in <see cref="Mapping"/> have to be filled with data.)
     /// </note>
     /// </remarks>
+    /// 
+    /// <example>
+    /// <para>
+    /// Using <see cref="MultiColumnTypeConverter{T}"/> to create and parse a CSV file.
+    /// </para>
+    /// <para>
+    /// (For the sake of easier readability exception handling has been omitted.)
+    /// </para>
+    /// <img src="images\MultiColumnConverter.png"/>
+    /// <code language="cs" source="../Examples/MultiColumnConverterExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="FormatException">One of the susequent converters uses an invalid format string.
     /// </exception>
     protected abstract void DoConvertToCsv(T? value);
