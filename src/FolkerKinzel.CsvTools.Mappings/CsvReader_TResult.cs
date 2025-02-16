@@ -74,7 +74,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     public CsvReader(CsvReader reader,
                      CsvMapping mapping,
                      Func<dynamic, TResult> conversion,
-                     bool cloneMapping)
+                     bool cloneMapping = true)
     {
         _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));

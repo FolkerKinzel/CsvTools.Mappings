@@ -75,9 +75,9 @@ public static class DataTableExtension
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="delimiter">The field separator character.</param>
     /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="textEncoding">The text encoding to be used to read the CSV file
     /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
@@ -132,12 +132,12 @@ public static class DataTableExtension
     public static void ReadCsv(this DataTable dataTable,
                                string filePath,
                                CsvMapping mapping,
-                               bool isHeaderPresent = true,
                                char delimiter = ',',
+                               bool isHeaderPresent = true,
                                CsvOpts options = CsvOpts.Default,
                                Encoding? textEncoding = null)
         => CsvConverter.Fill(
-            dataTable, filePath, mapping, isHeaderPresent, delimiter, options, textEncoding);
+            dataTable, filePath, mapping, delimiter, isHeaderPresent, options, textEncoding);
 
     /// <summary>
     /// Adds the content of a CSV file as <see cref="DataRow"/>s to the <see cref="DataTable"/>

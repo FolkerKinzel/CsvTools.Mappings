@@ -442,7 +442,7 @@ public static class CsvConverter
 
     /// <summary>
     /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
-    /// <see cref="string"/> without a header row.
+    /// <see cref="string"/> without header row.
     /// </summary>
     /// <typeparam name="TData">
     /// Generic type parameter for the data type to write as CSV row.
@@ -520,9 +520,9 @@ public static class CsvConverter
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="delimiter">The field separator character.</param>
     /// <param name="options">Options for reading CSV.</param>
     /// 
     /// <returns>A <see cref="CsvReader{TResult}"/> that allows you to iterate through the
@@ -536,8 +536,8 @@ public static class CsvConverter
     public static CsvReader<TResult> OpenRead<TResult>(TextReader reader,
                                                        CsvMapping mapping,
                                                        Func<dynamic, TResult> conversion,
-                                                       bool isHeaderPresent = true,
                                                        char delimiter = ',',
+                                                       bool isHeaderPresent = true,
                                                        CsvOpts options = CsvOpts.Default)
     {
         bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
@@ -573,9 +573,9 @@ public static class CsvConverter
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="delimiter">The field separator character.</param>
     /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="textEncoding">The text encoding to be used to read the CSV file
     /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
@@ -602,8 +602,8 @@ public static class CsvConverter
     public static CsvReader<TResult> OpenRead<TResult>(string filePath,
                                                        CsvMapping mapping,
                                                        Func<dynamic, TResult> conversion,
-                                                       bool isHeaderPresent = true,
                                                        char delimiter = ',',
+                                                       bool isHeaderPresent = true,
                                                        CsvOpts options = CsvOpts.Default,
                                                        Encoding? textEncoding = null)
     {
@@ -727,9 +727,9 @@ public static class CsvConverter
     /// regular .NET properties, but without IntelliSense ("late binding").
     /// </para>
     /// </param>
+    /// <param name="delimiter">The field separator character used in <paramref name="csv"/>.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="delimiter">The field separator character used in <paramref name="csv"/>.</param>
     /// <param name="options">Parsing options.</param>
     /// 
     /// <returns>An array of <typeparamref name="TResult"/> instances, initialized from the parsed 
@@ -759,8 +759,8 @@ public static class CsvConverter
     public static TResult[] Parse<TResult>(string csv,
                                            CsvMapping mapping,
                                            Func<dynamic, TResult> conversion,
-                                           bool isHeaderPresent = true,
                                            char delimiter = ',',
+                                           bool isHeaderPresent = true,
                                            CsvOpts options = CsvOpts.Default)
     {
         _ArgumentNullException.ThrowIfNull(csv, nameof(csv));
@@ -935,9 +935,9 @@ public static class CsvConverter
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
+    /// <param name="delimiter">The field separator character.</param>
     /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
     /// otherwise <c>false</c>.</param>
-    /// <param name="delimiter">The field separator character.</param>
     /// <param name="options">Options for reading the CSV file.</param>
     /// <param name="textEncoding">The text encoding to be used to read the CSV file
     /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
@@ -984,8 +984,8 @@ public static class CsvConverter
     public static void Fill(DataTable dataTable,
                             string filePath,
                             CsvMapping mapping,
-                            bool isHeaderPresent = true,
                             char delimiter = ',',
+                            bool isHeaderPresent = true,
                             CsvOpts options = CsvOpts.Default,
                             Encoding? textEncoding = null)
     {

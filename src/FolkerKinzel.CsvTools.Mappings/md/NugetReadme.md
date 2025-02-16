@@ -5,7 +5,7 @@
 
 This package allows:
 - analyzing CSV files and CSV strings (delimiter, header row, column names, text encoding, and required options for reading non-standard CSV)
-- retrieving the appropriate parameters for exchanging CSV data with Excel
+- retrieving the appropriate method arguments for exchanging CSV data with Excel
 - serializing and deserializing collections of any data type 
 - serializing and deserializing DataTables
 - to do things easily and with just a few lines of code. In addition, the package also provides the means to write high-performance code:
@@ -14,6 +14,6 @@ This package allows:
 	- It allows to parse value types without any boxing and unboxing and - with modern .NET versions - without any allocation of temporary strings.
 	- The `CsvOpts.DisableCaching` option allows reusing the same `CsvRecord` instance for each parsed row of the CSV file. This can avoid further allocations.
 
-[Project Reference and Release Notes](https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-beta.1)
+[Project Reference and Release Notes](https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.0-beta.2)
 
 [See code examples on GitHub](https://github.com/FolkerKinzel/CsvTools.Mappings)
