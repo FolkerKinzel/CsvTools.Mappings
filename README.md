@@ -14,9 +14,10 @@ This package allows:
 - to do things easily and with just a few lines of code. In addition, the package also provides the means to write high-performance code:
 	- It allows you to parse ultra large CSV files because only one row of the file has to be in memory at a time.
 	- It makes the fields of the CSV file available as `ReadOnlyMemory<Char>` instances. This avoids the allocation of numerous temporary strings.
-	- It allows to parse value types without any boxing and unboxing and - with modern .NET versions - without any allocation of temporary strings.
+	- It allows to parse value types without any boxing and unboxing and (when using a modern .NET version) without any allocation of temporary strings.
 	- The `CsvOpts.DisableCaching` option allows reusing the same `CsvRecord` instance for each parsed row of the CSV file. This can avoid further allocations.
 
+(See [benchmark results](https://github.com/FolkerKinzel/CsvTools.Mappings/tree/master/src/Benchmarks/results) and the associated [benchmark code](https://github.com/FolkerKinzel/CsvTools.Mappings/tree/master/src/Benchmarks).)
 ### Code Examples
 - [Serializing DataTables as CSV](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Examples/DataTableExample.cs)
 - [Object serialization with CSV](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Examples/ObjectSerializationExample.cs)
