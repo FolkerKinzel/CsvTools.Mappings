@@ -553,7 +553,7 @@ public static class CsvConverter
                                                        bool isHeaderPresent = true,
                                                        CsvOpts options = CsvOpts.Default)
     {
-        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
+        bool cloneMapping = MustMappingBeCloned<TResult>(ref options);
 
         return new CsvReader<TResult>(new CsvReader(reader,
                                                     delimiter,
@@ -624,7 +624,7 @@ public static class CsvConverter
                                                        bool isHeaderPresent = true,
                                                        CsvOpts options = CsvOpts.Default)
     {
-        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
+        bool cloneMapping = MustMappingBeCloned<TResult>(ref options);
         return new CsvReader<TResult>(new CsvReader(filePath,
                                                     delimiter,
                                                     textEncoding,
@@ -718,7 +718,7 @@ public static class CsvConverter
                                                                            header,
                                                                            analyzedLines);
         CsvOpts options = analyzerResult.Options;
-        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
+        bool cloneMapping = MustMappingBeCloned<TResult>(ref options);
 
         return new CsvReader<TResult>(new CsvReader(filePath,
                                                     analyzerResult.Delimiter,
@@ -790,7 +790,7 @@ public static class CsvConverter
     {
         _ArgumentNullException.ThrowIfNull(csv, nameof(csv));
 
-        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
+        bool cloneMapping = MustMappingBeCloned<TResult>(ref options);
 
         using var stringReader = new StringReader(csv);
         using var csvReader = new CsvReader(stringReader, delimiter, isHeaderPresent, options);
@@ -863,7 +863,7 @@ public static class CsvConverter
     {
         CsvAnalyzerResult analyzerResult = CsvAnalyzer.AnalyzeString(csv, header, analyzedLines);
         CsvOpts options = analyzerResult.Options;
-        bool cloneMapping = DetermineDisableCaching<TResult>(ref options);
+        bool cloneMapping = MustMappingBeCloned<TResult>(ref options);
 
         using var stringReader = new StringReader(csv);
         using var csvReader = new CsvReader(stringReader,
@@ -1146,7 +1146,7 @@ public static class CsvConverter
         }
     }
 
-    private static bool DetermineDisableCaching<TResult>(ref CsvOpts options)
+    private static bool MustMappingBeCloned<TResult>(ref CsvOpts options)
     {
         if (options.HasFlag(CsvOpts.DisableCaching))
         {
