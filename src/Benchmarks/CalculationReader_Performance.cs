@@ -27,7 +27,7 @@ internal static partial class CalculationReader
         /* Using the DisableCaching option avoids cloning the */ | CsvOpts.DisableCaching);
         /* the CsvRecord instance with each Read().           */
 
-        var list = new List<Calculation>(64); // (This data storage allows further optimization.)
+        var list = new List<Calculation>(50); // (This data storage allows further optimization.)
 
         // Using ITypedProperty<T> instances avoids boxing and unboxing of value types.
         // The AsITypedProperty<T>() extension method is "syntactic sugar" that can be

@@ -8,7 +8,7 @@ public class ReadBench
 {
     public string? CalculationCsv {get; set;}
 
-    [Params(200)]
+    [Params(50, 100, 200)]
     public int Count {get; set;}
 
     [GlobalSetup]
@@ -18,8 +18,11 @@ public class ReadBench
     }
 
     [Benchmark(Baseline = true)]
+    public IList<Calculation> Performance() => CalculationReader.ReadPerformance(CalculationCsv!);
+
+    [Benchmark]
     public IList<Calculation> Default() => CalculationReader.ReadDefault(CalculationCsv!);
 
     [Benchmark]
-    public IList<Calculation> Performance() => CalculationReader.ReadPerformance(CalculationCsv!);
+    public IList<Calculation> CsvHelper() => CalculationReader.ReadCsvHelper(CalculationCsv!);
 }
