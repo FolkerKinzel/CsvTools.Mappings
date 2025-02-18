@@ -19,8 +19,9 @@ This package allows:
 
 (See [benchmark results](https://github.com/FolkerKinzel/CsvTools.Mappings/tree/master/src/Benchmarks/results) and the associated [benchmark code](https://github.com/FolkerKinzel/CsvTools.Mappings/tree/master/src/Benchmarks).)
 ### Code Examples
-- [Serializing DataTables as CSV](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Examples/DataTableExample.cs)
 - [Object serialization with CSV](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Examples/ObjectSerializationExample.cs)
+- [Serializing and deserializing DataTables with CSV](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Examples/DataTableExample.cs)
+- [CSV data exchange with Excel](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Examples/ExcelExample.cs)
 - [High performance CSV parsing](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Benchmarks/CalculationReader_Performance.cs)
 - [Fastest way to write CSV](https://github.com/FolkerKinzel/CsvTools.Mappings/blob/master/src/Benchmarks/CalculationWriter_Performance.cs)
 - [Using the CsvOpts.DisableCaching option](https://github.com/FolkerKinzel/CsvTools/blob/master/src/Examples/DisableCachingExample.cs)
