@@ -10,6 +10,6 @@ internal sealed class Program
         //ObjectSerializationExample.CsvReadWritePupils("Objects.csv");
         //MultiColumnConverterExample.ParseDataFromSeveralCsvColumns();
 
-        ExcelExample.ExportingCsvToExcel("Excel.csv");
+        ExcelExample.CsvDataExchangeWithExcel("Excel.csv");
     }
 }
