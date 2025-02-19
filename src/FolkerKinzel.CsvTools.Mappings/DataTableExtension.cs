@@ -144,11 +144,11 @@ public static class DataTableExtension
     /// are added.</param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> to be used.</param>
-    /// <param name="fallbackEncoding">
-    /// The text <see cref="Encoding"/> to be used as a fallback if the CSV file has no byte order mark 
-    /// (BOM), or <c>null</c> to use <see cref="Encoding.UTF8"/> as fallback encoding. Use 
-    /// <see cref="Csv.GetExcelArguments"/> to get the appropriate argument for this parameter when importing
-    /// CSV data from Excel.
+    /// <param name="defaultEncoding">
+    /// The text <see cref="Encoding"/> to be used if the CSV file has no byte order mark (BOM), or 
+    /// <c>null</c> to use <see cref="Encoding.UTF8"/> in this case. Use 
+    /// <see cref="Csv.GetExcelArguments"/> to get the appropriate argument for this parameter when 
+    /// importing CSV data from Excel.
     /// </param>
     /// <param name="header">A supposition that is made about the presence of a header row.</param>
     /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
@@ -186,7 +186,7 @@ public static class DataTableExtension
     /// </para>
     /// <para>
     /// This method also tries to determine the <see cref="Encoding"/> of the CSV file from the
-    /// byte order mark (BOM). If no byte order mark can be found, <paramref name="fallbackEncoding"/> 
+    /// byte order mark (BOM). If no byte order mark can be found, <paramref name="defaultEncoding"/> 
     /// is used.
     /// </para>
     /// </remarks>
@@ -215,10 +215,10 @@ public static class DataTableExtension
     public static void ReadCsvAnalyzed(this DataTable dataTable,
                                        string filePath,
                                        CsvMapping mapping,
-                                       Encoding? fallbackEncoding = null,
+                                       Encoding? defaultEncoding = null,
                                        Header header = Header.ProbablyPresent,
                                        int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
-        => CsvConverter.FillAnalyzed(dataTable, filePath, mapping, fallbackEncoding, header, analyzedLines);
+        => CsvConverter.FillAnalyzed(dataTable, filePath, mapping, defaultEncoding, header, analyzedLines);
 
     /// <summary>
     /// Saves the content of a <see cref="DataTable"/> as a CSV file with header.

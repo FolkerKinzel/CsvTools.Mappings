@@ -35,7 +35,7 @@ internal static class ExcelExample
         // Get the Excel arguments for CultureInfo.CurrentCulture:
         (char delimiter,
          IFormatProvider formatProvider,
-         Encoding ansiEncoding) = Csv.GetExcelArguments();
+         Encoding ansi) = Csv.GetExcelArguments();
 
         // Pass the formatProvider from the Excel arguments to all localizable converters.
         // (The same CsvMapping can be used for writing and parsing.)
@@ -55,10 +55,10 @@ internal static class ExcelExample
 
         // Don't forget to pass the delimiter from the Excel arguments!
         // (The textEncoding can be omitted when writing, but not when reading.)
-        customers.SaveCsv(filePath, mapping, FillMapping, delimiter, ansiEncoding);
+        customers.SaveCsv(filePath, mapping, FillMapping, delimiter, textEncoding: ansi);
 
         Console.WriteLine();
-        Console.WriteLine(File.ReadAllText(filePath, ansiEncoding));
+        Console.WriteLine(File.ReadAllText(filePath, ansi));
 
         // =================================================
 
@@ -74,7 +74,7 @@ internal static class ExcelExample
         using CsvReader<Customer> reader = CsvConverter.OpenReadAnalyzed(filePath,
                                                                          mapping,
                                                                          InitializeCustomer,
-                                                                         ansiEncoding);
+                                                                         defaultEncoding: ansi);
 
         Console.WriteLine();
         Console.WriteLine("The customer with the lowest sales is {0}.",
