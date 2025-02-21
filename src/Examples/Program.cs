@@ -7,9 +7,9 @@ internal sealed class Program
     private static void Main()
     {
         //DataTableExample.DataTableWriteReadCsv("DataTable.csv");
-        //ObjectSerializationExample.CsvReadWritePupils("Objects.csv");
+        ObjectSerializationExample.CsvReadWritePupils("Objects.csv");
         //MultiColumnConverterExample.ParseDataFromSeveralCsvColumns();
 
-        ExcelExample.CsvDataExchangeWithExcel("Excel.csv");
+        //ExcelExample.CsvDataExchangeWithExcel("Excel.csv");
     }
 }

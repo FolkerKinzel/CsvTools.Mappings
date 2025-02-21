@@ -59,6 +59,13 @@ public static class CsvConverterExtension
     /// 
     /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
     /// <paramref name="data"/>.</returns>
+    /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling
+    /// has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Benchmarks\CalculationWriter_Default.cs"/>
+    /// </example>
     ///
     /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>

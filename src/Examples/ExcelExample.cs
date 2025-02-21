@@ -2,6 +2,8 @@
 using FolkerKinzel.CsvTools.Mappings;
 using System.Globalization;
 using System.Text;
+// A namespace alias helps to avoid name conflicts
+// with the converters from System.ComponentModel
 using Conv = FolkerKinzel.CsvTools.Mappings.TypeConverters;
 
 namespace Examples;
@@ -46,11 +48,11 @@ internal static class ExcelExample
             .AddProperty("RecentPurchase", new Conv::DateOnlyConverter(formatProvider))
             .Build();
 
-        static void FillMapping(Customer customer, dynamic dyn)
+        static void FillMapping(Customer customer, dynamic mapping)
         {
-            dyn.Name = customer.Name;
-            dyn.Sales = customer.Sales;
-            dyn.RecentPurchase = customer.RecentPurchase;
+            mapping.Name = customer.Name;
+            mapping.Sales = customer.Sales;
+            mapping.RecentPurchase = customer.RecentPurchase;
         }
 
         // Don't forget to pass the delimiter from the Excel arguments!
@@ -64,9 +66,9 @@ internal static class ExcelExample
 
         // Parsing CSV that comes from Excel:
 
-        static Customer InitializeCustomer(dynamic dyn) => new(dyn.Name,
-                                                               dyn.Sales,
-                                                               dyn.RecentPurchase);
+        static Customer InitializeCustomer(dynamic mapping) => new(mapping.Name,
+                                                                   mapping.Sales,
+                                                                   mapping.RecentPurchase);
 
         // Using this method allows to switch automatically to Unicode if the file
         // has a byte order mark, and to detect a different delimiter character if 

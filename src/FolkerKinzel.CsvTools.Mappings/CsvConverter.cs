@@ -609,6 +609,13 @@ public static class CsvConverter
     /// </para>
     /// </remarks>
     /// 
+    /// <example>
+    /// <note type="note">In the following code examples - for easier readability - exception handling
+    /// has been omitted.</note>
+    /// <para>Object serialization with CSV:</para>
+    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+    /// </example>
+    /// 
     /// <exception cref="ArgumentNullException"> <paramref name="filePath" />, or 
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentException"> <paramref name="filePath" /> is not a valid
@@ -691,8 +698,8 @@ public static class CsvConverter
     /// <example>
     /// <note type="note">In the following code examples - for easier readability - exception handling
     /// has been omitted.</note>
-    /// <para>Object serialization with CSV:</para>
-    /// <code language="cs" source="..\Examples\ObjectSerializationExample.cs"/>
+    /// <para>CSV data exchange with Excel:</para>
+    /// <code language="cs" source="..\Examples\ExcelExample.cs"/>
     /// </example>
     /// 
     /// <exception cref="ArgumentNullException"> <paramref name="filePath"/>, or 

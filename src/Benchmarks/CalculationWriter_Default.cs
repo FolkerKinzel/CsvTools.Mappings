@@ -18,12 +18,14 @@ internal static partial class CalculationWriter
             .AddProperty("Result", doubleConverter)
             .Build();
 
-        return data.ToCsv(mapping, (calculation, dyn) =>
-                                   {
-                                       dyn.First = calculation.First;
-                                       dyn.Operator = calculation.Operator;
-                                       dyn.Second = calculation.Second;
-                                       dyn.Result = calculation.Result;
-                                   });
+        return data.ToCsv(
+            mapping, 
+            static (calculation, mapping) =>
+                   {
+                       mapping.First = calculation.First;
+                       mapping.Operator = calculation.Operator;
+                       mapping.Second = calculation.Second;
+                       mapping.Result = calculation.Result;
+                   });
     }
 }

@@ -17,11 +17,12 @@ internal static partial class CalculationReader
             .AddProperty("Result", doubleConverter)
             .Build();
 
-        return CsvConverter.Parse(csv,
-                                  mapping,
-                                  dyn => new Calculation(dyn.First,
-                                                         dyn.Operator,
-                                                         dyn.Second,
-                                                         dyn.Result));
+        return CsvConverter.Parse(
+            csv,
+            mapping,
+            static mapping => new Calculation(mapping.First,
+                                              mapping.Operator,
+                                              mapping.Second,
+                                              mapping.Result));
     }
 }

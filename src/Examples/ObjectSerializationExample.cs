@@ -1,9 +1,9 @@
 ﻿using FolkerKinzel.CsvTools;
 using FolkerKinzel.CsvTools.Mappings;
+using System.Text;
 // A namespace alias helps to avoid name conflicts
 // with the converters from System.ComponentModel
 using Conv = FolkerKinzel.CsvTools.Mappings.TypeConverters;
-using System.Text;
 
 namespace Examples;
 
@@ -32,28 +32,30 @@ internal static class ObjectSerializationExample
             .AddProperty("LessonBegin", ["*begin?"], new Conv::TimeOnlyConverter().ToNullableConverter())
             .Build();
 
-        // Create a CSV-File as UTF-16 LE
+        // Create a CSV-File:
         pupils.SaveCsv(filePath,
                        mapping,
-                       (pupil, dyn) => // dyn is mapping as a dynamic variable ("late binding")
+                       static (pupil, mapping) =>
                        {
-                           dyn.Name = pupil.Name;
-                           dyn.Subject = pupil.Subject;
-                           dyn.LessonDay = pupil.LessonDay;
-                           dyn.LessonBegin = pupil.LessonBegin;
+                           mapping.Name = pupil.Name;
+                           mapping.Subject = pupil.Subject;
+                           mapping.LessonDay = pupil.LessonDay;
+                           mapping.LessonBegin = pupil.LessonBegin;
                        },
-                       textEncoding: Encoding.Unicode,
-                       columnNames: ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"]);
-        
-        // Reading analyzed will auto-detect the UTF-16 encoding:
+                       columnNames:
+                       ["Unterrichtstag", "Unterrichtsbeginn", "Vollständiger Name", "Unterrichtsfach"]);
+
+        Console.WriteLine(File.ReadAllText(filePath));
+        Console.WriteLine();
+
+        // Read the CSV file:
         using CsvReader<Pupil> pupilsReader =
-           CsvConverter.OpenReadAnalyzed<Pupil>(filePath,
-                                                mapping,
-                                                static dyn => new Pupil(dyn.Name,
-                                                                        dyn.Subject,
-                                                                        dyn.LessonDay,
-                                                                        dyn.LessonBegin));
-                                                
+           CsvConverter.OpenRead<Pupil>(filePath,
+                                        mapping,
+                                        static mapping => new Pupil(mapping.Name,
+                                                                    mapping.Subject,
+                                                                    mapping.LessonDay,
+                                                                    mapping.LessonBegin));
         pupils = [.. pupilsReader];
 
         // Write the results to the Console:
@@ -66,6 +68,11 @@ internal static class ObjectSerializationExample
 
 /*
 Console output: 
+
+Unterrichtstag,Unterrichtsbeginn,Vollständiger Name,Unterrichtsfach
+3,14:30:00,Susi,Piano
+4,15:15:00,Carl Czerny,Piano
+,,Frederic Chopin,Piano
 
 Pupil { Name = Susi, Subject = Piano, LessonDay = Wednesday, LessonBegin = 14:30 }
 Pupil { Name = Carl Czerny, Subject = Piano, LessonDay = Thursday, LessonBegin = 15:15 }
