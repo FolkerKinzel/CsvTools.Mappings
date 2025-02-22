@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls;
+using FolkerKinzel.Helpers.Polyfills;
 using System.Collections;
 
 namespace FolkerKinzel.CsvTools.Mappings;

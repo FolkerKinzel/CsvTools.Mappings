@@ -1,6 +1,7 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.Intls;
 using FolkerKinzel.CsvTools.Mappings.Intls.Extensions;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
+using FolkerKinzel.Helpers.Polyfills;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

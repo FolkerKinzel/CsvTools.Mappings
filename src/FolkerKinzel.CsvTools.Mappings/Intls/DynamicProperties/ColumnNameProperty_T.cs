@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
+using FolkerKinzel.Helpers.Polyfills;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;
@@ -21,6 +22,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
     /// </summary>
     private int _csvRecordIdentifier;
     private readonly TimeSpan _wildcardTimeout;
+    private readonly string[] _columnNameAliases;
     private int? _csvIndex;
 
     /// <summary>
@@ -59,7 +61,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
         _ArgumentNullException.ThrowIfNull(columnNameAliases, nameof(columnNameAliases));
 
         _wildcardTimeout = GetTimeout(CsvMapping.RegexTimeout);
-        ColumnNameAliases = columnNameAliases.OfType<string>().ToArray();
+        _columnNameAliases = [.. columnNameAliases.OfType<string>()];
 
         static TimeSpan GetTimeout(int wildcardTimeout)
         {
@@ -86,8 +88,7 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
     /// recommended to assign the same alias to several <see cref="CsvRecord"/> objects. 
     /// </para>
     /// </remarks>
-    public IReadOnlyList<string> ColumnNameAliases { get; }
-
+    public IReadOnlyList<string> ColumnNameAliases => _columnNameAliases;
 
     /// <inheritdoc/>
     internal protected override int? GetCsvIndex()

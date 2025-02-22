@@ -1,4 +1,5 @@
 ﻿using FolkerKinzel.CsvTools.Mappings.TypeConverters;
+using FolkerKinzel.Helpers.Polyfills;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings.Intls.DynamicProperties;

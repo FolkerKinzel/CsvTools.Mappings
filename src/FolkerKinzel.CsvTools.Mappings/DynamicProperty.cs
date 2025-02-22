@@ -2,6 +2,7 @@
 using FolkerKinzel.CsvTools.Mappings.Resources;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters;
 using FolkerKinzel.CsvTools.Mappings.TypeConverters.Interfaces;
+using FolkerKinzel.Helpers.Polyfills;
 using System.Text.RegularExpressions;
 
 namespace FolkerKinzel.CsvTools.Mappings;
