@@ -8,10 +8,10 @@
     <!-- .nuget-Package: -->
     <PackageId>FolkerKinzel.CsvTools.Mappings</PackageId>
     <Product>FolkerKinzel.CsvTools.Mappings</Product>
-    <Version>1.0.1-beta.1</Version>
-    <FileVersion>1.0.1.2</FileVersion>
+    <Version>1.0.1-beta.2</Version>
+    <FileVersion>1.0.1.6</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.1-beta.1</PackageReleaseNotes>
+    <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.0.1-beta.2</PackageReleaseNotes>
     <PackageTags>CSV</PackageTags>
     <Description>Mappings and Type Conversions for FolkerKinzel.CsvTools (RFC 4180)</Description>
     <Authors>Folker Kinzel</Authors>
@@ -73,6 +73,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'netstandard2.1' Or '$(TargetFramework)' == 'net462'">
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FolkerKinzel.CsvTools" Version="2.0.1-beta.1" />

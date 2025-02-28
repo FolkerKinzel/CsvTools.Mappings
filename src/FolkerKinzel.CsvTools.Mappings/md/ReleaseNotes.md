@@ -1,3 +1,4 @@
+- Microsoft.CSharp 4.7.0 as dependency for .NET Framework and .NET Standard to support dynamic types in subsequent assemblies
 - Dependency update
 
 &nbsp;
