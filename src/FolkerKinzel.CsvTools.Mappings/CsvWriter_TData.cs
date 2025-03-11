@@ -13,8 +13,7 @@ public sealed class CsvWriter<TData> : IDisposable
 {
     private readonly CsvWriter _writer;
     private readonly CsvMapping _mapping;
-    private readonly Action<TData, dynamic> _conversion;
-
+    private readonly IToCsvConverter<TData> _converter;
     private bool _disposed;
 
     /// <summary>
@@ -49,12 +48,25 @@ public sealed class CsvWriter<TData> : IDisposable
     {
         _ArgumentNullException.ThrowIfNull(writer, nameof(writer));
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        _ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
 
         _writer = writer;
         _mapping = mapping;
         _mapping.Record = _writer.Record;
-        _conversion = conversion;
+        _converter = new ToCsvConverter<TData>(conversion);
+    }
+
+    public CsvWriter(CsvWriter writer,
+                     CsvMapping mapping,
+                     IToCsvConverter<TData> converter)
+    {
+        _ArgumentNullException.ThrowIfNull(writer, nameof(writer));
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+
+        _writer = writer;
+        _mapping = mapping;
+        _mapping.Record = _writer.Record;
+        _converter = converter;
     }
 
     /// <summary>
@@ -68,7 +80,7 @@ public sealed class CsvWriter<TData> : IDisposable
     {
         if (data is not null)
         {
-            _conversion(data, _mapping); 
+            _converter.Convert(data, _mapping); 
         }
         
         _writer.WriteRecord();

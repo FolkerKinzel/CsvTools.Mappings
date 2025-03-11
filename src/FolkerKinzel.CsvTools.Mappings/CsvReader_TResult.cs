@@ -26,8 +26,8 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
 {
     private readonly CsvReader _reader;
     private readonly CsvMapping _mapping;
-    private readonly Func<dynamic, TResult> _conversion;
     private readonly bool _cloneMapping;
+    private readonly IFromCsvConverter<TResult> _converter;
     private TResult? _current;
     private bool _disposed;
 
@@ -72,12 +72,26 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
     {
         _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
         _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
-        _ArgumentNullException.ThrowIfNull(conversion, nameof(conversion));
 
         _reader = reader;
         _mapping = mapping;
-        _conversion = conversion;
         _cloneMapping = cloneMapping;
+        _converter = new FromCsvConverter<TResult>(conversion);
+    }
+
+    public CsvReader(CsvReader reader,
+                     CsvMapping mapping,
+                     IFromCsvConverter<TResult> converter,
+                     bool cloneMapping = true)
+    {
+        _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
+        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+
+        _reader = reader;
+        _mapping = mapping;
+        _cloneMapping = cloneMapping;
+        _converter = converter;
     }
 
     /// <inheritdoc/>
@@ -157,7 +171,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
 
         CsvMapping clone = _cloneMapping ? (CsvMapping)_mapping.Clone() : _mapping;
         clone.Record = record;
-        result = _conversion(clone);
+        result = _converter.Convert(clone);
         return true;
     }
 }

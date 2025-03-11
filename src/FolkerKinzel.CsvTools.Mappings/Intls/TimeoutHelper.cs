@@ -11,7 +11,7 @@ internal static class TimeoutHelper
     /// <event cref="ArgumentOutOfRangeException">The value of <paramref name="timeOut"/> 
     /// is negative or zero and not <see cref="Timeout.Infinite"/>.</event>"
     internal static int ValidateRegexTimeout(int timeOut, string paramName)
-        => timeOut is < 1 and not Timeout.Infinite 
-                ? throw new ArgumentOutOfRangeException(paramName) 
+        => timeOut is < 1 and not Timeout.Infinite
+                ? throw new ArgumentOutOfRangeException(paramName)
                 : timeOut;
 }
