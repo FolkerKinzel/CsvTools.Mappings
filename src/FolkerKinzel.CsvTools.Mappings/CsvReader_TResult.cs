@@ -76,6 +76,28 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
         _converter = new CsvToIntl<TResult>(mapping, conversion);
     }
 
+    /// <summary>
+    /// Initializes a new <see cref="CsvReader{TResult}"/> instance.
+    /// </summary>
+    /// <param name="reader">A <see cref="CsvReader"/> instance.</param>
+    /// <param name="converter">
+    /// An object that converts a CSV row to a <typeparamref name="TResult"/> 
+    /// instance.
+    /// </param>
+    /// <param name="cloneMapping"><c>true</c> to clone the <see cref="CsvMapping"/> for each 
+    /// CSV row, or <c>false</c> to use always the same <see cref="CsvMapping"/> instance. 
+    /// (Cloning is required if <typeparamref name="TResult"/> is <see cref="CsvMapping"/> and 
+    /// the results need to be cached.)</param>
+    /// 
+    /// <remarks>
+    /// <note type="tip">
+    /// It's recommended to use the methods of <see cref="CsvConverter"/> to create an instance.
+    /// </note>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException">
+    /// <paramref name="reader"/>, or <paramref name="converter"/> is <c>null</c>.
+    /// </exception>
     public CsvReader(CsvReader reader,
                      CsvTo<TResult> converter,
                      bool cloneMapping = true)

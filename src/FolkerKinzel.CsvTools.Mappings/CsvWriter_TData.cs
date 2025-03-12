@@ -52,6 +52,18 @@ public sealed class CsvWriter<TData> : IDisposable
         _converter.Mapping.Record = _writer.Record;
     }
 
+    /// <summary>
+    /// Initializes a new <see cref="CsvWriter{TResult}"/> instance.
+    /// </summary>
+    /// <param name="writer">A <see cref="CsvWriter"/> instance.</param>
+    /// 
+    /// <param name="converter">
+    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// CSV row.
+    /// </param>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="writer"/>, or 
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
     public CsvWriter(CsvWriter writer,
                      ToCsv<TData> converter)
     {
