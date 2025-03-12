@@ -12,8 +12,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public sealed class CsvWriter<TData> : IDisposable
 {
     private readonly CsvWriter _writer;
-    private readonly CsvMapping _mapping;
-    private readonly IToCsvConverter<TData> _converter;
+    private readonly ToCsv<TData> _converter;
     private bool _disposed;
 
     /// <summary>
@@ -47,26 +46,21 @@ public sealed class CsvWriter<TData> : IDisposable
                      Action<TData, dynamic> conversion)
     {
         _ArgumentNullException.ThrowIfNull(writer, nameof(writer));
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
         _writer = writer;
-        _mapping = mapping;
-        _mapping.Record = _writer.Record;
-        _converter = new ToCsvConverter<TData>(conversion);
+        _converter = new ToCsvIntl<TData>(mapping, conversion);
+        _converter.Mapping.Record = _writer.Record;
     }
 
     public CsvWriter(CsvWriter writer,
-                     CsvMapping mapping,
-                     IToCsvConverter<TData> converter)
+                     ToCsv<TData> converter)
     {
         _ArgumentNullException.ThrowIfNull(writer, nameof(writer));
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
 
         _writer = writer;
-        _mapping = mapping;
-        _mapping.Record = _writer.Record;
         _converter = converter;
+        _converter.Mapping.Record = _writer.Record;
     }
 
     /// <summary>
@@ -80,7 +74,7 @@ public sealed class CsvWriter<TData> : IDisposable
     {
         if (data is not null)
         {
-            _converter.Convert(data, _mapping); 
+            _converter.FillMapping(data); 
         }
         
         _writer.WriteRecord();

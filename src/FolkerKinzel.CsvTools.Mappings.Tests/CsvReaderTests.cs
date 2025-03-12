@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
+using System.Text;
 
 namespace FolkerKinzel.CsvTools.Mappings.Tests;
 
@@ -23,5 +25,15 @@ public class CsvReaderTests
                                                                       dyn => dyn,
                                                                       isHeaderPresent: false);
         Assert.AreEqual(1, objectReader.AsWeakEnumerable().Count());
+    }
+
+    [TestMethod]
+    public void CsvReaderTest1()
+    {
+        using var stringReader = new StringReader("Hi");
+        using CsvReader csvReader = Csv.OpenRead(stringReader, isHeaderPresent: false);
+        using var reader = new CsvReader<string>(csvReader, CsvMappingBuilder.Create().Build(), dyn => "Hi");
+
+        Assert.IsNotNull(reader);
     }
 }

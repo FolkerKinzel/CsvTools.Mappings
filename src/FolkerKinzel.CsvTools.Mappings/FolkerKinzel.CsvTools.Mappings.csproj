@@ -41,8 +41,10 @@
     <AnalysisLevel>6.0-recommended</AnalysisLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="IFromCsvConverter.cs" />
     <Compile Remove="Intls\_ArgumentNullException.cs" />
     <Compile Remove="Intls\_ArgumentOutOfRangeException.cs" />
+    <Compile Remove="IToCsvConverter.cs" />
     <Compile Remove="TypeConverters\Int32Converter_old.cs" />
     <Compile Remove="TypeConverters\Int64Converter_old.cs" />
     <Compile Remove="TypeConverters\SByteConverter_old.cs" />

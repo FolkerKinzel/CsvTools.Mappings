@@ -25,9 +25,8 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResult>
 {
     private readonly CsvReader _reader;
-    private readonly CsvMapping _mapping;
     private readonly bool _cloneMapping;
-    private readonly IFromCsvConverter<TResult> _converter;
+    private readonly CsvTo<TResult> _converter;
     private TResult? _current;
     private bool _disposed;
 
@@ -71,25 +70,20 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
                      bool cloneMapping = true)
     {
         _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
 
         _reader = reader;
-        _mapping = mapping;
         _cloneMapping = cloneMapping;
-        _converter = new FromCsvConverter<TResult>(conversion);
+        _converter = new CsvToIntl<TResult>(mapping, conversion);
     }
 
     public CsvReader(CsvReader reader,
-                     CsvMapping mapping,
-                     IFromCsvConverter<TResult> converter,
+                     CsvTo<TResult> converter,
                      bool cloneMapping = true)
     {
         _ArgumentNullException.ThrowIfNull(reader, nameof(reader));
-        _ArgumentNullException.ThrowIfNull(mapping, nameof(mapping));
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
 
         _reader = reader;
-        _mapping = mapping;
         _cloneMapping = cloneMapping;
         _converter = converter;
     }
@@ -169,7 +163,7 @@ public sealed class CsvReader<TResult> : IEnumerable<TResult>, IEnumerator<TResu
             return false;
         }
 
-        CsvMapping clone = _cloneMapping ? (CsvMapping)_mapping.Clone() : _mapping;
+        CsvMapping clone = _cloneMapping ? (CsvMapping)_converter.Mapping.Clone() : _converter.Mapping;
         clone.Record = record;
         result = _converter.Convert(clone);
         return true;

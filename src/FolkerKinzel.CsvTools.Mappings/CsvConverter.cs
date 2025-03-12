@@ -53,14 +53,20 @@ public static class CsvConverter
     /// is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Write<TData>(IEnumerable<TData?> data,
                                     CsvWriter writer,
                                     CsvMapping mapping,
                                     Action<TData, dynamic> conversion)
+        => Write(data, writer, new ToCsvIntl<TData>(mapping, conversion));
+
+    public static void Write<TData>(IEnumerable<TData?> data,
+                                    CsvWriter writer,
+                                    ToCsv<TData> converter)
     {
         _ArgumentNullException.ThrowIfNull(data, nameof(data));
 
-        using var csvWriter = new CsvWriter<TData>(writer, mapping, conversion);
+        using var csvWriter = new CsvWriter<TData>(writer, converter);
 
         foreach (TData? item in data)
         {
@@ -213,6 +219,20 @@ public static class CsvConverter
         Write(data, csvWriter, mapping, conversion);
     }
 
+    public static void Save<TData>(IEnumerable<TData?> data,
+                                   string filePath,
+                                   ToCsv<TData> converter,
+                                   char delimiter = ',',
+                                   Encoding? textEncoding = null,
+                                   IReadOnlyCollection<string?>? columnNames = null)
+    {
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+
+        using CsvWriter csvWriter = Csv.OpenWrite(
+            filePath, GetColumnNames(columnNames, converter.Mapping), delimiter, textEncoding);
+        Write(data, csvWriter, converter);
+    }
+
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
     /// without header row.
@@ -271,6 +291,7 @@ public static class CsvConverter
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Save<TData>(IEnumerable<TData?> data,
                                    string filePath,
                                    int columnsCount,
@@ -278,9 +299,17 @@ public static class CsvConverter
                                    Action<TData, dynamic> conversion,
                                    char delimiter = ',',
                                    Encoding? textEncoding = null)
+        => Save(data, filePath, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter, textEncoding);
+
+    public static void Save<TData>(IEnumerable<TData?> data,
+                                   string filePath,
+                                   int columnsCount,
+                                   ToCsv<TData> converter,
+                                   char delimiter = ',',
+                                   Encoding? textEncoding = null)
     {
         using CsvWriter csvWriter = new(filePath, columnsCount, delimiter, textEncoding);
-        Write(data, csvWriter, mapping, conversion);
+        Write(data, csvWriter, converter);
     }
 
     /// <summary>
@@ -435,17 +464,33 @@ public static class CsvConverter
     /// A column name in <paramref name="columnNames" /> occurs twice.
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(IEnumerable<TData?> data,
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
                                       char delimiter = ',',
                                       IReadOnlyCollection<string?>? columnNames = null)
+        => ToCsvIntl(data, new ToCsvIntl<TData>(mapping, conversion), delimiter, columnNames);
+
+    public static string ToCsv<TData>(IEnumerable<TData?> data,
+                                      ToCsv<TData> converter,
+                                      char delimiter = ',',
+                                      IReadOnlyCollection<string?>? columnNames = null)
+    {
+        _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
+        return ToCsvIntl(data, converter, delimiter, columnNames);
+    }
+
+    private static string ToCsvIntl<TData>(IEnumerable<TData?> data,
+                                           ToCsv<TData> converter,
+                                           char delimiter,
+                                           IReadOnlyCollection<string?>? columnNames)
     {
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(
-            stringWriter, GetColumnNames(columnNames, mapping), delimiter);
+            stringWriter, GetColumnNames(columnNames, converter.Mapping), delimiter);
 
-        Write(data, csvWriter, mapping, conversion);
+        Write(data, csvWriter, converter);
 
         return stringWriter.ToString();
     }
@@ -492,16 +537,23 @@ public static class CsvConverter
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(IEnumerable<TData?> data,
                                       int columnsCount,
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
                                       char delimiter = ',')
+        => ToCsv(data, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter);
+
+    public static string ToCsv<TData>(IEnumerable<TData?> data,
+                                      int columnsCount,
+                                      ToCsv<TData> converter,
+                                      char delimiter = ',')
     {
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnsCount, delimiter);
 
-        Write(data, csvWriter, mapping, conversion);
+        Write(data, csvWriter, converter);
 
         return stringWriter.ToString();
     }
@@ -547,9 +599,17 @@ public static class CsvConverter
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="delimiter"/> is either 
     /// the double quotes <c>"</c> or a line break character ('\r' or  '\n').</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static CsvReader<TResult> OpenRead<TResult>(TextReader reader,
                                                        CsvMapping mapping,
                                                        Func<dynamic, TResult> conversion,
+                                                       char delimiter = ',',
+                                                       bool isHeaderPresent = true,
+                                                       CsvOpts options = CsvOpts.Default)
+        => OpenRead(reader, new CsvToIntl<TResult>(mapping, conversion), delimiter, isHeaderPresent, options);
+
+    public static CsvReader<TResult> OpenRead<TResult>(TextReader reader,
+                                                       CsvTo<TResult> converter,
                                                        char delimiter = ',',
                                                        bool isHeaderPresent = true,
                                                        CsvOpts options = CsvOpts.Default)
@@ -560,8 +620,7 @@ public static class CsvConverter
                                                     delimiter,
                                                     isHeaderPresent,
                                                     options),
-                                        mapping,
-                                        conversion,
+                                        converter,
                                         cloneMapping);
     }
 
@@ -624,9 +683,18 @@ public static class CsvConverter
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="delimiter"/> is either 
     /// the double quotes <c>"</c> or a line break character ('\r' or  '\n').</exception>
     /// <exception cref="IOException">I/O error.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static CsvReader<TResult> OpenRead<TResult>(string filePath,
                                                        CsvMapping mapping,
                                                        Func<dynamic, TResult> conversion,
+                                                       char delimiter = ',',
+                                                       Encoding? textEncoding = null,
+                                                       bool isHeaderPresent = true,
+                                                       CsvOpts options = CsvOpts.Default)
+        => OpenRead(filePath, new CsvToIntl<TResult>(mapping, conversion), delimiter, textEncoding, isHeaderPresent, options);
+
+    public static CsvReader<TResult> OpenRead<TResult>(string filePath,
+                                                       CsvTo<TResult> converter,
                                                        char delimiter = ',',
                                                        Encoding? textEncoding = null,
                                                        bool isHeaderPresent = true,
@@ -638,8 +706,7 @@ public static class CsvConverter
                                                     textEncoding,
                                                     isHeaderPresent,
                                                     options),
-                                      mapping,
-                                      conversion,
+                                      converter,
                                       cloneMapping);
     }
 
@@ -713,9 +780,17 @@ public static class CsvConverter
     /// </exception>
     /// <exception cref="CsvFormatException">Invalid CSV file. Try to increase the value of 
     /// <paramref name="analyzedLines"/> to get a better analyzer result!</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static CsvReader<TResult> OpenReadAnalyzed<TResult>(string filePath,
                                                                CsvMapping mapping,
                                                                Func<dynamic, TResult> conversion,
+                                                               Encoding? defaultEncoding = null,
+                                                               Header header = Header.ProbablyPresent,
+                                                               int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
+        => OpenReadAnalyzed(filePath, new CsvToIntl<TResult>(mapping, conversion), defaultEncoding, header, analyzedLines);
+
+    public static CsvReader<TResult> OpenReadAnalyzed<TResult>(string filePath,
+                                                               CsvTo<TResult> converter,
                                                                Encoding? defaultEncoding = null,
                                                                Header header = Header.ProbablyPresent,
                                                                int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
@@ -732,8 +807,7 @@ public static class CsvConverter
                                                     enc,
                                                     analyzerResult.IsHeaderPresent,
                                                     options),
-                                      mapping,
-                                      conversion,
+                                      converter,
                                       cloneMapping);
     }
 
@@ -788,9 +862,17 @@ public static class CsvConverter
     /// <exception cref="FormatException">
     /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
     /// </exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TResult[] Parse<TResult>(string csv,
                                            CsvMapping mapping,
                                            Func<dynamic, TResult> conversion,
+                                           char delimiter = ',',
+                                           bool isHeaderPresent = true,
+                                           CsvOpts options = CsvOpts.Default)
+        => Parse(csv, new CsvToIntl<TResult>(mapping, conversion), delimiter, isHeaderPresent, options);
+
+    public static TResult[] Parse<TResult>(string csv,
+                                           CsvTo<TResult> converter,
                                            char delimiter = ',',
                                            bool isHeaderPresent = true,
                                            CsvOpts options = CsvOpts.Default)
@@ -801,7 +883,7 @@ public static class CsvConverter
 
         using var stringReader = new StringReader(csv);
         using var csvReader = new CsvReader(stringReader, delimiter, isHeaderPresent, options);
-        using var typedReader = new CsvReader<TResult>(csvReader, mapping, conversion, cloneMapping);
+        using var typedReader = new CsvReader<TResult>(csvReader, converter, cloneMapping);
         return [.. typedReader];
     }
 
@@ -862,9 +944,16 @@ public static class CsvConverter
     /// <exception cref="FormatException">
     /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
     /// </exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TResult[] ParseAnalyzed<TResult>(string csv,
                                                    CsvMapping mapping,
                                                    Func<dynamic, TResult> conversion,
+                                                   Header header = Header.ProbablyPresent,
+                                                   int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
+        => ParseAnalyzed(csv, new CsvToIntl<TResult>(mapping, conversion), header, analyzedLines);
+
+    public static TResult[] ParseAnalyzed<TResult>(string csv,
+                                                   CsvTo<TResult> converter,
                                                    Header header = Header.ProbablyPresent,
                                                    int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
     {
@@ -877,7 +966,7 @@ public static class CsvConverter
                                             analyzerResult.Delimiter,
                                             analyzerResult.IsHeaderPresent,
                                             options);
-        using var typeReader = new CsvReader<TResult>(csvReader, mapping, conversion, cloneMapping);
+        using var typeReader = new CsvReader<TResult>(csvReader, converter, cloneMapping);
 
         return [.. typeReader];
     }

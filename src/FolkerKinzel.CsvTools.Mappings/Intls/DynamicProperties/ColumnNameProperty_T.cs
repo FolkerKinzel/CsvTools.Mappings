@@ -150,8 +150,8 @@ internal sealed class ColumnNameProperty<T> : SingleColumnProperty<T>, ICloneabl
             {
                 for (int j = 0; j < columnNames.Length; j++)
                 {
-                    if (Record.Comparer.Equals(columnNames[j], alias)) // Es kann in columnNames keine 2 Strings geben, auf die das zutrifft.
-                    {
+                    if (Record.Comparer.Equals(columnNames[j], alias)) // There cannot be two strings in the column names 
+                    {                                                  // for which this assumption is true.
                         return j;
                     }
                 }

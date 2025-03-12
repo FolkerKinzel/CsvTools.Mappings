@@ -73,12 +73,20 @@ public static class CsvConverterExtension
     /// A column name in <paramref name="columnNames" /> occurs twice.
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ToCsv<TData>(this IEnumerable<TData?> data,
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
                                       char delimiter = ',',
                                       IReadOnlyCollection<string?>? columnNames = null)
         => CsvConverter.ToCsv(data, mapping, conversion, delimiter, columnNames);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string ToCsv<TData>(this IEnumerable<TData?> data,
+                                      ToCsv<TData> converter,
+                                      char delimiter = ',',
+                                      IReadOnlyCollection<string?>? columnNames = null)
+        => CsvConverter.ToCsv(data, converter, delimiter, columnNames);
 
     /// <summary>
     /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
@@ -127,7 +135,14 @@ public static class CsvConverterExtension
                                       CsvMapping mapping,
                                       Action<TData, dynamic> conversion,
                                       char delimiter = ',')
-        => CsvConverter.ToCsv(data, columnsCount, mapping, conversion, delimiter);
+        => CsvConverter.ToCsv(data, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string ToCsv<TData>(this IEnumerable<TData?> data,
+                                      int columnsCount,
+                                      ToCsv<TData> converter,
+                                      char delimiter = ',')
+        => CsvConverter.ToCsv(data, columnsCount, converter, delimiter);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
@@ -216,6 +231,7 @@ public static class CsvConverterExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void SaveCsv<TData>(this IEnumerable<TData?> data,
                                       string filePath,
                                       CsvMapping mapping,
@@ -225,6 +241,16 @@ public static class CsvConverterExtension
                                       IReadOnlyCollection<string?>? columnNames = null)
         => CsvConverter.Save(
             data, filePath, mapping, conversion, delimiter, textEncoding, columnNames);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SaveCsv<TData>(this IEnumerable<TData?> data,
+                                      string filePath,
+                                      ToCsv<TData> converter,
+                                      char delimiter = ',',
+                                      Encoding? textEncoding = null,
+                                      IReadOnlyCollection<string?>? columnNames = null)
+        => CsvConverter.Save(
+            data, filePath, converter, delimiter, textEncoding, columnNames);
 
     /// <summary>
     /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
@@ -293,5 +319,15 @@ public static class CsvConverterExtension
                                       char delimiter = ',',
                                       Encoding? textEncoding = null)
         => CsvConverter.Save(
-            data, filePath, columnsCount, mapping, conversion, delimiter, textEncoding);
+            data, filePath, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter, textEncoding);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void SaveCsv<TData>(this IEnumerable<TData?> data,
+                                      string filePath,
+                                      int columnsCount,
+                                      ToCsv<TData> converter,
+                                      char delimiter = ',',
+                                      Encoding? textEncoding = null)
+        => CsvConverter.Save(
+            data, filePath, columnsCount, converter, delimiter, textEncoding);
 }
