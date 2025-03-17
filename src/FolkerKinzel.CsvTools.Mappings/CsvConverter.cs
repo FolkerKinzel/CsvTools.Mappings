@@ -60,6 +60,24 @@ public static class CsvConverter
                                     Action<TData, dynamic> conversion)
         => Write(data, writer, new ToCsvIntl<TData>(mapping, conversion));
 
+    /// <summary>
+    /// Writes the content of a collection of <typeparamref name="TData"/> instances 
+    /// as CSV. </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data">The data to write as CSV. Each item will be represented with 
+    /// a CSV row.</param>
+    /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
+    /// <param name="converter">
+    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// CSV row.
+    /// </param>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
+    /// <paramref name="writer"/>, or <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="IOException">I/O error.</exception>
+    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     public static void Write<TData>(IEnumerable<TData?> data,
                                     CsvWriter writer,
                                     ToCsv<TData> converter)

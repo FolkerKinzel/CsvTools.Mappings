@@ -14,7 +14,7 @@ internal class Program
         Summary summary = BenchmarkRunner.Run<WriteBench>();
         Summary summary2 = BenchmarkRunner.Run<ReadBench>();
 
-        Calculation[] calcs = Utility.CreateCalculations(10);
+        //Calculation[] calcs = Utility.CreateCalculations(10);
         //string csv = CalculationWriter.WriteCsvHelper(calcs);
 
         //string csv = Utility.CreateCalculationCsv(10);
