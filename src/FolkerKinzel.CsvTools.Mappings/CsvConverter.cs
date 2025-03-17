@@ -219,6 +219,69 @@ public static class CsvConverter
         Write(data, csvWriter, mapping, conversion);
     }
 
+    /// <summary>
+    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file with
+    /// header row.
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data">The data to save as CSV file. Each item will be represented 
+    /// with a CSV row.
+    /// </param>
+    /// <param name="filePath">File path of the CSV file.</param>
+    /// <param name="converter">
+    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// CSV row.
+    /// </param>
+    /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
+    /// <param name="columnNames">
+    /// <para>
+    /// A collection of column names for the header to be written, or <c>null</c> to use the
+    /// <see cref="CsvMapping.PropertyNames"/> of the <see cref="CsvMapping"/> as column names.
+    /// </para>
+    /// <para>
+    /// The collection determines the order in which the columns appear in the CSV file.
+    /// </para>
+    /// <para>
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty 
+    /// strings, or white space, these are replaced by automatically generated column names.
+    /// Column names cannot appear twice. By default the comparison is case-sensitive but 
+    /// it will be reset to a case-insensitive comparison if the column names are also 
+    /// unique when treated case-insensitive.
+    /// </para>
+    /// </param>
+    /// 
+    /// <remarks>
+    /// <para>
+    /// Creates a new CSV file. If the target file already exists, it is truncated 
+    /// and overwritten.
+    /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
+    /// </remarks>
+    ///
+    /// <exception cref="ArgumentNullException"><paramref name="data"/>, or 
+    /// <paramref name="filePath"/>, or <paramref name="converter"/> is <c>null</c>.
+    /// </exception>
+    /// <exception cref="ArgumentException">
+    /// <para>
+    /// <paramref name="filePath" /> is not a valid file path.
+    /// </para>
+    /// <para>
+    /// - or -
+    /// </para>
+    /// <para>
+    /// <paramref name="columnNames"/> is not <c>null</c> and a column name in 
+    /// <paramref name="columnNames" /> occurs twice.
+    /// </para>
+    /// </exception>
+    /// <exception cref="IOException">I/O error.</exception>
     public static void Save<TData>(IEnumerable<TData?> data,
                                    string filePath,
                                    ToCsv<TData> converter,
@@ -290,7 +353,6 @@ public static class CsvConverter
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
-    /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void Save<TData>(IEnumerable<TData?> data,
                                    string filePath,
@@ -299,8 +361,51 @@ public static class CsvConverter
                                    Action<TData, dynamic> conversion,
                                    char delimiter = ',',
                                    Encoding? textEncoding = null)
-        => Save(data, filePath, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter, textEncoding);
+        => Save(data,
+                filePath,
+                columnsCount,
+                new ToCsvIntl<TData>(mapping, conversion),
+                delimiter,
+                textEncoding);
 
+    /// <summary>
+    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
+    /// without header row.
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data">The data to save as CSV file. Each item will be represented 
+    /// with a CSV row.</param>
+    /// <param name="filePath">File path of the CSV file.</param>
+    /// <param name="columnsCount">Number of columns in the CSV file.</param>
+    /// <param name="converter">
+    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// CSV row.
+    /// </param>
+    /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">
+    /// The text encoding to be used or <c>null</c> for <see cref="Encoding.UTF8"/>.
+    /// </param>
+    /// 
+    /// <remarks>
+    /// <para>
+    /// Creates a new CSV file. If the target file already exists, it is truncated and 
+    /// overwritten.
+    /// </para>
+    /// <para>
+    /// When exchanging CSV data with Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="filePath"/>, or 
+    /// <paramref name="data"/>, or <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"> <paramref name="filePath" /> is not a valid
+    /// file path.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.
+    /// </exception>
+    /// <exception cref="IOException">I/O error.</exception>
     public static void Save<TData>(IEnumerable<TData?> data,
                                    string filePath,
                                    int columnsCount,
@@ -472,6 +577,47 @@ public static class CsvConverter
                                       IReadOnlyCollection<string?>? columnNames = null)
         => ToCsvIntl(data, new ToCsvIntl<TData>(mapping, conversion), delimiter, columnNames);
 
+    /// <summary>
+    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// <see cref="string"/> with header row.
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data">The data to convert to CSV. Each item will be represented with 
+    /// a CSV row.
+    /// </param>
+    /// <param name="converter">
+    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// CSV row.
+    /// </param>
+    /// <param name="delimiter">The field separator character.</param>
+    /// <param name="columnNames">
+    /// <para>
+    /// A collection of column names for the header to be written, or <c>null</c> to use the
+    /// <see cref="CsvMapping.PropertyNames"/> of the <see cref="CsvMapping"/> as column names.
+    /// </para>
+    /// <para>
+    /// The collection determines the order in which the columns appear in the CSV file.
+    /// </para>
+    /// <para>
+    /// The collection will be copied. If the collection contains <c>null</c> values, empty 
+    /// strings, or white space, these are replaced by automatically generated column names.
+    /// Column names cannot appear twice. By default the comparison is case-sensitive but 
+    /// it will be reset to a case-insensitive comparison if the column names are also 
+    /// unique when treated case-insensitive.
+    /// </para>
+    /// </param>
+    /// 
+    /// <returns>A CSV <see cref="string"/> with header row that contains the contents of 
+    /// <paramref name="data"/>.</returns>
+    ///
+    /// <exception cref="ArgumentNullException"><paramref name="data"/> or 
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException">
+    /// A column name in <paramref name="columnNames" /> occurs twice.
+    /// </exception>
+    /// <exception cref="IOException">I/O error.</exception>
     public static string ToCsv<TData>(IEnumerable<TData?> data,
                                       ToCsv<TData> converter,
                                       char delimiter = ',',
@@ -479,20 +625,6 @@ public static class CsvConverter
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         return ToCsvIntl(data, converter, delimiter, columnNames);
-    }
-
-    private static string ToCsvIntl<TData>(IEnumerable<TData?> data,
-                                           ToCsv<TData> converter,
-                                           char delimiter,
-                                           IReadOnlyCollection<string?>? columnNames)
-    {
-        using var stringWriter = new StringWriter();
-        using CsvWriter csvWriter = Csv.OpenWrite(
-            stringWriter, GetColumnNames(columnNames, converter.Mapping), delimiter);
-
-        Write(data, csvWriter, converter);
-
-        return stringWriter.ToString();
     }
 
     /// <summary>
@@ -545,6 +677,31 @@ public static class CsvConverter
                                       char delimiter = ',')
         => ToCsv(data, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter);
 
+    /// <summary>
+    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// <see cref="string"/> without header row.
+    /// </summary>
+    /// <typeparam name="TData">
+    /// Generic type parameter for the data type to write as CSV row.
+    /// </typeparam>
+    /// <param name="data">The data to convert to CSV. Each item will be represented with 
+    /// a CSV row.
+    /// </param>
+    /// <param name="columnsCount">Number of columns in the CSV file.</param>
+    /// <param name="converter">
+    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// CSV row.
+    /// </param>
+    /// <param name="delimiter">The field separator character.</param>
+    /// 
+    /// <returns>A CSV <see cref="string"/> without header row that contains the contents of 
+    /// <paramref name="data"/>.</returns>
+    /// 
+    /// <exception cref="ArgumentNullException"><paramref name="data"/> or
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.
+    /// </exception>
+    /// <exception cref="IOException">I/O error.</exception>
     public static string ToCsv<TData>(IEnumerable<TData?> data,
                                       int columnsCount,
                                       ToCsv<TData> converter,
@@ -608,6 +765,36 @@ public static class CsvConverter
                                                        CsvOpts options = CsvOpts.Default)
         => OpenRead(reader, new CsvToIntl<TResult>(mapping, conversion), delimiter, isHeaderPresent, options);
 
+    /// <summary>Initializes a <see cref="CsvReader{TResult}"/> instance to parse CSV data 
+    /// as a collection of <typeparamref name="TResult"/> instances.
+    /// </summary>
+    /// 
+    /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items that the <see cref="CsvReader{TResult}"/> returns.</typeparam>
+    /// 
+    /// <param name="reader">The <see cref="TextReader" /> with which the CSV data is
+    /// read.</param>
+    /// <param name="converter">
+    /// An object that converts a CSV row to a <typeparamref name="TResult"/> 
+    /// instance.
+    /// </param>
+    /// <param name="delimiter">The field separator character.</param>
+    /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
+    /// otherwise <c>false</c>.</param>
+    /// <param name="options">Options for reading CSV.</param>
+    /// 
+    /// <returns>A <see cref="CsvReader{TResult}"/> that allows you to iterate through the
+    /// data parsed from the CSV.</returns>
+    /// 
+    /// <remarks>
+    /// When importing CSV data from Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"> <paramref name="reader" />, or 
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="delimiter"/> is either 
+    /// the double quotes <c>"</c> or a line break character ('\r' or  '\n').</exception>
     public static CsvReader<TResult> OpenRead<TResult>(TextReader reader,
                                                        CsvTo<TResult> converter,
                                                        char delimiter = ',',
@@ -693,6 +880,47 @@ public static class CsvConverter
                                                        CsvOpts options = CsvOpts.Default)
         => OpenRead(filePath, new CsvToIntl<TResult>(mapping, conversion), delimiter, textEncoding, isHeaderPresent, options);
 
+    /// <summary>Opens a CSV file for parsing its data.
+    /// </summary>
+    /// 
+    /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items that the <see cref="CsvReader{TResult}"/> returns.</typeparam>
+    /// 
+    /// <param name="filePath">File path of the CSV file to read.</param>
+    /// <param name="converter">
+    /// An object that converts a CSV row to a <typeparamref name="TResult"/> 
+    /// instance.
+    /// </param>
+    /// <param name="delimiter">The field separator character.</param>
+    /// <param name="textEncoding">The text encoding to be used to read the CSV file
+    /// or <c>null</c> for <see cref="Encoding.UTF8" />.</param>
+    /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
+    /// otherwise <c>false</c>.</param>
+    /// <param name="options">Options for reading the CSV file.</param>
+    /// 
+    /// <returns>A <see cref="CsvReader{TResult}"/> that allows you to iterate through the
+    /// data parsed from the CSV.</returns>
+    /// 
+    /// <remarks>
+    /// <para>
+    /// The optimal parameters can be determined automatically with 
+    /// <see cref="Csv.AnalyzeFile(string, Encoding?, Header, int)"/> - or use
+    /// <see cref="OpenReadAnalyzed{TResult}(string, CsvMapping, Func{dynamic, TResult}, Encoding?, 
+    /// Header, int)"/>.
+    /// </para>
+    /// <para>
+    /// When importing CSV data from Excel, the appropriate arguments can be determined 
+    /// with <see cref="Csv.GetExcelArguments"/>.
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"> <paramref name="filePath" /> or 
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentException"> <paramref name="filePath" /> is not a valid
+    /// file path.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="delimiter"/> is either 
+    /// the double quotes <c>"</c> or a line break character ('\r' or  '\n').</exception>
+    /// <exception cref="IOException">I/O error.</exception>
     public static CsvReader<TResult> OpenRead<TResult>(string filePath,
                                                        CsvTo<TResult> converter,
                                                        char delimiter = ',',
@@ -789,6 +1017,57 @@ public static class CsvConverter
                                                                int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
         => OpenReadAnalyzed(filePath, new CsvToIntl<TResult>(mapping, conversion), defaultEncoding, header, analyzedLines);
 
+    /// <summary>Opens a CSV file for parsing its data after it had been analyzed.
+    /// </summary>
+    /// 
+    /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items that the <see cref="CsvReader{TResult}"/> returns.</typeparam>
+    /// 
+    /// <param name="filePath">File path of the CSV file to read.</param>
+    /// <param name="converter">
+    /// An object that converts a CSV row to a <typeparamref name="TResult"/> instance.
+    /// </param>
+    /// <param name="defaultEncoding">
+    /// The text <see cref="Encoding"/> to be used if the CSV file has no byte order mark (BOM), or 
+    /// <c>null</c> to use <see cref="Encoding.UTF8"/> in this case. Use <see cref="Csv.GetExcelArguments"/>
+    /// to get the appropriate argument for this parameter when importing CSV data from Excel.
+    /// </param>
+    /// <param name="header">A supposition that is made about the presence of a header row.</param>
+    /// <param name="analyzedLines">Maximum number of lines to analyze in the CSV file. The minimum 
+    /// value is <see cref="CsvAnalyzer.AnalyzedLinesMinCount" />. If the file has fewer lines than 
+    /// <paramref name="analyzedLines" />, it will be analyzed completely. (You can specify 
+    /// <see cref="int.MaxValue">Int32.MaxValue</see> to analyze the entire file in any case.)</param>
+    /// 
+    /// <returns>A <see cref="CsvReader{TResult}"/> that allows you to iterate through the
+    /// data parsed from the CSV file.</returns>
+    /// 
+    /// <remarks>
+    /// <para>
+    /// The method performs a statistical analysis on the CSV file. The result of the analysis is therefore 
+    /// always only an estimate, the accuracy of which increases with the number of lines analyzed.
+    /// </para>
+    /// <para>
+    /// The field delimiters COMMA (<c>','</c>, %x2C), SEMICOLON  (<c>';'</c>, %x3B), 
+    /// HASH (<c>'#'</c>, %x23), TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are recognized 
+    /// automatically.
+    /// </para>
+    /// <para>
+    /// This method also tries to determine the <see cref="Encoding"/> of the CSV file from the
+    /// byte order mark (BOM). If no byte order mark can be found, <paramref name="defaultEncoding"/> is
+    /// used.
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"> <paramref name="filePath"/>, or 
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <para><paramref name="header"/> is not a defined value of 
+    /// the <see cref="Header"/> enum.</para>
+    /// <para> - or -</para>
+    /// <para><paramref name="header"/> is a combination of <see cref="Header"/> values.</para>
+    /// </exception>
+    /// <exception cref="CsvFormatException">Invalid CSV file. Try to increase the value of 
+    /// <paramref name="analyzedLines"/> to get a better analyzer result!</exception>
     public static CsvReader<TResult> OpenReadAnalyzed<TResult>(string filePath,
                                                                CsvTo<TResult> converter,
                                                                Encoding? defaultEncoding = null,
@@ -811,8 +1090,7 @@ public static class CsvConverter
                                       cloneMapping);
     }
 
-    /// <summary>Parses a CSV-<see cref="string"/>.
-    /// </summary>
+    /// <summary>Parses a CSV-<see cref="string"/>.</summary>
     /// 
     /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
     /// of the items in the array that the method returns.</typeparam>
@@ -856,7 +1134,8 @@ public static class CsvConverter
     /// <code language="cs" source="..\Benchmarks\CalculationReader_Default.cs"/>
     /// </example>
     /// 
-    /// <exception cref="ArgumentNullException"> <paramref name="csv" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"> <paramref name="csv" />, or 
+    /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="CsvFormatException">Invalid CSV. The interpretation depends
     /// on <paramref name="options"/>.</exception>
     /// <exception cref="FormatException">
@@ -871,6 +1150,38 @@ public static class CsvConverter
                                            CsvOpts options = CsvOpts.Default)
         => Parse(csv, new CsvToIntl<TResult>(mapping, conversion), delimiter, isHeaderPresent, options);
 
+    /// <summary>Parses a CSV-<see cref="string"/>.</summary>
+    /// 
+    /// <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items in the array that the method returns.</typeparam>
+    /// 
+    /// <param name="csv">The CSV-<see cref="string"/> to parse.</param>
+    /// <param name="converter">
+    /// An object that converts a CSV row to a <typeparamref name="TResult"/> instance.
+    /// </param>
+    /// <param name="delimiter">The field separator character used in <paramref name="csv"/>.</param>
+    /// <param name="isHeaderPresent"> <c>true</c>, to interpret the first line as a header, 
+    /// otherwise <c>false</c>.</param>
+    /// <param name="options">Parsing options.</param>
+    /// 
+    /// <returns>An array of <typeparamref name="TResult"/> instances, initialized from the parsed 
+    /// <paramref name="csv"/>.</returns>
+    /// 
+    /// <remarks>
+    /// <note type="tip">
+    /// The optimal parameters can be determined automatically with 
+    /// <see cref="Csv.AnalyzeString(string, Header, int)"/> - or use 
+    /// <see cref="ParseAnalyzed{TResult}(string, CsvMapping, Func{dynamic, TResult}, Header, int)"/>.
+    /// </note>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"> <paramref name="csv" /> or <paramref name="converter"/>
+    /// is <c>null</c>.</exception>
+    /// <exception cref="CsvFormatException">Invalid CSV. The interpretation depends
+    /// on <paramref name="options"/>.</exception>
+    /// <exception cref="FormatException">
+    /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
+    /// </exception>
     public static TResult[] Parse<TResult>(string csv,
                                            CsvTo<TResult> converter,
                                            char delimiter = ',',
@@ -932,7 +1243,8 @@ public static class CsvConverter
     /// </para>
     /// </remarks>
     /// 
-    /// <exception cref="ArgumentNullException"> <paramref name="csv" /> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentNullException"> <paramref name="csv" />, or 
+    /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="ArgumentOutOfRangeException">
     /// <para><paramref name="header"/> is not a defined value of 
     /// the <see cref="Header"/> enum.</para>
@@ -952,6 +1264,52 @@ public static class CsvConverter
                                                    int analyzedLines = CsvAnalyzer.AnalyzedLinesMinCount)
         => ParseAnalyzed(csv, new CsvToIntl<TResult>(mapping, conversion), header, analyzedLines);
 
+    /// <summary>
+    /// Parses a CSV-<see cref="string"/> after it had been analyzed.
+    /// </summary>
+    ///  <typeparam name="TResult"> Generic type parameter that specifies the <see cref="Type"/>
+    /// of the items in the array that the method returns.</typeparam>
+    /// <param name="csv">The CSV-<see cref="string"/> to parse.</param>
+    /// <param name="converter">
+    /// An object that converts a CSV row to a <typeparamref name="TResult"/> instance.
+    /// </param>
+    /// <param name="header">A supposition that is made about the presence of a header row.</param>
+    /// 
+    /// <param name="analyzedLines">Maximum number of lines to analyze in <paramref name="csv"/>. The
+    /// minimum value is <see cref="CsvAnalyzer.AnalyzedLinesMinCount" />. If <paramref name="csv"/> 
+    /// has fewer lines than <paramref name="analyzedLines" />, it will be analyzed completely. (You 
+    /// can specify <see cref="int.MaxValue">Int32.MaxValue</see> to analyze the entire 
+    /// <see cref="string"/> in any case.)</param>
+    /// 
+    /// <returns>An array of <typeparamref name="TResult"/> instances, initialized from the parsed 
+    /// <paramref name="csv"/>.</returns>
+    /// 
+    /// <remarks>
+    /// <para>
+    /// <see cref="CsvAnalyzer" /> performs a statistical analysis on <paramref name="csv"/>. The 
+    /// result of the analysis is therefore always only an estimate, the accuracy of which increases 
+    /// with the number of lines analyzed.
+    /// </para>
+    /// <para>
+    /// The field delimiters COMMA (<c>','</c>, %x2C), SEMICOLON  (<c>';'</c>, %x3B), 
+    /// HASH (<c>'#'</c>, %x23), TAB (<c>'\t'</c>, %x09), and SPACE (<c>' '</c>, %x20) are recognized 
+    /// automatically.
+    /// </para>
+    /// </remarks>
+    /// 
+    /// <exception cref="ArgumentNullException"> <paramref name="csv" />, or 
+    /// <paramref name="converter"/> is <c>null</c>.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// <para><paramref name="header"/> is not a defined value of 
+    /// the <see cref="Header"/> enum.</para>
+    /// <para> - or -</para>
+    /// <para><paramref name="header"/> is a combination of <see cref="Header"/> values.</para>
+    /// </exception>
+    /// <exception cref="CsvFormatException">Invalid CSV file. Try to increase the value of 
+    /// <paramref name="analyzedLines"/> to get a better analyzer result!</exception>
+    /// <exception cref="FormatException">
+    /// Parsing fails and <see cref="TypeConverter{T}.Throwing"/> is <c>true</c>.
+    /// </exception>
     public static TResult[] ParseAnalyzed<TResult>(string csv,
                                                    CsvTo<TResult> converter,
                                                    Header header = Header.ProbablyPresent,
@@ -1206,6 +1564,20 @@ public static class CsvConverter
         using CsvReader reader = Csv.OpenReadAnalyzed(
             filePath, defaultEncoding, header, disableCaching: true, analyzedLines);
         Fill(dataTable, reader, mapping);
+    }
+
+    private static string ToCsvIntl<TData>(IEnumerable<TData?> data,
+                                           ToCsv<TData> converter,
+                                           char delimiter,
+                                           IReadOnlyCollection<string?>? columnNames)
+    {
+        using var stringWriter = new StringWriter();
+        using CsvWriter csvWriter = Csv.OpenWrite(
+            stringWriter, GetColumnNames(columnNames, converter.Mapping), delimiter);
+
+        Write(data, csvWriter, converter);
+
+        return stringWriter.ToString();
     }
 
     private static IReadOnlyCollection<string?> GetColumnNames(IReadOnlyCollection<string?>? columnNames,
