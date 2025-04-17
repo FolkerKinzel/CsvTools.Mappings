@@ -9,25 +9,25 @@ namespace FolkerKinzel.CsvTools.Mappings;
 public static class CsvConverterExtension
 {
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> with header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
     /// a CSV row.
     /// </param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the <paramref name="conversion"/>
     /// method the registered 
@@ -74,26 +74,26 @@ public static class CsvConverterExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(this IEnumerable<TData?> data,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',',
-                                      IReadOnlyCollection<string?>? columnNames = null)
+    public static string ToCsv<TSource>(this IEnumerable<TSource?> data,
+                                        CsvMapping mapping,
+                                        Action<TSource, dynamic> conversion,
+                                        char delimiter = ',',
+                                        IReadOnlyCollection<string?>? columnNames = null)
         => CsvConverter.ToCsv(data, mapping, conversion, delimiter, columnNames);
 
 
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> with header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
     /// a CSV row.
     /// </param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -124,32 +124,32 @@ public static class CsvConverterExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(this IEnumerable<TData?> data,
-                                      ToCsv<TData> converter,
-                                      char delimiter = ',',
-                                      IReadOnlyCollection<string?>? columnNames = null)
+    public static string ToCsv<TSource>(this IEnumerable<TSource?> data,
+                                        CsvFrom<TSource> converter,
+                                        char delimiter = ',',
+                                        IReadOnlyCollection<string?>? columnNames = null)
         => CsvConverter.ToCsv(data, converter, delimiter, columnNames);
 
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> without a header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented 
     /// with a CSV row.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the 
     /// <paramref name="conversion"/> method the registered 
@@ -171,25 +171,25 @@ public static class CsvConverterExtension
     /// <paramref name="mapping"/>, or <paramref name="conversion"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(this IEnumerable<TData?> data,
-                                      int columnsCount,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',')
-        => CsvConverter.ToCsv(data, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter);
+    public static string ToCsv<TSource>(this IEnumerable<TSource?> data,
+                                        int columnsCount,
+                                        CsvMapping mapping,
+                                        Action<TSource, dynamic> conversion,
+                                        char delimiter = ',')
+        => CsvConverter.ToCsv(data, columnsCount, new CsvFromIntl<TSource>(mapping, conversion), delimiter);
 
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> without a header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented 
     /// with a CSV row.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -201,17 +201,17 @@ public static class CsvConverterExtension
     /// <paramref name="converter"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(this IEnumerable<TData?> data,
-                                      int columnsCount,
-                                      ToCsv<TData> converter,
-                                      char delimiter = ',')
+    public static string ToCsv<TSource>(this IEnumerable<TSource?> data,
+                                        int columnsCount,
+                                        CsvFrom<TSource> converter,
+                                        char delimiter = ',')
         => CsvConverter.ToCsv(data, columnsCount, converter, delimiter);
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file
     /// with header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented with 
@@ -219,15 +219,15 @@ public static class CsvConverterExtension
     /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the 
     /// <paramref name="conversion"/> method the registered 
@@ -294,21 +294,21 @@ public static class CsvConverterExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void SaveCsv<TData>(this IEnumerable<TData?> data,
-                                      string filePath,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',',
-                                      Encoding? textEncoding = null,
-                                      IReadOnlyCollection<string?>? columnNames = null)
+    public static void SaveCsv<TSource>(this IEnumerable<TSource?> data,
+                                        string filePath,
+                                        CsvMapping mapping,
+                                        Action<TSource, dynamic> conversion,
+                                        char delimiter = ',',
+                                        Encoding? textEncoding = null,
+                                        IReadOnlyCollection<string?>? columnNames = null)
         => CsvConverter.Save(
             data, filePath, mapping, conversion, delimiter, textEncoding, columnNames);
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file
     /// with header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented with 
@@ -316,7 +316,7 @@ public static class CsvConverterExtension
     /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -367,20 +367,20 @@ public static class CsvConverterExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void SaveCsv<TData>(this IEnumerable<TData?> data,
-                                      string filePath,
-                                      ToCsv<TData> converter,
-                                      char delimiter = ',',
-                                      Encoding? textEncoding = null,
-                                      IReadOnlyCollection<string?>? columnNames = null)
+    public static void SaveCsv<TSource>(this IEnumerable<TSource?> data,
+                                        string filePath,
+                                        CsvFrom<TSource> converter,
+                                        char delimiter = ',',
+                                        Encoding? textEncoding = null,
+                                        IReadOnlyCollection<string?>? columnNames = null)
         => CsvConverter.Save(
             data, filePath, converter, delimiter, textEncoding, columnNames);
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file
     /// without header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented with 
@@ -388,15 +388,15 @@ public static class CsvConverterExtension
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the 
     /// <paramref name="conversion"/> method the registered 
@@ -434,21 +434,21 @@ public static class CsvConverterExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void SaveCsv<TData>(this IEnumerable<TData?> data,
-                                      string filePath,
-                                      int columnsCount,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',',
-                                      Encoding? textEncoding = null)
+    public static void SaveCsv<TSource>(this IEnumerable<TSource?> data,
+                                        string filePath,
+                                        int columnsCount,
+                                        CsvMapping mapping,
+                                        Action<TSource, dynamic> conversion,
+                                        char delimiter = ',',
+                                        Encoding? textEncoding = null)
         => CsvConverter.Save(
-            data, filePath, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter, textEncoding);
+            data, filePath, columnsCount, new CsvFromIntl<TSource>(mapping, conversion), delimiter, textEncoding);
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file
     /// without header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented with 
@@ -456,7 +456,7 @@ public static class CsvConverterExtension
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -483,12 +483,12 @@ public static class CsvConverterExtension
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void SaveCsv<TData>(this IEnumerable<TData?> data,
-                                      string filePath,
-                                      int columnsCount,
-                                      ToCsv<TData> converter,
-                                      char delimiter = ',',
-                                      Encoding? textEncoding = null)
+    public static void SaveCsv<TSource>(this IEnumerable<TSource?> data,
+                                        string filePath,
+                                        int columnsCount,
+                                        CsvFrom<TSource> converter,
+                                        char delimiter = ',',
+                                        Encoding? textEncoding = null)
         => CsvConverter.Save(
             data, filePath, columnsCount, converter, delimiter, textEncoding);
 }

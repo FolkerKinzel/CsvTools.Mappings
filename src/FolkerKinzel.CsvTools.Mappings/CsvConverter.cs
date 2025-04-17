@@ -17,24 +17,24 @@ public static class CsvConverter
     private static readonly Type _dynamicType = typeof(object);
 
     /// <summary>
-    /// Writes the content of a collection of <typeparamref name="TData"/> instances 
+    /// Writes the content of a collection of <typeparamref name="TSource"/> instances 
     /// as CSV. </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to write as CSV. Each item will be represented with 
     /// a CSV row.</param>
     /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the 
     /// <paramref name="conversion"/> method the registered 
@@ -54,23 +54,23 @@ public static class CsvConverter
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Write<TData>(IEnumerable<TData?> data,
-                                    CsvWriter writer,
-                                    CsvMapping mapping,
-                                    Action<TData, dynamic> conversion)
-        => Write(data, writer, new ToCsvIntl<TData>(mapping, conversion));
+    public static void Write<TSource>(IEnumerable<TSource?> data,
+                                      CsvWriter writer,
+                                      CsvMapping mapping,
+                                      Action<TSource, dynamic> conversion)
+        => Write(data, writer, new CsvFromIntl<TSource>(mapping, conversion));
 
     /// <summary>
-    /// Writes the content of a collection of <typeparamref name="TData"/> instances 
+    /// Writes the content of a collection of <typeparamref name="TSource"/> instances 
     /// as CSV. </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to write as CSV. Each item will be represented with 
     /// a CSV row.</param>
     /// <param name="writer">The <see cref="CsvWriter" /> used for writing.</param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// 
@@ -78,15 +78,15 @@ public static class CsvConverter
     /// <paramref name="writer"/>, or <paramref name="converter"/> is <c>null</c>.</exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    public static void Write<TData>(IEnumerable<TData?> data,
-                                    CsvWriter writer,
-                                    ToCsv<TData> converter)
+    public static void Write<TSource>(IEnumerable<TSource?> data,
+                                      CsvWriter writer,
+                                      CsvFrom<TSource> converter)
     {
         _ArgumentNullException.ThrowIfNull(data, nameof(data));
 
-        using var csvWriter = new CsvWriter<TData>(writer, converter);
+        using var csvWriter = new CsvWriter<TSource>(writer, converter);
 
-        foreach (TData? item in data)
+        foreach (TSource? item in data)
         {
             csvWriter.Write(item);
         }
@@ -143,10 +143,10 @@ public static class CsvConverter
     }
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file with
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file with
     /// header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented 
@@ -154,15 +154,15 @@ public static class CsvConverter
     /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the 
     /// <paramref name="conversion"/> method the registered 
@@ -224,13 +224,13 @@ public static class CsvConverter
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     /// <exception cref="ObjectDisposedException">The file was already closed.</exception>
-    public static void Save<TData>(IEnumerable<TData?> data,
-                                   string filePath,
-                                   CsvMapping mapping,
-                                   Action<TData, dynamic> conversion,
-                                   char delimiter = ',',
-                                   Encoding? textEncoding = null,
-                                   IReadOnlyCollection<string?>? columnNames = null)
+    public static void Save<TSource>(IEnumerable<TSource?> data,
+                                     string filePath,
+                                     CsvMapping mapping,
+                                     Action<TSource, dynamic> conversion,
+                                     char delimiter = ',',
+                                     Encoding? textEncoding = null,
+                                     IReadOnlyCollection<string?>? columnNames = null)
     {
         using CsvWriter csvWriter = Csv.OpenWrite(
             filePath, GetColumnNames(columnNames, mapping), delimiter, textEncoding);
@@ -238,10 +238,10 @@ public static class CsvConverter
     }
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file with
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file with
     /// header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented 
@@ -249,7 +249,7 @@ public static class CsvConverter
     /// </param>
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -300,12 +300,12 @@ public static class CsvConverter
     /// </para>
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
-    public static void Save<TData>(IEnumerable<TData?> data,
-                                   string filePath,
-                                   ToCsv<TData> converter,
-                                   char delimiter = ',',
-                                   Encoding? textEncoding = null,
-                                   IReadOnlyCollection<string?>? columnNames = null)
+    public static void Save<TSource>(IEnumerable<TSource?> data,
+                                     string filePath,
+                                     CsvFrom<TSource> converter,
+                                     char delimiter = ',',
+                                     Encoding? textEncoding = null,
+                                     IReadOnlyCollection<string?>? columnNames = null)
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
 
@@ -315,10 +315,10 @@ public static class CsvConverter
     }
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file
     /// without header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented 
@@ -326,15 +326,15 @@ public static class CsvConverter
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the 
     /// <paramref name="conversion"/> method the registered 
@@ -372,25 +372,25 @@ public static class CsvConverter
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void Save<TData>(IEnumerable<TData?> data,
-                                   string filePath,
-                                   int columnsCount,
-                                   CsvMapping mapping,
-                                   Action<TData, dynamic> conversion,
-                                   char delimiter = ',',
-                                   Encoding? textEncoding = null)
+    public static void Save<TSource>(IEnumerable<TSource?> data,
+                                     string filePath,
+                                     int columnsCount,
+                                     CsvMapping mapping,
+                                     Action<TSource, dynamic> conversion,
+                                     char delimiter = ',',
+                                     Encoding? textEncoding = null)
         => Save(data,
                 filePath,
                 columnsCount,
-                new ToCsvIntl<TData>(mapping, conversion),
+                new CsvFromIntl<TSource>(mapping, conversion),
                 delimiter,
                 textEncoding);
 
     /// <summary>
-    /// Saves a collection of <typeparamref name="TData"/> instances as a CSV file
+    /// Saves a collection of <typeparamref name="TSource"/> instances as a CSV file
     /// without header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to save as CSV file. Each item will be represented 
@@ -398,7 +398,7 @@ public static class CsvConverter
     /// <param name="filePath">File path of the CSV file.</param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -424,12 +424,12 @@ public static class CsvConverter
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
-    public static void Save<TData>(IEnumerable<TData?> data,
-                                   string filePath,
-                                   int columnsCount,
-                                   ToCsv<TData> converter,
-                                   char delimiter = ',',
-                                   Encoding? textEncoding = null)
+    public static void Save<TSource>(IEnumerable<TSource?> data,
+                                     string filePath,
+                                     int columnsCount,
+                                     CsvFrom<TSource> converter,
+                                     char delimiter = ',',
+                                     Encoding? textEncoding = null)
     {
         using CsvWriter csvWriter = new(filePath, columnsCount, delimiter, textEncoding);
         Write(data, csvWriter, converter);
@@ -530,25 +530,25 @@ public static class CsvConverter
     }
 
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> with header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
     /// a CSV row.
     /// </param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the <paramref name="conversion"/>
     /// method the registered 
@@ -588,25 +588,25 @@ public static class CsvConverter
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(IEnumerable<TData?> data,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',',
-                                      IReadOnlyCollection<string?>? columnNames = null)
-        => ToCsvIntl(data, new ToCsvIntl<TData>(mapping, conversion), delimiter, columnNames);
+    public static string ToCsv<TSource>(IEnumerable<TSource?> data,
+                                        CsvMapping mapping,
+                                        Action<TSource, dynamic> conversion,
+                                        char delimiter = ',',
+                                        IReadOnlyCollection<string?>? columnNames = null)
+        => ToCsvIntl(data, new CsvFromIntl<TSource>(mapping, conversion), delimiter, columnNames);
 
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> with header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
     /// a CSV row.
     /// </param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -636,20 +636,20 @@ public static class CsvConverter
     /// A column name in <paramref name="columnNames" /> occurs twice.
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
-    public static string ToCsv<TData>(IEnumerable<TData?> data,
-                                      ToCsv<TData> converter,
-                                      char delimiter = ',',
-                                      IReadOnlyCollection<string?>? columnNames = null)
+    public static string ToCsv<TSource>(IEnumerable<TSource?> data,
+                                        CsvFrom<TSource> converter,
+                                        char delimiter = ',',
+                                        IReadOnlyCollection<string?>? columnNames = null)
     {
         _ArgumentNullException.ThrowIfNull(converter, nameof(converter));
         return ToCsvIntl(data, converter, delimiter, columnNames);
     }
 
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> without header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
@@ -657,15 +657,15 @@ public static class CsvConverter
     /// </param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to convert a
-    /// <typeparamref name="TData"/> instance to a CSV row.</param>
+    /// <typeparamref name="TSource"/> instance to a CSV row.</param>
     /// <param name="conversion">
     /// <para>
-    /// A method that fills the content of a <typeparamref name="TData"/> instance
+    /// A method that fills the content of a <typeparamref name="TSource"/> instance
     /// into the properties of <paramref name="mapping"/>. 
     /// </para>
     /// <para>
     /// <paramref name="conversion"/> is called with each CSV row to be written and it
-    /// gets the <typeparamref name="TData"/> instance and <paramref name="mapping"/> as
+    /// gets the <typeparamref name="TSource"/> instance and <paramref name="mapping"/> as
     /// arguments. <paramref name="mapping"/>
     /// is passed to the method as <c>dynamic</c> argument: Inside the <paramref name="conversion"/>
     /// method the registered 
@@ -688,18 +688,18 @@ public static class CsvConverter
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string ToCsv<TData>(IEnumerable<TData?> data,
-                                      int columnsCount,
-                                      CsvMapping mapping,
-                                      Action<TData, dynamic> conversion,
-                                      char delimiter = ',')
-        => ToCsv(data, columnsCount, new ToCsvIntl<TData>(mapping, conversion), delimiter);
+    public static string ToCsv<TSource>(IEnumerable<TSource?> data,
+                                        int columnsCount,
+                                        CsvMapping mapping,
+                                        Action<TSource, dynamic> conversion,
+                                        char delimiter = ',')
+        => ToCsv(data, columnsCount, new CsvFromIntl<TSource>(mapping, conversion), delimiter);
 
     /// <summary>
-    /// Converts a collection of <typeparamref name="TData"/> instances to a CSV 
+    /// Converts a collection of <typeparamref name="TSource"/> instances to a CSV 
     /// <see cref="string"/> without header row.
     /// </summary>
-    /// <typeparam name="TData">
+    /// <typeparam name="TSource">
     /// Generic type parameter for the data type to write as CSV row.
     /// </typeparam>
     /// <param name="data">The data to convert to CSV. Each item will be represented with 
@@ -707,7 +707,7 @@ public static class CsvConverter
     /// </param>
     /// <param name="columnsCount">Number of columns in the CSV file.</param>
     /// <param name="converter">
-    /// An object that converts a <typeparamref name="TData"/> instance to a 
+    /// An object that converts a <typeparamref name="TSource"/> instance to a 
     /// CSV row.
     /// </param>
     /// <param name="delimiter">The field separator character.</param>
@@ -720,10 +720,10 @@ public static class CsvConverter
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="columnsCount"/> is negative.
     /// </exception>
     /// <exception cref="IOException">I/O error.</exception>
-    public static string ToCsv<TData>(IEnumerable<TData?> data,
-                                      int columnsCount,
-                                      ToCsv<TData> converter,
-                                      char delimiter = ',')
+    public static string ToCsv<TSource>(IEnumerable<TSource?> data,
+                                        int columnsCount,
+                                        CsvFrom<TSource> converter,
+                                        char delimiter = ',')
     {
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(stringWriter, columnsCount, delimiter);
@@ -1584,10 +1584,10 @@ public static class CsvConverter
         Fill(dataTable, reader, mapping);
     }
 
-    private static string ToCsvIntl<TData>(IEnumerable<TData?> data,
-                                           ToCsv<TData> converter,
-                                           char delimiter,
-                                           IReadOnlyCollection<string?>? columnNames)
+    private static string ToCsvIntl<TSource>(IEnumerable<TSource?> data,
+                                             CsvFrom<TSource> converter,
+                                             char delimiter,
+                                             IReadOnlyCollection<string?>? columnNames)
     {
         using var stringWriter = new StringWriter();
         using CsvWriter csvWriter = Csv.OpenWrite(

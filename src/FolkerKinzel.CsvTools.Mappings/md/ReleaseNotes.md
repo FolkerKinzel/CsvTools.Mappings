@@ -1,4 +1,4 @@
-- Microsoft.CSharp 4.7.0 as dependency for .NET Framework and .NET Standard to support dynamic types in subsequent assemblies
+- Abstract classes `CsvTo<TResult>` and `CsvFrom<TSource>` to allow providing external data for complex conversions.
 - Dependency update
 
 &nbsp;

@@ -3,9 +3,9 @@
 
 ### 1.0.0.beta.1
 - [x] Add .NET 9.0 version of the package
-- [ ] Write tests
-- [ ] Write benchmarks
-- [ ] Write examples
+- [x] Write tests
+- [x] Write benchmarks
+- [x] Write examples
 
 ### 1.0.0-alpha.2
 - [x] Dependency update
