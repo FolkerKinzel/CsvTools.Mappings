@@ -7,7 +7,7 @@ namespace FolkerKinzel.CsvTools.Mappings;
 /// 
 /// <typeparam name="TSource">
 /// Generic type parameter for the data type that the 
-/// <see cref="CsvWriter{TSource}"/> can write as CSV row.
+/// <see cref="CsvWriter{TSource}"/> can write as a CSV row.
 /// </typeparam>
 public sealed class CsvWriter<TSource> : IDisposable
 {
@@ -16,7 +16,7 @@ public sealed class CsvWriter<TSource> : IDisposable
     private bool _disposed;
 
     /// <summary>
-    /// Initializes a new <see cref="CsvWriter{TResult}"/> instance.
+    /// Initializes a new <see cref="CsvWriter{TSource}"/> instance.
     /// </summary>
     /// <param name="writer">A <see cref="CsvWriter"/> instance.</param>
     /// <param name="mapping">The <see cref="CsvMapping"/> used to 
@@ -53,7 +53,7 @@ public sealed class CsvWriter<TSource> : IDisposable
     }
 
     /// <summary>
-    /// Initializes a new <see cref="CsvWriter{TResult}"/> instance.
+    /// Initializes a new <see cref="CsvWriter{TSource}"/> instance.
     /// </summary>
     /// <param name="writer">A <see cref="CsvWriter"/> instance.</param>
     /// 
