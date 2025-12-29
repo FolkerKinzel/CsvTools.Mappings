@@ -14,6 +14,6 @@ This package allows:
 	- It allows to parse value types without any boxing and unboxing and (when using a modern .NET version) without any allocation of temporary strings.
 	- The `CsvOpts.DisableCaching` option allows reusing the same `CsvRecord` instance for each parsed row of the CSV file. This can avoid further allocations.
 
-[Project Reference and Release Notes](https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.1.0)
+[Project Reference and Release Notes](https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.1.1)
 
 [See code examples on GitHub](https://github.com/FolkerKinzel/CsvTools.Mappings)
