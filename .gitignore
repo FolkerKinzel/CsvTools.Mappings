@@ -372,3 +372,4 @@ docs/reference/*.php
 docs/reference/Web.Config
 docs/reference/GeneralError.html
 docs/reference/PageNotFound.html
+/src/implementing-dynamic-interfaces.pdf
