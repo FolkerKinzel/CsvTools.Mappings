@@ -9,7 +9,7 @@
     <PackageId>FolkerKinzel.CsvTools.Mappings</PackageId>
     <Product>FolkerKinzel.CsvTools.Mappings</Product>
     <Version>1.1.2</Version>
-    <FileVersion>1.1.2.3</FileVersion>
+    <FileVersion>1.1.2.4</FileVersion>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <PackageReleaseNotes>https://github.com/FolkerKinzel/CsvTools.Mappings/releases/tag/v1.1.2</PackageReleaseNotes>
     <PackageTags>CSV</PackageTags>
@@ -66,7 +66,7 @@
     <NoWarn>$(NoWarn);8600;8601;8602;8603;8604;8618</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Nuget-Logo\Logo.png">
+    <None Include="Logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
